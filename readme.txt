@@ -2,7 +2,7 @@
 Author URI: http://wpsocial.com
 Plugin URI: http://wpsocial.com/deals-engine/
 Contributors: wpsocial, dwaser71
-Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial
+Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial, widget
 Requires at least: 3.5.0
 Tested up to: 3.6.0
 Stable tag: 1.0.0
@@ -67,9 +67,9 @@ This is the easiest way to install the Social Deals plugin, since WordPress hand
 The manual installation requires you to download the plugin from WordPress.org and uploading it to your webserver using your favorite FTP application.
 
 1. Download the Social Deals Plugin
-1. Unzip the file and upload the deals-engine folder to the /wp-content/plugins/ directory using your FTP application
-2. Activate the Social Deals Engine plugin through the 'Plugins' menu in WordPress
-3. Configure the plugin by going to the Deals > Settings within WordPress admin.
+2. Unzip the file and upload the deals-engine folder to the /wp-content/plugins/ directory using your FTP application
+3. Activate the Social Deals Engine plugin through the 'Plugins' menu in WordPress
+4. Configure the plugin by going to the Deals > Settings within WordPress admin.
 
 
 == Frequently Asked Questions ==
