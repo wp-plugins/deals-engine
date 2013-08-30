@@ -14,15 +14,15 @@ Turn your WordPress blog in to a Social Deals site and sell any kind of Deals wi
 
 The Social Deals Engine is more than just "another" Deals plugin. It is an Extendable Plugin built to allow you to use Special Offers and Deals through the Power of Scarcity, Limited Quantity, Exclusivity, and Price Manipulation. With the Social Deals Engine it doesn't matter if you own your own products or not. It doesn't matter if you sell Physical or Digital products, are an Affiliate or CPA Marketer, a Local Business, etc. None of this Matters because the Social Deals Engine Plugin was built to work for everyone.
 
-**More info at the [Social Deals Engine Homepage] (http://wpsocial.com/deals-engine/)**
+**More info at the [Social Deals Engine Homepage](http://wpsocial.com/deals-engine/)**
 
-**[Social Deals Engine Demo] (http://wpsocial.com/demo/social-deals-engine/)**
+**[Social Deals Engine Demo](http://wpsocial.com/demo/social-deals-engine/)**
 
 **Features of this plugin include:**
 
 * Fully integrated shopping cart to let customers purchase more than one Deal ot once
 * Integrated PayPal Standard payment gateway
-* Other payment gateways as [extension] (http://wpsocial.com/product-category/sde/sde-extensions/payment-gateways/) available
+* Other payment gateways as [extension](http://wpsocial.com/product-category/sde/sde-extensions/payment-gateways/) available
 * Social Checkout (Facebook, Twitter, Google, LinkedIn, Yahoo, Foursquare, Windows Live) are already integrated
 * **Dime Sales** - ability to increase the sales price after x amount of sales
 * Limit offers by selecting a limited quantity so the offer expires when the Stock limit runs dry
@@ -35,7 +35,7 @@ The Social Deals Engine is more than just "another" Deals plugin. It is an Exten
 * Ability to let customers check out as guest
 * Customizable email templates (Purchase Receipt)
 * Mobile ready - Twitter Bootstrap is integrated to make the Deals mobile friendly, if your theme is mobile freindly too
-* Easily extensible with many [extensions] (http://wpsocial.com/product-category/sde/sde-extensions/)
+* Easily extensible with many [extensions](http://wpsocial.com/product-category/sde/sde-extensions/)
 * Deals widget
 
 [youtube https://www.youtube.com/watch?v=8qkOaO8BCcA]
