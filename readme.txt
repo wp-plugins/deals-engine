@@ -40,7 +40,7 @@ The Social Deals Engine is more than just "another" Deals plugin. It is an Exten
 
 [youtube https://www.youtube.com/watch?v=8qkOaO8BCcA]
 
-** Customizable **
+**Customizable**
 
 The integrated templating system makes it easy to customize everything for your needs.
 
