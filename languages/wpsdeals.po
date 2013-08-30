@@ -1,0 +1,5376 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid " day "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid " days "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid " hr "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid " hrs "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid " min "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid " mins "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid " sec "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid " secs "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-paypal.php:1
+msgid " will be redirected to the paypal website."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:230
+msgid "--Select A Page--"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:35
+msgid "--Select A Shortcode--"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:75
+msgid "--Select Category--"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/payment-gateway.php:32
+msgid "--Select Payment--"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-payment-process.php:1
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Invalid email entered.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-payment-process.php:1
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>No payment gateway selected.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Password and confirm password must be same.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please choose credit card expiry month.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please choose credit card expiry year.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter confirm password.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter correct password.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-payment-process.php:1
+msgid "<span><strong>ERROR : </strong>Please enter email.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-payment-process.php:1
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter first name.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-payment-process.php:1
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter last name.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter password.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter user name.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter username and password.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter valid credit card name.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter valid credit card number.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter valid credit card security code.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter valid email.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>Please enter valid username.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-payment-process.php:1
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>You must agree to the terms of purchase.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "<span><strong>ERROR : </strong>You must register or login to complete your purchase.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-public-pages.php:1
+msgid "<span><strong>ERROR</strong>: Invalid username.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-public-pages.php:1
+msgid "<span><strong>ERROR</strong>: Please type your e-mail address.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-public-pages.php:1
+msgid "<span><strong>ERROR</strong>: This email is already registered, please choose another one.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-public-pages.php:1
+msgid "<span><strong>ERROR</strong>: This username is already registered. Please choose another one.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-public-pages.php:1
+msgid "<span><strong>ERROR</strong>: User Registration Failed."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-payment-process.php:1
+msgid "<strong>ERROR : </strong>Please see errors below.</span>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-download-process.php:1
+msgid "<strong>ERROR : </strong>Sorry but this file does not exist."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid "<strong>ERROR : </strong>Sorry but you have hit your download limit for this file."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-download-process.php:1
+msgid "<strong>ERROR : </strong>You can not download this file because the deal is no more available."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-download-process.php:1
+msgid "<strong>ERROR : </strong>You do not have permission to download this file."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/social/class-wps-deals-social-public.php:1
+msgid "<strong>ERROR :</strong> Email already exists, If you have an account login first."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/social/class-wps-deals-social-public.php:1
+msgid "<strong>ERROR :</strong> Enter your email address."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/social/class-wps-deals-social-public.php:1
+msgid "<strong>ERROR :</strong> The email address did not validate."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/widgets/class-wps-deals-latest-products-cart.php:1
+msgid "A social deals widget, which lets you display deals that added to cart by users."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:1
+msgid "A social deals widget, which lets you display deals to purchase by users."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:97
+msgid "API Password:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:107
+msgid "API Signature:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:87
+msgid "API Username:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/social/libraries/linkedin.php:1
+msgid "Access token retrieval failed"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Active"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/home/home-content/home-navigation.php:19
+msgid "Active Deals"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:22
+msgid "Add A Social Deals Engine Shortcode"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Add New"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Add New Category"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Add New Deal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Add New Discount Code"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Add New Sale"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Add New Tag"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Add To Cart"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Add To Cart Button Text:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Add more files"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Add or remove tags"
+msgstr ""
+
+#. Text in function
+#: deals-engine/deals-engine.php:1
+#: deals-engine/includes/wps-deals-template-functions.php:1
+msgid "Add to Cart"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:43
+msgid "Add to Cart Text:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Advanced File Field"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid "Affiliate deal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Afrikaans"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:277
+msgid "After - 10$"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:134
+msgid "Agree to Terms Label:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:124
+msgid "Agree to Terms:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:144
+msgid "Agreement Content:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Aland Islands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Albania"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Albanian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Algeria"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/logs/class-wps-deals-downloads-logs-list.php:1
+#: deals-engine/includes/admin/logs/class-wps-deals-sales-logs-list.php:1
+msgid "All"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:1
+msgid "All "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "All Categories"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "All Deals"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "All Sales"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:61
+msgid "All Settings Reset Successfully."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "All Tags"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/user-form/registration-form.php:22
+msgid "Already have an account?"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "American Samoa"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Amount:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Andorra"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Angola"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Anguilla"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Antarctica"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Antigua and Barbuda"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:250
+msgid "Append Comments to status notification email"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/logs/wps-deals-logs-functions.php:52
+msgid "Apply"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Arabic"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:1
+msgid "Are you sure want to refund this order payment?"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Argentina"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Armenia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Armenian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Aruba"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Australia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Australian Dollars (&#36;)"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Austria"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:53
+msgid "Author:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Azerbaijan"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Back"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Bahamas"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Bahrain"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Bangladesh"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Barbados"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Basque"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:276
+msgid "Before - $10"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:49
+msgid "Before you can start using Foursquare for the social checkout, you need to create a Foursquare Application. You can get a step by step tutorial on how to create it on our <a href=\"http://wpsocial.com/knowledgebase/\" target=\"_blank\">Knowledge Base</a>."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:49
+msgid "Before you can start using Google+ for the social checkout, you need to create a Google Project and get a Google Client ID. You can get a step by step tutorial on how to get a Google Client ID on our <a href=\"http://wpsocial.com/knowledgebase/\" target=\"_blank\">Knowledge Base</a>."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:48
+msgid "Before you can start using LinkedIn for the social checkout, you need to create a LinkedIn Application. You can get a step by step tutorial on how to create it on our <a href=\"http://wpsocial.com/knowledgebase/\" target=\"_blank\">Knowledge Base</a>."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:49
+msgid "Before you can start using Twitter for the social checkout, you need to create a Twitter Application. You can get a step by step tutorial on how to create it on our <a href=\"http://wpsocial.com/knowledgebase/\" target=\"_blank\">Knowledge Base</a>."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:49
+msgid "Before you can start using Windows Live for the social checkout, you need to create a Google Project and get a Google Client ID. You can get a step by step tutorial on how to get a Google Client ID on our <a href=\"http://wpsocial.com/knowledgebase/\" target=\"_blank\">Knowledge Base</a>."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:49
+msgid "Before you can start using Yahoo for the social checkout, you need to create a Yahoo Application. You can get a step by step tutorial on how to create it on our <a href=\"http://wpsocial.com/knowledgebase/\" target=\"_blank\">Knowledge Base</a>."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Belarus"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Belarusian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Belgium"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Belize"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Bengali"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Benin"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Bermuda"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Bhutan"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Billing Details"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Bolivia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Bosanski"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Bosnia and Herzegovina"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Botswana"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/single-deal/single-header/avail-bought/bought.php:19
+msgid "Bought"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Bouvet Island"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Brazil"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Brazilian Real (R&#36;)"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "British Indian Ocean Territory"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Brunei Darussalam"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Bulgaria"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Bulgarian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Burkina Faso"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Burundi"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Business Address:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Business Logo:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Business Title:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Business Website URL:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: deals-engine/includes/wps-deals-template-functions.php:1
+msgid "Buy Now"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Buy Now Text:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Buyer Email : "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Buyer Name : "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:162
+msgid "Buyer\\'s Email : "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:167
+msgid "Buyer\\'s User ID : "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:127
+msgid "CSS"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:48
+msgid "CVC"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Cambodia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Cameroon"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Canada"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Canadian Dollars (&#36;)"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:213
+msgid "Cancel Page:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid "Cancelled"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:1
+msgid "Cancelled "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Cape Verde"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:35
+msgid "Card Number"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:65
+msgid "Card name"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:41
+msgid "Card number"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-public-pages.php:1
+msgid "Cart Updated Successfully."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Catalan"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/class-wps-deals-admin.php:1
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Categories"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Cayman Islands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Central African Republic"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Chad"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-social-login-details.php:121
+msgid "Chage Order"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:61
+#: deals-engine/includes/admin/forms/social/wps-deals-social-login-details.php:146
+msgid "Changes Saved."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:98
+msgid "Check this box if you do not want to receive emails when new sales are made."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:50
+msgid "Check this box if you want to delete all options and tables from the database which have been created by the plugin. They will then only be deleted, when you deactivate the plugin."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Check this box if you want to make this deal as a featured deal."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Check this box to disable the purchase button after the deals content."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:94
+msgid "Check this box, if you don\\'t want to display the Active, Ending Soon and Upcomming Deals on your deals page."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Check this box, if you don\\'t want to show the available and bought box for this deal. This option will only work, if you haven\\'t disabled these boxes within the settings page."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:70
+msgid "Check this box, if your theme does already include the Twitter Bootstrap framework."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:128
+msgid "Check this to show an \"Agree To Terms\" check box on the checkout page, which users must agree to before they can complete a purchase."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:39
+msgid "Check to enable Facebook for the social checkout."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:40
+msgid "Check to enable Foursquare for the social checkout."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:40
+msgid "Check to enable Google+ for the social checkout."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:39
+msgid "Check to enable LinkedIn for the social checkout."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:40
+msgid "Check to enable Twitter for the social checkout."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:40
+msgid "Check to enable Windows Live for the social checkout."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:40
+msgid "Check to enable Yahoo for the social checkout."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Checkbox Field"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Checkbox List Field"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:38
+msgid "Checkout"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Checkout &rarr;"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:185
+msgid "Checkout Page:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Chile"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "China"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Chinese"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Choose a start date for this deal."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Choose an end date for this deal."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Choose from the most used tags"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:55
+msgid "Choose one or more payment gateway(s) you want to use for the checkout."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:279
+msgid "Choose the location of the currency sign."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:84
+msgid "Choose the size for the deals. This will then use different sizes for the fonts so that they fit in to your theme."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:146
+msgid "Choose which social sharing buttons you want to display."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:266
+msgid "Choose your currency. Note that some payment gateways have currency restrictions."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Christmas Island"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:143
+msgid "Circle WPSocial on Google+"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:19
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:19
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:19
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:20
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:19
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:19
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:24
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:20
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:19
+#: deals-engine/includes/admin/forms/wps-deals-extension-settings.php:20
+#: deals-engine/includes/admin/forms/wps-deals-custom-css-settings.php:20
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:19
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:22
+msgid "Click to toggle"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/single-deal/single-footer/terms.php:29
+msgid "Close"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Cocos (Keeling), Islands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Code:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Colombia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "ColorPicker Field"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:192
+msgid "Comments"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Comoros"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid "Completed"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:1
+msgid "Completed "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/user-form/registration-form.php:58
+msgid "Confirm Password"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Congo"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Congo, The Democratic Republic of the"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-content/social/facebook.php:19
+msgid "Connect with Facebook"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-content/social/foursquare.php:19
+msgid "Connect with Foursquare"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-content/social/googleplus.php:19
+msgid "Connect with Google+"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-content/social/linkedin.php:19
+msgid "Connect with LinkedIn"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-content/social/twitter.php:19
+msgid "Connect with Twitter"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-content/social/windowslive.php:19
+msgid "Connect with Windows Live"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-content/social/yahoo.php:19
+msgid "Connect with Yahoo"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Continue Shopping"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Continue Shopping &rarr;"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Cook Islands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Costa Rica"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Cote D\\'Ivoire"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/user-form/registration-form.php:25
+msgid "Create an account "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:21
+msgid "Credit Card Info"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Croatia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Cuba"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:249
+msgid "Currency Settings"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:272
+msgid "Currency Sign Position:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:255
+msgid "Currency:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/widgets/wps-deals-dashboard-widgets.php:63
+msgid "Current Month"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:385
+msgid "Custom"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-custom-css-settings.php:24
+msgid "Custom CSS"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-custom-css-settings.php:36
+msgid "Custom CSS:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:95
+msgid "Custom Facebook Icon:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:75
+msgid "Custom Foursquare Icon:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:84
+msgid "Custom Google+ Icon:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:74
+msgid "Custom LinkedIn Icon:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:75
+msgid "Custom Twitter Icon:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:84
+msgid "Custom Windows Live Icon:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:94
+msgid "Custom Yahoo Icon:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Custom field deleted."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Custom field updated."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:190
+msgid "Customer Notified"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/home/home-header/ratings.php:23
+#: deals-engine/includes/templates/single-deal/single-header/ratings.php:23
+msgid "Customer Rating"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports.php:64
+msgid "Customers"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Cyprus"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Czech"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Czech Koruna"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Czech Republic"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Danish"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Danish Krone"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Date"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:189
+msgid "Date Added"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Date Field"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Date Time Field"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Deal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/gateways/functions.php:1
+#: deals-engine/includes/wps-deals-template-functions.php:1
+#: deals-engine/includes/templates/home/home-header/header-content.php:28
+#: deals-engine/includes/templates/home/home-content/deal-image.php:19
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:1
+msgid "Deal Image"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Deal Main Image:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+#: deals-engine/includes/templates/orders/orders.php:167
+msgid "Deal Name"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Deal Page Image:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Deal Price"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:85
+msgid "Deal Type"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/home/home-header/header-value.php:20
+#: deals-engine/includes/templates/home/home-content/deal-value.php:18
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:1
+msgid "Deal Value"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Deal draft updated. <a target=\"_blank\" href=\"%s\">Preview Deal</a>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/single-deal/single-header/add-to-cart/expired.php:18
+msgid "Deal expired"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-download-process.php:1
+msgid "Deal is no more available"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Deal published. <a href=\"%s\">View Deal</a>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Deal restored to revision from %s"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Deal saved."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Deal scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview Review</a>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Deal submitted. <a target=\"_blank\" href=\"%s\">Preview Deal</a>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Deal updated."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Deal updated. <a href=\"%s\">View Deal</a>"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+#: deals-engine/includes/admin/reports/wps-deals-reports-list.php:1
+#: deals-engine/includes/admin/reports/wps-deals-reports.php:62
+msgid "Deals"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:37
+msgid "Deals By Category"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/widgets/class-wps-deals-latest-products-cart.php:1
+msgid "Deals Engine - Cart"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:1
+msgid "Deals Engine - Deals"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/widgets/class-wps-deals-latest-products-cart.php:1
+msgid "Deals In Your Cart"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:36
+msgid "Deals List"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:41
+msgid "Deals Orders"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:169
+msgid "Deals Overview / Home Page:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:120
+msgid "Deals Per Page:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-payment-process.php:1
+#: deals-engine/includes/templates/checkout/checkout-footer/order-total-button/place-your-order-button.php:21
+msgid "Deals Purchase"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:172
+msgid "Deals Purchased : "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/class-wps-deals-admin.php:1
+msgid "Deals Stats"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:302
+msgid "Decimal Places:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:293
+msgid "Decimal Separator:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:1
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Delete"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Delete Image"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:46
+msgid "Delete Options:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Denmark"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/orders.php:119
+#: deals-engine/includes/templates/orders/orders.php:170
+msgid "Details"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:94
+msgid "Disable Admin Notifications:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Disable Available & Bought Box:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:93
+msgid "Disable Guest Checkout:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:90
+msgid "Disable More Deals:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:250
+msgid "Disable Price Box"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Disable Purchase Button After Content:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:254
+msgid "Disable Timer"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:66
+msgid "Disable Twitter Bootstrap:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/home/home-content/deal-discount.php:18
+#: deals-engine/includes/templates/single-deal/single-header/deal-discount.php:
+#: deals-engine/includes/templates/home/home-header/header-discount.php:20
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:1
+msgid "Discount"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Display on Deals Home Page:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:87
+msgid "Displays the registration and login forms on the checkout page for non-logged-in users."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Djibouti"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:62
+msgid "Documentation:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Dominica"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Dominican Republic"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+#: deals-engine/includes/wps-deals-download-process.php:1
+msgid "Download Error"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+#: deals-engine/includes/templates/orders/order-complete-details.php:161
+msgid "Download File %d : "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:63
+msgid "Download Link Expiration:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/logs/wps-deals-logs-functions.php:1
+msgid "Downloads"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-social-login-details.php:44
+msgid "Drag to Chage Order"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Dutch"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/social/class-wps-deals-social-public.php:433
+msgid "E-mail"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:222
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:295
+#: deals-engine/includes/admin/class-wps-deals-admin.php:1
+#: deals-engine/includes/widgets/wps-deals-dashboard-widgets.php:69
+#: deals-engine/includes/widgets/wps-deals-dashboard-widgets.php:108
+#: deals-engine/includes/admin/reports/wps-deals-reports.php:63
+msgid "Earnings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-stats.php:1
+msgid "Earnings : "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Ecuador"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Edit Category"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Edit Deal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Edit Discount Code"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:40
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Edit Sale"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Edit Tag"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Egypt"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "El Salvador"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/order-complete-details.php:66
+msgid "Email"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/personal-details.php:47
+msgid "Email Address"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:49
+msgid "Email Subject:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:118
+msgid "Emails"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:24
+msgid "Emails Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-header/cart-action-buttons/cart-empty-button.php:
+msgid "Empty Cart"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:69
+msgid "Enable Debug:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:36
+msgid "Enable Facebook:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:37
+msgid "Enable Foursquare:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:37
+msgid "Enable Google+:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:36
+msgid "Enable LinkedIn:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:56
+msgid "Enable Test Mode:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:37
+msgid "Enable Twitter:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:37
+msgid "Enable Windows Live:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:37
+msgid "Enable Yahoo:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "End Date: "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:100
+msgid "Ending Deals:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/home/home-content/home-navigation.php:20
+msgid "Ending Soon"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "English"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Enter a code for this discount, such as 10PERCENT."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Enter a max width for the Google Map popup window. Please enter only a numeric value (eg.50)."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:104
+msgid "Enter a number of days here. If you enter 2 as example, then all deals which will end within 2 days will be displayed within the \"Ending Soon\" tab."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:114
+msgid "Enter a number of days here. If you enter 2 as example, then all deals which will start within 2 days will be displayed within the \"Upcoming Deals\" tab."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:118
+msgid "Enter a redirect URL for users who don\\'t grant extended permissions to your App. The URL must start with http://"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Enter a title about the business. This will appear above the business information related to this deal. Leave it blank if you don\\'t want to use it."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Enter terms & conditions for this deal here."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Enter the URL of the business which provides this deal. The URL must start with http://"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Enter the adress of the business related to this deal. Leave it blank if you don\\'t want to use it."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Enter the amount of available deals. Leave it empty for unlimited purchases."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Enter the complete address which will be used for the Google Map. Leave it blank if you don\\'t want to show a Google Map."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Enter the expiration date for this discount code, For no expiration, leave blank."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Enter the normal price of the product/service."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:124
+msgid "Enter the number of deals you want to display."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Enter the special deal price for the product/service."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Enter the start date for this discount code, leave blank. If entered, the discount can only be used after or on this date."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:47
+msgid "Enter the text which will be displayed on the add to cart button."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:101
+msgid "Enter your API password."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:111
+msgid "Enter your API signature."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:91
+msgid "Enter your API username."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:155
+msgid "Enter your Twitter Username."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Equatorial Guinea"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Eritrea"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-public-pages.php:1
+msgid "Error in add to cart in product"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-public-pages.php:1
+msgid "Error while removing product from cart."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-public-pages.php:1
+msgid "Error while updated cart"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Esperanto"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Estonia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Estonian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Ethiopia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Euros (&euro;)"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:43
+msgid "Ex: Your Name &lt;sales@your-domain.com&gt; This is the email address that will be used to send the email to the buyer."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:73
+msgid "Expiration (MM/YY)"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Expiration date:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports-customers-list.php:293
+#: deals-engine/includes/admin/reports/wps-deals-reports-list.php:253
+msgid "Export to CSV"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:122
+msgid "Extensions"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-extension-settings.php:24
+msgid "Extensions Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/templates/checkout/checkout-content/social/facebook.php:20
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:133
+msgid "Facebook"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:58
+msgid "Facebook API Key:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:74
+msgid "Facebook API Locale:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:66
+msgid "Facebook App Secret:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:45
+msgid "Facebook App:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:23
+msgid "Facebook Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid "Failed"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:1
+msgid "Failed "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Falkland Islands (Malvinas)"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Faroe Islands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Faroese"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/class-wps-deals-admin.php:1
+msgid "Featured"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Featured Deal:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Fee"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Fiji"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:53
+msgid "File Download Limit:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "File Download Limit: "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "File Field"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "File Name"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Filipino"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:381
+msgid "Filter"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Finland"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Finnish"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/personal-details.php:61
+msgid "First Name"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Flat amount"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:144
+msgid "Follow WPSocial on Twitter"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/templates/checkout/checkout-content/social/foursquare.php:20
+msgid "Foursquare"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:46
+msgid "Foursquare App:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:58
+msgid "Foursquare Client ID:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:66
+msgid "Foursquare Client Secret:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:23
+msgid "Foursquare Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "France"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "French"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "French Guiana"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "French Polynesia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "French Southern Territories"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:361
+msgid "From"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:40
+msgid "From Email Address:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Gabon"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Galician"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Gambia"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:103
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:116
+msgid "General"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:26
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:36
+msgid "General Settings"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:513
+msgid "Generate PDF"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Georgia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Georgian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "German"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Germany"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Ghana"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Gibraltar"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:42
+msgid "Go Back"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:42
+msgid "Go Back to Deals Sales"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:44
+msgid "Go to Deal Sales"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:44
+msgid "Go to Edit Order ID # %d"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-content/social/googleplus.php:20
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:133
+msgid "Google+"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:46
+msgid "Google+ App:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:75
+msgid "Google+ Callback URL:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:58
+msgid "Google+ Client ID:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:66
+msgid "Google+ Client Secret:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:23
+msgid "Google+ Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Greece"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Greek"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Greenland"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Grenada"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Gross"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Guadeloupe"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Guam"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Guatemala"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Guernsey"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/reports/wps-deals-reports-customers-list.php:1
+msgid "Guest"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Guinea"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Guinea-Bissau"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Guyana"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Haiti"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Heard Island and McDonald Islands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Hebrew"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Here you can enter a custom \"Add To Cart\" text, which will be displayed on the button. Leave it empty to use the one from the settings page."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Here you can enter a custom \"Buy Now\" text, which will be displayed on the button."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Here you can enter custom content for the Google Map popup window. If you leave that empty, the address will be displayed."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-custom-css-settings.php:40
+msgid "Here you can enter your custom css for the social deals engine. The css file will automatically be created and added to the header, when you save it."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Hindi"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Holy See (Vatican City State)"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Honduras"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Hong Kong"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Hong Kong Dollar (&#36;)"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:67
+msgid "How long should the download links be valid for? Enter a time in hours. Leave it blank to use NO time limit."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Hrvatski"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Hungarian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Hungarian Forint"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Hungary"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/order-complete-details.php:100
+msgid "IP Address"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "IP Address : "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Iceland"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Icelandic"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:151
+msgid "If Agree to Terms is checked, enter the agreement terms here."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:73
+msgid "If checked, debug output will be written to log files. This is useful for troubleshooting post payment failures (for example, if you are not receiving the email after payment)."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:107
+msgid "If checked, the user will be redirected to the checkout page after he added an deal to the cart."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:97
+msgid "If checked, users need an account to be able to purchase your deals."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "If this is an affiliate or CPA deal, then you can enter the URL to that deal here. If an URL is entered, then the product won\\'t be added to the cart."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/class-wps-deals-paypal.php:215
+#: deals-engine/includes/gateways/libraries/class-wps-deals-paypal.php:99
+msgid "If this page appears for more than 5 seconds, please click the PayPal Checkout button to complete your order."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:48
+msgid "If you already created a Facebook Application for this site, then you can use the same App ID/API Key and App Secret here."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-paypal.php:1
+msgid "If you are not automatically redirected to"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "If you want to use the deals as dimesale, then you can enter the amount of sales after which the price should increase here."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "If you want to use the deals as dimesale, then you can enter the price for which it should increase here."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:101
+msgid "If you want to use your own Facebook Icon, upload one here."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:81
+msgid "If you want to use your own Foursquare Icon, upload one here."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:90
+msgid "If you want to use your own Google+ Icon, upload one here."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:80
+msgid "If you want to use your own LinkedIn Icon, upload one here."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:81
+msgid "If you want to use your own Twitter Icon, upload one here."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:90
+msgid "If you want to use your own Windows Live Icon, upload one here."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:100
+msgid "If you want to use your own Yahoo Icon, upload one here."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/class-wps-deals-admin.php:1
+msgid "Image"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Image Field"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "Improper CallBack URL."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Inactive"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Increase Price"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Increase Price Ratio:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "India"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Indian Rupee"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Indonesia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Indonesian"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:90
+msgid "Insert Shortcode"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Iran, Islamic Republic of"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Iranian Rial"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Iraq"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Ireland"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Irish"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Isle of Man"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Israel"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Israeli Shekel"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Issue Refund"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Italian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Italy"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Item Ordered"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/single-deal/single-header/add-to-cart/add-to-cart-button.php:26
+msgid "Item was successfully added to your cart."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Jamaica"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Japan"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Japanese"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Japanese Yen (&yen;)"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Jersey"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Jordan"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Kazakhstan"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Kenya"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Kiribati"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Korea, Democratic People\\'s Republic of"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Korea, Republic of"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Korean"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Kurdish"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Kuwait"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Kyrgyzstan"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:138
+msgid "Label shown next to the \"Agree To Terms\" check box."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Lao People\\'s Democratic Republic"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:82
+msgid "Large"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:385
+#: deals-engine/includes/widgets/wps-deals-dashboard-widgets.php:103
+msgid "Last Month"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/personal-details.php:76
+msgid "Last Name"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:385
+msgid "Last Quarter"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:385
+msgid "Last Week"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:385
+msgid "Last Year"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:113
+msgid "Latest News from WPSocial"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Latin"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Latvia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Latvian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Lebanon"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Leet Speak"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Lesotho"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Liberia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Libyan Arab Jamahiriya"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Liechtenstein"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:142
+msgid "Like WPSocial on Facebook"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/widgets/class-wps-deals-latest-products-cart.php:117
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:245
+msgid "Limit:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/templates/checkout/checkout-content/social/linkedin.php:20
+msgid "LinkedIn"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:57
+msgid "LinkedIn App ID/API Key:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:65
+msgid "LinkedIn App Secret:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:45
+msgid "LinkedIn App:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:23
+msgid "LinkedIn Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Lithuania"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Lithuanian"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/logs/wps-deals-logs-functions.php:44
+msgid "Log Type"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/user-form/registration-form.php:23
+msgid "Login"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/user-form/login-form.php:19
+msgid "Login to your account?"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-content/social.php:20
+msgid "Login with Social Media"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/single-deal/single-footer/business-logo.php:20
+msgid "Logo"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-logging.php:1
+#: deals-engine/includes/admin/reports/wps-deals-reports.php:65
+msgid "Logs"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Luxembourg"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Macao"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Macedonia, The Former Yugoslav Republic of"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Macedonian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Madagascar"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Malawi"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Malay"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Malayalam"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Malaysia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Malaysian Ringgits"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Maldives"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Mali"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Malta"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Map Address:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Map Popup Width:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Marshall Islands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Martinique"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Mauritania"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Mauritius"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Max Uses:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Mayotte"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:81
+msgid "Medium"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Mexican Peso (&#36;)"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Mexico"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Micronesia, Federated States of"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Minimum Amount:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:126
+msgid "Misc"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:24
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:34
+msgid "Misc Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Moldova, Republic of"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Monaco"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Mongolia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Montenegro"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Montserrat"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:1
+msgid "More Great Deals"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Morocco"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Mozambique"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Myanmar"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+#: deals-engine/includes/templates/orders/order-complete-details.php:118
+msgid "Name"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:60
+msgid "Name on the Card"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Name:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Namibia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Nauru"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Nederlands"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/user-form/login-form.php:49
+msgid "Need to create an account? "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Nepal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Nepali"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Net Amount"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Netherlands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Netherlands Antilles"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-social-login-details.php:126
+msgid "Network"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "New Caledonia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "New Category Name"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "New Deal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "New Deal Purchase"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "New Sale"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "New Tag Name"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "New Zealand"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "New Zealand Dollar (&#36;)"
+msgstr ""
+
+#. Text in function
+#: deals-engine/deals-engine.php:1
+msgid "New deal purchase"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Nicaragua"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Niger"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Nigeria"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Niue"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "No"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "No PayPal Transaction Information Available"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports-customers-list.php:1
+msgid "No customers data found."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:1
+msgid "No deal sales found."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+#: deals-engine/includes/templates/home/home-content/home-no-deals.php:
+msgid "No deals found"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "No deals found in Trash"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/logs/class-wps-deals-downloads-logs-list.php:1
+msgid "No download logs found."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/orders/order-complete-details.php:161
+msgid "No downloadable files found."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/wps-deals-about-box.php:122
+msgid "No items."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-header/cart-details.php:82
+msgid "No longer available."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports-list.php:1
+msgid "No reports found."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "No sales found"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "No sales found in Trash"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/logs/class-wps-deals-sales-logs-list.php:1
+msgid "No sales logs found."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Norfolk Island"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/class-wps-deals-admin.php:1
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Normal Price"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Northern Mariana Islands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Norway"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Norwegian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Norwegian Krone"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:65
+msgid "Not quite sure how to use the plugin? Visit our Knowledge Base to learn how to use it properly."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-header/cart-details.php:82
+msgid "Not started yet."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid "Notes :"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:84
+msgid "Notification Email Address:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:115
+msgid "Notification Email Body:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:104
+msgid "Notification Email Subject:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:246
+msgid "Notify Customer"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:305
+msgid "Number of decimal places."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Oman"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-header/cart-details.php:82
+msgid "Only %1$s deal(s) are available."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-template-functions.php:1
+msgid "Only %1$s left at this price"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/gateways/paypal-standard.php:1
+msgid "Order %s has been marked as refunded - PayPal reason code: %s"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/orders.php:118
+#: deals-engine/includes/templates/orders/orders.php:169
+msgid "Order Amount"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:40
+msgid "Order Cancel"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:39
+msgid "Order Complete"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/orders.php:116
+msgid "Order Date"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:227
+msgid "Order History Page:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/orders.php:115
+#: deals-engine/includes/templates/orders/orders.php:166
+msgid "Order ID"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:156
+msgid "Order ID : "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/order-total-button/order-total.php:25
+msgid "Order Total : "
+msgstr ""
+
+#. Text in function
+#: deals-engine/deals-engine.php:1
+msgid "Order Update"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-template-functions.php:1
+msgid "Out of Stock"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-header/cart-details.php:82
+msgid "Out of Stock."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:77
+msgid "Page limit for front side order sales page and backend deals sales page. Default is 10."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:164
+msgid "Pages Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Pakistan"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Palau"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Palestinian Territory, Occupied"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Panama"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Papua New Guinea"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Paraguay"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Parent Category"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Parent Category:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Pashto"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/user-form/registration-form.php:46
+#: deals-engine/includes/templates/checkout/checkout-footer/user-form/login-form.php:38
+msgid "Password"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/deals-engine.php:1
+msgid "PayPal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Payer Email"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:117
+msgid "Payment Gateways"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:45
+msgid "Payment Gateways:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/order-complete-details.php:84
+#: deals-engine/includes/templates/checkout/checkout-footer/payment-gateway.php:24
+msgid "Payment Method"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Payment Method : "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:225
+msgid "Payment Note : "
+msgstr ""
+
+#. Text in function
+#: deals-engine/deals-engine.php:1
+msgid "Payment Process"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+#: deals-engine/includes/templates/orders/order-complete-details.php:92
+msgid "Payment Status"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:229
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Payment Status : "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/gateways/testmode.php:1
+msgid "Payment creation failed while processing a manual (free or test) purchase, Please try again after sometime."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/gateways/paypal-standard.php:1
+msgid "Payment for order %s refunded/reversed"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:44
+msgid "Payment refund process fail for Order ID # %d"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:44
+msgid "Payment refunded successfully for Order ID # %d"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:28
+msgid "Payments Settings"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:79
+msgid "Paypal Email Address/Secure Merchant ID:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:63
+msgid "Paypal Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid "Pending"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:1
+msgid "Pending "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Percentage"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Persian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/personal-details.php:38
+msgid "Personal Details"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Peru"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Philippine Pesos"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Philippines"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Pitcairn"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/order-total-button/place-your-order-button.php:
+msgid "Place your order"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:44
+#: deals-engine/includes/class-wps-deals-scripts.php:1
+msgid "Please Enter Paypal API User Name,Password and Signature in settings page to proceed refund."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "Please enter Facebook API Key & Secret in settings page."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "Please enter Google+ Client ID & Secret in settings page."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "Please enter LinkedIn API Key & Secret in settings page."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "Please enter Twitter Consumer Key & Secret in settings page."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "Please enter Windows Live Client ID & Client Secret in settings page."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "Please enter Yahoo API Consumer Key, Secret & App Id in settings page."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/social/class-wps-deals-social-public.php:1
+msgid "Please enter your email address to compelete registeration."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-paypal.php:1
+msgid "Please wait, your order is being processed and you"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:35
+msgid "Plugin:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Poland"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Polish"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Polish Zloty"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Popular Tags"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Popup Content:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Portugal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Portugese"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Pounds Sterling (&pound;)"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-header/cart-details.php:72
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+#: deals-engine/includes/templates/orders/order-complete-details.php:120
+msgid "Price"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-paypal.php:1
+msgid "Processing Payment..."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/class-wps-deals-paypal.php:214
+#: deals-engine/includes/gateways/libraries/class-wps-deals-paypal.php:98
+msgid "Processing transaction"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-header/cart-details.php:62
+msgid "Product"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-public-pages.php:1
+msgid "Product removed from cart successfully."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Puerto Rico"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Punjabi"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:105
+msgid "Purchase"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Purchase Button Behavior:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/order-complete-details.php:58
+msgid "Purchase Date"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Purchase Date : "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/order-complete-details.php:47
+msgid "Purchase ID"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Purchase ID : "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Purchase Link:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Purchase Notes:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/deals-engine.php:1
+msgid "Purchase Receipt"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:59
+msgid "Purchase Receipt:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-download-process.php:1
+msgid "Purchase Verification Failed"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/orders/order-complete-details.php:110
+msgid "Purchased Deals"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-header/cart-details.php:67
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "QTY"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Qatar"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+#: deals-engine/includes/templates/orders/order-complete-details.php:119
+msgid "Quantity"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Radio Field"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/widgets/wps-deals-dashboard-widgets.php:121
+msgid "Recent Purchases"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:487
+msgid "Record (s) deleted successfully."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:114
+msgid "Redirect URL:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:103
+msgid "Redirect to Checkout:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid "Refunded"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:1
+msgid "Refunded "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/social/class-wps-deals-social-public.php:1
+#: deals-engine/includes/social/class-wps-deals-social-public.php:440
+msgid "Register"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-social-login-details.php:131
+msgid "Register Count"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/user-form/login-form.php:50
+msgid "Register or checkout as a guest."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/social/class-wps-deals-social-public.php:1
+msgid "Registration Form"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-header/cart-details.php:124
+msgid "Remove"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-header/cart-details.php:124
+msgid "Remove Item"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/social/libraries/linkedin.php:1
+msgid "Request token retrieval failed"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Required fields"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:61
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:55
+msgid "Reset All Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Reunion"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Romania"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Romanian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Russian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Russian Federation"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Rwanda"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Saint Barthelemy"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Saint Helena"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Saint Kitts and Nevis"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Saint Lucia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Saint Martin"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Saint Pierre and Miquelon"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Saint Vincent and the Grenadines"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Sale"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/class-wps-deals-admin.php:1
+msgid "Sale Price"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:154
+#: deals-engine/includes/admin/class-wps-deals-admin.php:1
+#: deals-engine/includes/wps-deals-post-types.php:184
+#: deals-engine/includes/admin/logs/wps-deals-logs-functions.php:1
+msgid "Sales"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-stats.php:1
+msgid "Sales : "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:73
+msgid "Sales Per Page:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Samoa"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "San Marino"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Sao Tome and Principe"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Saudi Arabia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Save"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:97
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:128
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:107
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:167
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:98
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:98
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:119
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:159
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:117
+#: deals-engine/includes/admin/forms/wps-deals-extension-settings.php:40
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:107
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:313
+#: deals-engine/includes/admin/forms/social/wps-deals-social-login-details.php:146
+#: deals-engine/includes/admin/forms/social/wps-deals-social-login-details.php:144
+msgid "Save Changes"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/logs/class-wps-deals-downloads-logs-list.php:430
+msgid "Search"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Search Categories"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Search Deal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Search Sale"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Search Tags"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:53
+msgid "Security code"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:1
+msgid "See All"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/buttons/deal-button-small.php:18
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:1
+msgid "See Deal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/buttons/deal-button-big.php:
+msgid "See Deal "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:31
+msgid "Select A Shortcode"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-admin-popup.php:54
+msgid "Select Deals Category:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Select Field"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Select a category"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Select a color"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Select if this deal should be displayed on the deals home page."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:89
+msgid "Select the language for Facebook. With this option, you can explicitly tell which language you want to use for communicating with Facebook."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Select the purchase button behavior."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Senegal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Separate tags with commas"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Serbia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/deals-engine.php:1
+msgid "Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Seychelles"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:83
+msgid "Show Register / Login Form?:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Show all deal types"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Sierra Leone"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid "Simple deal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Singapore"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Singapore Dollar (&#36;)"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:76
+msgid "Size:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Slovak"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Slovakia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Slovenia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Slovenian"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:80
+msgid "Small"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:130
+msgid "Social Connect Buttons:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/class-wps-deals-admin.php:1
+msgid "Social Deal Engine Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/deals-engine.php:1
+msgid "Social Deals"
+msgstr ""
+
+#. Text in function
+#: deals-engine/deals-engine.php:1
+msgid "Social Deals Cancel Page"
+msgstr ""
+
+#. Text in function
+#: deals-engine/deals-engine.php:1
+msgid "Social Deals Checkout"
+msgstr ""
+
+#. Text in function
+#: deals-engine/deals-engine.php:1
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:1
+#: deals-engine/includes/admin/wps-deals-about-box.php:38
+msgid "Social Deals Engine"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports.php:23
+msgid "Social Deals Engine - Reports"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:484
+msgid "Social Deals Engine - Sales"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:30
+msgid "Social Deals Engine - Settings"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-social-login-details.php:22
+msgid "Social Deals Engine - Social Login"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:65
+msgid "Social Deals Engine Docs"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:65
+msgid "Social Deals Engine Knowledge Base"
+msgstr ""
+
+#. Text in function
+#: deals-engine/deals-engine.php:1
+msgid "Social Deals Orders"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/widgets/wps-deals-dashboard-widgets.php:141
+msgid "Social Deals Sales Summary"
+msgstr ""
+
+#. Text in function
+#: deals-engine/deals-engine.php:1
+msgid "Social Deals Thank You Page"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-content/social.php:32
+msgid "Social Loader"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-plugin-settings.php:128
+msgid "Social Login"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-social-login-details.php:194
+msgid "Social Networks Register Percentage "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Solomon Islands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Somalia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/orders/order-cancel-details.php:16
+msgid "Sorry, your order has been cancelled."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "South Africa"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "South Georgia and the South Sandwich Islands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Spain"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Spanish"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Special notes or instructions for this deal. These notes will be added to the purchase receipt."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Sri Lanka"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Srpski"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Start Date:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Start Date: "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:191
+#: deals-engine/includes/templates/orders/orders.php:117
+#: deals-engine/includes/templates/orders/orders.php:168
+msgid "Status"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Status:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/class-wps-deals-admin.php:1
+msgid "Stock"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-header/cart-details.php:166
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+#: deals-engine/includes/templates/orders/order-complete-details.php:246
+msgid "Sub Total"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:146
+msgid "Subscribe by email"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:145
+msgid "Subscribe with RSS"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Sudan"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Suriname"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Svalbard and Jan Mayen"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Swahili"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Swaziland"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Sweden"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Swedish"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Swedish Krona"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Swiss Franc"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Switzerland"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Syrian Arab Republic"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Tags"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Taiwan New Dollars"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Taiwan, Province Of China"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Tajikistan"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Tamil"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Tanzania, United Republic of"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Telugu"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/single-deal/single-footer/terms.php:18
+#: deals-engine/includes/templates/single-deal/single-footer/terms.php:23
+msgid "Terms & Condition"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Terms & Conditions:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:118
+msgid "Terms of Agreement Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/deals-engine.php:1
+msgid "Test Mode"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Text Field"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Textarea Field"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Thai"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Thai Baht"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Thailand"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:199
+msgid "Thank You Page:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/orders/order-complete-details.php:264
+msgid "Thank you for your purchase! Your order has been completed successfully. You will receive an email from us within a few minutes containing the download link(s) from your purchased deal(s) as well as all the payment information for your records."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:42
+msgid "The (typically) 16 digits on the front of your credit card."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:54
+msgid "The 3 digit (back) or 4 digit (front) value on your card."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "The amount of this discount code.."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+msgid "The comments for your order are"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:85
+msgid "The date your credit card expires, typically on the front of the card."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "The kind of discount to apply for this discount.."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "The maximum number of times a buyer can download each file. Leave blank for unlimited."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-misc-settings.php:57
+msgid "The maximum number of times a file can be downloaded for each purchase. Can be customized for each deal."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "The maximum number of times this discount can be used. Leave blank for unlimited."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "The minimum amount that must be purchased before this discount can be used. Leave blank for no minimum."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "The name of this discount."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:66
+msgid "The name printed on the front of your credit card."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:487
+msgid "The purchase receipt has been resent."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "The status of this discount code."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:296
+msgid "The symbol (usually , or .) to separate decimal points."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:287
+msgid "The symbol (usually , or .) to separate thousands."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:385
+msgid "This Month"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:385
+msgid "This Quarter"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:385
+msgid "This Week"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:385
+msgid "This Year"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/home/home-header/header-timer.php:19
+#: deals-engine/includes/templates/single-deal/single-header/deal-end-timer.php:26
+msgid "This deal will end in"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/single-deal/single-header/deal-end-timer.php:24
+msgid "This deal will start in"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-footer/cc-form.php:27
+msgid "This is a secure SSL encrypted payment."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:179
+msgid "This is the Deals Overview / Home Page whcih does show all deals you enabled to show on the Homepage."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:193
+msgid "This is the checkout page where buyers will complete their purchases."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:88
+msgid "This is the email address(es) where the admin(s) will be notified of product sales. Separate multiple recipients by a comma."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:237
+msgid "This is the order history page where buyers will see all details for their purchases."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:207
+msgid "This is the page buyers are sent to after completing their purchases."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:221
+msgid "This is the page buyers are sent to, if their transaction has been cancelled or failed."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:108
+msgid "This is the subject of the email that will be sent to the admin(s) for record."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:141
+msgid "This is the subject of the email that will be sent to the buyer when an order will be updated from the backend."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:53
+msgid "This is the subject of the email that will be sent to the buyer."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:284
+msgid "Thousands Separator:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Time Field"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Timor-Leste"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/widgets/class-wps-deals-latest-products-cart.php:113
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:241
+msgid "Title:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:367
+msgid "To"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:385
+msgid "Today"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Togo"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Tokelau"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Tonga"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+#: deals-engine/includes/templates/orders/order-complete-details.php:121
+#: deals-engine/includes/templates/orders/order-complete-details.php:254
+msgid "Total"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/checkout/checkout-header/cart-details.php:184
+msgid "Total "
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Total Available Deals:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/widgets/wps-deals-dashboard-widgets.php:87
+msgid "Total Earnings"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/order-complete-details.php:74
+msgid "Total Price"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/widgets/wps-deals-dashboard-widgets.php:93
+msgid "Total Sales"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:300
+msgid "Total earnings for period shown: "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/reports/wps-deals-reports-earnings.php:301
+msgid "Total sales for period shown: "
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/widgets/wps-deals-dashboard-widgets.php:81
+msgid "Totals"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Traditional Chinese Language"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+msgid "Transaction Activity"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Trinidad and Tobago"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Tunisia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Turkey"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Turkish"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Turkish Lira"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Turkmenistan"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Turks and Caicos Islands"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Tuvalu"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-model.php:1
+#: deals-engine/includes/templates/social-buttons/twitter.php:19
+msgid "Tweet"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/templates/checkout/checkout-content/social/twitter.php:20
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:133
+msgid "Twitter"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:46
+msgid "Twitter App:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:58
+msgid "Twitter Consumer Key:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:66
+msgid "Twitter Consumer Secret:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:23
+msgid "Twitter Settings"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:152
+msgid "Twitter Username:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Type:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "US Dollars (&#36;)"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Uganda"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Ukraine"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Ukrainian"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "United Arab Emirates"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "United Kingdom"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "United States"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "United States Minor Outlying Islands"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/class-wps-deals-admin.php:1
+#: deals-engine/includes/wps-deals-template-functions.php:1
+msgid "Unlimited"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/home/home-content/home-navigation.php:21
+msgid "Upcoming Deals"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:110
+msgid "Upcoming Deals:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-add-edit-discount-codes.php:1
+msgid "Update"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-header/cart-action-buttons/cart-update-button.php:
+msgid "Update Cart"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Update Category"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:44
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:258
+msgid "Update Order"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:147
+msgid "Update Order Email Body:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-emails-settings.php:137
+msgid "Update Order Email Subject:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "Update Tag"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Upload Files:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-linkedin-settings.php:79
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:100
+#: deals-engine/includes/admin/forms/social/wps-deals-gplus-settings.php:89
+#: deals-engine/includes/admin/forms/social/wps-deals-foursquare-settings.php:80
+#: deals-engine/includes/admin/forms/social/wps-deals-twiiter-settings.php:80
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:99
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:89
+msgid "Upload Image"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Upload a File"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Upload new files"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Upload the business logo related to this deal. Leave it blank if you don\\'t want to use it."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Upload the deal page image here. This is the image which is being used on the deal\\'s page. This image should have a width of around 400px, depending on your theme and it looks best, if the image has a square format."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Upload the main image for the deal. This is the image which is being used on the deals overview page. This image should have a width of around 600px, depending on your theme and it looks best, if the image is rectangular. Please just make sure, that all the images you\\'re using for the different deals, do have the same size in width and height."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Uploaded files"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:104
+msgid "Uploads"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Uruguay"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/checkout/checkout-footer/user-form/registration-form.php:34
+#: deals-engine/includes/templates/checkout/checkout-footer/user-form/login-form.php:26
+msgid "User Name"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/social/class-wps-deals-social-public.php:437
+msgid "Username and Password will be sent to your email."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Uzbekistan"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/single-deal/single-header/deal-value.php:
+msgid "Value"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Vanuatu"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Venezuela"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:44
+msgid "Version:"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Viet Nam"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Vietnamese"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+#: deals-engine/includes/templates/single-deal/single-header/add-to-cart/add-to-cart-button.php:28
+msgid "View Cart"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "View Deal"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:1
+#: deals-engine/includes/widgets/wps-deals-dashboard-widgets.php:132
+#: deals-engine/includes/templates/orders/orders.php:152
+msgid "View Details"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-post-types.php:184
+msgid "View Sale"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Virgin Islands, British"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Virgin Islands, U.S."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:27
+msgid "WPSocial"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/wps-deals-about-box.php:56
+msgid "WPSocial.com"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:38
+#: deals-engine/includes/admin/forms/wps-deals-sales.php:481
+#: deals-engine/includes/admin/reports/wps-deals-reports.php:20
+msgid "WPSocial.com Logo"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "WYSIWYG Editor Field"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Wallis And Futuna"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:77
+msgid "Welsh"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Western Sahara"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/admin/forms/wps-deals-edit-order.php:44
+msgid "What happens next?"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-general-settings.php:60
+msgid "While in test mode no live transactions are processed. To fully use the test mode, you must have a sandbox (test) account for the payment gateway you are testing."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/templates/checkout/checkout-content/social/windowslive.php:20
+msgid "Windows Live"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:46
+msgid "Windows Live App:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:75
+msgid "Windows Live Callback URL:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:58
+msgid "Windows Live Client ID:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:66
+msgid "Windows Live Client Secret:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-windowslive-settings.php:23
+msgid "Windows Live Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+#: deals-engine/includes/templates/checkout/checkout-content/social/yahoo.php:20
+msgid "Yahoo"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:75
+msgid "Yahoo App Id:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:46
+msgid "Yahoo App:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:58
+msgid "Yahoo Consumer Key:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:66
+msgid "Yahoo Consumer Secret:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:85
+msgid "Yahoo Home Page URL:"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-yahoo-settings.php:23
+msgid "Yahoo Settings"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Yemen"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/meta-boxes/class-wps-deals-meta-box.php:320
+msgid "Yes"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/templates/home/home-content/deal-save.php:19
+#: deals-engine/includes/templates/single-deal/single-header/deal-save.php:
+#: deals-engine/includes/templates/home/home-header/header-save.php:21
+#: deals-engine/includes/widgets/class-wps-deals-lists.php:1
+msgid "You Save"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/social/wps-deals-facebook-settings.php:49
+msgid "You can get a step by step tutorial on how to create a Facebook Application on our <a href=\"http://wpsocial.com/knowledgebase/\" target=\"_blank\">Knowledge Base</a>."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-public-pages.php:1
+msgid "You have not ordered any deals yet."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/orders.php:184
+msgid "You have not purchased any deals yet."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-scripts.php:139
+msgid "You must have at least one file."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/orders/orders.php:192
+msgid "You need to be logged in to your account to see your purchase history."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/admin/forms/wps-deals-payment-gateways.php:82
+msgid "Your PayPal email address (this is the account where the payments will go to)."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-renderer.php:1
+#: deals-engine/includes/templates/checkout/checkout-header/cart-empty.php:18
+msgid "Your cart is empty."
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Zambia"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/wps-deals-misc-functions.php:1
+msgid "Zimbabwe"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/home/home-header/header-timer.php:25
+#: deals-engine/includes/templates/single-deal/single-header/deal-end-timer.php:33
+msgid "days"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/home/home-header/header-timer.php:27
+#: deals-engine/includes/templates/single-deal/single-header/deal-end-timer.php:35
+msgid "hrs"
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/home/home-header/header-timer.php:29
+#: deals-engine/includes/templates/single-deal/single-header/deal-end-timer.php:37
+msgid "mins"
+msgstr ""
+
+#. Text in function
+#: deals-engine/includes/class-wps-deals-paypal.php:1
+msgid "paypal within 5 seconds..."
+msgstr ""
+
+#. Text in echo
+#: deals-engine/includes/templates/home/home-header/header-timer.php:31
+#: deals-engine/includes/templates/single-deal/single-header/deal-end-timer.php:39
+msgid "secs"
+msgstr ""
