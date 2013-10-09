@@ -3,6 +3,7 @@ jQuery(document).ready( function($) {
 	// login with facebook
 	$('.wps-deals-social-login-facebook').live( 'click', function() {
 	
+		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
 		
 		errorel.hide();
@@ -18,7 +19,7 @@ jQuery(document).ready( function($) {
 				//alert(response.status);
 			  if (response.status === 'connected') {
 			  	//creat user to site
-			  	wps_deals_social_connect( 'facebook' );
+			  	wps_deals_social_connect( 'facebook', object );
 			  }
 			}, {scope:'publish_stream,email'});	
 		}
@@ -27,7 +28,7 @@ jQuery(document).ready( function($) {
 	// login with google+
 	jQuery('.wps-deals-social-login-gplus').live('click', function(event) {
 	
-		
+		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
 		
 		errorel.hide();
@@ -52,7 +53,7 @@ jQuery(document).ready( function($) {
 					if (googleLogin.location.hostname == window.location.hostname) { //if login domain host name and window location hostname is equal then it will go ahead
 						clearInterval(gTimer);
 						googleLogin.close();
-						wps_deals_social_connect( 'googleplus' );
+						wps_deals_social_connect( 'googleplus', object );
 					}
 				} catch (e) {}
 			}, 500);
@@ -98,6 +99,7 @@ jQuery(document).ready( function($) {
 	// login with linkedin
 	jQuery('.wps-deals-social-login-linkedin').live('click', function(event) {
 	
+		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
 		
 		errorel.hide();
@@ -121,7 +123,7 @@ jQuery(document).ready( function($) {
 					if (linkedinLogin.location.hostname == window.location.hostname) { //if login domain host name and window location hostname is equal then it will go ahead
 						clearInterval(lTimer);
 						linkedinLogin.close();
-						wps_deals_social_connect( 'linkedin' );
+						wps_deals_social_connect( 'linkedin', object );
 					}
 				} catch (e) {}
 			}, 300);
@@ -131,6 +133,7 @@ jQuery(document).ready( function($) {
 	// login with yahoo
 	jQuery('.wps-deals-social-login-yahoo').live('click', function(event) {
 	
+		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
 		
 		errorel.hide();
@@ -154,7 +157,7 @@ jQuery(document).ready( function($) {
 					if ( yhLogin.location.hostname == window.location.hostname) { //if login domain host name and window location hostname is equal then it will go ahead
 						clearInterval(yTimer);
 						yhLogin.close();
-						wps_deals_social_connect( 'yahoo' );
+						wps_deals_social_connect( 'yahoo', object );
 					}
 				} catch (e) {}
 			}, 300);
@@ -164,6 +167,7 @@ jQuery(document).ready( function($) {
 	// login with foursquare
 	jQuery('.wps-deals-social-login-foursquare').live('click', function(event) {
 	
+		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
 		
 		errorel.hide();
@@ -187,7 +191,7 @@ jQuery(document).ready( function($) {
 					if (fsLogin.location.hostname == window.location.hostname) { //if login domain host name and window location hostname is equal then it will go ahead
 						clearInterval(fsTimer);
 						fsLogin.close();
-						wps_deals_social_connect( 'foursquare' );
+						wps_deals_social_connect( 'foursquare', object );
 					}
 				} catch (e) {}
 			}, 300);
@@ -197,6 +201,7 @@ jQuery(document).ready( function($) {
 	// login with windowslive
 	jQuery('.wps-deals-social-login-windowslive').live('click', function(event) {
 	
+		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
 		
 		errorel.hide();
@@ -220,7 +225,7 @@ jQuery(document).ready( function($) {
 					if (windowsliveLogin.location.hostname == window.location.hostname) { //if login domain host name and window location hostname is equal then it will go ahead
 						clearInterval(wlTimer);
 						windowsliveLogin.close();
-						wps_deals_social_connect( 'windowslive' );
+						wps_deals_social_connect( 'windowslive', object );
 					}
 				} catch (e) {}
 			}, 300);
@@ -229,7 +234,7 @@ jQuery(document).ready( function($) {
 	
 });
 // Social Connect Process
-function wps_deals_social_connect( type ) {
+function wps_deals_social_connect( type, object ) {
 	
 	var data = { 
 					action	:	'wps_deals_social_login',
@@ -246,6 +251,8 @@ function wps_deals_social_connect( type ) {
 		jQuery('.wps-deals-social-loader').hide();
 		jQuery('.wps-deals-social-wrap').show();
 		
+		var redirect_url = object.parents('.wps-deals-social-container').find('.wps-deals-login-redirect-url').val();
+		
 		if( response != '' ) {
 			
 			var result = jQuery.parseJSON( response );
@@ -253,14 +260,27 @@ function wps_deals_social_connect( type ) {
 			if( result.redirect != '' && result.redirect != undefined ) {
 				//redirect to specific url
 				window.location = result.redirect;
+				//wps_deals_reload( result.redirect );
 				
 			} else if ( result.success == '1' ){
-				//if user created successfully then reload the page
-				window.location.reload();
+				
+				//alert( redirect_url );
+				
+				if( redirect_url != '' ) {
+					
+					window.location = redirect_url;
+					
+				} else {
+					
+					//if user created successfully then reload the page
+					window.location.reload();
+					//wps_deals_reload();
+				}
 				
 			} else {
 				//reload same page if any error occureed
 				window.location.reload();
+				//wps_deals_reload();
 			}
 		}
 	});

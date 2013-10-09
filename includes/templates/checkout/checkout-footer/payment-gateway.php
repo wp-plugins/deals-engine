@@ -13,9 +13,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
-$paymentgatway = wps_deals_get_enabled_gateways();
-
+	
 	if(count($paymentgatway) > 1) { //when more than one payment gateways selected then show dropdown
 	
 		?>	
@@ -28,14 +26,15 @@ $paymentgatway = wps_deals_get_enabled_gateways();
 								do_action( 'wps_deals_checkout_payment_combo_before' );
 						?>			
 					
-						<select name="wps_deals_payment_gateways" id="wps_deals_payment_gateways" class="wps-deals-cart-select">
-							<option value=""><?php _e('--Select Payment--','wpsdeals');?></option>
+						<select name="wps_deals_payment_gateways" id="wps_deals_payment_gateways" class="wps-deals-cart-select wps-deals-required">
 							<?php 			
 									foreach ($paymentgatway as $key => $gateway) {
+										if( isset( $gateway['checkout_label'] ) ) {
 							?>			
-										<option value="<?php echo $key;?>"><?php echo $paymentgatway[$key];?></option>
-							<?php 	}
-							
+										<option value="<?php echo $key;?>" <?php selected( $defaultgatway, $key, true );?>><?php echo $gateway['checkout_label'];?></option>
+							<?php 		
+										}
+									}
 							?>		
 						</select>
 						<?php

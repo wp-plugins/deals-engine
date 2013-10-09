@@ -3,7 +3,7 @@
 Plugin Name: Social Deals Engine
 Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
 Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
-Version: 1.0.0
+Version: 1.0.1
 Author: WPSocial.com
 Author URI: http://wpsocial.com
 
@@ -32,7 +32,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 global $wpdb;
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '1.0.0' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '1.0.1' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -170,6 +170,9 @@ function wps_deals_install() {
 	//Need to call when custom post type is being used in plugin
 	flush_rewrite_rules();
 	
+	//add capabilities to administrator roles
+	wps_deals_add_capabilities();
+	
 	//get option for when plugin is activating first time
 	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
 	
@@ -260,12 +263,57 @@ function wps_deals_install() {
 		
 	} 
 	
-	if( $wps_deals_set_option == '1.0' ) {
+	if( $wps_deals_set_option == '1.0' ) { //check set option for plugin is set 1.0
 		 			
+		// future code will be done here
+		$udpopt = false;
+		if( !isset( $wps_deals_options['default_payment_gateway'] ) ) { //check default gateway is set or not
+			$defaultgateway = array( 'default_payment_gateway'=> 'paypal' );
+			$wps_deals_options = array_merge( $wps_deals_options, $defaultgateway );
+			$udpopt = true;
+		}
+		if( !isset( $wps_deals_options['caching'] ) ) { //check caching is set or not
+			$caching = array( 'caching'=> '' );
+			$wps_deals_options = array_merge( $wps_deals_options, $caching );
+			$udpopt = true;
+		}
+		if( !isset( $wps_deals_options['cheque_customer_msg'] ) ) { //check Customer Message is set or not
+			$cheque_customer_msg = array( 'cheque_customer_msg'=> __( 'Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.', 'wpsdeals' ) );
+			$wps_deals_options = array_merge( $wps_deals_options, $cheque_customer_msg );
+			$udpopt = true;
+		}
+		if( !isset( $wps_deals_options['login_heading'] ) ) { //check Social Login Title is set or not
+			$login_heading = array( 'login_heading'=> __( 'Login with Social Media', 'wpsdeals' ) );
+			$wps_deals_options = array_merge( $wps_deals_options, $login_heading );
+			$udpopt = true;
+		}
+		if( !isset( $wps_deals_options['login_redirect_url'] ) ) { //check Redirect URL is set or not
+			$login_redirect_url = array( 'login_redirect_url'=> '' );
+			$wps_deals_options = array_merge( $wps_deals_options, $login_redirect_url );
+			$udpopt = true;
+		}
+		if( !isset( $wps_deals_options['email_template'] ) ) { //check Email Template is set or not
+			$email_template = array( 'email_template'=> '' );
+			$wps_deals_options = array_merge( $wps_deals_options, $email_template );
+			$udpopt = true;
+		}
+		
+		if( $udpopt == true ) { // if any of the settings need to be updated 				
+			update_option( 'wps_deals_options', $wps_deals_options );
+		}
+		
+		//update plugin version to option 
+		update_option( 'wps_deals_set_option', '1.0.1' );
+	}
+	
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+	
+	if( $wps_deals_set_option == '1.0.1' ) {
+		
 		// future code will be done here
 	}
 	
-	//$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+	
 }
 
 /**
@@ -291,6 +339,9 @@ function wps_deals_uninstall() {
 	//$wps_deals_options = get_option('wps_deals_options');
 	
 	if(isset($wps_deals_options['del_all_options']) && !empty($wps_deals_options['del_all_options']) && $wps_deals_options['del_all_options'] == '1') {
+		
+		//remove capabilities to administrator roles
+		wps_deals_remove_capabilities();
 		
 		//delete option
 		delete_option('wps_deals_options');
@@ -518,7 +569,13 @@ function wps_deals_default_settings() {
 								'wl_client_id'					=> '',
 								'wl_client_secrets'				=> '',
 								'wl_icon_url'					=> WPS_DEALS_SOCIAL_URL.'/images/windowslive.png',
-								'social_order'					=> array('facebook','twitter','googleplus','linkedin','yahoo','foursquare','windowslive')
+								'social_order'					=> array('facebook','twitter','googleplus','linkedin','yahoo','foursquare','windowslive'),
+								'default_payment_gateway'		=> 'paypal',
+								'caching'						=> '',
+								'cheque_customer_msg'			=> __( 'Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.', 'wpsdeals' ),
+								'login_heading'					=> __( 'Login with Social Media', 'wpsdeals' ),
+								'login_redirect_url'			=> '',
+								'email_template'				=> ''
 							);
 	
 	$default_options = apply_filters('wps_deals_options_values',$wps_deals_options );
@@ -639,27 +696,27 @@ $wps_deals_message = new Wps_Deals_Message_Stack();
 require_once( WPS_DEALS_DIR .'/includes/class-wps-deals-logging.php' );
 $wps_deals_logs = new Wps_Deals_Logging();
 
+//Currencies class handles most of functionalities of plugin
+include_once( WPS_DEALS_DIR . '/includes/class-wps-deals-currencies.php' );
+$wps_deals_currency = new Wps_Deals_Currencies();
+
+//Price class handles most of plugin related to price
+include_once( WPS_DEALS_DIR . '/includes/class-wps-deals-price.php' );
+$wps_deals_price = new Wps_Deals_Price();
+
 //Model class handles most of functionalities of plugin
 include_once( WPS_DEALS_DIR . '/includes/class-wps-deals-model.php' );
 $wps_deals_model = new Wps_Deals_Model();
+
+include_once( WPS_DEALS_DIR . '/includes/class-wps-deals-scripts.php' ); // script class, handles all the scripts and css
+$wps_deals_scripts = new Wps_Deals_Scripts();
+$wps_deals_scripts->add_hooks();
 
 //Download Functions
 require_once( WPS_DEALS_DIR . '/includes/wps-deals-download-functions.php' );
 
 //Logs Functions File
 require_once( WPS_DEALS_ADMIN . '/logs/wps-deals-logs-functions.php');
-
-//Currencies class handles most of functionalities of plugin
-include_once( WPS_DEALS_DIR . '/includes/class-wps-deals-currencies.php' );
-$wps_deals_currency = new Wps_Deals_Currencies();
-
-include_once( WPS_DEALS_DIR . '/includes/class-wps-deals-scripts.php' ); // script class, handles all the scripts and css
-$wps_deals_scripts = new Wps_Deals_Scripts();
-$wps_deals_scripts->add_hooks();
-
-//Price class handles most of plugin related to price
-include_once( WPS_DEALS_DIR . '/includes/class-wps-deals-price.php' );
-$wps_deals_price = new Wps_Deals_Price();
 
 //Shopping Cart class handles most of functionalities of cart
 include_once( WPS_DEALS_DIR . '/includes/class-wps-deals-shopping-cart.php' );
@@ -737,6 +794,9 @@ require_once( WPS_DEALS_DIR . '/includes/wps-deals-payment-process.php' );
 
 //View reports page
 require_once( WPS_DEALS_ADMIN . '/reports/view-reports.php');
+
+//include cheque payment gateway file
+require_once( WPS_DEALS_GATEWAYS_DIR . '/cheque.php');
 
 //include payment gateway test mode file
 require_once( WPS_DEALS_GATEWAYS_DIR . '/testmode.php');

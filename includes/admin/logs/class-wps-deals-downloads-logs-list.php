@@ -425,15 +425,34 @@ $logs_table->prepare_items();
 
 ?>
 <div class="wrap">
-	<?php do_action( 'wps_deals_logs_downloads_before' ); ?>
+	<?php 
+			//add something befoer downloads logs
+			do_action( 'wps_deals_logs_downloads_before' ); 
+	?>
+	
 	<form id="wps-deals-logs-filter" method="GET" action="edit.php">
-		<?php
-		$logs_table->search_box( __( 'Search', 'wpsdeals' ), 'wps-deals-downloads-logs' );
-		$logs_table->display();
-		?>
 		<input type="hidden" name="post_type" value="<?php echo WPS_DEALS_POST_TYPE;?>" />
 		<input type="hidden" name="page" value="wps-deals-reports" />
 		<input type="hidden" name="tab" value="logs" />
+		<?php
+			//add something before download logs list before
+			do_action( 'wps_deals_download_logs_list_before' );
+			
+			//display search box
+			$logs_table->search_box( __( 'Search', 'wpsdeals' ), 'wps-deals-downloads-logs' );
+			
+			//add something before search box
+			do_action( 'wps_deals_download_logs_search_after' );
+			
+			//display log data
+			$logs_table->display();
+			
+			//add something after listing table
+			do_action( 'wps_deals_download_logs_list_after' );
+		?>
 	</form>
-	<?php do_action( 'wps_deals_logs_downloads_after' ); ?>
+	<?php 
+			//add something after downloads logs
+			do_action( 'wps_deals_logs_downloads_after' ); 
+	?>
 </div>

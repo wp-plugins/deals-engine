@@ -11,6 +11,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package Social Deals Engine
  * @since 1.0.0
  */
+
+// Enqueue for preview purchase receipt
+wp_enqueue_script( 'wps-deals-popup-scripts' );
+
 ?>
 <!-- beginning of the email settings meta box -->
 <div id="wps-deals-emails" class="post-box-container">
@@ -34,6 +38,36 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								</tr>
 								
 								<?php do_action('wps_deals_add_email_settings_before');?>
+									
+								<tr valign="top">
+									<th scope="row"><label for="wps_deals_options[email_template]"><?php _e( 'Email Template:', 'wpsdeals' ); ?></label></th>
+									<td>
+										<select id="wps_deals_options[email_template]" name="wps_deals_options[email_template]" class="wps-deals-email-template">
+											<?php   												
+												$email_templates = $model->wps_deals_email_get_templates();
+												
+												foreach ( $email_templates as $key => $option ) {											
+													?>
+													<option value="<?php echo $key; ?>" <?php selected( isset($wps_deals_options['email_template']) ? $wps_deals_options['email_template'] : '', $key ); ?>>
+														<?php esc_html_e( $option ); ?>
+													</option>
+													<?php
+												}															
+											?> 														
+										</select><br />
+										<span class="description"><?php _e( 'Choose a template and Choose "Preview Purchase Receipt" to see the email template.', 'wpsdeals' ); ?></span>
+									</td>
+								</tr>
+									
+								<tr valign="top">
+									<th scope="row"></th>
+									<td>							
+										<a class="button wps-deals-preview-purchase-receipt" href="#wps_deal_preview_purchase_receipt" rel="wps_deal_preview_purchase_receipt"><?php _e( 'Preview Purchase Receipt', 'wpsdeals' ); ?></a>
+										<a class="button wps-deals-send-test-email" href="javascript:void(0);"><?php _e( 'Send Test Email', 'wpsdeals' ); ?></a>
+										<img class="wps-deals-loader" src="<?php echo WPS_DEALS_URL ?>includes/images/cart-loader.gif" alt="<?php _e( 'Loading...', 'wpsdeals' ) ?>" />
+										<span class="wps-deals-send-email-msg"></span>
+									</td>
+								</tr>
 								
 								<tr>
 									<th scope="row">

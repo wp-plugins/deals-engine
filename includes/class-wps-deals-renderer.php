@@ -105,7 +105,7 @@ class Wps_Deals_Renderer {
 		
 		do_action('wps_deals_sales_paymentdetails_after_billing',$data['ID']);
 		
-		if(strtolower($data['payment_method']) == 'paypal') { //check payment method
+		if( $data['payment_method'] == __( 'PayPal Standard', 'wpsdeals' ) ) { //check payment method
 			
 			echo '<div class="wps-deals-view-paypal-details">
 					<img src="'.WPS_DEALS_URL.'includes/images/paypal_logo.gif" />

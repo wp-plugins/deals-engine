@@ -109,7 +109,8 @@ class Wps_Deals_Public_Pages	{
 			$cart = $this->cart->get();
 			$resultdata['message'] = __('Cart Updated Successfully.','wpsdeals');
 			$resultdata['success'] = '1';
-			$resultdata['total'] = $this->currency->wps_deals_formatted_value($cart['total']);
+			$carttotal = $this->currency->wps_deals_formatted_value($cart['total']);
+			$resultdata['total'] = apply_filters( 'wps_deals_checkout_total_html', $carttotal, $cart );
 		}
 		
 		ob_start();
@@ -436,6 +437,7 @@ class Wps_Deals_Public_Pages	{
 		
 		return $template;
 	}
+	
 	/**
 	 * Adding Hooks
 	 *
@@ -480,6 +482,17 @@ class Wps_Deals_Public_Pages	{
 		
 		//template loader
 		add_filter( 'template_include', array( $this, 'wps_deals_load_template' ) );
+		
+		//email actions to fire email to admin & user
+		$emailactions = array( 
+								'wps_deals_order_status_pending_to_completed', 
+								'wps_deals_order_status_pending_to_onhold' 
+							);
+		
+		//add action to call on payment status change
+		foreach ( $emailactions as $action ) {
+			add_action( $action, 'wps_deals_send_order_notification', 10, 3 );
+		}
 		
 	}
 	

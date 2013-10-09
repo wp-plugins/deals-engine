@@ -282,15 +282,34 @@ class Wps_Deals_Customer_List extends WP_List_Table {
     
 }
 
-//Create an instance of our package class...
-$DealsCustomersListTable = new Wps_Deals_Customer_List(); 
+	//Create an instance of our package class...
+	$DealsCustomersListTable = new Wps_Deals_Customer_List(); 
 	
-//Fetch, prepare, sort, and filter our data...
-$DealsCustomersListTable->prepare_items();
+	//Fetch, prepare, sort, and filter our data...
+	$DealsCustomersListTable->prepare_items();
 
-?>
+		//add something before customer report
+		do_action( 'wps_deals_customer_reports_before' );
+			
+	?>
 	<form action="" method="POST">
+		<?php
+				//add something before export csv buton in customer report
+				do_action( 'wps_deals_customer_reports_export_csv_btn_before' );
+			
+		?>
 		<input type="submit" class="button" id="wps-deals-customer-report-exports" name="wps-deals-customer-report-exports" value="<?php _e('Export to CSV','wpsdeals');?>" />
+		<?php
+				//add something after export csv buton in customer report
+				do_action( 'wps_deals_customer_reports_export_csv_btn_after' );
+			
+		?>
 	</form>
-<!-- Now we can render the completed list table -->
-<?php $DealsCustomersListTable->display(); ?>
+	<!-- Now we can render the completed list table -->
+	<?php 
+		
+		$DealsCustomersListTable->display(); 
+		
+		//add something after customer report
+		do_action( 'wps_deals_customer_reports_after' );
+?>

@@ -113,11 +113,11 @@ function wps_deals_report_to_csv() {
 				$item['useremail'] = $value;
 			}
 			
-			$purchases_args = array('useremail' => $value, 'getcount' => '1');
+			$purchases_args = array( 'useremail' => $value, 'getcount' => '1' );
 			$purchases_amount_data = $model->wps_deals_purchase_total_of_user($value);
 			
 			
-			$exports .= '"'.($wp_user ? $wp_user->display_name : __( 'Guest', 'wpsdeals' )).'",';
+			$exports .= '"'.( $wp_user ? $wp_user->display_name : __( 'guest', 'wpsdeals' ) ).'",';
 			$exports .= '"'.$value.'",';
 			$exports .= '"'.html_entity_decode($purchases_amount_data['salescount']).'",';
 			$exports .= '"'.html_entity_decode($currency->wps_deals_formatted_value($purchases_amount_data['earnings'])).'",';
@@ -136,3 +136,4 @@ function wps_deals_report_to_csv() {
 	
 }
 add_action('init','wps_deals_report_to_csv');
+?>

@@ -663,7 +663,7 @@ p.wps-deals-business-title {
 	margin: 10px 0 20px 0;
 	padding: 10px;
 }
-.wps-deals-cart-wrap h2 {
+.wps-deals-cart-wrap h2, .wps-deals-social-container h2 {
 	border-bottom: 1px solid #C3C3C3;
 	padding: 0;
 	margin: 0 0 20px 0;
@@ -701,6 +701,14 @@ tr.wps-deals-cart-update-row td {
 .wps-deals-cart-text {
 	min-width: 200px;
 	max-width: 250px;
+}
+.wps-deals-cart-text.error, .wps-deals-cart-select.error {
+	border-color: #C4554E !important;
+}
+.wps-deals-cart-text.wps-deals-card-number.valid {
+	background-image: url("../images/tick.png");
+    background-position: 98% 50%;
+    background-repeat: no-repeat;
 }
 .wps-deals-cart-purchase-total {
 	font-weight: bold;
@@ -1109,3 +1117,16 @@ ul.wps-deals-purchase-receipt-files a{
     margin: 0 0 5px;
 }
 /** CSS for Credit Card Details Field End**/
+
+/** CSS for Payment Description Start **/
+.wps-deals-payment-description-show {
+	display:block;
+}
+.wps-deals-payment-description-none {
+	display:none;
+}
+.wps-deals-payment-description p {
+	padding:10px 15px 0 0;
+	margin:0 !important;
+}
+/** CSS for Payment Description End **/

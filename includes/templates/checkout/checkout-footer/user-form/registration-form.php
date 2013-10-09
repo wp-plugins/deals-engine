@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					<p><?php echo apply_filters( 'wps_deals_cart_username_label',__('User Name','wpsdeals'));?></p>
 				</div>
 				<div class="span8">
-					<input type="text" name="wps_deals_cart_reg_user_name" id="wps_deals_cart_reg_user_name" class="wps-deals-cart-text"/>
+					<input type="text" name="wps_deals_cart_reg_user_name" id="wps_deals_cart_reg_user_name" class="wps-deals-cart-text wps-deals-required"/>
 				</div>
 			</div><!--wps-deals-details-->
 			<?php
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					<p><?php  echo apply_filters( 'wps_deals_cart_password_label', __('Password','wpsdeals'));?></p>
 				</div>
 				<div class="span8">
-					<input type="password" name="wps_deals_cart_reg_user_pass" id="wps_deals_cart_reg_user_pass" class="wps-deals-cart-text"/>
+					<input type="password" name="wps_deals_cart_reg_user_pass" id="wps_deals_cart_reg_user_pass" class="wps-deals-cart-text wps-deals-required"/>
 				</div>
 			</div><!--wps-deals-details-->
 			<?php
@@ -58,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					<p><?php  echo apply_filters( 'wps_deals_cart_confirm_password_label',__('Confirm Password','wpsdeals'));?></p>
 				</div>
 				<div class="span8">
-					<input type="password" name="wps_deals_cart_reg_user_confirm_pass" id="wps_deals_cart_reg_user_confirm_pass" class="wps-deals-cart-text"/>
+					<input type="password" name="wps_deals_cart_reg_user_confirm_pass" id="wps_deals_cart_reg_user_confirm_pass" class="wps-deals-cart-text wps-deals-required"/>
 				</div>
 			</div><!--wps-deals-details-->
 			<?php

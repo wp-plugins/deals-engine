@@ -11,17 +11,18 @@
  * @package Social Deals Engine
  * @since 1.0.0
  */
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 ?>
 <div class="wps-deals-sales">
-	
 	<?php 
-	
 		global $current_user,$wps_deals_model,
 				$wps_deals_currency,$wps_deals_options,
 				$wps_deals_render,$wps_deals_scripts;
 		
 				
-		if ( is_user_logged_in() ) {
+		if ( is_user_logged_in() ) { //check user is logged in or not
 		
 			$perpage = isset($wps_deals_options['per_page']) ? $wps_deals_options['per_page'] : '10';
 			
@@ -82,117 +83,37 @@
 			}
 			$ordereddeals = $model->wps_deals_get_sales($argsdata);
 			
-			if( !empty( $ordereddeals ) ) {
+			if( !empty( $ordereddeals ) ) { //check orderdetails are not empty
 				
 				//do action add something before orders pagination befoer
-				do_action( 'wps_deals_orders_pagination_before' );
+				//do_action( 'wps_deals_orders_pagination_before', $ordereddeals );
 				
+				//do action add something before orders table
+				do_action( 'wps_deals_orders_table_before', $ordereddeals );
+						
 				// start displaying the paging if needed
-			?>
-			
-				<div class="wps-deals-paging">
-					<div id="wps-deals-tablenav-pages" class="wps-deals-tablenav-pages">
-						<?php echo $paging->getOutput(); ?>
-					</div>
-				</div>
-				<div class="wps-deals-sales-loader">
-					<img src="<?php echo WPS_DEALS_URL;?>includes/images/cart-loader.gif"/>
-				</div>
-				
-				<?php 
-						//do action add something before orders table
-						do_action( 'wps_deals_orders_table_before' );
-				?>
-				
-				<table class="wps-deals-ordered-table">
-					
-					<thead>
-						<tr class="wps-deals-ordered-row-head">
-								<?php 
-										//do action to add header title of orders list before
-										do_action('wps_deals_orders_header_before');
-								?>
-								<th><?php _e('Order ID','wpsdeals');?></th>
-								<th><?php _e('Order Date','wpsdeals');?></th>
-								<th><?php _e('Status','wpsdeals');?></th>
-								<th><?php _e('Order Amount','wpsdeals');?></th>
-								<th><?php _e('Details','wpsdeals');?></th>
-								<?php 
-										//do action to add header title of orders list after
-										do_action('wps_deals_orders_header_after');
-								?>
-						</tr>
-					</thead>
-					
-					<tbody>
-					<?php
-						foreach ($ordereddeals as $order) {
-							
-							$details = $model->wps_deals_get_post_meta_ordered( $order['ID'] );
-							$payment_status = $model->wps_deals_get_ordered_payment_status($order['ID']);
-							$userdetails = $model->wps_deals_get_ordered_user_details($order['ID']);
-							$orderddate = $model->wps_deals_get_date_format($order['post_date']);
-							$ipndata = $model->wps_deals_get_ipn_data($order['ID']);
-							$ordertotal = $details['display_order_total'];
-					?>			
-						<tr class="wps-deals-ordered-row-body">
-							<?php 
-									//do action to add row for orders list before
-									do_action( 'wps_deals_orders_row_before', $order['ID'] ); 
-							?>
-							<td><?php echo $order['ID'];?></td>
-							<td><?php echo $orderddate;?></td>
-							<td><?php echo $payment_status;?></td>
-							<td><?php echo $ordertotal;?></td>
-							<?php
-									//order view page url
-									$order_query = get_permalink( $wps_deals_options['payment_thankyou_page'] );
-									$order_query = add_query_arg( array('order_id' => $order['ID']), $order_query );
-							?>
-							<td><a href="<?php echo $order_query; ?>" title="<?php _e('View Details','wpsdeals');?>"><?php _e('View Details','wpsdeals');?></a></td>
-							<?php 
-									//do action to add row for orders list after
-									do_action( 'wps_deals_orders_row_after', $order['ID'] ); 
-							?>
-						</tr>
-				<?php	} ?>
-					</tbody>
-					<tfoot>
-						<tr class="wps-deals-ordered-row-foot">
-							<?php 
-									//do action to add row in footer before
-									do_action('wps_deals_orders_footer_before');
-							?>
-							<th><?php _e('Order ID','wpsdeals');?></th>
-							<th><?php _e('Deal Name','wpsdeals');?></th>
-							<th><?php _e('Status','wpsdeals');?></th>
-							<th><?php _e('Order Amount','wpsdeals');?></th>
-							<th><?php _e('Details','wpsdeals');?></th>
-							<?php 
-									//do action to add row in footer after
-									do_action('wps_deals_orders_footer_after');
-							?>
-						</tr>
-					</tfoot>
-				</table>
-		<?php 
-				//do action add something after orders table after	
-				do_action( 'wps_deals_orders_table_after' );
-			
-			} else {
-		?>		
-			<p><?php _e('You have not purchased any deals yet.','wpsdeals');?></p>
-	
-		<?php	
-			}
-			
-		} else {
-			
-		?>	
-			<p><?php _e('You need to be logged in to your account to see your purchase history.','wpsdeals');?></p>
-			
-		<?php 
+				//do action add orders listing table
+				do_action( 'wps_deals_orders_table', $ordereddeals, $paging );
 		
-		}
+				//do action add something after orders table after	
+				do_action( 'wps_deals_orders_table_after', $ordereddeals );
+			
+			} else { //if user is not purchased any deals
+			?>
+				
+				<p><?php _e( 'You have not purchased any deals yet.','wpsdeals' );?></p>
+				
+			<?php
+			
+			} //end else
+			
+		} else { //if user is not logged in
+			
+		?>
+			<p><?php _e( 'You need to be logged in to your account to see your purchase history.', 'wpsdeals' );?></p>
+			
+		<?php
+		
+		} //end else user is not logged in
 	?>
 </div><!--.wps-deals-sales-->

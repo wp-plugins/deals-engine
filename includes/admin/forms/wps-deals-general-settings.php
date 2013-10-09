@@ -63,6 +63,16 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							
 							<tr>
 								<th scope="row">
+									<label for="wps_deals_options[caching]"><?php _e('Caching:', 'wpsdeals');?></label>
+								</th>
+								<td>
+									<input type="checkbox" id="wps_deals_options[caching]" name="wps_deals_options[caching]" value="1" <?php if( isset( $wps_deals_options['caching'] ) ) { checked('1',$wps_deals_options['caching']); }?>/><br />
+									<span class="description"><?php _e( 'Check this box, if you use a caching plugin. For more information visit  our <a href="http://wpsocial.com/knowledgebase/" target="_blank">Knowledge Base</a>', 'wpsdeals' ); ?></span>
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
 									<label for="wps_deals_options[disable_twitter_bootstrap]"><?php _e('Disable Twitter Bootstrap:', 'wpsdeals');?></label>
 								</th>
 								<td>

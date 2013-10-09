@@ -20,7 +20,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	<img src="<?php echo WPS_DEALS_URL . 'includes/images/wps-logo.png'; ?>" class="wpsocial-logo deals-sales-logo" alt="<?php _e('WPSocial.com Logo','wpsdeals');?>" />
 	
     <h2 class="wps-deals-settings-title">
-    	<?php _e( 'Social Deals Engine - Reports', 'wpsdeals' ); ?>
+    	<?php echo apply_filters( 'wps_deals_reports_title', __( 'Social Deals Engine - Reports', 'wpsdeals' ) ); ?>
     </h2>
     
 		<?php 

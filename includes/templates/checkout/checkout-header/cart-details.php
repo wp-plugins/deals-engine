@@ -143,7 +143,14 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 								do_action( 'wps_deals_cart_table_deal_qty_after', $item['dealid'] );
 							?>
 							<td class="wps-deals-subtotal">
-								<?php echo $price->get_display_price( $productprice, $item['dealid'] );?>
+								<?php 	
+										//apply filter to modify cart deal price on checkout page
+										$cartdealprice = apply_filters( 'wps_deals_checkout_price', $productprice, $item['dealid'] );
+										$cartdealpricehtml = $price->get_display_price( $cartdealprice, $item['dealid'] );
+										
+										//apply filter to modify cart deal price html on checkout page
+										echo apply_filters( 'wps_deals_checkout_price_html', $cartdealpricehtml, $item['dealid'] );
+								?>
 							</td>
 							<?php 
 								// do action to add after deal price
@@ -163,8 +170,14 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					?>	
 						
 						<tr class="wps-deals-cart-subtotal-row alternate">
-							<td colspan="3" class="subtotal"><strong><?php _e('Sub Total','wpsdeals');?></strong></td>
-							<td class="wps-deals-cart-item-qty wps-deals-subtotal"><?php echo $currency->wps_deals_formatted_value($cartsubtotal);?></td>
+							<td colspan="3" class="subtotal"><strong><?php echo apply_filters( 'wps_deals_checkout_subtotal_label', __('Sub Total','wpsdeals'), $cartdetails );?></strong></td>
+							<td class="wps-deals-cart-item-qty wps-deals-subtotal">
+							<?php 
+									//apply filter to modify cart subtotal on checkout page
+									$cartsubtotal = apply_filters( 'wps_deals_checkout_subtotal', $cartsubtotal, $cartdetails );
+									$displaysubtotal = apply_filters( 'wps_deals_checkout_subtotal_html', $currency->wps_deals_formatted_value( $cartsubtotal ), $cartdetails );
+									echo $displaysubtotal;
+							?></td>
 						</tr>
 					<?php
 				
@@ -181,8 +194,15 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 							do_action( 'wps_deals_cart_table_footer_before', $cartdetails );
 					?>
 					<tr class="alternate">
-						<td class="total" colspan="3"><?php _e('Total ','wpsdeals');?></td>
-						<td class="wps-deals-cart-item-qty wps_deals_cart_total"><?php echo $currency->wps_deals_formatted_value($carttotal);?></td>
+						<td class="total" colspan="3"><?php echo apply_filters( 'wps_deals_checkout_total_label', __('Total ','wpsdeals'), $cartdetails );?></td>
+						<td class="wps-deals-cart-item-qty wps_deals_cart_total">
+							<?php 
+								//apply filter to modify cart subtotal on checkout page
+								$carttotal = apply_filters( 'wps_deals_checkout_total', $carttotal, $cartdetails );
+								$displaytotal = apply_filters( 'wps_deals_checkout_total_html', $currency->wps_deals_formatted_value( $carttotal ), $cartdetails );
+								echo $displaytotal;
+							?>
+						</td>
 					</tr>
 					<?php 
 							//do action to show row after cart footer

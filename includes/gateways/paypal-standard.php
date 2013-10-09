@@ -30,8 +30,11 @@ function wps_deals_process_payment_paypal( $cartdetails, $postdata ) {
 	//currency class
 	$currency = $wps_deals_currency;
 	
+	//get payment gateways
+	$paymentgateways = wps_deals_get_payment_gateways();
+	
 	//payment method
-	$method	= WPS_DEALS_PAYPAL_GATEWAY;
+	$method	= isset( $postdata['wps_deals_payment_gateways'] ) ? $postdata['wps_deals_payment_gateways'] : 'paypal';
 	
 	$purchasedata = array();
 	$purchasedata['user_info'] = array( 
@@ -40,7 +43,8 @@ function wps_deals_process_payment_paypal( $cartdetails, $postdata ) {
 										'user_name' => $postdata['user_name'],
 										'user_email' => $postdata['wps_deals_cart_user_email'],
 									  );
-	$purchasedata['payment_method'] = $method;
+	$purchasedata['payment_method'] = $paymentgateways[$method]['admin_label'];
+	$purchasedata['checkout_label'] = $paymentgateways[$method]['checkout_label'];
 	$purchasedata['post_data'] = $postdata;
 	$purchasedata['cartdata'] = $cartdetails;
 	$payment_status['payment_status'] = '0';
@@ -50,7 +54,7 @@ function wps_deals_process_payment_paypal( $cartdetails, $postdata ) {
 	$cancelurl = isset($wps_deals_options['payment_cancel_page']) ? get_permalink($wps_deals_options['payment_cancel_page']) : '';
 	$thankyouurl = isset($wps_deals_options['payment_thankyou_page']) ? get_permalink($wps_deals_options['payment_thankyou_page']) : '';
 	
-	$cancelurl = add_query_arg( array( 'order_id' => $salesid ), $cancelurl );
+	$cancelurl = add_query_arg( array( 'wps_deals_cancel_order' => '1', 'order_id' => $salesid ), $cancelurl );
 	$thankyouurl = add_query_arg( array( 'order_id' => $salesid ), $thankyouurl );
 	
 	if(!empty($salesid)) {
@@ -136,18 +140,17 @@ function wps_deals_paypal_verfication() {
 	
 	global $wps_deals_paypal,$wps_deals_model;
 	
-		$prefix = WPS_DEALS_META_PREFIX;
+	$prefix = WPS_DEALS_META_PREFIX;
 		
 	//paypal class
 	$paypal = $wps_deals_paypal;
 	
 	//model class
 	$model = $wps_deals_model;
-		 
-	if(isset($_GET['dealslistner']) && $_GET['dealslistner'] == 'paypalipn' ) { //check listner value
-		 
-		 
-		if($paypal->validate_ipn()) { //check validate ipn
+	
+	if( isset( $_GET['dealslistner'] ) && $_GET['dealslistner'] == 'paypalipn' ) { //check listner value
+		
+		if( $paypal->validate_ipn() ) { //check validate ipn
 			
 			//status of paypal transaction
 			$status = $paypal->ipn_data['payment_status'];
@@ -158,6 +161,33 @@ function wps_deals_paypal_verfication() {
 			// update the value for the paypal data to the post meta box
 		 	update_post_meta( $orderid, $prefix.'order_ipn_data', $paypal->ipn_data ); // ipn data
 			
+		 	/************** Code For Buy Now Start ( Signle Purchase ) **************/
+		 	
+		 	// get the value of payment user email from the post meta
+		 	$payment_user_email = get_post_meta( $salesid, $prefix.'payment_user_email', true ); // ipn data
+		 	
+		 	if( empty( $payment_user_email ) ) {
+		 		
+		 		$user_email = isset( $paypal->ipn_data['payer_email'] ) ? $paypal->ipn_data['payer_email'] : '';
+		 		
+				$ordered_deal_userdetails = array(
+													'user_id'		=>	'0',
+													'user_name'		=>	'',
+													'user_email'	=>	$user_email,
+													'first_name'	=>	isset( $paypal->ipn_data['first_name'] ) ? $paypal->ipn_data['first_name'] : '',
+													'last_name'		=>	isset( $paypal->ipn_data['last_name'] ) ? $paypal->ipn_data['last_name'] : ''
+												);
+				
+				// update the value for the user details to the post meta box
+				update_post_meta( $orderid, $prefix.'order_userdetails', $ordered_deal_userdetails );
+			
+				// update the value for the user email to post meta
+				update_post_meta( $orderid, $prefix.'payment_user_email', $user_email );
+			
+		 	}
+		 	
+		 	/************** Code For Buy Now End ( Signle Purchase ) **************/
+		 	
 		 	//update payment status
 		 	$payment_status = $model->wps_deals_paypal_status_to_value( $status );
 		 	
@@ -171,7 +201,12 @@ function wps_deals_paypal_verfication() {
 				
 				case 'Completed'	: 
 										
+										//update payments status
 										wps_deals_update_payment_status( $payment_status, $orderid );
+										
+										//order tracking data update
+										$trackargs = array( 'orderid' => $orderid, 'payment_status' => $payment_status, 'notify' => '1' );
+										wps_deals_update_order_track( $trackargs );
 										break;
 				case 'Reversed'		:
 	            case 'Chargeback'	:
@@ -184,15 +219,19 @@ function wps_deals_paypal_verfication() {
 										$model->wps_deals_send_order_status_email( $args );
 										
 										$adminargs = array( 
-																'subject'	=>	sprintf( __( 'Payment for order %s refunded/reversed', 'wpsdeals' ), $orderid ),
-																'message'	=>	sprintf( __( 'Order %s has been marked as refunded - PayPal reason code: %s', 'wpsdeals' ), $orderid, $_POST['reason_code']),
-															);
+															'subject'	=>	sprintf( __( 'Payment for order %s refunded/reversed', 'wpsdeals' ), $orderid ),
+															'message'	=>	sprintf( __( 'Order %s has been marked as refunded - PayPal reason code: %s', 'wpsdeals' ), $orderid, $_POST['reason_code']),
+														);
 										
 										//send email to admin
 										$model->wps_deals_send_order_status_email_admin( $adminargs );
 						
+										//update payment status
 										wps_deals_update_payment_status( $payment_status, $orderid );
 										
+										//order tracking data update
+										$trackargs = array( 'orderid' => $orderid, 'payment_status' => $payment_status, 'notify' => '1' );
+										wps_deals_update_order_track( $trackargs );
 										break;
 				case 'Refunded'	:
 									if( $orderdata['order_total'] == ( $_POST['mc_gross'] * -1 ) ) {
@@ -213,21 +252,30 @@ function wps_deals_paypal_verfication() {
 										//send email to admin
 										$model->wps_deals_send_order_status_email_admin( $adminargs );
 						
+										//update payment status
 										wps_deals_update_payment_status( $payment_status, $orderid );
+										//order tracking data update
+										$trackargs = array( 'orderid' => $orderid, 'payment_status' => $payment_status, 'notify' => '1' );
+										wps_deals_update_order_track( $trackargs );
 									}
 									break;
 				default 		:
+									//update payment status
 						            wps_deals_update_payment_status( $payment_status, $orderid );
+						            //order tracking data update
+						            $trackargs = array( 'orderid' => $orderid, 'payment_status' => $payment_status, 'notify' => '0' );
+									wps_deals_update_order_track( $trackargs );
 						            break;
 			}
-			
+			//do action when paypal ipn is being verified
 			do_action( 'wps_deals_verify_paypal_ipn',$orderid );
-		}
+			
+		} //end if to check ipn data is valid or not
 		
-	}
+	} //end if to check ipnlistner is set and it must be 'paypalipn'
 	
 }
-add_action('init','wps_deals_paypal_verfication',100);
+add_action( 'init', 'wps_deals_paypal_verfication', 100 );
 
 /**
  * Direct Buy with Paypal
@@ -243,7 +291,8 @@ function wps_deals_paypal_buy_now() {
 	global $wps_deals_price,$current_user;
 	
 	// Check payment mode directly Buy Now
-	if( is_user_logged_in() &&  isset( $_GET['dealsaction'] ) && $_GET['dealsaction'] == 'buynow' 
+	if( /*is_user_logged_in() 
+		&& */isset( $_GET['dealsaction'] ) && $_GET['dealsaction'] == 'buynow' 
 		&& isset( $_GET['dealid'] ) && !empty( $_GET['dealid'] ) ) {
 			
 		// deal id
@@ -274,5 +323,5 @@ function wps_deals_paypal_buy_now() {
 	}
 	
 }
-add_action('init','wps_deals_paypal_buy_now');
+add_action( 'init', 'wps_deals_paypal_buy_now' );
 ?>

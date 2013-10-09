@@ -49,7 +49,7 @@ function wps_deals_register_post_types() {
 							'show_in_menu' 		=> true, 
 							'query_var' 		=> true,
 							'rewrite' 			=> array( 'slug' => WPS_DEALS_POST_TYPE_SLUG),
-							'capability_type' 	=> 'post',
+							'capability_type' 	=> WPS_DEALS_POST_TYPE, //'post',
 							'has_archive' 		=> true, 
 							'hierarchical' 		=> false,
 							'supports' 			=> apply_filters('wps_deals_post_type_supports', array( 'title', 'editor', 'thumbnail', 'excerpt' )),
@@ -58,39 +58,6 @@ function wps_deals_register_post_types() {
 						
 	//register deals post type
 	register_post_type( WPS_DEALS_POST_TYPE, $deals_args );
-	
-	//register taxonomy tags for deals
-	 $taglabels = array(
-						    'name' => _x( 'Tags', 'taxonomy general name','wpsdeals' ),
-						    'singular_name' => _x( 'Tag', 'taxonomy singular name' ,'wpsdeals'),
-						    'search_items' =>  __( 'Search Tags','wpsdeals' ),
-						    'popular_items' => __( 'Popular Tags','wpsdeals' ),
-						    'all_items' => __( 'All Tags','wpsdeals' ),
-						    'parent_item' => null,
-						    'parent_item_colon' => null,
-						    'edit_item' => __( 'Edit Tag','wpsdeals' ), 
-						    'update_item' => __( 'Update Tag','wpsdeals' ),
-						    'add_new_item' => __( 'Add New Tag' ,'wpsdeals'),
-						    'new_item_name' => __( 'New Tag Name' ,'wpsdeals'),
-						    'separate_items_with_commas' => __( 'Separate tags with commas','wpsdeals' ),
-						    'add_or_remove_items' => __( 'Add or remove tags','wpsdeals' ),
-						    'choose_from_most_used' => __( 'Choose from the most used tags','wpsdeals' ),
-						    'menu_name' => __( 'Tags','wpsdeals' ),
-					  ); 
-	
-	 $dealstags = array(
-						    'hierarchical' => false,
-						    'labels' => $taglabels,
-						    'show_ui' => true,
-						    'show_admin_column' => true,
-						    'update_count_callback' => '_update_post_term_count',
-						    'query_var' => true,
-						    'rewrite' => array( 'slug' => WPS_DEALS_POST_TAGS ),
-					  );
-					  
-					  
-	  register_taxonomy( WPS_DEALS_POST_TAGS, WPS_DEALS_POST_TYPE, $dealstags);
-	
 	
 	//deals sales post type
 	$sales_labels = array(
@@ -116,7 +83,7 @@ function wps_deals_register_post_types() {
 						    'show_in_menu' 			=> false, 
 						    'query_var' 			=> true,
 						    'rewrite' 				=> false,
-						    'capability_type' 		=> 'post',
+						    'capability_type' 		=> WPS_DEALS_POST_TYPE, //'post',
 						    'has_archive' 			=> true, 
 						    'hierarchical' 			=> false,
 						    'menu_position' 		=> null,
@@ -125,7 +92,6 @@ function wps_deals_register_post_types() {
 	
 	//register deals sales post type
 	register_post_type( WPS_DEALS_SALES_POST_TYPE, $sales_args );
-	
 }
 //register custom post type
 add_action('init','wps_deals_register_post_types',100); // we need to keep priority 100, because we need to execute this init action after all other init action called.
@@ -197,8 +163,47 @@ add_action( 'admin_head', 'wps_deals_icon' );
 
 function wps_deals_register_taxonomies() {
 	
-  // Add new taxonomy, make it hierarchical (like categories)
-  $labels = array(
+  //register taxonomy tags for deals
+	 $taglabels = array(
+						    'name' => _x( 'Tags', 'taxonomy general name','wpsdeals' ),
+						    'singular_name' => _x( 'Tag', 'taxonomy singular name' ,'wpsdeals'),
+						    'search_items' =>  __( 'Search Tags','wpsdeals' ),
+						    'popular_items' => __( 'Popular Tags','wpsdeals' ),
+						    'all_items' => __( 'All Tags','wpsdeals' ),
+						    'parent_item' => null,
+						    'parent_item_colon' => null,
+						    'edit_item' => __( 'Edit Tag','wpsdeals' ), 
+						    'update_item' => __( 'Update Tag','wpsdeals' ),
+						    'add_new_item' => __( 'Add New Tag' ,'wpsdeals'),
+						    'new_item_name' => __( 'New Tag Name' ,'wpsdeals'),
+						    'separate_items_with_commas' => __( 'Separate tags with commas','wpsdeals' ),
+						    'add_or_remove_items' => __( 'Add or remove tags','wpsdeals' ),
+						    'choose_from_most_used' => __( 'Choose from the most used tags','wpsdeals' ),
+						    'menu_name' => __( 'Tags','wpsdeals' ),
+					  ); 
+	
+	 $dealstags = array(
+						    'hierarchical' 			=> false,
+						    'labels' 				=> $taglabels,
+						    'show_ui' 				=> true,
+						    'show_admin_column' 	=> true,
+						    'update_count_callback' => '_update_post_term_count',
+						    'query_var' 			=> true,
+						    'rewrite' 				=> array( 'slug' => WPS_DEALS_POST_TAGS ),
+						    'capabilities'			=> array(
+												            	'manage_terms' 		=> 'manage_'.WPS_DEALS_POST_TYPE.'_terms',
+																'edit_terms' 		=> 'edit_'.WPS_DEALS_POST_TYPE.'_terms',
+																'delete_terms' 		=> 'delete_'.WPS_DEALS_POST_TYPE.'_terms',
+																'assign_terms' 		=> 'assign_'.WPS_DEALS_POST_TYPE.'_terms',
+												            )
+					  );
+					  
+					  
+	  register_taxonomy( WPS_DEALS_POST_TAGS, WPS_DEALS_POST_TYPE, $dealstags);
+	
+	
+	// Add new taxonomy, make it hierarchical (like categories)
+	$labels = array(
 				    'name' 				=>	_x( 'Categories', 'taxonomy general name', 'wpsdeals'),
 				    'singular_name' 	=>	_x( 'Category', 'taxonomy singular name','wpsdeals' ),
 				    'search_items'		=>	__( 'Search Categories','wpsdeals' ),
@@ -213,20 +218,36 @@ function wps_deals_register_taxonomies() {
 				  );
 				  
 	$args = array(
-					'hierarchical' => true,
-					'labels' => $labels,
-					'show_ui' => true,
+					'hierarchical' 		=> true,
+					'labels' 			=> $labels,
+					'show_ui' 			=> true,
 					'show_admin_column' => true,
-					'query_var' => true,
-					'rewrite' => false//array('with_front' => false, 'hierarchical' => false )
+					'query_var' 		=> true,
+					'rewrite' 			=> false,//array('with_front' => false, 'hierarchical' => false )
+					'capabilities'		=> array(
+									            	'manage_terms' 		=> 'manage_'.WPS_DEALS_POST_TYPE.'_terms',
+													'edit_terms' 		=> 'edit_'.WPS_DEALS_POST_TYPE.'_terms',
+													'delete_terms' 		=> 'delete_'.WPS_DEALS_POST_TYPE.'_terms',
+													'assign_terms' 		=> 'assign_'.WPS_DEALS_POST_TYPE.'_terms',
+									            )
 				);
 	
 	register_taxonomy(WPS_DEALS_POST_TAXONOMY,WPS_DEALS_POST_TYPE,$args);
+	
+	//do action for registering taxonomy
+	do_action( 'wps_deals_register_taxonomies' );
 }
 
 //register taxonomies (categories) for custom post type
 add_action('init','wps_deals_register_taxonomies');
-
+/**
+ * Filter By Category
+ * 
+ * Handles to filter the data by category
+ * 
+ * @package Social Deals Engine
+ * @since 1.0.0
+ **/
 function wps_deals_restrict_manage_posts() {
 	
 	global $typenow, $wp_query, $wps_deals_model;
@@ -292,7 +313,14 @@ function wps_deals_restrict_manage_posts() {
 
 // Add category filter in deals list page
 add_action('restrict_manage_posts','wps_deals_restrict_manage_posts');
-
+/**
+ * Categorywise Search
+ * 
+ * Handles to show categorywise search
+ * 
+ * @package Social Deals Engine
+ * @since 1.0.0
+ **/
 function wps_deals_category_search( $where ) {
 
 	if( is_admin() ) {
@@ -311,6 +339,14 @@ function wps_deals_category_search( $where ) {
 // Add filter for display deals using category
 add_filter( 'posts_where' , 'wps_deals_category_search' );
 
+/**
+ * Typewise Search
+ * 
+ * Handles to show typewise search
+ * 
+ * @package Social Deals Engine
+ * @since 1.0.0
+ **/
 function wps_deals_type_search( $query ) {
 	
 	$prefix = WPS_DEALS_META_PREFIX;

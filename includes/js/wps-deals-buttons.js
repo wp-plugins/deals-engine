@@ -15,6 +15,9 @@ jQuery(document).ready(function($) {
                      
                     $( '#wps_deals_shortcodes' ).val('');
                     $( '#wps_deals_insert_container' ).hide();
+                    
+                    $( '#wps_deals_by_category_options' ).hide(); 
+                    $( '#wps_deals_social_login_options' ).hide();
  				}
             });
         },
@@ -37,34 +40,41 @@ jQuery(document).ready(function($) {
 	//show insert shortcode buttons
 	$( '#wps_deals_shortcodes' ).on( 'change',function() {
 		
-		if( $( this ).val() != '') {
+		var select_shortcode = $( this ).val();
+		
+		if( select_shortcode != '') {
 			$( '#wps_deals_insert_container' ).show();
 			$( '.wps-deals-shortcodes-options').hide();
 			
-			switch ( $( this ).val() ) {
+			switch ( select_shortcode ) {
 				
 				case 'wps_deals_by_category'	:
 						
 						$( '#wps_deals_by_category_options' ).show();
 						break;
-				
+				case 'wps_deals_social_login'	:
+						 
+						$( '#wps_deals_social_login_options' ).show();
+						break;
 			}
-			
+		
+			//trigger for doing on change for shortcode options select box admin side
+			$('body').trigger('wps-deals-admin-shortcodes-options-change', select_shortcode, $(this) );
+				
 		} else {
 			
 			$( '#wps_deals_insert_container' ).hide();
 			$( '.wps-deals-shortcodes-options').hide();
 		}
-		
 	});
 	
-	
+	//on click of shortcode insert button in admin shortcode popup
 	$('#wps_deals_insert_shortcode').live('click',function(){
 		
 		var dealsshortcode = $('#wps_deals_shortcodes').val();
 		var dealsshortcodestr = '';
 			
-			if(dealsshortcode  != '') {
+			if( dealsshortcode  != '' ) {
 				
 				wpsDealsSwitchDefaultEditorVisual();
 				
@@ -73,6 +83,11 @@ jQuery(document).ready(function($) {
 					case 'wps_deals_by_category'	:
 								var catid = $( '#wps_deals_category_id' ).val();
 								dealsshortcodestr	+= '['+dealsshortcode+' category="'+catid+'"][/'+dealsshortcode+']';
+								break;
+					case 'wps_deals_social_login'	:
+								var title = $( '#wps_deals_title' ).val();
+								var redirect_url = $( '#wps_deals_redirect_url' ).val();
+								dealsshortcodestr	+= '['+dealsshortcode+' title="'+title+'"'+' redirect_url="'+redirect_url+'"][/'+dealsshortcode+']';
 								break;
 					case 'wps_deals' 				:
 					case 'wps_deals_checkout' 		:
@@ -83,14 +98,18 @@ jQuery(document).ready(function($) {
 								dealsshortcodestr	+= '['+dealsshortcode+'][/'+dealsshortcode+']';
 								break;
 					default:
-									break;
+								dealsshortcodestr	+= '['+dealsshortcode+'][/'+dealsshortcode+']';
+								break;
 				}
+				
+				//trigger for fire when admin click on insert shortcode button in shortcode popup
+				$('body').trigger('wps-deals-admin-shortcodes-insert', dealsshortcode, $('#wps_deals_shortcodes') );
 			 	
 			 	 //send_to_editor(str);
 		        tinymce.get('content').execCommand('mceInsertContent',false, dealsshortcodestr);
 		  		jQuery('.wps-deals-popup-overlay').fadeOut();
 				jQuery('.wps-deals-popup-content').fadeOut();
-		}
+			}
 		
 	});
 });

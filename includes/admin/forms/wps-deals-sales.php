@@ -202,9 +202,12 @@ class Wps_Deals_Sales_List extends WP_List_Table {
         );
         
         $userdetails = '';
-    	$userdetails = $item['showusername'].'<br />';
-    	$userdetails .= '( <a href="mailto:'.$item['useremail'].'">'.$item['useremail'].'</a> )';
-    	
+        if( !empty( $item['showusername'] ) ) {
+	    	$userdetails .= $item['showusername'].'<br />';
+        }
+        if( !empty( $item['useremail'] ) ) {
+	    	$userdetails .= '( <a href="mailto:'.$item['useremail'].'">'.$item['useremail'].'</a> )';
+        }
     	if($item['order_status'] == '1') {
 			$resendlink = add_query_arg(array('resend' => $item['ID']));
 			$actions['resend'] = sprintf('<a href="?post_type='.WPS_DEALS_POST_TYPE.'&page=%s&action=%s&order_id=%d'.$strstatus.'" class="wps-deals-sales-resend">'.__('Resend Purchase Receipt', 'wpsdeals').'</a>',$_REQUEST['page'],'resend',$item['ID']);
@@ -310,6 +313,7 @@ class Wps_Deals_Sales_List extends WP_List_Table {
 		$failedargs = array( 'payment_status' => '3' );
 		$refundedargs = array( 'payment_status' => '2' );
 		$cancelledargs = array( 'payment_status' => '4');
+		$onholdargs = array( 'payment_status' => '5');
 		
 		$allcount 		= count($this->model->wps_deals_get_sales());
 		$pendingcount 	= count($this->model->wps_deals_get_sales( $pendingargs));
@@ -317,10 +321,11 @@ class Wps_Deals_Sales_List extends WP_List_Table {
 		$cancelledcount = count($this->model->wps_deals_get_sales( $cancelledargs));
 		$failedcount 	= count($this->model->wps_deals_get_sales( $failedargs));
 		$refundcount 	= count($this->model->wps_deals_get_sales( $refundedargs ));
+		$onholdcount 	= count($this->model->wps_deals_get_sales( $onholdargs ));
 		
 		
 		//makr proper class to show this link is viewing currently
-		$class_pending = $class_completed = $class_cancelled = $class_all = $class_failed = $class_refund = ''; 
+		$class_pending = $class_completed = $class_cancelled = $class_all = $class_failed = $class_refund = $class_onhold = ''; 
 		
 		if( ( isset( $_GET['payment_status'] ) && $_GET['payment_status'] == '0' ) ) { // pending payment status
 	
@@ -342,6 +347,10 @@ class Wps_Deals_Sales_List extends WP_List_Table {
 			
 			$class_refund = ' class="current" ';
 			
+		}elseif ( isset( $_GET['payment_status'] ) && $_GET['payment_status'] == '5' ) { //on-hold payment status
+			
+			$class_onhold = ' class="current" ';
+			
 		} else { // all status list
 			
 			
@@ -355,7 +364,8 @@ class Wps_Deals_Sales_List extends WP_List_Table {
 							'pending' 	=>	sprintf('<a %s href="edit.php?post_type=%s&page=%s&payment_status=%s">'.__('Pending ','wpsdeals').'<span class="count">(%d)</span></a>', $class_pending, WPS_DEALS_POST_TYPE, $_REQUEST['page'], '0', $pendingcount ),
 							'cancelled' =>	sprintf('<a %s href="edit.php?post_type=%s&page=%s&payment_status=%s">'.__('Cancelled ','wpsdeals').'<span class="count">(%d)</span></a>', $class_cancelled, WPS_DEALS_POST_TYPE, $_REQUEST['page'], '4', $cancelledcount ),
 							'failed' 	=>	sprintf('<a %s href="edit.php?post_type=%s&page=%s&payment_status=%s">'.__('Failed ','wpsdeals').'<span class="count">(%d)</span></a>', $class_failed, WPS_DEALS_POST_TYPE, $_REQUEST['page'],'3', $failedcount ),
-							'refunded' 	=>	sprintf('<a %s href="edit.php?post_type=%s&page=%s&payment_status=%s">'.__('Refunded ','wpsdeals').'<span class="count">(%d)</span></a>', $class_refund, WPS_DEALS_POST_TYPE, $_REQUEST['page'], '2', $refundcount )
+							'refunded' 	=>	sprintf('<a %s href="edit.php?post_type=%s&page=%s&payment_status=%s">'.__('Refunded ','wpsdeals').'<span class="count">(%d)</span></a>', $class_refund, WPS_DEALS_POST_TYPE, $_REQUEST['page'], '2', $refundcount ),
+							'onhold' 	=>	sprintf('<a %s href="edit.php?post_type=%s&page=%s&payment_status=%s">'.__('On-Hold ','wpsdeals').'<span class="count">(%d)</span></a>', $class_onhold, WPS_DEALS_POST_TYPE, $_REQUEST['page'], '5', $onholdcount )
 						);
 		return apply_filters( 'wps_deals_sales_views', $views );
 	}
@@ -481,7 +491,7 @@ $DealsSalesListTable->prepare_items();
 	<img src="<?php echo WPS_DEALS_URL . 'includes/images/wps-logo.png'; ?>" class="wpsocial-logo deals-sales-logo" alt="<?php _e('WPSocial.com Logo','wpsdeals');?>" />
 	
     <h2 class="wps-deals-settings-title">
-    	<?php _e( 'Social Deals Engine - Sales', 'wpsdeals' ); ?>
+    	<?php echo apply_filters( 'wps_deals_sales_page_title', __( 'Social Deals Engine - Sales', 'wpsdeals' ) ); ?>
     </h2>
     
     <?php 
@@ -505,12 +515,26 @@ $DealsSalesListTable->prepare_items();
 			} 
 		}
 		
+		//add something before views link in deals sales page
+		do_action( 'wps_deals_sales_views_before' );
+		
     	//showing sorting links on the top of the list
     	$DealsSalesListTable->views(); 
+    	
+    	//add something after views link in deals sales page
+		do_action( 'wps_deals_sales_views_after' );
     ?>
 
     <form action="" method="POST">
+	    <?php 
+    		//add something before generate pdf btn
+    		do_action( 'wps_deals_sales_generate_pdf_btn_before' );
+    	?>
 		<input type="submit" class="button wps-deals-sales-generate-pdf-btn" id="wps-deals-sales-report-pdf" name="wps-deals-sales-report-pdf" value="<?php _e('Generate PDF', 'wpsdeals');?>" />
+		<?php 
+    		//add something after generate pdf btn
+    		do_action( 'wps_deals_sales_generate_pdf_btn_after' );
+    	?>
 	</form>
     <!-- Forms are NOT created automatically, so you need to wrap the table in one to use features like bulk actions -->
     <form id="product-filter" method="get">
@@ -522,8 +546,17 @@ $DealsSalesListTable->prepare_items();
         <!-- Search Title -->
         <?php //$DealsSalesListTable->search_box( __( 'Search' ), 'wpsdeals' ); ?>
         
+         <?php 
+    		//add something before sales page
+    		do_action( 'wps_deals_sales_before' );
+    	?>
+        
         <!-- Now we can render the completed list table -->
         <?php $DealsSalesListTable->display(); ?>
         
+        <?php 
+    		//add something after sales page
+    		do_action( 'wps_deals_sales_after' );
+    	?>
     </form>
 </div><!--wrap-->

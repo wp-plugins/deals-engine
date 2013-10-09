@@ -320,26 +320,35 @@ jQuery(document).ready(function($) {
 		}
 	});
 	
-	//sortable table
-	jQuery('table.wps-deals-sortable tbody').sortable({
-		items:'tr',
-		cursor:'move',
-		axis:'y',
-		handle: 'td',
-		scrollSensitivity:40,
-		helper:function(e,ui){
-			ui.children().each(function(){
-				jQuery(this).width(jQuery(this).width());
-			});
-			ui.css('left', '0');
-			return ui;
-		},
-		start:function(event,ui){
-			ui.item.css('background-color','#f6f6f6');
-		},
-		stop:function(event,ui){
-			ui.item.removeAttr('style');
-		}
+	//send test email from email settings
+	$( '.wps-deals-send-test-email' ).live( 'click', function() {
+		
+		$( '.wps-deals-loader' ).show();
+		var email_template = $('.wps-deals-email-template').val();
+		var data = {
+						action	:	'deals_test_email',
+						template:	email_template
+					};
+		$('.wps-deals-send-email-msg').html('').hide();		
+		$.post(ajaxurl,data,function(response) {
+			//alert(response);
+			$( '.wps-deals-loader' ).hide();
+			if( response == 'success' ) {
+				$('.wps-deals-send-email-msg').removeClass('wps-deals-email-error').addClass('wps-deals-email-success');
+				$('.wps-deals-send-email-msg').html( WpsDealsSettings.testemailsuccess ).show();
+				setTimeout(function(){
+					$(".wps-deals-send-email-msg").fadeOut("slow", function () {
+					});
+				}, 2000);
+			} else {
+				$('.wps-deals-send-email-msg').removeClass('wps-deals-email-success').addClass('wps-deals-email-error');
+				$('.wps-deals-send-email-msg').html( WpsDealsSettings.testemailerror ).show();
+				setTimeout(function(){
+					$(".wps-deals-send-email-msg").fadeOut("slow", function () {
+					});
+				}, 2000);
+			}
+		});
 	});
 	
 });

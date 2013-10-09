@@ -248,9 +248,28 @@ $DealsReportsListTable = new Wps_Deals_Reports_List();
 //Fetch, prepare, sort, and filter our data...
 $DealsReportsListTable->prepare_items();
 
+	//add something before report deals
+	do_action( 'wps_deals_reports_before' );
+
 ?>
 	<form action="" method="POST">
+		<?php
+			//add something before report deals export to csv button
+			do_action( 'wps_deals_reports_export_csv_btn_before' );
+		?>
 		<input type="submit" class="button" id="wps-deals-report-exports" name="wps-deals-report-exports" value="<?php _e('Export to CSV','wpsdeals');?>" />
+		<?php
+			//add something after report deals export to csv button
+			do_action( 'wps_deals_reports_export_csv_btn_after' );
+		?>
 	</form>
 <!-- Now we can render the completed list table -->
-<?php $DealsReportsListTable->display(); ?>
+<?php 
+
+	// display reports list
+	$DealsReportsListTable->display(); 
+	
+	//add something after report deals
+	do_action( 'wps_deals_reports_after' );
+
+?>

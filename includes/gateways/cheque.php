@@ -4,16 +4,16 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Payment Paypal
+ * Cheuqe Payment
  * 
  * Handles functionalities about payment
  * all gateways
  * 
  * @package Social Deals Engine
- * @since 1.0.0
+ * @since 1.0.1
  */
 
-function wps_deals_process_testmode( $cartdetails, $postdata ) {
+function wps_deals_process_cheque( $cartdetails, $postdata ) {
 	
 	global $wps_deals_paypal,$wps_deals_price,$wps_deals_options,
 			$wps_deals_currency,$wps_deals_model,$wps_deals_message;
@@ -48,9 +48,9 @@ function wps_deals_process_testmode( $cartdetails, $postdata ) {
 									  );
 	$purchasedata['payment_method'] = $paymentgateways[$method]['admin_label'];
 	$purchasedata['checkout_label'] = $paymentgateways[$method]['checkout_label'];
-	$purchasedata['post_data'] = $postdata;
-	$purchasedata['cartdata'] = $cartdetails;
-	$purchasedata['payment_status'] = '1';
+	$purchasedata['post_data'] 		= $postdata;
+	$purchasedata['cartdata'] 		= $cartdetails;
+	$purchasedata['payment_status'] = '5'; //on-hold by default
 	
 	$salesid = wps_deals_insert_payment_data($purchasedata);
 	
@@ -65,7 +65,7 @@ function wps_deals_process_testmode( $cartdetails, $postdata ) {
 	 	
 	} else {
 		
-		$errormsg = __( 'Payment creation failed while processing a manual (free or test) purchase, Please try again after sometime.', 'wpsdeals' );
+		$errormsg = __( 'Payment creation failed while processing a purchase by cheque, Please try again after sometime.', 'wpsdeals' );
 		
 		//error to show on checkout page
 		$message->add_session( 'error', $errormsg, 'error' );
@@ -75,5 +75,5 @@ function wps_deals_process_testmode( $cartdetails, $postdata ) {
 		
 	}
 }
-add_action( 'wps_deals_gateway_testmode', 'wps_deals_process_testmode', 10, 2);
+add_action( 'wps_deals_gateway_cheque', 'wps_deals_process_cheque', 10, 2);
 ?>

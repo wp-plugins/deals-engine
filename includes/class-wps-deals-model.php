@@ -13,15 +13,13 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Model {
 	
-	
-	var $cart,$logs;
-	
+	var $logs, $price;
 	public function __construct() {
 		
-		global $wps_deals_cart,$wps_deals_logs;
+		global $wps_deals_logs, $wps_deals_price;
 		
-		$this->cart = $wps_deals_cart;
 		$this->logs = $wps_deals_logs;
+		$this->price = $wps_deals_price;
 		
 	}
 	
@@ -295,9 +293,9 @@ class Wps_Deals_Model {
  	 * @package Social Deals Engine
  	 * @since 1.0.0
  	 */
- 	public function wps_deals_paypal_status_to_value($val) {
+ 	public function wps_deals_paypal_status_to_value( $val ) {
  		
- 		switch ($val) {
+ 		switch ( $val ) {
  			
  			case 'Pending' 		:
  									return 0;
@@ -314,11 +312,13 @@ class Wps_Deals_Model {
 	        case 'Expired'		:
 	        case 'Failed'		:
 	        case 'Voided'		:
- 			case 'Failed'		:
-	 								return 3;
+ 									return 3;
 	 								break;
 	 		case 'Cancelled' :
 	 								return 4;
+	 								break;
+	 		case 'On-Hold'		:
+	 								return 5;
 	 								break;
 	 		default: 
 				 					return 0;
@@ -334,27 +334,65 @@ class Wps_Deals_Model {
  	 * @since 1.0.0
  	 */
  	
- 	public function wps_deals_paypal_value_to_status($val) {
+ 	public function wps_deals_paypal_value_to_status( $val ) {
  		
  		switch ($val) {
  			
  			case '0' :
-						return __('Pending','wpsdeals');
+						return __( 'Pending', 'wpsdeals' );
  						break;
  			case '1' :
-						return __('Completed','wpsdeals');
+						return __( 'Completed', 'wpsdeals' );
 						break;
  			case '2' :
-						return __('Refunded','wpsdeals');
+						return __( 'Refunded', 'wpsdeals' );
 						break;
  			case '3' :
-						return __('Failed','wpsdeals');
+						return __( 'Failed', 'wpsdeals' );
 						break;
  			case '4' :
-						return __('Cancelled','wpsdeals');
+						return __( 'Cancelled', 'wpsdeals' );
+						break;
+			case '5' :
+						return __( 'On-Hold', 'wpsdeals' );
 						break;
 	 		default: 
-	 					return __('Pending','wpsdeals');
+	 					return __( 'Pending', 'wpsdeals' );
+	 					break;
+ 		}
+ 	}
+ 	
+ 	/**
+ 	 * Returns slug from payment status value
+ 	 *
+ 	 * @package Social Deals Engine
+ 	 * @since 1.0.0
+ 	 */
+ 	
+ 	public function wps_deals_payment_value_to_slug( $val ) {
+ 		
+ 		switch ( $val ) {
+ 			
+ 			case '0' :
+						return 'pending';
+ 						break;
+ 			case '1' :
+						return 'completed';
+						break;
+ 			case '2' :
+						return 'refunded';
+						break;
+ 			case '3' :
+						return 'failed';
+						break;
+ 			case '4' :
+						return 'cancelled';
+						break;
+			case '5' :
+						return 'onhold';
+						break;
+			default: 
+	 					return 'pending';
 	 					break;
  		}
  	}
@@ -392,40 +430,46 @@ class Wps_Deals_Model {
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		//product data
-		$productdata = $data['order_details']['deals_details'];
+		$productdata = isset( $data['order_details']['deals_details'] ) ? $data['order_details']['deals_details'] : array();
 		
 		//order amount
-		$orderamount = $data['order_details']['display_order_total'];
+		$orderamount = isset( $data['order_details']['display_order_total'] ) ? $data['order_details']['display_order_total'] : '';
 		
 		//order subtotal
-		$ordersubttotal = $data['order_details']['display_order_subtotal'];
+		$ordersubttotal = isset( $data['order_details']['display_order_subtotal'] ) ? $data['order_details']['display_order_subtotal'] : '';
 		
 		//payment method
-		$payment_method = $data['order_details']['payment_method'];
+		$payment_method = isset( $data['order_details']['checkout_label'] ) ? $data['order_details']['checkout_label'] : isset( $data['order_details']['payment_method'] ) ? $data['order_details']['payment_method'] : '';
 		
 		//order id 
-		$orderid = $data['order_details']['order_id'];
+		$orderid = isset( $data['order_details']['order_id'] ) ? $data['order_details']['order_id'] : '';
 		
-		//purchase date
-		$purchase_date = get_the_time( get_option('date_format'), $orderid);
-		
+		$purchase_date = '';
+		if( !empty( $orderid ) ) {
+			//purchase date
+			$purchase_date = get_the_time( get_option('date_format'), $orderid);
+		} else {
+			$purchase_date = date_i18n( get_option( 'date_format' ), time() );
+		}
 		//user data
-		$userdata = $data['user_data'];
+		$userdata = isset( $data['user_data'] ) ? $data['user_data'] : '';
 		
 		//get user email template value from settings page
 		$message = $wps_deals_options['buyer_email_body'];
 		
 		$product_details = '';
 		
-		$to = $userdata['user_email'];
-		$first_name = $userdata['first_name'];
-		$last_name = $userdata['last_name'];
-		$fullname = $userdata['first_name'].' '.$userdata['last_name'];
+		$to = isset( $userdata['user_email'] ) ? $userdata['user_email'] : get_option('admin_email');
+		$first_name = isset( $userdata['first_name'] ) ? $userdata['first_name'] : '';
+		$last_name = isset( $userdata['last_name'] ) ? $userdata['last_name'] : '';
+		$fullname = $first_name.' '.$last_name;
 		$user_name = !empty($userdata['user_name']) ? $userdata['user_name'] : '';
 		
+		$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
+		
 		$subject = WPS_DEALS_BUYER_EMAIL_SUBJECT;
-		$headers = 'From: '. get_option('blogname').' <'.get_option('admin_email').'>'."\r\n";
-		$headers .= "Reply-To: ". get_option('admin_email') . "\r\n";
+		$headers = 'From: '. get_option('blogname').' <'.$fromemail.'>'."\r\n";
+		$headers .= "Reply-To: ". $fromemail . "\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=utf-8\r\n";
 		
@@ -469,6 +513,27 @@ class Wps_Deals_Model {
 		//update ordered files to metabox
 		update_post_meta( $orderid, $prefix.'ordered_files', $filesmeta );
 		
+		if( isset( $data['email_template'] ) && !empty( $data['email_template'] ) ) {
+			
+			$email_template_option = $data['email_template'];
+			$payment_method = __( 'Sample Method', 'wpsdeals' );
+			$product_details .= "\n\n".'1'.') '.__( 'Sample Deal Title', 'wpsdeals' ).' - '.html_entity_decode($ordersubttotal).' x '.'1'.' - '.html_entity_decode($ordersubttotal);
+			$product_details .= "\n".sprintf( __( 'Download File %d : ','wpsdeals' ), 1 ).'<a href="#">'. __( 'Sample File', 'wpsdeals') .'</a>';
+			$product_details .= "\n\n". __('Notes : Purchase Notes','wpsdeals');
+			
+		} else if( isset( $wps_deals_options['email_template'] ) && !empty( $wps_deals_options['email_template'] ) ) {
+			
+			$email_template_option = $wps_deals_options['email_template'];
+			
+		} else {
+			
+			$email_template_option = 'default';
+		}
+		
+		 //test email ordre id
+		//check test email is set or not then do order id 100
+		if( isset( $data['test_email'] ) && !empty( $data['test_email'] ) ) { $orderid = '100';	}
+		
 		$message = str_replace('{first_name}',$first_name,$message);
 		$message = str_replace('{last_name}',$last_name,$message);
 		$message = str_replace('{fullname}',$fullname,$message);
@@ -481,28 +546,19 @@ class Wps_Deals_Model {
 		$message = str_replace('{total}',html_entity_decode($orderamount),$message);
 		$message = str_replace('{subtotal}',html_entity_decode($ordersubttotal),$message);
 		$message = apply_filters('wps_deals_buyer_mail',$message,$data);
+		$message = nl2br($message);
 		
 		$html = '';
-		$html .= '<html><head>';
-		$html .= '<style type="text/css">
-						.wps-deals-purchase-child{ 
-							background-color:#fff;
-							margin:0 auto; 
-							padding:15px;
-						}
-						.wps-deals-purchase-parent{ 
-							border:1px solid #464646;
-							background-color:#E6E6E6;
-							width:60%;
-							margin:0 auto; 
-							padding:10px;
-						}	';
-		$html .= '</style></head>';
-		$html .= '<body>';
-		$html .= '<div class="wps-deals-purchase-parent"><div class="wps-deals-purchase-child">';
-		$html .= nl2br($message);
-		$html .= '</div></div>';
-		$html .= '</body></html>';
+		$html .= '<html>
+					<head>';
+		$html .= apply_filters( 'wps_deals_email_template_css_' . $email_template_option, $html );
+		$html .= '</head>
+					<body>';
+		$html .= apply_filters( 'wps_deals_email_template_' . $email_template_option, $html, $message, $orderid );
+		$html .= '	</body>
+				</html>';
+		
+		$html = apply_filters( 'wps_deals_buyer_email_html', $html, $message, $orderid );
 		
 		wp_mail( $to, $subject, $html, $headers );
 		
@@ -557,8 +613,10 @@ class Wps_Deals_Model {
 			
 			$subject = WPS_DEALS_SELLER_EMAIL_SUBJECT;
 			
-			$headers = 'From: '. get_option('blogname').' <'.get_option('admin_email').'>'."\r\n";
-			$headers .= "Reply-To: ". get_option('admin_email') . "\r\n";
+			$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
+			
+			$headers = 'From: '. get_option('blogname').' <'.$fromemail.'>'."\r\n";
+			$headers .= "Reply-To: ". $fromemail . "\r\n";
 			$headers .= "MIME-Version: 1.0\r\n";
 			$headers .= "Content-Type: text/html; charset=utf-8\r\n";
 			
@@ -663,7 +721,8 @@ class Wps_Deals_Model {
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		$data = get_post_meta($id,$prefix.'order_userdetails',true);
+		$data = get_post_meta( $id, $prefix.'order_userdetails', true );
+		
 		return apply_filters('wps_deal_order_userdetails',$data);
 	}
 	/**
@@ -674,7 +733,7 @@ class Wps_Deals_Model {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	public function wps_deals_get_ipn_data($id) {
+	public function wps_deals_get_ipn_data( $id ) {
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
@@ -689,7 +748,7 @@ class Wps_Deals_Model {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	public function wps_deals_get_ordered_payment_status($id, $value = false ) {
+	public function wps_deals_get_ordered_payment_status( $id, $value = false ) {
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
@@ -726,37 +785,39 @@ class Wps_Deals_Model {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	public function wps_deals_auto_complete_payment($orderid) {
+	public function wps_deals_record_sales( $orderid ) {
 		
 		$prefix = WPS_DEALS_META_PREFIX;
+		
+		//get already recorded sale or not
+		$recordedsale = get_post_meta( $orderid, $prefix . 'recorded_sales', true );
+		
+		//check sales is already recorded or not
+		if ( !empty( $recordedsale ) ) { return false; } //end if
 		
 		//order details
  		$orderdetails = $this->wps_deals_get_post_meta_ordered($orderid);
  		
- 		// update the value for the payment status to the post meta box
-		update_post_meta( $orderid, $prefix.'payment_status', '1'); // payment status
- 		
- 		foreach ($orderdetails['deals_details'] as $dealsold) {
+ 		//update data for deal bought + available & dimsale data
+ 		foreach ( $orderdetails['deals_details'] as $dealsold ) {
  			
- 			//insert data to log
- 			$this->wps_deals_record_sales_log($dealsold['deal_id'], $orderid);
+ 			//record sales data log
+ 			$this->wps_deals_record_sales_log( $dealsold['deal_id'], $orderid );
  			
  			//update value of bought copy of deal
  			$bought = get_post_meta( $dealsold['deal_id'], $prefix.'boughts', true);
- 			update_post_meta( $dealsold['deal_id'], $prefix.'boughts', intval($bought + $dealsold['deal_quantity']));
+ 			update_post_meta( $dealsold['deal_id'], $prefix.'boughts', intval( $bought + $dealsold['deal_quantity'] ) );
  			
  			//update value of earning value
  			$earnings = get_post_meta( $dealsold['deal_id'], $prefix.'earnings', true);
- 			update_post_meta( $dealsold['deal_id'], $prefix.'earnings',$earnings + ($dealsold['deal_sale_price'] * $dealsold['deal_quantity']));
+ 			$newearning = ( $earnings + ( $dealsold['deal_sale_price'] * $dealsold['deal_quantity'] ) );
+ 			update_post_meta( $dealsold['deal_id'], $prefix.'earnings', $newearning );
  			
  			//update value of available total copy of deal
  			$avail = get_post_meta( $dealsold['deal_id'], $prefix.'avail_total', true);
  			if ($avail > 0 || $avail != '') { //check available copy is not unlimitedand not equal to zero
- 				update_post_meta( $dealsold['deal_id'], $prefix.'avail_total', intval($avail - $dealsold['deal_quantity']));	
+ 				update_post_meta( $dealsold['deal_id'], $prefix.'avail_total', intval( $avail - $dealsold['deal_quantity'] ) );	
  			}
- 			
- 			//increase the product sale price the no.of copy will sale
- 			$salescount = $this->wps_deals_get_post_sale_count_earning($dealsold['deal_id']);
  			
  			//increaseable price
  			$incprice = get_post_meta( $dealsold['deal_id'], $prefix.'inc_price', true);
@@ -765,44 +826,94 @@ class Wps_Deals_Model {
  			$ratio = get_post_meta( $dealsold['deal_id'], $prefix.'inc_ratio', true);
  			
  			//if increseable price and increseable ration not empty
- 			if( !empty($incprice) && !empty($ratio) ) {
+ 			if( !empty( $incprice ) && !empty( $ratio ) ) {
  				
  				//when next price will increase
  				$lastless = get_post_meta( $dealsold['deal_id'], $prefix.'nxt_inc_period', true);
- 				$saleqty = $lastless + $dealsold['deal_quantity'];
-				$incloop = intval(  $saleqty / $ratio);
-				$incless = (  $saleqty % $ratio);
+ 				$saleqty = ( $lastless + $dealsold['deal_quantity'] );
+				$incloop = intval( $saleqty / $ratio );
+				$incless = ( $saleqty % $ratio );
 				
- 				if($incloop > 0) { // check next loop is greater zero
+ 				if( $incloop > 0 ) { // check next loop is greater zero
  					
-					for ($i = 1; $i <= $incloop; $i++) {
+ 					//do increment sale price as per dimsale
+					for ( $i = 1; $i <= $incloop; $i++ ) {
 						
 						//sale price
- 						$saleprice = get_post_meta( $dealsold['deal_id'], $prefix.'sale_price', true);
+ 						$saleprice = $this->price->wps_deals_get_price( $dealsold['deal_id'] );
  						
  						//normal price
  						$normalprice = get_post_meta( $dealsold['deal_id'], $prefix.'normal_price', true);
  						
- 						//when sale price is empty 
- 						if( empty( $saleprice ) ) {
- 							$saleprice = $normalprice;
- 						}
- 						
  						//increased price
- 						$increprice = floatval( ( $saleprice + $incprice ) );
+ 						$increprice = floatval( $saleprice + $incprice );
  						
  						//if sale price should be less or equal to normal price then only increase price
  						if( $increprice <= $normalprice ) {
+ 							
  							//update sale price
 		 					update_post_meta( $dealsold['deal_id'], $prefix.'sale_price', $increprice );
- 						}
-					}
+		 					
+ 						} //end if to check incremental price should be less then normalprice
+ 						
+					} //end for loop
 					
- 				}
+ 				} //end if incremental loop
+ 				
  				//update next increment period value
- 				update_post_meta( $dealsold['deal_id'], $prefix.'nxt_inc_period', $incless);
+ 				update_post_meta( $dealsold['deal_id'], $prefix.'nxt_inc_period', $incless );
+ 				
+ 			} //end if to check incremental price & ratio should not empty
+ 			
+		} //end for each loop
+		
+		//update sales is recorded in database
+		update_post_meta( $orderid, $prefix . 'recorded_sales', '1' );
+	}
+	
+	/**
+	 * Decrease Recorded Sales
+	 * 
+	 * Handles to decrease recorded sales
+	 * 
+	 * @package Social Deals Engine 
+	 * @since 1.0.0
+	 **/
+	public function wps_deals_decrease_sales( $orderid ) {
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		//get already recorded sale or not
+		$recordedsale = get_post_meta( $orderid, $prefix . 'recorded_sales', true );
+		
+		//check sales is already recorded or not
+		if ( empty( $recordedsale ) ) { return false; } //end if
+		
+		//order details
+ 		$orderdetails = $this->wps_deals_get_post_meta_ordered($orderid);
+ 		
+ 		//update data for deal bought + available & dimsale data
+ 		foreach ( $orderdetails['deals_details'] as $dealsold ) {
+ 			
+ 			//update value of bought copy of deal
+ 			$bought = get_post_meta( $dealsold['deal_id'], $prefix.'boughts', true);
+ 			update_post_meta( $dealsold['deal_id'], $prefix.'boughts', intval( $bought - $dealsold['deal_quantity'] ) );
+ 			
+ 			//update value of earning value
+ 			$earnings = get_post_meta( $dealsold['deal_id'], $prefix.'earnings', true);
+ 			$newearning = ( $earnings - ( $dealsold['deal_sale_price'] * $dealsold['deal_quantity'] ) );
+ 			update_post_meta( $dealsold['deal_id'], $prefix.'earnings', $newearning );
+ 			
+ 			//update value of available total copy of deal
+ 			$avail = get_post_meta( $dealsold['deal_id'], $prefix.'avail_total', true);
+ 			if ( $avail != '' ) { //check available copy is not unlimitedand not equal to zero
+ 				update_post_meta( $dealsold['deal_id'], $prefix.'avail_total', intval( $avail + $dealsold['deal_quantity'] ) );	
  			}
-		}
+ 			
+ 		} //end foreach loop
+ 		
+ 		//delete post meta which is identify the sale is recorded
+		delete_post_meta( $orderid, $prefix . 'recorded_sales' );
 	}
 	
 	/**
@@ -1633,9 +1744,12 @@ class Wps_Deals_Model {
 		if(isset($args['appendcomment']) && !empty($args['appendcomment'])) {
 			$message .= "\n\n".__( 'The comments for your order are','wpsdeals' )."\n\n".$args['comments']."\n\n";
 		}
+		
+		$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
+		
 		$message = str_replace( '{status}', $args['status'], $message );
-		$headers = 'From: '. get_option('blogname').' <'.get_option('admin_email').'>'."\r\n";
-		$headers .= "Reply-To: ". get_option('admin_email') . "\r\n";
+		$headers = 'From: '. get_option('blogname').' <'.$fromemail.'>'."\r\n";
+		$headers .= "Reply-To: ". $fromemail . "\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=utf-8\r\n";
 
@@ -1660,8 +1774,10 @@ class Wps_Deals_Model {
 		$adminemail = isset( $wps_deals_options['notif_email_address'] ) && !empty( $wps_deals_options['notif_email_address'] ) 
 						?	$wps_deals_options['notif_email_address'] : get_option( 'admin_email' );
 		
-		$headers = 'From: '. get_option('blogname').' <'.get_option('admin_email').'>'."\r\n";
-		$headers .= "Reply-To: ". get_option('admin_email') . "\r\n";
+		$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
+						
+		$headers = 'From: '. get_option('blogname').' <'.$fromemail.'>'."\r\n";
+		$headers .= "Reply-To: ". $fromemail . "\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=utf-8\r\n";
 
@@ -1772,12 +1888,12 @@ class Wps_Deals_Model {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	public function wps_deals_verified_owner( $userid, $dealid ) {
+	public function wps_deals_verified_owner( $useremail, $dealid ) { //$userid,
 
-		$args = array( 'author' => $userid, 'payment_status' => '1');
+		$args = array( 'payment_status' => '1', 'useremail' => $useremail ); //,
 		
-		$verifiedsales = $this->wps_deals_get_sales($args);
-
+		$verifiedsales = $this->wps_deals_get_sales( $args );
+		
 		$return = false;
 
 		if ( ! is_array( $dealid ) ) {
@@ -1801,7 +1917,6 @@ class Wps_Deals_Model {
 				}
 			}
 		}
-	
 		return $return;
 	}
 	
@@ -2037,7 +2152,7 @@ class Wps_Deals_Model {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_get_deal_type( $post_id ) {
+	public function wps_deals_get_deal_type( $post_id ) {
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
@@ -2048,6 +2163,24 @@ class Wps_Deals_Model {
 		}
 		
 		return $type;
+	}
+	
+	/**
+	 * Get Email Templates
+	 * 
+	 * Handles to get all email templates
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_email_get_templates() {
+		
+		$templates = array( 
+								'' 			=> __( 'Default Template', 'wpsdeals' ),
+								'plain' 	=> __( 'No template, plain text only', 'wpsdeals' )
+							);
+		
+		return apply_filters( 'wps_deals_email_templates', $templates );
 	}
 }
 ?>

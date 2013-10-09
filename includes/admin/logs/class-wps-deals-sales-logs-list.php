@@ -422,7 +422,14 @@ class Wps_Deals_Sales_Logs_List extends WP_List_Table {
     }
 }
 
-$logs_table = new Wps_Deals_Sales_Logs_List();
-$logs_table->prepare_items();
-$logs_table->display();
+	$logs_table = new Wps_Deals_Sales_Logs_List();
+
+	//add something before sales log before
+	do_action( 'wps_deals_sales_log_before' );
+	
+	$logs_table->prepare_items();
+	$logs_table->display();
+	
+	//add something after sales log before
+	do_action( 'wps_deals_sales_log_after' );
 ?>

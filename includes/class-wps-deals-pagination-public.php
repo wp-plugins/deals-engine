@@ -22,9 +22,10 @@ class Wps_Deals_Pagination_Public{
 		var $prevT = "";
 		var $prevI = "&#171;"; //&#9668;
 	
-		function __construct() {
+		function __construct( $ajaxpagination = 'wps_deals_ajax_pagination' ) {
 			$this->nextT = __("Next",'wpsdeals');
 			$this->prevT = __("Previous",'wpsdeals');
+			$this->ajaxpagination = $ajaxpagination;
 		}
 
 		/*****/
@@ -158,7 +159,7 @@ class Wps_Deals_Pagination_Public{
 
 								//anterior button
 								if($this->page > 1)
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($prev)."\"  onclick = \"return wps_deals_ajax_pagination('".$prev."')\" class=\"prev\">$p</a>";
+										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($prev)."\"  onclick = \"return $this->ajaxpagination('".$prev."')\" class=\"prev\">$p</a>";
 									else
 										$this->pagination .= "<span class=\"page-numbers1 disabled\">$p</span>";
 							}
@@ -169,7 +170,7 @@ class Wps_Deals_Pagination_Public{
 										if ($counter == $this->page)
 												$this->pagination .= "<span class=\"page-numbers1 current\">$counter</span>";
 											else
-												$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return wps_deals_ajax_pagination('".$counter."')\" >$counter</a>";
+												$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."')\" >$counter</a>";
 									}
 							}
 
@@ -180,37 +181,37 @@ class Wps_Deals_Pagination_Public{
 												if ($counter == $this->page)
 														$this->pagination .= "<span class=\"page-numbers1 current\">$counter</span>";
 													else
-														$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return wps_deals_ajax_pagination('".$counter."')\" >$counter</a>";
+														$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."')\" >$counter</a>";
 											}
 										//$this->pagination .= "...";
 										$this->pagination .= "<span class='dots'>...</span>";
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lpm1)."\" onclick = \"return wpsf_deals_ajax_pagination('".$lpm1."')\" >$lpm1</a>";
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lastpage)."\" onclick = \"return wps_deals_ajax_pagination('".$lastpage."')\">$lastpage</a>";
+										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lpm1)."\" onclick = \"return $this->ajaxpagination('".$lpm1."')\" >$lpm1</a>";
+										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lastpage)."\" onclick = \"return $this->ajaxpagination('".$lastpage."')\">$lastpage</a>";
 									}
 
 								//in middle; hide some front and some back
 								elseif($lastpage - ($this->adjacents * 2) > $this->page && $this->page > ($this->adjacents * 2)){
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(1)."\" onclick = \"return wps_deals_ajax_pagination('1')\" >1</a>";
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(2)."\" onclick = \"return wps_deals_ajax_pagination('2')\" >2</a>";
+										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(1)."\" onclick = \"return $this->ajaxpagination('1')\" >1</a>";
+										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(2)."\" onclick = \"return $this->ajaxpagination('2')\" >2</a>";
 										//$this->pagination .= "...";
 										$this->pagination .= "<span class='dots'>...</span>";
 										for ($counter = $this->page - $this->adjacents; $counter <= $this->page + $this->adjacents; $counter++)
 											if ($counter == $this->page)
 													$this->pagination .= "<span class=\"page-numbers1 current\">$counter</span>";
 												else
-													$this->pagination .= "<a href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return wps_deals_ajax_pagination('".$counter."')\" >$counter</a>";
+													$this->pagination .= "<a href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."')\" >$counter</a>";
 
 										//$this->pagination .= "...";
 										$this->pagination .= "<span class='dots'>...</span>";
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lpm1)."\" onclick = \"return wps_deals_ajax_pagination('".$lpm1."')\" >$lpm1</a>";
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lastpage)."\" onclick = \"return wps_deals_ajax_pagination('".$lastpage."')\"  >$lastpage</a>";
+										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lpm1)."\" onclick = \"return $this->ajaxpagination('".$lpm1."')\" >$lpm1</a>";
+										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lastpage)."\" onclick = \"return $this->ajaxpagination('".$lastpage."')\"  >$lastpage</a>";
 									}
 
 								//close to end; only hide early pages
 								else{
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(1)."\" onclick = \"return wps_deals_ajax_pagination('1')\"   >1</a>";
+										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(1)."\" onclick = \"return $this->ajaxpagination('1')\"   >1</a>";
 
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(2)."\" onclick = \"return wps_deals_ajax_pagination('2')\"  >2</a>";
+										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(2)."\" onclick = \"return $this->ajaxpagination('2')\"  >2</a>";
 
 										//$this->pagination .= "...";
 										$this->pagination .= "<span class='dots'>...</span>";
@@ -219,14 +220,14 @@ class Wps_Deals_Pagination_Public{
 											if ($counter == $this->page)
 													$this->pagination .= "<span class=\"page-numbers1 current\">$counter</span>";
 												else
-													$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return wps_deals_ajax_pagination('".$counter."')\" >$counter</a>";
+													$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."')\" >$counter</a>";
 									}
 							}
 
 						if($this->page){
 								//siguiente button
 								if ($this->page < $counter - 1)
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($next)."\" onclick = \"return wps_deals_ajax_pagination('".$next."')\" class=\"next\">$n</a>";
+										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($next)."\" onclick = \"return $this->ajaxpagination('".$next."')\" class=\"next\">$n</a>";
 									else
 										$this->pagination .= "<span class=\"page-numbers1 disabled\">$n</span>";
 									if($this->showCounter)$this->pagination .= "<div class=\"pagination_data\">($this->total_pages Pages)</div>";

@@ -1,11 +1,11 @@
-=== Social Deals Engine -  ===
+=== Social Deals Engine ===
 Author URI: http://wpsocial.com
 Plugin URI: http://wpsocial.com/deals-engine/
 Contributors: wpsocial, dwaser71
 Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial, widget
 Requires at least: 3.5.0
-Tested up to: 3.6.0
-Stable tag: 1.0.0
+Tested up to: 3.6.1
+Stable tag: 1.0.1
 License: GNU Version 2 or Any Later Version
 
 Turn your WordPress blog in to a Social Deals site and sell any kind of Deals with this complete Deals management plugin.
@@ -80,7 +80,7 @@ Yes, Social Deals Engine will work with any theme, but may require some styling 
 
 = Are there manuals for this plugin? =
 
-Yes we have the [Social Deals Engine Knowledge Base](http://wpsocial.com/knowledgebase/social-deals-engine/) where you can learn how to use the plugin.
+Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com/support/home) where you can learn how to use the plugin.
 
 == Screenshots ==
 
@@ -92,5 +92,19 @@ Yes we have the [Social Deals Engine Knowledge Base](http://wpsocial.com/knowled
 6. Single Deal Page
 
 == Changelog ==
+= Version 1.0.1 (2013-10-09) =
+* Fixed buy now buton issue
+* Optimized code
+* Added extra security
+* Fixed some JavaScript issues for the admin pages
+* Hiding the "Add to cart" button when a deal hasn't started yet
+* Added more actions and filters
+* Added common error class
+* Fixed buy now button for affiliate deals
+* Optimized code to work better with caching plugins
+* Added cheque payment getway
+* Added more settings for social login features
+* Added more email templates for admin emails
+* Updated .po file
 = Version 1.0.0 (2013-08-30) =
 * Initial Release

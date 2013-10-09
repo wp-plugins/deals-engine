@@ -365,3 +365,34 @@ table.wps-deals-edit-sale table.status-table th.comments{ width:30%; }
 	min-height:160px;
 }
 /***************** CSS for Quick Edit of Deals Ends******************/
+/* Common Error Class For Backend */
+.wps-deals-errors {
+	background-color: #FFEBE8;
+    border: 1px solid #CC0000;
+    border-radius: 5px 5px 5px 5px;
+    clear: both;
+    padding: 5px 0px 5px 10px!important;
+}
+.wps_deal_preview_purchase_receipt {
+	display: none;
+}
+.wps-deals-preview-purchase-receipt, .wps-deals-send-test-email {
+	outline: 0 !important;
+}
+.wps-deals-loader {
+	display: none;
+	margin-left: 5px;
+}
+.wps-deals-preview-popup {
+	display: none;
+}
+.wps-deals-send-email-msg {
+	display: none;
+	margin-left: 5px;
+}
+.wps-deals-email-success {
+	color: #00A200;
+}
+.wps-deals-email-error {
+	color: #CC0000;
+}

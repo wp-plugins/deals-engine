@@ -289,7 +289,11 @@ function wps_deals_reports_graph() {
 		    });
 	   });
     </script>
-
+	<?php 
+	
+	    //add something before earning report graph 
+		do_action( 'wps_deals_earning_reports_graph_before' );
+	?>
 	<div class="metabox-holder wps-deals-metabox-holder">
 		<div class="postbox">
 			<h3><span><?php _e('Earnings', 'wpsdeals'); ?></span></h3>
@@ -303,6 +307,10 @@ function wps_deals_reports_graph() {
 		</div>
 	</div>
 	<?php
+	
+		//add something after earning report graph 
+		do_action( 'wps_deals_earning_reports_graph_after' );
+		
 	echo ob_get_clean();
 }
 
@@ -557,7 +565,8 @@ function wps_deals_parse_report_dates( $data ) {
 	$dates = wps_deals_get_report_dates();
 	
 	$view = isset( $_GET['tab'] ) ? $_GET['tab'] : 'earnings';
-
-	wp_redirect( add_query_arg( $dates, admin_url( 'edit.php?post_type='.WPS_DEALS_POST_TYPE.'&page=wps-deals-reports&tab=' . $view ) ) ); exit;
+	
+	wp_redirect( add_query_arg( $dates, admin_url( 'edit.php?post_type='.WPS_DEALS_POST_TYPE.'&page=wps-deals-reports&tab=' . $view ) ) ); 
+	exit;
 }
 add_action( 'wps_deals_filter_reports', 'wps_deals_parse_report_dates' );

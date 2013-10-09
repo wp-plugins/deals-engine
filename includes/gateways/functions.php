@@ -112,7 +112,7 @@ function wps_deals_insert_payment_data($data=array()) {
 											'first_name'	=>	$first_name,
 											'last_name'		=>	$last_name
 										);
-					
+		
 		// update the value for the user details to the post meta box
 		update_post_meta( $salesid, $prefix.'order_userdetails',$ordered_deal_userdetails);
 	
@@ -120,7 +120,8 @@ function wps_deals_insert_payment_data($data=array()) {
     	$ordered_deals_args = array (
     									'order_id' 			=>	$salesid,
 										'currency' 			=>	$wps_deals_options['currency'],
-										'payment_method'	=>	$data['payment_method'] //WPS_DEALS_PAYPAL_GATEWAY
+										'payment_method'	=>	$data['payment_method'], //WPS_DEALS_PAYPAL_GATEWAY
+										'checkout_label'	=>	isset( $data['checkout_label'] ) ? $data['checkout_label'] : $data['payment_method']
     								);		
 	
 		foreach ($cartproducts as $dealid => $dealdata) {
@@ -236,7 +237,7 @@ function wps_deals_insert_payment_data($data=array()) {
 		$ordered_deals_args = apply_filters('wps_deals_update_cart_data',$ordered_deals_args);
 		
 		//unset post data when its requirement is over
-		unset($ordered_deals_args['post_data']);
+		unset( $ordered_deals_args['post_data'] );
 		
 		$dis_order_subtotal = $currency->wps_deals_formatted_value($ordsubtotal,$wps_deals_options['currency']);
 		$ordered_deals_args['display_order_subtotal'] = $dis_order_subtotal;
@@ -249,10 +250,16 @@ function wps_deals_insert_payment_data($data=array()) {
 		
 		// update the value for the payment status to the post meta box
 		$payment_status = isset($data['payment_status']) ? $data['payment_status'] : '0';
-		wps_deals_update_payment_status($payment_status,$salesid);
+		
+		//update payment status to database
+		wps_deals_update_payment_status( $payment_status, $salesid );
 	    
+		//order tracking data
+		$trackargs = array( 'orderid' => $salesid, 'payment_status' => $payment_status, 'notify' => wps_deals_notify_from_status( $payment_status ) );
+		wps_deals_update_order_track( $trackargs );
+		
 	    //do action to do something before payment process
-	    do_action('wps_deals_cart_payment_process_before',$salesid);
+	    do_action( 'wps_deals_cart_payment_process_before', $salesid );
 	 }
 	 
 	return $salesid;
@@ -266,7 +273,7 @@ function wps_deals_insert_payment_data($data=array()) {
  * @package Social Deals Engine
  * @since 1.0.0
  */
-function wps_deals_update_payment_status($newstatus='0',$orderid){
+function wps_deals_update_payment_status( $newstatus='0', $orderid ){
 	
 	global $wps_deals_model;
 	
@@ -275,56 +282,106 @@ function wps_deals_update_payment_status($newstatus='0',$orderid){
 	//model class
 	$model = $wps_deals_model;
 	
-	$notify = '0';
+	//get old status
+	$oldstatus = $model->wps_deals_get_ordered_payment_status( $orderid, true );//get_post_meta( $orderid, $prefix.'payment_status', true );
 	
-	update_post_meta( $orderid, $prefix.'payment_status', $newstatus );
+	//check old status and new status are not same
+	if( $oldstatus != $newstatus ) {
 	
-	//do action when status is going to update
-	do_action('wps_deals_update_payment_status',$orderid);
+		//do action to call someting before changing payment status
+		do_action( 'wps_deals_before_payment_status_change', $orderid, $newstatus, $oldstatus );
+		
+		//update payment status
+		update_post_meta( $orderid, $prefix.'payment_status', $newstatus );
+		
+		//do action when status is going to update
+		do_action( 'wps_deals_update_payment_status', $orderid, $newstatus, $oldstatus );
+		
+		//status from //default it will pending
+		$statusfrom = $model->wps_deals_payment_value_to_slug( $oldstatus );
+		//status to
+		$statusto = $model->wps_deals_payment_value_to_slug( $newstatus );
+		
+		//do action when particular status change from particular status
+		do_action( 'wps_deals_order_status_'.$statusfrom.'_to_'.$statusto, $orderid, $newstatus, $oldstatus );
+		
+	} //end if to check old status and new status are not same
+}
+
+/**
+ * Send Admin Notification
+ * 
+ * Handles to call when new order 
+ * is being created
+ * 
+ * @package Social Deals Engine
+ * @since 1.0.0
+ **/
+function wps_deals_send_order_notification( $orderid, $newstatus, $oldstatus ) {
 	
+	global $wps_deals_model;
+	
+	//model class
+	$model = $wps_deals_model;
+
 	//order details
-	$orderdetails = $model->wps_deals_get_post_meta_ordered($orderid);
+	$orderdetails 	= $model->wps_deals_get_post_meta_ordered( $orderid );
 
 	//user details
-	$userdetails = $model->wps_deals_get_ordered_user_details($orderid);
+	$userdetails 	= $model->wps_deals_get_ordered_user_details( $orderid );
 	
-	$maildata = array();
-	$maildata['user_data'] = $userdetails;
-	$maildata['order_details'] = $orderdetails;
+	$maildata 					= array();
+	$maildata['user_data'] 		= $userdetails; //user details for email data
+	$maildata['order_details'] 	= $orderdetails; //order details for email data
 	
-	switch ( $newstatus ) {
-		
-		case '1'	:	//completed status
-		
-						//update some product data like baught copy and available copy
-						$model->wps_deals_auto_complete_payment($orderid);
-						
-						//send email to user
-						$model->wps_deals_buyer_mail($maildata);
-						
-						//send mail to seller notification
-						$model->wps_deals_seller_mail($maildata);
-						
-						$notify = '1';
-						
-						break;
-						
-		case '2'	:	//refunded status
-						$notify = '1';
-						break;
-	}
+	//send mail to seller notification
+	$model->wps_deals_seller_mail( $maildata );
 	
-	//update tracking data
-	$track = get_post_meta($orderid,$prefix.'order_track',true);
-	$track = !empty($track) ? $track : array();
-	$track[] = array(
-						'date'		=>	date('Y-m-d H:i:s'),
-						'notify'	=>	$notify,
-						'status'	=>	$newstatus,
-						'comments'	=>	''
-					);
-	update_post_meta( $orderid,$prefix.'order_track',$track );
+	//send email to user
+	$model->wps_deals_buyer_mail( $maildata );
+
+	//order tracking data
+	/*$trackargs = array( 'orderid' => $orderid, 'payment_status' => $newstatus, 'notify' => '1' );
+	wps_deals_update_order_track( $trackargs );*/
 }
+
+/**
+ * Make Payment status completed
+ * 
+ * Handles to make payment status 
+ * as a completed
+ * 
+ * @package Social Deals Engine
+ * @since 1.0.0
+ **/
+function wps_deals_make_payment_status_change( $orderid, $newstatus, $oldstatus ) {
+	
+	global $wps_deals_model;
+	
+	//model class
+	$model = $wps_deals_model;
+	
+	//check payment new status is completed 
+	if( $newstatus == '1' ) {
+	
+		//update some product data like baught copy and available copy
+		$model->wps_deals_record_sales( $orderid );
+		
+	} //end if to check payment status completed
+	/*elseif ( $newstatus == '4' ) { //check new status should be cancelled
+		
+		//decrease recorded sales
+		$model->wps_deals_decrease_sales( $orderid );
+		
+		//do action for cancelling the order
+		do_action( 'wps_deals_order_cancelled', $orderid );
+		
+	}*/ //end elseif to check status is cancelled or not
+
+}
+//add action to record sales & decrease sale on cancelled payment or order
+add_action( 'wps_deals_update_payment_status', 'wps_deals_make_payment_status_change', 10, 3 );
+
 /**
  * Empty Cart
  * 
@@ -335,9 +392,122 @@ function wps_deals_empty_cart(){
 	
 	global $wps_deals_cart;
 	
+	//cart class
 	$cart = $wps_deals_cart;
 	
 	//make cart empty
 	$cart->cartempty();
+}
+/**
+ * Update Order Track
+ * 
+ * Handles to update order track
+ * data to database
+ * 
+ * @package Social Deals Engine 
+ * @since 1.0.0
+ **/
+function wps_deals_update_order_track( $args = array() ) {
+	
+	$prefix = WPS_DEALS_META_PREFIX;
+	
+	//customer is notified or not
+	$notifycustomer = isset( $args['notify'] ) ? $args['notify'] : '0';
+	//order id
+	$orderid 		= $args['orderid'];
+	//new payment status
+	$paymentstatus  = $args['payment_status'];
+	//comments for trackin
+	$comments		= isset( $args['comments'] ) ? $args['comments'] : '';
+	
+	//get saved order tracking data
+	$track = get_post_meta( $orderid, $prefix.'order_track', true );
+	
+	//initialize tracking data with array
+	$track = !empty( $track ) ? $track : array();
+	$track[] = array(
+					'date'		=>	date( 'Y-m-d H:i:s' ),
+					'notify'	=>	$notifycustomer,
+					'status'	=>	$paymentstatus,
+					'comments'	=>	$comments
+				);
+	
+	//update order tracking data
+	update_post_meta( $orderid, $prefix.'order_track', $track );
+}
+
+/**
+ * Call on Order Cancell
+ * 
+ * Handles to call when order is being cancelled by
+ * customer
+ * 
+ * @package Social Deals Engine
+ * @since 1.0.0
+ */
+function wps_deals_order_cancel_by_customer() {
+	
+	global $wps_deals_model;
+	
+	//model class
+	$model = $wps_deals_model;
+	
+	if( isset( $_GET['wps_deals_cancel_order'] ) && !empty( $_GET['wps_deals_cancel_order'] ) 
+		&& isset( $_GET['order_id'] ) && !empty( $_GET['order_id'] ) ) {
+
+		//order id
+		$orderid = $_GET['order_id'];
+		
+		//get existing order status	
+		$paymentstatus = $model->wps_deals_get_ordered_payment_status( $orderid, true );
+		
+		//check payment status should be pending or failed
+		if( $paymentstatus == '0' || $paymentstatus == '3' ){
+			
+			//update payment status
+			wps_deals_update_payment_status( '4', $orderid );
+			
+			//make order cancelled
+			$cancelqrystrargs = array( 'wps_deals_cancel_order' => false, 'order_id' => $orderid );
+			
+			//send back user to cancel order page
+			wps_deals_send_on_cancel_page( $cancelqrystrargs );
+			
+		} //end if to check payment status
+			
+	} //check wps_deals_cancel_order is set and not empty & order_id must set
+	
+}
+//add action to make order cancel by customer
+add_action( 'init', 'wps_deals_order_cancel_by_customer' );
+
+/**
+ * Return Notify Value By Payment Status
+ * 
+ * Handles to return value of notify
+ * track with payment status
+ * 
+ * @package Social Deals Engine
+ * @since 1.0.0
+ **/
+function wps_deals_notify_from_status( $status ) {
+	
+	global $wps_deals_model;
+	
+	$model = $wps_deals_model;
+	
+	$statusslug = $model->wps_deals_payment_value_to_slug( $status );
+	
+	//add more status in below array if you need to
+	//do on notified for particular status
+	//notify in this payment gateway
+	$notifywithstatus = array( 'onhold', 'completed' );
+	
+	//check passed status is in array or not
+	if( in_array( $statusslug, $notifywithstatus ) )  {
+		return '1'; //notified
+	} else {
+		return '0'; //not notified
+	}
 }
 ?>

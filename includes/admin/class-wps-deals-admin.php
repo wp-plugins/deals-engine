@@ -62,13 +62,20 @@ class Wps_Deals_AdminPages {
 		
 		//setting page metaboxes toggling script
 		add_action( "admin_head-$settings_page", array( $this->scripts, 'wps_deals_settings_page_load_scripts' ) );
+		add_action( "admin_print_scripts-$settings_page", array( $this->scripts, 'wps_deal_popup_scritps' ) );
+		add_action( "admin_print_styles-$settings_page", array( $this->scripts, 'wps_deals_sales_styles' ) );
 		add_action( "admin_head-$deal_sales_page", array( $this->scripts, 'wps_deals_sales_head_scripts' ) );
 		add_action( "admin_print_scripts-$deal_sales_page", array( $this->scripts, 'wps_deal_popup_scritps' ) );
 		add_action( "admin_print_styles-$deal_sales_page", array( $this->scripts, 'wps_deals_sales_styles' ) );
 		add_action( "admin_print_scripts-$reports_page", array( $this->scripts, 'wps_deal_report_graph_scritps' ) );
 		
 		//script for social login page
-		add_action( "admin_print_scripts-$social_login", array( $this->scripts, 'wps_deals_chart_scripts' ) );
+		add_action( "admin_print_scripts-$social_login", array( $this->scripts, 'wps_deals_social_login_scripts' ) );
+		add_action( "admin_print_scripts-$social_login", array( $this->scripts, 'wps_deals_sortable' ) );
+		
+		// add action to add popup html for email templates of purchase receipt
+		add_action( "admin_footer-$settings_page", array( $this,'wps_deals_preview_purchse_receipt_popup' ) );
+		
 	}
 	
 	/**
@@ -157,6 +164,7 @@ class Wps_Deals_AdminPages {
 		$input['paypal_api_user'] 		= $this->model->wps_deals_escape_slashes_deep( $input['paypal_api_user'] );
 		$input['paypal_api_pass'] 		= $this->model->wps_deals_escape_slashes_deep( $input['paypal_api_pass'] );
 		$input['paypal_api_sign'] 		= $this->model->wps_deals_escape_slashes_deep( $input['paypal_api_sign'] );
+		$input['cheque_customer_msg'] 	= $this->model->wps_deals_escape_slashes_deep( $input['cheque_customer_msg'] );
 		$input['from_email'] 			= $this->model->wps_deals_escape_slashes_deep( $input['from_email'] );
 		$input['buyer_email_subject'] 	= $this->model->wps_deals_escape_slashes_deep( $input['buyer_email_subject'] );
 		$input['buyer_email_body'] 		= $this->model->wps_deals_escape_slashes_deep( $input['buyer_email_body'] );
@@ -811,6 +819,172 @@ class Wps_Deals_AdminPages {
 	}
 	
 	/**
+	 * AJAX Call
+	 * 
+	 * Handles to ajax call to store social count to the database
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.1
+	 * 
+	 */
+	public function wps_deals_send_test_email() {
+		
+		global $current_user;
+		
+		$email_template = isset( $_POST['template'] ) && !empty( $_POST['template'] ) ? $_POST['template'] : 'default';
+		
+		$args = array( 
+							'email_template' 	=> $email_template,
+							'test_email'		=>	'1', //this is test email content
+							'user_data'			=> array( 
+															'user_email'	=> isset( $current_user->user_email ) ? $current_user->user_email : get_option('admin_email'),
+															'first_name'	=> isset( $current_user->user_firstname ) ? $current_user->user_firstname : '',
+															'last_name'		=> isset( $current_user->user_lastname ) ? $current_user->user_lastname : '',
+															'user_name'		=> isset( $current_user->user_login ) ? $current_user->user_login : ''
+														),
+							'order_details'		=> array( 
+															'display_order_total' 		=> $this->currency->wps_deals_formatted_value('10'),
+															'display_order_subtotal' 	=> $this->currency->wps_deals_formatted_value('10'),
+															//'order_id'					=> '100'
+														)
+						);
+						
+		$this->model->wps_deals_buyer_mail( $args );
+		
+		echo 'success';
+		exit;
+	}
+	
+	/**
+	 * AJAX Call
+	 * 
+	 * Handles to ajax call to store social count to the database
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.1
+	 * 
+	 */
+	public function wps_deals_preview_purchse_receipt_popup() {
+		
+		global $wps_deals_options, $current_user;
+		
+		//get user email template value from settings page
+		$message = isset( $wps_deals_options['buyer_email_body'] ) ? $wps_deals_options['buyer_email_body'] : '';
+		
+		$first_name = isset( $current_user->user_firstname ) ? $current_user->user_firstname : '';
+		$last_name = isset( $current_user->user_lastname ) ? $current_user->user_lastname : '';
+		$fullname = $first_name.' '.$last_name;
+		$user_name = isset( $current_user->user_login ) ? $current_user->user_login : '';
+		$payment_method = __( 'Sample Method', 'wpsdeals' );
+		$purchase_date = date_i18n( get_option( 'date_format' ), time() );
+		$sampletitle = __( 'Sample Deal Title', 'wpsdeals' );
+		$quantity = '1';
+		$orderamount = $this->currency->wps_deals_formatted_value('10');
+		$ordersubttotal = $this->currency->wps_deals_formatted_value('10');
+		$product_details = "\n\n".'1'.') '.$sampletitle.' - '.$orderamount.' x '.$quantity.' - '.$orderamount;
+		$product_details .= "\n".sprintf( __( 'Download File %d : ','wpsdeals' ), 1 ).'<a href="#">'. __( 'Sample File', 'wpsdeals') .'</a>';
+		$product_details .= "\n\n". __('Notes : Purchase Notes','wpsdeals');
+
+		$message = str_replace('{first_name}',$first_name,$message);
+		$message = str_replace('{last_name}',$last_name,$message);
+		$message = str_replace('{fullname}',$fullname,$message);
+		$message = str_replace('{username}',$user_name,$message);
+		$message = str_replace('{payment_method}', apply_filters( 'wps_deals_buyer_email_payment_method', $payment_method ), $message);
+		$message = str_replace('{sitename}',get_option('blogname'),$message);
+		$message = str_replace('{purchase_date}',$purchase_date,$message);
+		$message = str_replace('{product_details}',$product_details,$message);
+		$message = str_replace('{order_id}','100',$message);
+		$message = str_replace('{total}',html_entity_decode($orderamount),$message);
+		$message = str_replace('{subtotal}',html_entity_decode($ordersubttotal),$message);
+		$message = nl2br($message);
+		
+		// Get all email templates
+		$email_templates = $this->model->wps_deals_email_get_templates();
+		
+		?>
+		<div id="wps_deal_preview_purchase_receipt">
+			<?php
+				foreach ( $email_templates as $key => $option ) {
+					$key = !empty( $key ) ? $key : 'default';
+			?>
+				<div class="wps-deals-preview-<?php echo $key; ?>-popup wps-deals-preview-popup">
+					<?php
+						$html = ''; 
+						$html .= apply_filters( 'wps_deals_email_template_css_' . $key, $html );
+						$html .= apply_filters( 'wps_deals_email_template_' . $key, $html, $message );
+						$html .= '<div class="clear"></div>';
+						echo $html;
+					?>
+				</div>
+			<?php } ?>
+		</div>
+		<?php
+	}
+	
+	/**
+	 * Add css for default email template
+	 *
+	 * Handles to add css for default email template
+	 *
+	 * @package Social Deals Engine - Email Templates
+	 * @since 1.0.1
+	 */
+	function wps_deals_email_template_css_default( $html ) {
+		
+		$html .= '<style type="text/css">
+						.wps-deals-purchase-child{ 
+							background-color:#fff;
+							margin:0 auto; 
+							padding:15px;
+						}
+						.wps-deals-purchase-parent{ 
+							border:1px solid #464646;
+							background-color:#E6E6E6;
+							width:60%;
+							margin:0 auto; 
+							padding:10px;
+						}';
+		$html .= '</style>';
+		return $html;
+	}
+	
+	/**
+	 * Change template design for default email template
+	 *
+	 * Handles to change template design for default email template
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.1
+	 * 
+	 */
+	public function wps_deals_email_template_default( $html, $message ) {
+		
+		$html .= '<div class="wps-deals-purchase-parent">';
+		$html .= '	<div class="wps-deals-purchase-child">';
+		$html .= 		$message;
+		$html .= '	</div>';
+		$html .= '</div>';
+		
+		return $html;
+	}
+	
+	/**
+	 * Change template design for plain email template
+	 *
+	 * Handles to change template design for plain email template
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.1
+	 * 
+	 */
+	public function wps_deals_email_template_plain( $html, $message ) {
+		
+		$html .= $message;
+		
+		return $html;
+	}
+	
+	/**
 	 * Adding Hooks
 	 *
 	 * @package Social Deals Engine
@@ -856,6 +1030,19 @@ class Wps_Deals_AdminPages {
 		//process refund payment of order
 		add_action( 'admin_init', array($this, 'wps_deals_refund_order_payment') );
 		
+		//ajax call to send test email
+		add_action( 'wp_ajax_deals_test_email', array($this, 'wps_deals_send_test_email'));
+		add_action( 'wp_ajax_nopriv_deals_test_email',array( $this, 'wps_deals_send_test_email'));
+		
+		// add filter to add css for default email template
+		add_filter( 'wps_deals_email_template_css_default', array( $this, 'wps_deals_email_template_css_default' ) );
+
+		// add filter to change template design for default email template
+		add_filter( 'wps_deals_email_template_default', array( $this, 'wps_deals_email_template_default' ), 10, 2 );
+
+		// add filter to change template design for plain email template
+		add_filter( 'wps_deals_email_template_plain', array( $this, 'wps_deals_email_template_plain' ), 10, 2 );
+
 		//add issue refund button for paypal statndard
 		add_action( 'wps_deals_edit_order_beside_submit', array( $this->render, 'wps_deals_paypal_refund_issue_button' ) );
 		

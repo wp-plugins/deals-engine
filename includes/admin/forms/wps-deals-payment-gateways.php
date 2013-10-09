@@ -15,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 		//get all pages					
 		$get_pages = get_pages(); 
-		
+		$paymentgateways = wps_deals_get_payment_gateways();
 ?>
 <div id="wps-deals-payments" class="post-box-container">
 	<div class="metabox-holder">	
@@ -47,12 +47,28 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									
 									<td>
 										<?php 
-												$paymentgateways = wps_deals_get_payment_gateways();
 												foreach ($paymentgateways as $key => $value){ ?>
 													<input type="checkbox" id="wps_deals_options[payment_gateways][<?php echo $key;?>]" name="wps_deals_options[payment_gateways][<?php echo $key;?>]" value="1" <?php if(isset($wps_deals_options['payment_gateways']) && array_key_exists($key,$wps_deals_options['payment_gateways'])) { _e('checked="checked"');} ?>/>
-													<label for="wps_deals_options[payment_gateways][<?php echo $key;?>]"><?php _e($value, 'wpsdeals');?><br /></label>
+													<label for="wps_deals_options[payment_gateways][<?php echo $key;?>]"><?php echo $value['admin_label'];?><br /></label>
 										<?php	} ?><br />
 										<span class="description"><?php _e( 'Choose one or more payment gateway(s) you want to use for the checkout.', 'wpsdeals' ); ?></span>
+									</td>
+								</tr>
+								
+								<tr>
+									<th scope="row">
+										<label for="wps_deals_options[default_payment_gateway]"><?php _e('Default Payment Gateway:', 'wpsdeals');?></label>
+									</th>
+									
+									<td>
+										<select name="wps_deals_options[default_payment_gateway]" id="wps_deals_options[default_payment_gateway]">
+										<?php 
+												$defaultgateway = isset( $wps_deals_options['default_payment_gateway'] ) ? $wps_deals_options['default_payment_gateway'] : 'paypal';
+												foreach ($paymentgateways as $key => $value){ ?>
+													<option value="<?php echo $key;?>" <?php selected( $defaultgateway, $key, true );?>><?php echo $value['admin_label'];?></option>
+										<?php	} ?>
+										</select><br />										
+										<span class="description"><?php _e( 'Choose default payment gateway which will be automatically selected on checkout page.', 'wpsdeals' ); ?></span>
 									</td>
 								</tr>
 								
@@ -109,6 +125,24 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									<td>
 										<input type="text" id="wps_deals_options[paypal_api_sign]" name="wps_deals_options[paypal_api_sign]" value="<?php echo $model->wps_deals_escape_attr($wps_deals_options['paypal_api_sign']);?>" class="large-text"/><br />
 										<span class="description"><?php _e('Enter your API signature.','wpsdeals');?></span>
+									</td>
+								</tr>
+								
+								<?php do_action('wps_deals_add_cheque_payment_gateways_settings_before');?>
+								
+								<tr>
+									<td colspan="2" valign="top" scope="row">
+										<span class="wps-deals-settings-sep-first"><?php _e( 'Cheque Payment Settings', 'wpsdeals' ); ?></span>
+									</td>
+								</tr>						
+								
+								<tr>
+									<th scope="row">
+										<label for="wps_deals_options[cheque_customer_msg]"><?php _e( 'Customer Message:', 'wpsdeals' );?></label>
+									</th>
+									<td>
+										<textarea id="wps_deals_options[cheque_customer_msg]" rows="5" name="wps_deals_options[cheque_customer_msg]" class="large-text"><?php echo $model->wps_deals_escape_attr($wps_deals_options['cheque_customer_msg']);?></textarea><br />
+										<span class="description"><?php _e( 'Let the customer know the payee and where they should be sending the cheque to and that their order won\'t be processed until you receive it.','wpsdeals' );?></span>
 									</td>
 								</tr>
 								

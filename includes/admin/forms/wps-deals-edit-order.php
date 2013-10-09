@@ -92,56 +92,71 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			$userdata['user_email'] = $useremail;
 			
 			//update userdata to database
-			update_post_meta($orderid, $prefix.'order_userdetails',$userdata);
+			update_post_meta( $orderid, $prefix.'order_userdetails', $userdata );
 			
-			//update payment status
-			update_post_meta($orderid, $prefix.'payment_status',$_POST['wps-deals-edit-order-payment-status']);
+			/*//update payment status
+			update_post_meta($orderid, $prefix.'payment_status',$_POST['wps-deals-edit-order-payment-status']);*/
 			
 			//update tracking data
 			$newstatus = $_POST['wps-deals-edit-order-payment-status'];
 			
-			$track = get_post_meta($orderid, $prefix.'order_track',true);
+			//update payment status
+			wps_deals_update_payment_status( $newstatus, $orderid );
 			
-			if(($payment_status != $_POST['wps-deals-edit-order-payment-status']) 
-				|| (isset($_POST['wps-deals-edit-order-payment-note']) && !empty($_POST['wps-deals-edit-order-payment-note']))) { //check payment note is not blank and payment status is changed
+			//get order track data
+			$track = get_post_meta( $orderid, $prefix.'order_track', true );
+			
+			//check stored status and new status are not same
+			//or order payment not is set and not empty
+			if( ( $payment_status != $_POST['wps-deals-edit-order-payment-status'] ) 
+					|| ( isset( $_POST['wps-deals-edit-order-payment-note'] ) 
+						&& !empty( $_POST['wps-deals-edit-order-payment-note'] ) )
+				 ) { //check payment note is not blank and payment status is changed
 				
 				$comments = '';
-				if(!empty($_POST['wps-deals-edit-order-payment-note'])) {
+				if( !empty( $_POST['wps-deals-edit-order-payment-note'] ) ) { //order update comment
 					$comments .= $_POST['wps-deals-edit-order-payment-note'];
 				}
 				//if notify custom is checked then send email to user
 				$args = array();
 				
-				if(isset($_POST['wps-deals-order-edit-notify']) && !empty($_POST['wps-deals-order-edit-notify'])) {
+				if( isset( $_POST['wps-deals-order-edit-notify'] ) && !empty( $_POST['wps-deals-order-edit-notify'] ) ) {
 					
-					$args['order_id'] = $orderid;
-					$args['email'] = $_POST['wps-deals-edit-order-email'];
+					$args['order_id']	= $orderid; //order id
+					$args['email'] 		= $_POST['wps-deals-edit-order-email']; //order user email id
 					
-					if (isset($_POST['wps-deals-order-edit-append-comment']) && !empty($_POST['wps-deals-order-edit-append-comment'])) {
-						$args['comments'] = $comments;
-						$args['appendcomment'] = '1';
-					}
-					$args['status'] = $model->wps_deals_paypal_value_to_status($newstatus);
-					$model->wps_deals_send_order_status_email($args);
-				}	
+					if ( isset( $_POST['wps-deals-order-edit-append-comment'] ) && !empty( $_POST['wps-deals-order-edit-append-comment'] ) ) {
+						
+						$args['comments'] 		= $comments;
+						$args['appendcomment']  = '1';
+						
+					} //end if to check append comment is set or not
+					
+					//send notification to customer
+					$args['status'] = $model->wps_deals_paypal_value_to_status( $newstatus );
+					$model->wps_deals_send_order_status_email( $args );
+					
+				}//check notify customer checkbox is checked or not
 				
-				//update track to database
-				$track = array();
-				if(get_post_meta($orderid, $prefix.'order_track',true)) {
-					$track = get_post_meta($orderid, $prefix.'order_track',true);
-				} 
-				$notify = isset($_POST['wps-deals-order-edit-notify']) && !empty($_POST['wps-deals-order-edit-notify']) ? '1' : '0';
-				$track[] = array(
-									'date'		=>	date('Y-m-d H:i:s'),
-									'notify'	=>	$notify,
-									'status'	=>	$newstatus,
-									'comments'	=>	$comments
+				//update order track to database
+				$notify = isset( $_POST['wps-deals-order-edit-notify'] ) && !empty( $_POST['wps-deals-order-edit-notify'] ) ? '1' : '0';
+				$track = array(
+								'date'				=>	date('Y-m-d H:i:s'),
+								'notify'			=>	$notify,
+								'payment_status'	=>	$newstatus,
+								'comments'			=>	$comments,
+								'orderid'			=>	$orderid
 							);
-				update_post_meta($orderid, $prefix.'order_track',$track);
-			}
+
+				//update order tracking data
+				wps_deals_update_order_track( $track );
+				
+			} //check payment status is changed or not & payment note is not empty
+			
 			//call some action to update data to database
-			do_action( 'wps_deals_edit_order_update',$_POST,$orderid);
-		}
+			do_action( 'wps_deals_edit_order_update', $_POST, $orderid );
+			
+		} //end if to check update order button is clicked or not
 		
 ?>
 			<form method="POST" action="">
@@ -247,7 +262,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							</td>
 							<td>
 								<input type="checkbox" name="wps-deals-order-edit-append-comment" id="wps-deals-order-edit-append-comment" class="order-edit-check"/>
-								<label for="wps-deals-order-edit-notify"><strong><?php _e('Append Comments to status notification email','wpsdeals');?></strong></label>
+								<label for="wps-deals-order-edit-append-comment"><strong><?php _e('Append Comments to status notification email','wpsdeals');?></strong></label>
 							</td>
 						</tr>
 						<?php
@@ -263,7 +278,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			</form>
 		</div><!--wrap-->
 <?php		
-	}
+	} //end if to check action is editorder & order_id is set or not
 	
-}
+} //end else to check if it is refund process or not
 ?>

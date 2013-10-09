@@ -159,6 +159,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	//add_action to show ordered deal page content - 5
 	add_action( 'wps_deals_orders_content'		, 'wps_deals_orders_content'	, 5 );
 	
+	//add_action to show ordered deals listing table
+	add_action( 'wps_deals_orders_table'	, 'wps_deals_orders_listing_content', 5, 2 );
+	
 	//add_action to show orderes completed page content - 5
 	add_action( 'wps_deals_orders_complete_content', 'wps_deals_orders_complete_content', 5 );
 	
@@ -187,6 +190,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	add_action( 'wps_deals_cart_action_buttons', 'wps_deals_cart_empty_button'	, 5 );
 	add_action( 'wps_deals_cart_action_buttons', 'wps_deals_cart_update_button'	, 10 );
 	
+	//add action to show description in chekout page
+	add_action( 'wps_deals_checkout_payment_combo_after', 'wps_deals_display_description', 5 );
+		
 	//add_action to add social login buttons - 5
 	add_action( 'wps_deals_checkout_middle_content', 'wps_deals_cart_social_login' , 5 );
 	
@@ -231,4 +237,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		add_action( 'wps_deals_checkout_social_login', 'wps_deals_social_login_'.$social , $priority );
 		$priority += 5;
 	}
+	
+	//add action to load social login buttons via shortcode - 10
+	add_action( 'wps_deals_social_login_shortcode', 'wps_deals_cart_social_login', 10, 2 );
+	
 ?>

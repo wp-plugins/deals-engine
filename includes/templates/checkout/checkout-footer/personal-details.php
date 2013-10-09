@@ -47,7 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 				<p><?php echo apply_filters( 'wps_deals_cart_email_label',__('Email Address','wpsdeals'));?></p>
 			</div>
 			<div class="span8">
-				<input type="text" name="wps_deals_cart_user_email" id="wps_deals_cart_user_email" value="<?php echo $useremail;?>"  class="wps-deals-cart-text"/>
+				<input type="text" name="wps_deals_cart_user_email" id="wps_deals_cart_user_email" value="<?php echo $useremail;?>"  class="wps-deals-cart-text wps-deals-required"/>
 			</div>
 		</div><!--wps-deals-details-->
 
@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 				<p><?php echo apply_filters( 'wps_deals_cart_firstname_label', __('First Name','wpsdeals'));?></p>
 			</div>
 			<div class="span8">
-				<input type="text" name="wps_deals_cart_user_first_name" id="wps_deals_cart_user_first_name" value="<?php echo $firstname;?>" class="wps-deals-cart-text"/>
+				<input type="text" name="wps_deals_cart_user_first_name" id="wps_deals_cart_user_first_name" value="<?php echo $firstname;?>" class="wps-deals-cart-text wps-deals-required"/>
 			</div>
 		</div><!--wps-deals-details-->
 
@@ -76,7 +76,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 				<p><?php echo apply_filters( 'wps_deals_cart_lastname_label',__('Last Name','wpsdeals'));?></p>
 			</div>
 			<div class="span8">
-				<input type="text" name="wps_deals_cart_user_last_name" id="wps_deals_cart_user_last_name" value="<?php echo $lastname;?>" class="wps-deals-cart-text"/>
+				<input type="text" name="wps_deals_cart_user_last_name" id="wps_deals_cart_user_last_name" value="<?php echo $lastname;?>" class="wps-deals-cart-text wps-deals-required"/>
 			</div>
 		</div><!--wps-deals-details-->
 		

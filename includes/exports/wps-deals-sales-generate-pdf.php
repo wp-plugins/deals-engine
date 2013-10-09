@@ -104,6 +104,15 @@ function wps_deals_report_to_pdf() {
 				// get the value for the payment status from the post meta box
 				$payment_status = $model->wps_deals_get_ordered_payment_status($value['ID']);
 				
+				$user_id = isset( $userdetails['user_id'] ) && !empty( $userdetails['user_id'] ) ? $userdetails['user_id'] : '0';
+    	
+		    	if ( is_numeric( $user_id ) ) { //check user id is numeric or not
+		    		$userdata = get_userdata( $user_id ) ;
+					$username = is_object( $userdata ) ? $userdetails['first_name'] : __( 'guest', 'wpsdeals' );
+				} else { //else user is guest
+					$username = __( 'guest', 'wpsdeals' );
+				}
+				
 				$displayusername = isset($userdetails['first_name']) && !empty($userdetails['first_name']) ? $userdetails['first_name'].' '.$userdetails['last_name'] : $userdetails['user_name'];
 				
 				$data[$key]['user_details']		= !empty($userdetails) ? $userdetails : array();
@@ -111,11 +120,9 @@ function wps_deals_report_to_pdf() {
 				$data[$key]['payment_status']	= isset($payment_status) ? $payment_status : '';
 				$data[$key]['amount']			= $order_details['display_order_total'];
 				$data[$key]['date_time']		= $model->wps_deals_get_date_format($value['post_date'],true);
-				//$data[$key]['deals_data']		= $order_details;
-				//$data[$key]['order_ip']			= $order_details['order_ip'];
 				$data[$key]['payment_method']	= $order_details['payment_method'];
 				$data[$key]['user_id']			= $userdetails['user_id'];
-				$data[$key]['user_name']		= $userdetails['user_name'];
+				$data[$key]['user_name']		= $username;
 				
 				$generatedrow =  apply_filters( 'wps_deals_sales_pdf_generate_row_data',
 												array( 
@@ -145,3 +152,4 @@ function wps_deals_report_to_pdf() {
 	}
 }
 add_action('init','wps_deals_report_to_pdf');
+?>

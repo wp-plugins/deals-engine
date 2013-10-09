@@ -139,6 +139,35 @@ class Wps_Deals_Shortcodes {
 	}
 	
 	/**
+	 * Show All Social Login Buttons
+	 * 
+	 * Handles to show all social login buttons on the viewing page
+	 * whereever user put shortcode
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.1
+	 */
+	public function wps_deals_social_login( $atts, $content ) {
+		
+		extract( shortcode_atts( array(	
+			'title'			=>	'',
+	    	'redirect_url'	=>	''
+		), $atts ) );
+		
+		if( !is_home() ) {
+		
+			//session create for access token & secrets		
+			$_SESSION['wps_deals_stcd_redirect_url'] = $redirect_url;
+			
+			ob_start();
+			//do action to add social login buttons
+			do_action( 'wps_deals_social_login_shortcode', $title, $redirect_url );
+			$content .= ob_get_clean();
+		}
+		return $content;
+	}
+	
+	/**
 	 * Adding Hooks
 	 *
 	 * Adding proper hoocks for the shortcodes.
@@ -165,5 +194,9 @@ class Wps_Deals_Shortcodes {
 		
 		//add shortcode to show list of deals on the page/post by category
 		add_shortcode( 'wps_deals_by_category', array( $this, 'wps_deals_by_category'));
+		
+		//add shortcode to show all social login buttons
+		add_shortcode( 'wps_deals_social_login', array( $this, 'wps_deals_social_login' ) );
+		
 	}
 }

@@ -13,6 +13,9 @@
 	
 	$model = $wps_deals_model;
 
+	//Add General Settings
+	include_once( 'wps-deals-general-settings.php');
+	
 	//Add Facebook Settings
 	include_once( 'wps-deals-facebook-settings.php');
 	

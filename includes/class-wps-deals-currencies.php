@@ -14,13 +14,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 class Wps_Deals_Currencies{
 	
-	var $current_currency,$model,$currencies;
+	var $current_currency,$currencies;
 	
 	public function __construct() {
 		
-		global $wps_deals_model,$wps_deals_options;
-		
-		$this->model = $wps_deals_model;
+		global $wps_deals_options;
 		
 		$this->current_currency = isset($wps_deals_options['currency']) ? $wps_deals_options['currency'] : 'USD';
 		

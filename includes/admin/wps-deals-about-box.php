@@ -62,7 +62,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									<?php _e( 'Documentation:', 'wpsdeals' ); ?>
 								</th>
 								<td>
-									<p><?php _e( 'Not quite sure how to use the plugin? Visit our Knowledge Base to learn how to use it properly.', 'wpsdeals' ); ?>	<a href="http://wpsocial.com/knowledgebase/social-deals-engine/" title="<?php _e( 'Social Deals Engine Docs', 'wpsdeals' ); ?>" target="_blank"><?php _e( 'Social Deals Engine Knowledge Base', 'wpsdeals' ); ?></a></p>
+									<p><?php _e( 'Not quite sure how to use the plugin? Visit our Knowledge Base to learn how to use it properly.', 'wpsdeals' ); ?>	<a href="http://support.wpsocial.com/support/home" title="<?php _e( 'Social Deals Engine Docs', 'wpsdeals' ); ?>" target="_blank"><?php _e( 'Social Deals Engine Knowledge Base', 'wpsdeals' ); ?></a></p>
 								</td>
 							</tr>
 						</table><!-- .form-table -->											

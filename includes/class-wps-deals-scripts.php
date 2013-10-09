@@ -46,7 +46,7 @@ class Wps_Deals_Scripts {
 		
 		global $wp_version;
 		
-		wp_register_script( 'wps-deals-admin-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-admin.js', array('jquery','jquery-ui-datepicker', 'jquery-ui-sortable' ) , null, true );
+		wp_register_script( 'wps-deals-admin-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-admin.js', array( 'jquery','jquery-ui-datepicker', 'jquery-ui-sortable' ) , null, true );
 		wp_enqueue_script( 'wps-deals-admin-scripts' );
 		
 		//when user will not insert paypal api user name / password / signature
@@ -61,7 +61,9 @@ class Wps_Deals_Scripts {
 																					'new_media_ui'		=>	$newui,
 																					'issue_refund_msg'	=>	__( 'Are you sure want to refund this order payment?', 'wpsdeals' ),
 																					'paypalapi'			=>	$paypalapi,
-																					'paypalapierror'	=>	__( 'Please Enter Paypal API User Name,Password and Signature in settings page to proceed refund.', 'wpsdeals' )
+																					'paypalapierror'	=>	__( 'Please Enter Paypal API User Name,Password and Signature in settings page to proceed refund.', 'wpsdeals' ),
+																					'testemailsuccess'	=>	__( 'Test email has been sent successfully.', 'wpsdeals' ),
+																					'testemailerror'	=>	__( 'Test email could not sent.', 'wpsdeals' )
 																				));
 		wp_enqueue_media();
 		
@@ -107,6 +109,39 @@ class Wps_Deals_Scripts {
 				//]]>
 			</script>
 		<?php
+		
+	 	if( !isset( $_GET['action'] ) ) { //prevent deal order edit page
+	 	//Test preview for email template from email settings
+	?>	
+		<script type="text/javascript">
+
+			//<![CDATA[
+			jQuery(document).ready(function(){
+				
+			   	jQuery('a[rel^="wps_deal_preview_purchase_receipt"]').prettyPhoto({
+			   		social_tools:"",
+			   		default_width:1000,
+			   		theme:"facebook", /* light_rounded / dark_rounded / light_square / dark_square / facebook */
+			   		changepicturecallback: function(){
+						jQuery('#wps_deal_preview_purchase_receipt').hide();
+			   			jQuery('.pp_content_container .pp_content').css('height', 'auto');
+			   			jQuery('.pp_content_container .pp_content').css('padding-bottom', '35px');
+			   			var email_template = jQuery('.wps-deals-email-template').val();
+						jQuery('.wps-deals-preview-popup').hide();
+						if( email_template != '' ) {
+							jQuery('.wps-deals-preview-'+email_template+'-popup').show();
+						} else {
+							jQuery('.wps-deals-preview-default-popup').show();
+						}
+			   		}
+			   	});
+			});
+			//]]>
+		</script>
+	<?php
+	
+	 	}
+
 	}
 	/**
 	 * Loading Additional Java Script
@@ -186,6 +221,9 @@ class Wps_Deals_Scripts {
 		$disableguest = !empty($wps_deals_options['disable_guest_checkout']) ? '1' : '0';
 		$enableterms = !empty($wps_deals_options['enable_terms']) ? '1' : '0';
 		
+		wp_register_script( 'wps-deals-credit-card-validator-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-credit-card-validator.js', array( 'jquery' ), null );
+		wp_enqueue_script( 'wps-deals-credit-card-validator-scripts' );
+		
 		//do not include this script in footer otherwise timer countdown will disabled
 		wp_register_script( 'wps-deals-front-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-front.js', array( 'jquery' ), null );
 		wp_enqueue_script( 'wps-deals-front-scripts' );
@@ -194,6 +232,9 @@ class Wps_Deals_Scripts {
 		if( empty( $wps_deals_options['disable_twitter_bootstrap'] ) ) {
 			wp_enqueue_script( 'twitter-bootstrap' );
 		}
+		
+		//get caching is on site or not
+		$caching = isset( $wps_deals_options['caching'] ) && !empty( $wps_deals_options['caching'] ) ? '1' : '';
 		
 		wp_localize_script( 'wps-deals-front-scripts', 'Wps_Deals', array(  'ajaxurl' 					=> admin_url('admin-ajax.php'),
 																			'disableguest'				=>	$disableguest,
@@ -217,6 +258,7 @@ class Wps_Deals_Scripts {
 																			'card_name_empty'			=>	__( '<span><strong>ERROR : </strong>Please enter valid credit card name.</span>','wpsdeals' ),
 																			'card_exp_month_empty'		=>	__( '<span><strong>ERROR : </strong>Please choose credit card expiry month.</span>','wpsdeals' ),
 																			'card_exp_date_empty'		=>	__( '<span><strong>ERROR : </strong>Please choose credit card expiry year.</span>','wpsdeals' ),
+																			'caching'					=>	$caching
 																		) );
 		
 		if(is_singular()) { //check current page is not home page
@@ -465,10 +507,24 @@ class Wps_Deals_Scripts {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	public function wps_deals_chart_scripts() {
+	public function wps_deals_social_login_scripts() {
 		
 		wp_register_script( 'google-jsapi', 'https://www.google.com/jsapi', array('jquery'), false, false); // in header
 		wp_enqueue_script( 'google-jsapi' );
+	}
+	/**
+	 * Register and Enqueue Script For
+	 * Sortable
+	 * 
+	 * Handles to load sortable script
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_sortable() {
+		
+		wp_register_script( 'wps-deals-sortable', WPS_DEALS_URL . 'includes/js/wps-deals-sortable.js', array( 'jquery', 'jquery-ui-sortable' ) , null, true );
+		wp_enqueue_script( 'wps-deals-sortable' );
 	}
 	
 	/**

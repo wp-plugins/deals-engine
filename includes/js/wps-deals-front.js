@@ -50,7 +50,7 @@ jQuery(document).ready(function($){
 		$('.wps-deals-cart-process-show').show();
 		$('.wps-deals-cart-loader').show();
 		$.post(Wps_Deals.ajaxurl,data,function(response) {
-			 //alert(response);
+			//alert(response);
 			$('.wps-deals-cart-loader').hide();
 			
 			result = $.parseJSON(response);
@@ -62,7 +62,8 @@ jQuery(document).ready(function($){
 					$('.wps-deals-latest-widget').html(result.widgetcontent);
 				}
 				if(result.redirectstat != '0') {
-					window.location = result.redirect;
+					//window.location = result.redirect;
+					wps_deals_reload( result.redirect );
 				}
 			} else {
 				$('.wps-deals-cart-msg').show();
@@ -220,8 +221,8 @@ jQuery(document).ready(function($){
 			var error = false;
 			var errorstr = '';
 			var emailerror 	= false;
-			var email 		= $('#wps_deals_cart_user_email').val();
 			var errel		= $('.wps-deals-cart-user-error');
+			var email 		= $('#wps_deals_cart_user_email').val();
 			var firstname 	= $('#wps_deals_cart_user_first_name').val();
 			var lastname 	= $('#wps_deals_cart_user_last_name').val();
 			var terms 		= $('#wps_deals_checkout_agree_terms'); 
@@ -234,16 +235,19 @@ jQuery(document).ready(function($){
 			if(gateway == '') {
 				error = true;
 				errorstr += Wps_Deals.no_payment_selected;
+				$('#wps_deals_payment_gateways').addClass('error').removeClass('valid');
 			}
 			 
-			if(email == '') { //check email
+			if(email == '') { // check email
 				error = true;
 				errorstr += Wps_Deals.cart_email_blank;
+				$('#wps_deals_cart_user_email').addClass('error').removeClass('valid');
 			} else {
 				emailerror = wps_deals_valid_email(email);
 				if(emailerror != true) {
 					error = true;
 					errorstr += Wps_Deals.cart_email_invalid;
+					$('#wps_deals_cart_user_email').addClass('error').removeClass('valid');
 				}
 			}
 			
@@ -251,12 +255,14 @@ jQuery(document).ready(function($){
 			if(firstname == '') {
 				error = true;
 				errorstr += Wps_Deals.cart_firstname_blank;
+				$('#wps_deals_cart_user_first_name').addClass('error').removeClass('valid');
 			}
 			
 			//last name validation
 			if(lastname == '') {
 				error = true;
 				errorstr += Wps_Deals.cart_lastname_blank;
+				$('#wps_deals_cart_user_last_name').addClass('error').removeClass('valid');
 			}
 			
 			if(Wps_Deals.enableterms == '1' && !terms.is(':checked')) {
@@ -271,9 +277,13 @@ jQuery(document).ready(function($){
 				} else {
 					errel.append( errorstr );
 				}
+				
+				//scroll page to focus on error
+				$('html, body').animate({ scrollTop: errel.offset().top - 50 }, 500);
 				return false;
 			}
 		}
+		
 	});
 	
 	//login form submit
@@ -294,19 +304,24 @@ jQuery(document).ready(function($){
 		if(gateway == '') {
 			error = true;
 			errorstr += Wps_Deals.no_payment_selected;
+			$('#wps_deals_payment_gateways').addClass('error').removeClass('valid');
 		}
 		
 		if(loginusername == '' && loginpass == '') { //check user name and password are not empty
 			error = true;
 			errorstr += Wps_Deals.cart_login_user_pass_blank;
+			$('#wps_deals_cart_login_user_name').addClass('error').removeClass('valid');
+			$('#wps_deals_cart_login_user_pass').addClass('error').removeClass('valid');
 		}
 		if(loginusername == '' && loginpass != '') { //check username is empty & password is not empty
 			error = true;
 			errorstr += Wps_Deals.cart_login_user_blank;
+			$('#wps_deals_cart_login_user_name').addClass('error').removeClass('valid');
 		}
 		if(loginusername != '' && loginpass == '') { //check username is not empty & password is empty
 			error = true;
 			errorstr += Wps_Deals.cart_login_pass_blank;
+			$('#wps_deals_cart_login_user_pass').addClass('error').removeClass('valid');
 		}
 		
 		if(Wps_Deals.enableterms == '1' && !terms.is(':checked')) {
@@ -321,6 +336,8 @@ jQuery(document).ready(function($){
 			} else {
 				errel.append( errorstr );
 			}
+			//scroll page to focus on error
+			$('html, body').animate({ scrollTop: errel.offset().top - 50 }, 500);
 			return false;
 		} else {
 			
@@ -346,7 +363,9 @@ jQuery(document).ready(function($){
 					status = false;
 				}
 			});
-			if(!status) { 
+			if(!status) {
+				//scroll page to focus on error
+				$('html, body').animate({ scrollTop: errel.offset().top - 50 }, 500);
 				return false;
 			}
 		}
@@ -366,7 +385,7 @@ jQuery(document).ready(function($){
 		var lastname 	= $('#wps_deals_cart_user_last_name').val();
 		var errel		= $('.wps-deals-cart-user-error');
 		var terms 		= $('#wps_deals_checkout_agree_terms');
-		var gateway			= $('#wps_deals_payment_gateways').val();
+		var gateway		= $('#wps_deals_payment_gateways').val();
 		
 		//hide errors when click on button
 		errel.hide();
@@ -375,6 +394,7 @@ jQuery(document).ready(function($){
 		if(gateway == '') {
 			error = true;
 			errorstr += Wps_Deals.no_payment_selected;
+			$('#wps_deals_payment_gateways').addClass('error').removeClass('valid');
 		}
 		
 		if(Wps_Deals.disableguest == '1') {//if guest checkout is disabled then show errors compalsary
@@ -391,14 +411,18 @@ jQuery(document).ready(function($){
 			if(pass == '') { //check password and retype password should not empty
 				error = true;
 				errorstr += Wps_Deals.cart_reg_pass_blank;
+				$('#wps_deals_cart_reg_user_pass').addClass('error').removeClass('valid');
 			}
 			if( repass == '' ) {
 				error = true;
 				errorstr += Wps_Deals.cart_reg_conf_pass_blank;
+				$('#wps_deals_cart_reg_user_confirm_pass').addClass('error').removeClass('valid');
 			}
 			if(pass != '' && repass != '' && pass != repass) {
 				error = true;
 				errorstr += Wps_Deals.cart_reg_same_pass;
+				$('#wps_deals_cart_reg_user_pass').addClass('error').removeClass('valid');
+				$('#wps_deals_cart_reg_user_confirm_pass').addClass('error').removeClass('valid');
 			}
 			
 		} else {
@@ -406,10 +430,13 @@ jQuery(document).ready(function($){
 			if(username == '' && (pass != '' || repass != '' )) {
 				error = true;
 				errorstr += Wps_Deals.cart_reg_user_blank;
+				$('#wps_deals_cart_reg_user_name').addClass('error').removeClass('valid');
 			}
 			if(pass != repass) {
 				error = true;
 				errorstr += Wps_Deals.cart_reg_same_pass;
+				$('#wps_deals_cart_reg_user_pass').addClass('error').removeClass('valid');
+				$('#wps_deals_cart_reg_user_confirm_pass').addClass('error').removeClass('valid');
 			}
 			
 		}
@@ -418,11 +445,13 @@ jQuery(document).ready(function($){
 		if(email == '') { //check email
 			error = true;
 			errorstr += Wps_Deals.cart_email_blank;
+			$('#wps_deals_cart_user_email').addClass('error').removeClass('valid');
 		} else {
 			emailerror = wps_deals_valid_email(email);
 			if(emailerror != true) {
 				error = true;
 				errorstr += Wps_Deals.cart_email_invalid;
+			$('#wps_deals_cart_user_email').addClass('error').removeClass('valid');
 			}
 		}
 		
@@ -435,12 +464,14 @@ jQuery(document).ready(function($){
 		if(firstname == '') {
 			error = true;
 			errorstr += Wps_Deals.cart_firstname_blank;
+			$('#wps_deals_cart_user_first_name').addClass('error').removeClass('valid');
 		}
 		
 		//last name validation
 		if(lastname == '') {
 			error = true;
 			errorstr += Wps_Deals.cart_lastname_blank;
+			$('#wps_deals_cart_user_last_name').addClass('error').removeClass('valid');
 		}
 		
 		if(error == true) {
@@ -450,6 +481,8 @@ jQuery(document).ready(function($){
 			} else {
 				errel.append( errorstr );
 			}
+			//scroll page to focus on error
+			$('html, body').animate({ scrollTop: errel.offset().top - 50 }, 500);
 			return false;
 		} else {
 		
@@ -489,6 +522,7 @@ jQuery(document).ready(function($){
 				}); 
 				
 				if(!status) { 
+					$('html, body').animate({ scrollTop: errel.offset().top - 50 }, 500);
 					return false;
 				}
 			}
@@ -550,7 +584,7 @@ jQuery(document).ready(function($){
 			jQuery.post(Wps_Deals.ajaxurl, data, function(response) {
 				//alert(response);
 				if( response != '' ) {
-					window.location.reload();
+					wps_deals_reload();
 				}
 			});
 		});
@@ -580,14 +614,41 @@ jQuery(document).ready(function($){
 					
 				jQuery.post(Wps_Deals.ajaxurl, data, function(response) {
 					
-					if(response == '1') {
-						window.location.reload();
+					if( response != '' ) {
+						//window.location.reload();
+						wps_deals_reload();
 					}
 					
 				});
 	  		}
 	  	});
 	}
+		
+	//on blur of required field
+	$('.wps-deals-cart-text.wps-deals-required, .wps-deals-cart-select.wps-deals-required').live('blur',function() {
+		if($(this).val() == '') {
+			$(this).removeClass('valid').addClass('error');
+		} else {
+			$(this).addClass('valid').removeClass('error');
+		}
+	});
+	
+	//show payment description data to user on checkout page on change of payment gateways
+	$( '#wps_deals_payment_gateways' ).on( 'change', function() {
+		
+		var paymentgateway = $( this ).val();
+		
+		if( $( '#wps_deals_'+paymentgateway+'_payment_description').length > 0 ) { //if check particular payment description is added then
+			
+			$('.wps-deals-payment-description' ).hide();
+			$('#wps_deals_'+paymentgateway+'_payment_description').show();
+			
+		} else {
+			//hide description data
+			$('.wps-deals-payment-description' ).hide();
+		}
+	});
+	
 	
 });
 //var tz=+5; 
@@ -820,4 +881,31 @@ function wps_deals_validate_cc_info() {
 		}
 	}
 }
+//function to return url with specific parameter
+function wps_deals_reload( url ) {
+	
+	var nowurl = '';
+	var redirect = '';
+	
+	if( typeof url !== 'undefined' ) { //check url is set or not
+		redirect = url;	
+	} else {
+		//current page url
+		redirect = jQuery( location ).attr( 'href' );
+	}
+	// check caching is activated on site or not
+	if( Wps_Deals.caching == '1' ) {
 		
+		//check ? is exist in url or not
+		var strexist = redirect.indexOf("?");
+		
+		if( strexist >= 0 ) {
+			redirect = redirect + '&no-caching';
+		} else {
+			redirect = redirect + '?no-caching';
+		}
+	}
+	
+	//redirect to particular url
+	window.location = redirect;
+}

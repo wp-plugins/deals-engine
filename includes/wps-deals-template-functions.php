@@ -22,7 +22,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function wps_deals_get_templates_dir() {
 	
-	return WPS_DEALS_DIR . '/includes/templates/';
+	return apply_filters( 'wps_deals_template_dir', WPS_DEALS_DIR . '/includes/templates/' );
 	
 }
 /**
@@ -964,13 +964,13 @@ if( !function_exists( 'wps_deals_single_add_to_cart' ) ) {
 	
 		if ( $available == '' ) {
 			//$availdeals =  __('Unlimited','wpsdeals');
-		} elseif ( intval( $available ) == 0 ) {
+		} else if ( intval( $available ) == 0 ) {
 			//$availdeals =  __('Out of Stock','wpsdeals');
 			$dealexpired = true;
-		} else {
-			//$availdeals = $available;
-		}
-		if( $enddate >= $today && $dealexpired != true ) {
+		} else {}
+		 
+		//if deal is active and deals is not in upcoming list or not out of stock
+		if( $enddate >= $today && $startdate <= $today && $dealexpired != true ) {
 			
 			//add to cart  buttons template
 			wps_deals_get_template( 'single-deal/single-header/add-to-cart.php' );
@@ -997,6 +997,7 @@ if( !function_exists( 'wps_deals_single_dimsale_box' ) ) {
 		
 		// Get deal type
 		$wps_deal_type = $wps_deals_model->wps_deals_get_deal_type( $post->ID );
+		
 		if( $wps_deal_type != 'affiliate' )	{
 				
 			//today's date time
@@ -1033,8 +1034,8 @@ if( !function_exists( 'wps_deals_single_dimsale_box' ) ) {
 				$leftcopies = ( $dimsaleratio - $dimsaleamt );
 				$lefttext = apply_filters( 'wps_deals_dim_sale_text',sprintf( __('Only %1$s left at this price', 'wpsdeals' ), $leftcopies ) ); 
 			}
-			
-			if( $enddate >= $today && $dealexpired != true ) {
+			//if deal is active and deals is not in upcoming list or not out of stock
+			if( $enddate >= $today && $startdate <= $today && $dealexpired != true ) {
 				
 				//dim sale box template
 				wps_deals_get_template( 'single-deal/single-header/dim-sale.php', array( 'lefttext' => $lefttext ) );
@@ -1428,12 +1429,10 @@ if( !function_exists( 'wps_deals_buy_now_button' ) ) {
 		//get the buy now test from meta
 		$buynowtext = get_post_meta( $post->ID,$prefix.'buy_now',true );
 		
-		if(!is_user_logged_in()) {
-			
+		// Check user is not logged in and disable guest checkout from misc settings
+		if( !is_user_logged_in() && !empty( $wps_deals_options['disable_guest_checkout'] ) ) {
 			$payurl = wp_login_url( $dealurl );
-			
 		} else {
-			
 			$payurl = add_query_arg( array( 'dealsaction' => 'buynow', 'dealid' => $post->ID ), $dealurl );	
 		}
 		
@@ -1780,6 +1779,23 @@ if( !function_exists( 'wps_deals_orders_content' ) ) {
 		wps_deals_get_template( 'orders/orders.php' );
 	}
 }
+if( !function_exists( 'wps_deals_orders_listing_content' ) ) {
+
+	/**
+	 * Load Orders Listing Table Template 
+	 * 
+	 * Handles to load orders listing table template
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_orders_listing_content( $ordereddeals, $paging ) {
+		
+		//order details template
+		wps_deals_get_template( 'orders/orders-listing/orders-listing.php', array(	'ordereddeals'	=> $ordereddeals, 
+																					'paging'		=> $paging ) );
+	}
+}
 if( !function_exists( 'wps_deals_orders_complete_content' ) ) {
 
 	/**
@@ -1958,6 +1974,45 @@ if( !function_exists( 'wps_deals_cart_update_button' ) ) {
 	}
 }
 
+if( !function_exists( 'wps_deals_display_description' ) ) {
+	
+	/**
+	 * Load Cheque Payment Description Template
+	 * 
+	 * Handles to load cheque payment description
+	 * template
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_display_description() {
+		
+		global $wps_deals_options;
+		
+		//get enable payment methods
+		$enablepayments = wps_deals_get_enabled_gateways();
+		$defaultgateway = $wps_deals_options['default_payment_gateway'];
+		
+		//check only banktransfer is enable only one payment gateway
+		//if banktransfer is selected in default gateway
+		if( array_key_exists( 'cheque', $enablepayments ) && 
+			( count( $enablepayments ) == 1 || $defaultgateway == 'cheque' ) ) {
+			$enablebankdesc = ' wps-deals-payment-description-show';
+		} else {
+			$enablebankdesc = ' wps-deals-payment-description-none';
+		}
+		
+		$cheque_customer_msg = isset( $wps_deals_options['cheque_customer_msg'] ) ? $wps_deals_options['cheque_customer_msg'] : '';
+		
+		if( !empty( $cheque_customer_msg ) ) {
+			//cheque description template
+			wps_deals_get_template( 'checkout/checkout-footer/cheque-payment-description.php', array( 	'description' 	=> $cheque_customer_msg,
+																										'enablebankdesc'=> $enablebankdesc ) );
+		}
+		
+	}
+}
+
 if( !function_exists( 'wps_deals_cart_social_login' ) ) {
 	
 	/**
@@ -1969,15 +2024,25 @@ if( !function_exists( 'wps_deals_cart_social_login' ) ) {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_cart_social_login() {
+	function wps_deals_cart_social_login( $title = '', $redirect_url = '' ) {
 		
 		global $wps_deals_options;
 		
 		//check user is not logged in and social login is enable or not for any one service
 		if( !is_user_logged_in() && wps_deals_enable_social_login() ) {
 			
+			// get title from settings
+			$login_heading = isset( $wps_deals_options['login_heading'] ) ? $wps_deals_options['login_heading'] : __( 'Login with Social Media', 'wpsdeals' );
+			$login_heading = !empty( $title ) ? $title : $login_heading; // check title first from shortcode
+			
+			// get redirect url from settings
+			$login_redirect_url = isset( $wps_deals_options['login_redirect_url'] ) ? $wps_deals_options['login_redirect_url'] : '';
+			$login_redirect_url = !empty( $redirect_url ) ? $redirect_url : $login_redirect_url; // check redirect url first from shortcode
+			
 			//load social login buttons template
-			wps_deals_get_template( 'checkout/checkout-content/social.php' );
+			wps_deals_get_template( 'checkout/checkout-content/social.php', array( 	'title' 			=> $login_heading,
+																					'login_redirect_url'=> $login_redirect_url
+																					) );
 			
 			//enqueue social front script
 			wp_enqueue_script( 'wps-deals-social-front-scripts' );
@@ -2000,8 +2065,20 @@ if( !function_exists( 'wps_deals_checkout_payment_gateways' ) ) {
 	 */
 	function wps_deals_checkout_payment_gateways() {
 		
+		global $wps_deals_options;
+		
+		$paymentgatway = wps_deals_get_enabled_gateways();
+		
+		//check default gateway is set or not and it is enabled or not
+		if( isset( $wps_deals_options['default_payment_gateway'] ) 
+			&& array_key_exists( $wps_deals_options['default_payment_gateway'], $paymentgatway ) ) {
+			$defaultgatway = $wps_deals_options['default_payment_gateway'];
+		} else {
+			$defaultgatway = 'paypal';
+		}
+		
 		//payment gateway template
-		wps_deals_get_template( 'checkout/checkout-footer/payment-gateway.php' );
+		wps_deals_get_template( 'checkout/checkout-footer/payment-gateway.php', array( 'paymentgatway' => $paymentgatway, 'defaultgatway' => $defaultgatway ));
 		
 	}
 	

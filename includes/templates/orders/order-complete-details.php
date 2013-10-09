@@ -12,7 +12,7 @@
  * @since 1.0.0
  */
 
-global $wps_deals_model;
+global $wps_deals_model, $wps_deals_options;
 
 $model = $wps_deals_model;
 
@@ -38,8 +38,18 @@ if( isset($_GET['order_id']) && !empty( $_GET['order_id'] ) ) {
 	$orderedfiles = $model->wps_deals_get_ordered_file_list( $order_id );
 	
 	//do action for view order content before
-	do_action( 'wps_deals_order_view_content_before',$order_id );
+	do_action( 'wps_deals_order_view_content_before', $order_id );
 	
+	$payment_method = isset( $order_details['checkout_label'] ) ? $order_details['checkout_label'] : $order_details['payment_method'];
+	
+	 // Check payment method is cheque payment and not empty customer message from settings
+	if( $payment_method == __( 'Cheque Payment', 'wpsdeals' ) && !empty( $wps_deals_options['cheque_customer_msg'] ) ) {
+	
+	?>		
+		<p><?php echo $wps_deals_options['cheque_customer_msg']; ?></p>
+	<?php
+	
+	}
 ?>
 		<table id="wps-deals-purchase-receipt">
 			<thead>
@@ -82,7 +92,11 @@ if( isset($_GET['order_id']) && !empty( $_GET['order_id'] ) ) {
 				?>
 				<tr>
 					<td><strong><?php _e( 'Payment Method', 'wpsdeals' ); ?>:</strong></td>
-					<td><?php echo apply_filters( 'wps_deals_order_view_payment_method', $order_details['payment_method'] ); ?></td>
+					<td><?php 
+								$payment_method = isset( $order_details['checkout_label'] ) ? $order_details['checkout_label'] : $order_details['payment_method'];
+								echo apply_filters( 'wps_deals_order_view_payment_method',$payment_method  ); 
+						?>
+					</td>
 				</tr>
 				<?php 
 						//do action for view order details row after payment method
@@ -106,6 +120,11 @@ if( isset($_GET['order_id']) && !empty( $_GET['order_id'] ) ) {
 				?>
 			</tbody>
 		</table>
+		
+		<?php
+				//do action for before purchased deals before
+				do_action( 'wps_deals_order_view_purchased_deals_before',$order_id );
+		?>
 		
 		<h3><?php echo apply_filters( 'wps_deals_payment_receipt_products_title', __( 'Purchased Deals', 'wpsdeals' ) ); ?></h3>
 		

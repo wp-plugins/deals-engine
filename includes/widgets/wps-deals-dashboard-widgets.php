@@ -127,7 +127,12 @@ function wps_deals_sales_summary_widget() {
 							$popup = $render->wps_deals_get_order_popup_details($recent);
 						?>
 							<tr>
-								<td><?php echo $recent['userdetails']['first_name'].' '.$recent['userdetails']['last_name'].' - ('.$recent['userdetails']['user_email'].') - ';?></td>
+								<td>
+									<?php
+										echo $recent['userdetails']['first_name'].' '.$recent['userdetails']['last_name'];
+										echo !empty( $recent['userdetails']['user_email'] ) ? ' - ('.$recent['userdetails']['user_email'].') - ' : ' - ';
+									?>
+									</td>
 								<td class="widget-value"><?php echo $recent['display_order_total'];?></td>
 								<td><?php echo ' - '.$popup;?><a href="#wps_deal_ordered_<?php echo $key;?>" rel="wps_deal_sale_view"><?php _e('View Details','wpsdeals');?></a></td>
 							</tr>

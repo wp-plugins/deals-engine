@@ -1265,7 +1265,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	}
 
 	/**
-	 * Success Page URL
+	 * Send to Success Page
 	 * 
 	 * Handles to return success page url
 	 * 
@@ -1284,7 +1284,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		exit;
 	}
 	/**
-	 * Cancel Page URL
+	 * Send to Cancel Page
 	 * 
 	 * Handles to return cancel page url
 	 * 
@@ -1303,7 +1303,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		exit;
 	}
 	/**
-	 * Checkout Page URL
+	 * Send to Checkout Page
 	 * 
 	 * Handles to return checkout page url
 	 * 
@@ -1361,8 +1361,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 function wps_deals_get_payment_gateways() {
 	 	
 	 	$gateways = array(
-							'paypal'	=>	__( 'PayPal','wpsdeals'),
-							'testmode'	=>	__( 'Test Mode','wpsdeals')
+							'paypal'	=>	array( 'admin_label' => __( 'PayPal Standard','wpsdeals'), 'checkout_label' => __( 'PayPal','wpsdeals') ),
+							'cheque'	=>	array( 'admin_label' => __( 'Cheque Payment','wpsdeals'), 'checkout_label' => __( 'Cheque Payment','wpsdeals') ),
+							'testmode'	=>	array( 'admin_label' => __( 'Test Mode','wpsdeals'), 'checkout_label' => __( 'Test Mode','wpsdeals') ),
 						);
 		$gateways = apply_filters('wps_deals_add_more_payment_gateways',$gateways);
 		
@@ -1385,11 +1386,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		$gateway_list = array();
 		if(!empty($enabled_gateways)) {
 			foreach( $gateways as $key => $gateway ){
-				
-				if( array_key_exists($key,$enabled_gateways) ) { //check gateway is exist or not
-					
+				if( array_key_exists( $key, $enabled_gateways ) && isset( $gateway['checkout_label'] ) ) { //check gateway is exist or not
 					$gateway_list[ $key ] = $gateway;
-					
 				}
 		 	}
 		}
@@ -1515,6 +1513,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			'2'		=> __( 'Refunded', 'wpsdeals' ),
 			'3'		=> __( 'Failed', 'wpsdeals' ),
 			'4'		=> __( 'Cancelled', 'wpsdeals' ),
+			'5'		=> __( 'On-Hold', 'wpsdeals' )
 		);
 
 		return apply_filters( 'wps_deals_payment_statuses', $payment_statuses );
@@ -1612,5 +1611,114 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		//load facebook button template
 		wps_deals_get_template( 'checkout/checkout-footer/cc-form.php' );
 		
+	}
+	/**
+ 	* Get All Capabilities
+ 	* 
+ 	* Handles to return all required capabilites 
+ 	* for social deals engine plugin
+ 	*
+ 	* @package Social Deals Engine
+ 	* @since 1.0.0
+ 	*/
+	function wps_deals_get_capabilities() {
+		
+		$capabilities = array();
+	
+		$capability_types = array( WPS_DEALS_POST_TYPE, WPS_DEALS_SALES_POST_TYPE );
+	
+		foreach( $capability_types as $capability_type ) {
+	
+			$capabilities[ $capability_type ] = array(
+	
+				// Post type
+				"edit_{$capability_type}",
+				"read_{$capability_type}",
+				"delete_{$capability_type}",
+				"edit_{$capability_type}s",
+				"edit_others_{$capability_type}s",
+				"publish_{$capability_type}s",
+				"read_private_{$capability_type}s",
+				"delete_{$capability_type}s",
+				"delete_private_{$capability_type}s",
+				"delete_published_{$capability_type}s",
+				"delete_others_{$capability_type}s",
+				"edit_private_{$capability_type}s",
+				"edit_published_{$capability_type}s",
+	
+				// Terms
+				"manage_{$capability_type}_terms",
+				"edit_{$capability_type}_terms",
+				"delete_{$capability_type}_terms",
+				"assign_{$capability_type}_terms"
+			);
+		}
+		return $capabilities;
+	}
+	/**
+	 * Assign Capabilities To Roles
+	 *
+	 * Handles to assign needed capabilites to 
+	 * administrator roles
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_add_capabilities() {
+		
+		global $wp_roles;
+	
+		//check WP_Roles class is exist or not
+		if ( class_exists('WP_Roles') )
+			if ( ! isset( $wp_roles ) )
+				$wp_roles = new WP_Roles();
+	
+		// check $wp_roles is object or not
+		if ( is_object( $wp_roles ) ) {
+	
+			//get all assigning capabilities of deals engine
+			$capabilities = wps_deals_get_capabilities();
+	
+			foreach( $capabilities as $cap_group ) {
+				foreach( $cap_group as $cap ) {
+					//assign some capability to administrator for deals engine
+					$wp_roles->add_cap( 'administrator', $cap );
+				}//for each for adding cap
+			} //for each for capablities
+			
+		} //end if to check $wp_roles
+	}
+	/**
+	 * Remove Capabilities
+	 * 
+	 * Handles to remove capabilities when 
+	 * plugin is getting reset
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_remove_capabilities() {
+		
+		global $wp_roles;
+	
+		//check WP_Roles class is exist or not
+		if ( class_exists('WP_Roles') )
+			if ( ! isset( $wp_roles ) )
+				$wp_roles = new WP_Roles();
+	
+		// check $wp_roles is object or not
+		if ( is_object( $wp_roles ) ) {
+	
+			//get all assigning capabilities of deals engine
+			$capabilities = wps_deals_get_capabilities();
+	
+			foreach( $capabilities as $cap_group ) {
+				foreach( $cap_group as $cap ) {
+					//remove added capability to administrator for deals engine
+					$wp_roles->remove_cap( 'administrator', $cap );
+				}//for each for removing cap
+			} //for each for capablities
+			
+		} //end if to check $wp_roles
 	}
 ?>
