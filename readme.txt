@@ -14,6 +14,10 @@ Turn your WordPress blog in to a Social Deals site and sell any kind of Deals wi
 
 The Social Deals Engine is more than just "another" Deals plugin. It is an Extendable Plugin built to allow you to use Special Offers and Deals through the Power of Scarcity, Limited Quantity, Exclusivity, and Price Manipulation. With the Social Deals Engine it doesn't matter if you own your own products or not. It doesn't matter if you sell Physical or Digital products, are an Affiliate or CPA Marketer, a Local Business, etc. None of this Matters because the Social Deals Engine Plugin was built to work for everyone.
 
+**Promo**
+
+We have a special offer for you. Now you can save on any Extension for the Social Deals Engine. Just use the following coupon code at the checkout: **deals25off**
+
 **More info at the [Social Deals Engine Homepage](http://wpsocial.com/deals-engine/)**
 
 **[Social Deals Engine Demo](http://wpsocial.com/demo/social-deals-engine/)**
