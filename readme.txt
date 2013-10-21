@@ -16,7 +16,7 @@ The Social Deals Engine is more than just "another" Deals plugin. It is an Exten
 
 **Promo**
 
-We have a special offer for you. Now you can save on any Extension for the Social Deals Engine. Just use the following coupon code at the checkout: **deals25off**
+We have a special offer for you. Now you can save 25% on any Extension for the Social Deals Engine. Just use the following coupon code at the checkout: **deals25off**
 
 **More info at the [Social Deals Engine Homepage](http://wpsocial.com/deals-engine/)**
 
