@@ -116,12 +116,27 @@ function wps_deals_insert_payment_data($data=array()) {
 		// update the value for the user details to the post meta box
 		update_post_meta( $salesid, $prefix.'order_userdetails',$ordered_deal_userdetails);
 	
+		//get payment gateways
+		$paymentgateways = wps_deals_get_payment_gateways();
+		
+		//check if payment gateway is set in post_data then use it otherwise default it will paypal
+		$paymentmethod	= isset( $data['post_data']['wps_deals_payment_gateways'] ) && 
+							!empty( $data['post_data']['wps_deals_payment_gateways'] ) ? 
+							$data['post_data']['wps_deals_payment_gateways'] : 'paypal';
+		
+		//adminlabel & for payment gateway checkout label is must
+		$admin_label = isset( $paymentgateways[$paymentmethod]['admin_label'] ) ? $paymentgateways[$paymentmethod]['admin_label'] : $paymentgateways[$paymentmethod]['checkout_label'];
+		
+		//check out label
+		$checkout_label = isset( $paymentgateways[$paymentmethod]['checkout_label'] ) ? $paymentgateways[$paymentmethod]['checkout_label'] : '';
+		
 		// coupon details
     	$ordered_deals_args = array (
     									'order_id' 			=>	$salesid,
 										'currency' 			=>	$wps_deals_options['currency'],
-										'payment_method'	=>	$data['payment_method'], //WPS_DEALS_PAYPAL_GATEWAY
-										'checkout_label'	=>	isset( $data['checkout_label'] ) ? $data['checkout_label'] : $data['payment_method']
+										'payment_method'	=>	$paymentmethod, //WPS_DEALS_PAYPAL_GATEWAY
+										'admin_label'		=>	$admin_label,
+										'checkout_label'	=>	$checkout_label
     								);		
 	
 		foreach ($cartproducts as $dealid => $dealdata) {
@@ -239,17 +254,30 @@ function wps_deals_insert_payment_data($data=array()) {
 		//unset post data when its requirement is over
 		unset( $ordered_deals_args['post_data'] );
 		
-		$dis_order_subtotal = $currency->wps_deals_formatted_value($ordsubtotal,$wps_deals_options['currency']);
+		$dis_order_subtotal = $currency->wps_deals_formatted_value( $ordsubtotal, $wps_deals_options['currency'] );
 		$ordered_deals_args['display_order_subtotal'] = $dis_order_subtotal;
 		
+		//billing data 
+		$billingdata = isset( $data['post_data']['wps_deals_billing_details'] ) ? $data['post_data']['wps_deals_billing_details'] : array();
+		
+		//check billing data is set
+		$ordered_deals_args['billing_details'] = $billingdata;
+		
+		//check user is logged in or not
+		if( !empty( $userid ) && !empty( $billingdata ) ) {
+			//save billing to user meta
+			update_user_meta( $userid, $prefix.'billing_details', $billingdata );
+		} //end if to check user is logged in or not
+		
+		
     	//update order details to post meta
-	    update_post_meta($salesid,$prefix.'order_details',$ordered_deals_args);
+	    update_post_meta( $salesid, $prefix.'order_details', $ordered_deals_args );
 	    
 		// update the value for the user email to post meta
 		update_post_meta( $salesid, $prefix.'payment_user_email', $user_email);
 		
 		// update the value for the payment status to the post meta box
-		$payment_status = isset($data['payment_status']) ? $data['payment_status'] : '0';
+		$payment_status = isset( $data['payment_status'] ) ? $data['payment_status'] : '0';
 		
 		//update payment status to database
 		wps_deals_update_payment_status( $payment_status, $salesid );
@@ -257,6 +285,11 @@ function wps_deals_insert_payment_data($data=array()) {
 		//order tracking data
 		$trackargs = array( 'orderid' => $salesid, 'payment_status' => $payment_status, 'notify' => wps_deals_notify_from_status( $payment_status ) );
 		wps_deals_update_order_track( $trackargs );
+		
+		//set order id to session for guest user to show the order details
+		if( !is_user_logged_in() && !empty( $salesid ) ) {
+			$_SESSION['wps_deals_last_ordered_id'] = $salesid;
+		}
 		
 	    //do action to do something before payment process
 	    do_action( 'wps_deals_cart_payment_process_before', $salesid );

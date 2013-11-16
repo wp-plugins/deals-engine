@@ -33,9 +33,6 @@ function wps_deals_process_cheque( $cartdetails, $postdata ) {
 	//message class
 	$message = $wps_deals_message;
 	
-	//get payment gateways
-	$paymentgateways = wps_deals_get_payment_gateways();
-	
 	//payment method
 	$method	= $postdata['wps_deals_payment_gateways'];
 	
@@ -46,8 +43,6 @@ function wps_deals_process_cheque( $cartdetails, $postdata ) {
 										'user_name' => $postdata['user_name'],
 										'user_email' => $postdata['wps_deals_cart_user_email'],
 									  );
-	$purchasedata['payment_method'] = $paymentgateways[$method]['admin_label'];
-	$purchasedata['checkout_label'] = $paymentgateways[$method]['checkout_label'];
 	$purchasedata['post_data'] 		= $postdata;
 	$purchasedata['cartdata'] 		= $cartdetails;
 	$purchasedata['payment_status'] = '5'; //on-hold by default

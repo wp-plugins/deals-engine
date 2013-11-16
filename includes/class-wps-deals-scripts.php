@@ -224,6 +224,10 @@ class Wps_Deals_Scripts {
 		wp_register_script( 'wps-deals-credit-card-validator-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-credit-card-validator.js', array( 'jquery' ), null );
 		wp_enqueue_script( 'wps-deals-credit-card-validator-scripts' );
 		
+		//countdown timer script
+		wp_register_script( 'wps-deals-countdown-timer-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-countdown.js', array( 'jquery' ), null );
+		wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
+		
 		//do not include this script in footer otherwise timer countdown will disabled
 		wp_register_script( 'wps-deals-front-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-front.js', array( 'jquery' ), null );
 		wp_enqueue_script( 'wps-deals-front-scripts' );
@@ -236,6 +240,7 @@ class Wps_Deals_Scripts {
 		//get caching is on site or not
 		$caching = isset( $wps_deals_options['caching'] ) && !empty( $wps_deals_options['caching'] ) ? '1' : '';
 		
+		//generic localize script
 		wp_localize_script( 'wps-deals-front-scripts', 'Wps_Deals', array(  'ajaxurl' 					=> admin_url('admin-ajax.php'),
 																			'disableguest'				=>	$disableguest,
 																			'cart_email_blank'			=>	__( '<span><strong>ERROR : </strong>Please enter valid email.</span>','wpsdeals' ),
@@ -253,46 +258,55 @@ class Wps_Deals_Scripts {
 																			'agree_terms'				=> 	__( '<span><strong>ERROR : </strong>You must agree to the terms of purchase.</span>','wpsdeals'),
 																			'enableterms'				=>	$enableterms,
 																			'no_payment_selected'		=>	__( '<span><strong>ERROR : </strong>No payment gateway selected.</span>','wpsdeals' ),
+																			'caching'					=>	$caching
+																			/*
 																			'card_no_empty'				=>	__( '<span><strong>ERROR : </strong>Please enter valid credit card number.</span>','wpsdeals' ),
 																			'card_cvc_empty'			=>	__( '<span><strong>ERROR : </strong>Please enter valid credit card security code.</span>','wpsdeals' ),
 																			'card_name_empty'			=>	__( '<span><strong>ERROR : </strong>Please enter valid credit card name.</span>','wpsdeals' ),
 																			'card_exp_month_empty'		=>	__( '<span><strong>ERROR : </strong>Please choose credit card expiry month.</span>','wpsdeals' ),
 																			'card_exp_date_empty'		=>	__( '<span><strong>ERROR : </strong>Please choose credit card expiry year.</span>','wpsdeals' ),
-																			'caching'					=>	$caching
+																			*/
 																		) );
+
+		//get billing is enable or not
+		$enablebilling = isset( $wps_deals_options['enable_billing'] ) && !empty( $wps_deals_options['enable_billing'] ) 
+							?	'1'	:	'0';
+		//billing details locatize script
+		wp_localize_script( 'wps-deals-front-scripts', 'Wps_Deals_Billing',	array(
+																					'enable'			=>	$enablebilling,
+																					'country'			=>	__( '<span><strong>ERROR : </strong>Please select billing country.</span>','wpsdeals' ),
+																					'address'			=>	__( '<span><strong>ERROR : </strong>Please enter billing address.</span>','wpsdeals' ),
+																					'city'				=>	__( '<span><strong>ERROR : </strong>Please enter billing town / city.</span>','wpsdeals' ),
+																					'state'				=>	__( '<span><strong>ERROR : </strong>Please enter billing state / county.</span>','wpsdeals' ),
+																					'postcode'			=>	__( '<span><strong>ERROR : </strong>Please enter billing postcode.</span>','wpsdeals' ),
+																					//'phone'			=>	__( '<span><strong>ERROR : </strong>Please enter billing phone number.</span>','wpsdeals' ),
+																					'password1'			=>	__( '<span><strong>ERROR : </strong>Please enter new password.</span>','wpsdeals' ),
+																					'password2'			=>	__( '<span><strong>ERROR : </strong>Please enter re-enter new password.</span>','wpsdeals' ),
+																					'comparepassword'	=>	__( '<span><strong>ERROR : </strong>Passwords do not match, please enter your password.</span>','wpsdeals' ),
+																					'usernameemail'		=>	__( '<span><strong>ERROR : </strong>Please enter username or e-mail address.</span>','wpsdeals' ),
+																					'loginusername'		=>	__( '<span><strong>ERROR : </strong>Please enter your username.</span>','wpsdeals' ),
+																					'loginpassword'		=>	__( '<span><strong>ERROR : </strong>Please enter your password.</span>','wpsdeals' ),
+																			));
+		
+		//timer localization variables for timer labels
+		wp_localize_script( 'wps-deals-front-scripts', 'Wps_Deals_Timer', array(
+																					'days'		=>	__( 'days', 'wpsdeals' ),
+																					'hours'		=>	__( 'hrs', 'wpsdeals' ),
+																					'minutes'	=>	__( 'mins', 'wpsdeals' ),
+																					'seconds'	=>	__( 'secs', 'wpsdeals' ),
+																					'today'		=>	date('F d, Y H:i:s', time())
+																				));
 		
 		if(is_singular()) { //check current page is not home page
-			// get the value for the google map address from the post meta box
-			$gmapaddress = get_post_meta( $post->ID, $prefix.'address', true );
-			$gmapaddress = isset($gmapaddress) && !empty($gmapaddress) ? $gmapaddress : '';
-			
-			// get the value for the google map popup content from the post meta box
-			$gmappopupcontent = get_post_meta( $post->ID, $prefix.'gmaps_popup_content', true );
-			$gmappopupcontent = isset($gmappopupcontent) && !empty($gmappopupcontent) ? $gmappopupcontent : '';
-			
-			// get the value for the google map popup max width from the post meta box
-			$gmapwidth = get_post_meta( $post->ID, $prefix.'gmap_popup_width', true );
-			
-			$popupmaxwidth = isset($gmapwidth) && !empty($gmapwidth) ? $gmapwidth : '220';
-			
-			$address = str_replace("'", "&prime;", $gmapaddress);
-			
-			if (!empty($gmappopupcontent)) {
-				$popupcontent =  '<div class="wps-deals-gmap-popup-content">'.$gmappopupcontent.'</div>';
-			} else {
-				$popupcontent = $address;
-			}
 			
 			// register google Map Js files 
 			wp_register_script( 'wps-deals-google-map', "http://maps.google.com/maps/api/js?sensor=false", array(), null, true );
 			wp_enqueue_script( 'wps-deals-google-map' );
 			wp_register_script( 'wps-deals-map-script', WPS_DEALS_URL . 'includes/js/wps-deals-map.js', array(), null, true );	
-			wp_localize_script( 'wps-deals-map-script', 'Wps_Deals_Map', array( 
-																				'URL' 			=>	WPS_DEALS_URL,
-																			   	'address'		=>	$address,
-																			   	'popupcontent' 	=> 	$popupcontent,
-																			  	'popupmaxwidth'	=>	$popupmaxwidth) 
-																			  );
+			
+			//do action to add localize script for individual post data
+			do_action( 'wps_deals_localize_map_script' );
+			
 		}
 		
 		//control the facebook buttons to set cookie for ajax call
@@ -436,7 +450,10 @@ class Wps_Deals_Scripts {
 		wp_enqueue_style( 'wps-deals-meta-box', WPS_DEALS_META_URL . '/css/meta-box.css' );
   
 		// Enqueue select2 library, use proper version.
-		wp_enqueue_style( 'wps-multiselect-select2-css', WPS_DEALS_META_URL . '/js/select2/select2.css', array(), null );
+		//wp_enqueue_style( 'wps-multiselect-select2-css', WPS_DEALS_META_URL . '/js/select2/select2.css', array(), null );
+		
+		wp_register_style( 'wps-deals-chosen-styles', WPS_DEALS_URL . 'includes/css/chosen/chosen.css' );
+		wp_enqueue_style( 'wps-deals-chosen-styles' );
 		
 		// Enqueue for datepicker
 		wp_enqueue_style( 'wps-deals-meta-jquery-ui-css', WPS_DEALS_META_URL.'/css/datetimepicker/date-time-picker.css' );
@@ -477,7 +494,10 @@ class Wps_Deals_Scripts {
 		wp_enqueue_script( 'jquery-ui-sortable' );
 						
 		// Enqueue JQuery select2 library, use proper version.
-		wp_enqueue_script( 'wps-multiselect-select2-js', WPS_DEALS_META_URL . '/js/select2/select2.js', array( 'jquery' ), false, true );
+		//wp_enqueue_script( 'wps-multiselect-select2-js', WPS_DEALS_META_URL . '/js/select2/select2.js', array( 'jquery' ), false, true );
+		
+		wp_register_script( 'wps-deals-chosen-scripts', WPS_DEALS_URL . 'includes/js/chosen/chosen.jquery.js', array( 'jquery' ), null, true );
+		wp_enqueue_script( 'wps-deals-chosen-scripts' );
 		
 		// Enqueue for datepicker
 		wp_enqueue_script(array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-slider'));

@@ -165,7 +165,7 @@ class Wps_Deals_AdminPages {
 		$input['paypal_api_pass'] 		= $this->model->wps_deals_escape_slashes_deep( $input['paypal_api_pass'] );
 		$input['paypal_api_sign'] 		= $this->model->wps_deals_escape_slashes_deep( $input['paypal_api_sign'] );
 		$input['cheque_customer_msg'] 	= $this->model->wps_deals_escape_slashes_deep( $input['cheque_customer_msg'] );
-		$input['from_email'] 			= $this->model->wps_deals_escape_slashes_deep( $input['from_email'] );
+		$input['from_email'] 			= $this->model->wps_deals_escape_slashes_deep( $input['from_email'], true );
 		$input['buyer_email_subject'] 	= $this->model->wps_deals_escape_slashes_deep( $input['buyer_email_subject'] );
 		$input['buyer_email_body'] 		= $this->model->wps_deals_escape_slashes_deep( $input['buyer_email_body'] );
 		$input['notif_email_address'] 	= $this->model->wps_deals_escape_slashes_deep( $input['notif_email_address'] );
@@ -711,7 +711,11 @@ class Wps_Deals_AdminPages {
 	 */
 	function wps_deals_shortcode_popup_register_button( $buttons ) {	
 	
-	 	array_push( $buttons, "|", "wpsdealsengine" );
+		global $typenow;
+		
+		if( $typenow != WPS_DEALS_POST_TYPE ) { 
+	 		array_push( $buttons, "|", "wpsdealsengine" );
+		}
 	 	return $buttons;	 	
 	}
 	
@@ -725,10 +729,14 @@ class Wps_Deals_AdminPages {
 	 */
 	function wps_deals_shortcode_popup_plugin( $plugin_array ) {
 		
-		wp_enqueue_script( 'tinymce' );
+		global $typenow;
 		
-	   	$plugin_array['wpsdealsengine'] = WPS_DEALS_URL . 'includes/js/wps-deals-buttons.js';
-	   	return $plugin_array;
+		if( $typenow != WPS_DEALS_POST_TYPE ) { 
+			wp_enqueue_script( 'tinymce' );
+			
+			$plugin_array['wpsdealsengine'] = WPS_DEALS_URL . 'includes/js/wps-deals-buttons.js';
+		}
+		return $plugin_array;
 	}
 	
 	/**
@@ -926,7 +934,7 @@ class Wps_Deals_AdminPages {
 	 *
 	 * Handles to add css for default email template
 	 *
-	 * @package Social Deals Engine - Email Templates
+	 * @package Social Deals Engine
 	 * @since 1.0.1
 	 */
 	function wps_deals_email_template_css_default( $html ) {
@@ -1048,6 +1056,7 @@ class Wps_Deals_AdminPages {
 		
 		//add image size for deals engine
 		add_image_size( 'wpsdeals-single', 400, 400, true );
+		
 	}
 }
 ?>

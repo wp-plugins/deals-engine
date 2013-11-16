@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 
 <div class="wps-deals-guest-details-wrap row-fluid clearfix">
-	<div class="wps-deals-guest-details">
+	<div class="wps-deals-guest-details checkout-fields-container">
 		<h2><?php echo apply_filters( 'wps_deals_cart_personal_detail_title',__('Personal Details','wpsdeals'));?></h2>
 		
 		<?php

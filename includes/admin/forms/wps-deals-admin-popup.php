@@ -14,6 +14,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * 
  **/
 
+global $wps_deals_model;
+
 ?>
 
 <div class="wps-deals-popup-content">
@@ -31,15 +33,20 @@ if ( !defined( 'ABSPATH' ) ) exit;
 						<label><?php _e( 'Select A Shortcode', 'wpsdeals' );?></label>		
 					</th>
 					<td>
-						<select id="wps_deals_shortcodes">				
-							<option value=""><?php _e( '--Select A Shortcode--', 'wpsdeals' );?></option>
-							<option value="wps_deals"><?php _e( 'Deals List', 'wpsdeals' );?></option>
+						<select data-placeholder="<?php _e( '--Select A Shortcode--', 'wpsdeals' ); ?>" id="wps_deals_shortcodes" class="chzn-select">
+		      				<option value=""></option>
+							<option value="wps_deals"><?php _e( 'Home Deals', 'wpsdeals' );?></option>
 							<option value="wps_deals_by_category"><?php _e( 'Deals By Category', 'wpsdeals' );?></option>
 							<option value="wps_deals_checkout"><?php _e( 'Checkout', 'wpsdeals' );?></option>
 							<option value="wps_deals_order_complete"><?php _e( 'Order Complete', 'wpsdeals' );?></option>
 							<option value="wps_deals_order_cancel"><?php _e( 'Order Cancel', 'wpsdeals' );?></option>
 							<option value="wps_deals_orders"><?php _e( 'Deals Orders', 'wpsdeals' );?></option>
 							<option value="wps_deals_social_login"><?php _e( 'Social Login', 'wpsdeals' );?></option>
+							<option value="wps_deals_by_id"><?php _e( 'Deal By Id', 'wpsdeals' );?></option>
+							<option value="wps_deals_by_ids"><?php _e( 'Deals List By Id', 'wpsdeals' );?></option>
+							<option value="wps_deals_my_account"><?php _e( 'My Account', 'wpsdeals' );?></option>
+							<option value="wps_deals_edit_address"><?php _e( 'Edit Address', 'wpsdeals' );?></option>
+							<option value="wps_deals_change_password"><?php _e( 'Change Password', 'wpsdeals' );?></option>
 							<?php
 									//do action for adding shortcode option for backend popup
 									do_action( 'wps_deals_admin_shortcodes_option_after' );
@@ -76,8 +83,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 													);
 									$dealscategories = get_categories( $catargs );
 							?>
-							<select id="wps_deals_category_id">
-									<option value=""><?php _e( '--Select Category--','wpsdeals' );?></option>
+							<select data-placeholder="<?php _e( '--Select Category--', 'wpsdeals' ); ?>" id="wps_deals_category_id" class="chzn-select">
+		      					<option value=""></option>
 								<?php
 										foreach ( $dealscategories as $cat ) { ?>
 											<option value="<?php echo $cat->slug;?>"><?php echo $cat->name;?></option>
@@ -117,6 +124,78 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			</table>
 			
 		</div><!--wps_deals_social_login_options-->
+		
+		<div id="wps_deals_single_deal_options" class="wps-deals-shortcodes-options">
+		
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<label for="wps_deals_single_deal_id"><?php _e( 'Select Deal:', 'wpsdeals' );?></label>		
+						</th>
+						<td>
+							<select data-placeholder="<?php _e( 'Select Deal', 'wpsdeals' ); ?>" id="wps_deals_single_deal_id" class="chzn-select">
+		      					<option value=""></option>
+							<?php
+								$deal_ids = $wps_deals_model->wps_deals_get_data( array( 'fields' => 'ids' ) );
+								if( !empty( $deal_ids ) ) {
+									foreach ( $deal_ids as $key => $deal_id ) {
+										echo '<option value="' . $deal_id . '">' . get_the_title( $deal_id ) . '</option>';	
+									}
+								}
+							?>
+							</select>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+		</div><!--wps_deals_single_deal_options-->
+		
+		<div id="wps_deals_multiple_deal_options" class="wps-deals-shortcodes-options">
+		
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<label for="wps_deals_multiple_deal_ids"><?php _e( 'Choose Deals:', 'wpsdeals' );?></label>	
+						</th>
+						<td>
+							<select data-placeholder="<?php _e( 'Choose Deals', 'wpsdeals' ); ?>" id="wps_deals_multiple_deal_ids" class="chzn-select" multiple="multiple">
+							<?php
+								$deal_ids = $wps_deals_model->wps_deals_get_data( array( 'fields' => 'ids' ) );
+								if( !empty( $deal_ids ) ) {
+									foreach ( $deal_ids as $key => $deal_id ) {
+										echo '<option value="' . $deal_id . '">' . get_the_title( $deal_id ) . '</option>';	
+									}
+								}
+							?>
+							</select><br />
+							<span class="description"><?php _e( 'Choose that deals you want to display.', 'wpsdeals' );?></span>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="wps_deals_disable_price"><?php _e( 'Disable Price Box:', 'wpsdeals' );?></label>		
+						</th>
+						<td>
+							<input type="checkbox" id="wps_deals_disable_price" name="wps_deals_disable_price"/><br />
+							<span class="description"><?php _e( 'Check this box if you want to disable pricing box below deal image.', 'wpsdeals' );?></span>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="wps_deals_disable_timer"><?php _e( 'Disable Timer:', 'wpsdeals' );?></label>		
+						</th>
+						<td>
+							<input type="checkbox" id="wps_deals_disable_timer" name="wps_deals_disable_timer"/><br />
+							<span class="description"><?php _e( 'Check this box if you want to disable timer below deal content.', 'wpsdeals' );?></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+		</div><!--wps_deals_multiple_deal_options-->
 		
 		<?php
 				//do action for adding shortcode option for backend popup

@@ -56,13 +56,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 			
 			$paging->calculate(); // calculates what to show
 			$paging->parameterName( 'paging' );
-			$paging->adjacents(1); // no. of pages away from the current page
 			
 			// setting the limit to start
 			$limit_start = ( $paging->page - 1 ) * $paging->limit;
-			
-			// creating a new array for all approved revies
-			
 			
 			if(isset($_POST['paging'])) { 
 				

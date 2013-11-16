@@ -16,6 +16,5 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 <div id="fb-root"></div>
 <div class="wps-deals-connect-buttons">
-	<div class="fb-like" id="wpsdealsfblikebutton_<?php echo $dealid;?>" href="<?php echo $dealurl;?>" data-send="false" data-layout="button_count" data-width="100%" data-show-faces="false" data-font="arial">
-	</div>
+	<div class="fb-like" id="wpsdealsfblikebutton_<?php echo $dealid;?>" href="<?php echo $dealurl;?>" data-send="false" data-layout="button_count" data-width="100%" data-show-faces="false" data-font="arial"></div>
 </div>

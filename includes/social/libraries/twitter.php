@@ -114,7 +114,7 @@ if( !class_exists( 'Wps_Deals_Social_Twitter' ) ) {
 			//check twitter class is loaded or not
 			if( !$twitter ) return false;
 			
-			$request_token = $this->twitter->getRequestToken( get_permalink( $post->ID ) );
+			$request_token = $this->twitter->getRequestToken( wps_deals_get_current_page_url() ); // get_permalink( $post->ID )
 		
 			// If last connection failed don't display authorization link. 
 			switch( $this->twitter->http_code ) { //

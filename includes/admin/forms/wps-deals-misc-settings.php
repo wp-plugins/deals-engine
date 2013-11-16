@@ -108,6 +108,16 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								</td>
 							</tr>
 							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[enable_billing]"><?php _e( 'Enable Billing:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="checkbox" name="wps_deals_options[enable_billing]" id="wps_deals_options[enable_billing]" value="1" <?php if ( isset( $wps_deals_options['enable_billing'] ) ) { checked( '1', $wps_deals_options['enable_billing'] ); } ?> /><br />
+									<span class="description"><?php _e( 'If checked, the user needs to fill up billing details on the checkout page.', 'wpsdeals' ); ?></span>  
+								</td>
+							</tr>
+							
 							<?php 
 									//add some settings before agreement settings
 									do_action('wps_deals_add_misc_settings_agreement_before');

@@ -15,7 +15,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 <div class="wps-deals-login-form-wrap row-fluid clearfix">
-	<div class="wps-deals-login-form">
+	<div class="wps-deals-login-form checkout-fields-container">
 		<h2><?php echo apply_filters( 'wps_deals_cart_login_account_label', __('Login to your account?','wpsdeals'));?></h2>
 		<?php
 				//do action to add fields before user login form

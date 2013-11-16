@@ -34,6 +34,6 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		<img src="<?php echo WPS_DEALS_SOCIAL_URL;?>/images/social-loader.gif" alt="<?php _e( 'Social Loader', 'wpsdeals');?>"/>
 	</div><!--.wps-deals-social-loader-->
 		
-	<input type="hidden" class="wps-deals-login-redirect-url" id="wps_deals_login_redirect_url" value="<?php echo $login_redirect_url;?>" />
+	<input type="hidden" class="wps-deals-login-redirect-url" value="<?php echo $login_redirect_url;?>" />
 		
 </div><!--.wps-deals-social-container-->

@@ -156,6 +156,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	
 	/********************** Deal Ordered Page Hooks **************************/
 	
+	//add_action to show cheque payment message content - 5
+	add_action( 'wps_deals_order_view_content_before'	, 'wps_deals_order_view_content_before'	, 5 );
+	
 	//add_action to show ordered deal page content - 5
 	add_action( 'wps_deals_orders_content'		, 'wps_deals_orders_content'	, 5 );
 	
@@ -199,9 +202,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	//add_action to add payment gateway combo in checkout form - 5
 	//add_action to add content in cart user form - 10
 	//add_action to add content in cart user personal details - 15
+	//add_action to add content in cart user billing details - 20
 	add_action( 'wps_deals_checkout_footer_content', 'wps_deals_checkout_payment_gateways'	, 5 );
 	add_action( 'wps_deals_checkout_footer_content', 'wps_deals_checkout_user_form'			, 10 );
 	add_action( 'wps_deals_checkout_footer_content', 'wps_deals_cart_user_personal_details'	, 15 );
+	add_action( 'wps_deals_checkout_footer_content', 'wps_deals_cart_user_billing_details'	, 20 );
 	
 	//add_action to add content in cart agree terms and condition - 5 
 	//add_action to add order total price & place order button - 10
@@ -228,17 +233,63 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	//add action to show social login yahoo button - 25
 	$priority = 5;
 	if( isset( $wps_deals_options['social_order'] ) && !empty( $wps_deals_options['social_order'] ) ) {
-		$socialorders = $wps_deals_options['social_order'];
+		$socialmedias = $wps_deals_options['social_order'];
 	} else {
 		$socialorders = wps_deals_social_networks();
+		$socialmedias = array_keys ( $socialorders );
 	}
 	
-	foreach (  $socialorders as $social ) {
+	foreach (  $socialmedias as $social ) {
 		add_action( 'wps_deals_checkout_social_login', 'wps_deals_social_login_'.$social , $priority );
 		$priority += 5;
 	}
 	
 	//add action to load social login buttons via shortcode - 10
-	add_action( 'wps_deals_social_login_shortcode', 'wps_deals_cart_social_login', 10, 2 );
+	add_action( 'wps_deals_social_login_shortcode', 'wps_deals_social_login_shortcode', 10, 2 );
+	
+	//add action to add localize script for individual post data
+	add_action( 'wps_deals_localize_map_script', 'wps_deals_localize_map_script' );
+	
+	/********************** My Account Page Hooks **************************/
+	
+	//add action to show my account page address success message - 5
+	//add action to show my account page top content - 10
+	//add action to show my account page available downloads - 15
+	//add action to show my account page recent orders - 20
+	//add action to show my account page addresses - 25
+	add_action( 'wps_deals_my_account_content', 'wps_deals_my_account_address_success_msg'	, 5  );
+	add_action( 'wps_deals_my_account_content', 'wps_deals_my_account_top_content'			, 10 );
+	add_action( 'wps_deals_my_account_content', 'wps_deals_my_account_available_downloads'	, 15 );
+	add_action( 'wps_deals_my_account_content', 'wps_deals_my_account_recent_orders'		, 20 );
+	add_action( 'wps_deals_my_account_content', 'wps_deals_my_account_addresses'			, 25 );
+	
+	//add action to display my account page billing address
+	add_action( 'wps_deals_my_account_billing_address', 'wps_deals_my_account_billing_address', 10, 2 );
+	
+	//add action to display my account page address success message - 5
+	//add action to display my account page login content - 10
+	add_action( 'wps_deals_my_account_login_content', 'wps_deals_my_account_address_success_msg', 5  );
+	add_action( 'wps_deals_my_account_login_content', 'wps_deals_my_account_login_content'		, 10 );
+	
+	//add action to display billing address
+	add_action( 'wps_deals_display_address', 'wps_deals_display_address'				, 10 );
+	
+	//add action to edit address page - 5
+	add_action( 'wps_deals_edit_address_content', 'wps_deals_edit_address_content'		, 5 );
+	
+	//add action to edit address page with display address - 5
+	add_action( 'wps_deals_edit_address_page', 'wps_deals_my_account_addresses'			, 5 );
+	
+	//add action to edit billing address
+	add_action( 'wps_deals_edit_billing_address', 'wps_deals_edit_billing_address'		, 10 );
+	
+	//add action to manage billing address
+	add_action( 'wps_deals_manage_billing_address', 'wps_deals_cart_user_billing_details', 10 );
+	
+	//add action to change password page - 5
+	add_action( 'wps_deals_change_password_content', 'wps_deals_change_password_content', 5 );
+	
+	//add action to lost password page - 5
+	add_action( 'wps_deals_lost_password_content', 'wps_deals_lost_password_content'	, 5 );
 	
 ?>

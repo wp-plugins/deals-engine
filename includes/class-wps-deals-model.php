@@ -35,6 +35,11 @@ class Wps_Deals_Model {
 		
 		$dealsargs = array('post_type' => WPS_DEALS_POST_TYPE, 'post_status' => 'publish');
 		
+		//return only id
+		if(isset($args['fields']) && !empty($args['fields'])) {
+			$dealsargs['fields'] = $args['fields'];
+		}
+		
 		//show how many per page records
 		if(isset($args['posts_per_page']) && !empty($args['posts_per_page'])) {
 			$dealsargs['posts_per_page'] = $args['posts_per_page'];
@@ -82,7 +87,6 @@ class Wps_Deals_Model {
 		
 		return $postslist;
 	}
-	
 	/**
 	 * Get Deal Sales Data
 	 * 
@@ -91,7 +95,7 @@ class Wps_Deals_Model {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	public function wps_deals_get_sales($args=array()) {
+	public function wps_deals_get_sales( $args=array() ) {
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
@@ -106,7 +110,7 @@ class Wps_Deals_Model {
 		}
 		
 		 //for backend sales orders to allow guest users in list
-		if(isset($args['author']) && empty($args['author'])) {
+		if( isset($args['author']) && empty($args['author']) ) {
 			$salesargs['author'] = "'".$args['author']."'"; //when userid is zero need to add quot
 		}
 		
@@ -254,39 +258,7 @@ class Wps_Deals_Model {
 		}
 		
 		return $data;
-	}	
-	
-	/**
-	 * Count down timer
-	 *
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	public function wps_deals_getting_countdown_script($date) {
-		
-		$date = strtotime($date);
-		
-		return "<script type='text/javascript'>
-						
-						var year='".date('Y',$date)."';
-						
-						var month='".date('m',$date)."';
-							
-						var day='".date('d',$date)."';
-						
-						var hour='".date('H',$date)."';
-						
-						var minute='".date('i',$date)."';
-						
-						var dealstimeflag = '1';
-						
-						var currenttime = '".date('F d, Y H:i:s', time())."';
-						
-						var today = new Date(currenttime);
-						
-			 	</script>";
 	}
-	
  	/**
  	 * Returns value from paypal status
  	 *
@@ -439,10 +411,20 @@ class Wps_Deals_Model {
 		$ordersubttotal = isset( $data['order_details']['display_order_subtotal'] ) ? $data['order_details']['display_order_subtotal'] : '';
 		
 		//payment method
-		$payment_method = isset( $data['order_details']['checkout_label'] ) ? $data['order_details']['checkout_label'] : isset( $data['order_details']['payment_method'] ) ? $data['order_details']['payment_method'] : '';
+		$payment_method = isset( $data['order_details']['payment_method'] ) ? $data['order_details']['payment_method'] : '';
+		
+		//checkout label
+		$checkout_label = isset( $data['order_details']['checkout_label'] ) ? $data['order_details']['checkout_label'] : '';
 		
 		//order id 
 		$orderid = isset( $data['order_details']['order_id'] ) ? $data['order_details']['order_id'] : '';
+		
+		$cheque_details = '';
+		// Check payment method is cheque payment and not empty customer message from settings
+		if( $payment_method == 'cheque' && !empty( $wps_deals_options['cheque_customer_msg'] ) ) {
+			//cheuqe details
+			$cheque_details = $wps_deals_options['cheque_customer_msg'];
+		}
 		
 		$purchase_date = '';
 		if( !empty( $orderid ) ) {
@@ -468,7 +450,7 @@ class Wps_Deals_Model {
 		$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
 		
 		$subject = WPS_DEALS_BUYER_EMAIL_SUBJECT;
-		$headers = 'From: '. get_option('blogname').' <'.$fromemail.'>'."\r\n";
+		$headers = 'From: '. $fromemail."\r\n";
 		$headers .= "Reply-To: ". $fromemail . "\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=utf-8\r\n";
@@ -516,17 +498,14 @@ class Wps_Deals_Model {
 		if( isset( $data['email_template'] ) && !empty( $data['email_template'] ) ) {
 			
 			$email_template_option = $data['email_template'];
-			$payment_method = __( 'Sample Method', 'wpsdeals' );
+			$checkout_label = __( 'Sample Method', 'wpsdeals' );
 			$product_details .= "\n\n".'1'.') '.__( 'Sample Deal Title', 'wpsdeals' ).' - '.html_entity_decode($ordersubttotal).' x '.'1'.' - '.html_entity_decode($ordersubttotal);
 			$product_details .= "\n".sprintf( __( 'Download File %d : ','wpsdeals' ), 1 ).'<a href="#">'. __( 'Sample File', 'wpsdeals') .'</a>';
 			$product_details .= "\n\n". __('Notes : Purchase Notes','wpsdeals');
 			
 		} else if( isset( $wps_deals_options['email_template'] ) && !empty( $wps_deals_options['email_template'] ) ) {
-			
 			$email_template_option = $wps_deals_options['email_template'];
-			
 		} else {
-			
 			$email_template_option = 'default';
 		}
 		
@@ -538,14 +517,22 @@ class Wps_Deals_Model {
 		$message = str_replace('{last_name}',$last_name,$message);
 		$message = str_replace('{fullname}',$fullname,$message);
 		$message = str_replace('{username}',$user_name,$message);
-		$message = str_replace('{payment_method}', apply_filters( 'wps_deals_buyer_email_payment_method', $payment_method ), $message);
+		$message = str_replace('{payment_method}', apply_filters( 'wps_deals_buyer_email_payment_method', $checkout_label ), $message);
 		$message = str_replace('{sitename}',get_option('blogname'),$message);
 		$message = str_replace('{purchase_date}',$purchase_date,$message);
 		$message = str_replace('{product_details}',html_entity_decode($product_details),$message);
 		$message = str_replace('{order_id}',$orderid,$message);
 		$message = str_replace('{total}',html_entity_decode($orderamount),$message);
 		$message = str_replace('{subtotal}',html_entity_decode($ordersubttotal),$message);
+		
+		//billing details formated
+		$billingdetails = $this->wps_deals_email_billing_details( $data );
+		
+		//replace billing details
+		$message = str_replace('{billing_details}', html_entity_decode( $billingdetails ), $message );
+		
 		$message = apply_filters('wps_deals_buyer_mail',$message,$data);
+		$message = str_replace('{payment_gateway_description}',$cheque_details,$message);
 		$message = nl2br($message);
 		
 		$html = '';
@@ -584,7 +571,7 @@ class Wps_Deals_Model {
 			$productdata = $data['order_details']['deals_details'];
 			
 			//payment method
-			$payment_method = $data['order_details']['payment_method'];
+			$payment_method = isset( $data['order_details']['admin_label'] ) ? $data['order_details']['admin_label'] : $data['order_details']['payment_method'];
 			
 			//user data
 			$userdata = $data['user_data'];
@@ -610,12 +597,13 @@ class Wps_Deals_Model {
 			$first_name = $userdata['first_name'];
 			$last_name = $userdata['last_name'];
 			$user_name = $first_name.' '.$last_name;
+			$user_email = $userdata['user_email'];
 			
 			$subject = WPS_DEALS_SELLER_EMAIL_SUBJECT;
 			
 			$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
 			
-			$headers = 'From: '. get_option('blogname').' <'.$fromemail.'>'."\r\n";
+			$headers = 'From: '. $fromemail . "\r\n";
 			$headers .= "Reply-To: ". $fromemail . "\r\n";
 			$headers .= "MIME-Version: 1.0\r\n";
 			$headers .= "Content-Type: text/html; charset=utf-8\r\n";
@@ -628,6 +616,7 @@ class Wps_Deals_Model {
 				$i++;
 			}
 			$message = str_replace('{username}',$user_name,$message);
+			$message = str_replace('{email}',$user_email,$message);
 			$message = str_replace('{product_details}',html_entity_decode($product_details),$message);
 			$message = str_replace('{total}',html_entity_decode($orderamount),$message);
 			$message = str_replace('{subtotal}',html_entity_decode($ordersubttotal),$message);
@@ -636,6 +625,12 @@ class Wps_Deals_Model {
 			$message = str_replace('{last_name}',$last_name,$message);
 			$message = str_replace('{purchase_date}',$purchase_date,$message);
 			$message = str_replace('{order_id}',$orderid,$message);
+			
+			//billing details formated
+			$billingdetails = $this->wps_deals_email_billing_details( $data );
+			//replace billing details
+			$message = str_replace('{billing_details}', html_entity_decode( $billingdetails ), $message );
+			
 			$message = apply_filters('wps_deals_seller_mail',$message,$data);
 			$message = nl2br($message); 
 			
@@ -770,7 +765,7 @@ class Wps_Deals_Model {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	public function wps_deals_get_date_format($date,$time=false) {
+	public function wps_deals_get_date_format( $date, $time = false ) {
 		
 		$format = $time ? get_option( 'date_format' ).' '.get_option('time_format') : get_option('date_format');
 		$date = date_i18n( $format, strtotime($date));
@@ -1748,7 +1743,7 @@ class Wps_Deals_Model {
 		$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
 		
 		$message = str_replace( '{status}', $args['status'], $message );
-		$headers = 'From: '. get_option('blogname').' <'.$fromemail.'>'."\r\n";
+		$headers = 'From: ' . $fromemail . "\r\n";
 		$headers .= "Reply-To: ". $fromemail . "\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=utf-8\r\n";
@@ -1776,7 +1771,7 @@ class Wps_Deals_Model {
 		
 		$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
 						
-		$headers = 'From: '. get_option('blogname').' <'.$fromemail.'>'."\r\n";
+		$headers = 'From: ' . $fromemail . "\r\n";
 		$headers .= "Reply-To: ". $fromemail . "\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=utf-8\r\n";
@@ -1938,7 +1933,7 @@ class Wps_Deals_Model {
 		$valstatus = $this->wps_deals_get_ordered_payment_status( $orderid, true );
 		
 		//if payment method should not be paypal & payment status is not completed then return
-		if( $orderdata['payment_method'] != WPS_DEALS_PAYPAL_GATEWAY  && $valstatus != '1' ) return;
+		if( ( $orderdata['payment_method'] != __( 'PayPal Standard','wpsdeals') && $orderdata['payment_method'] != 'paypal' ) && $valstatus != '1' ) return;
 		
 		$ipndata = $this->wps_deals_get_ipn_data( $orderid );
 		
@@ -2182,5 +2177,102 @@ class Wps_Deals_Model {
 		
 		return apply_filters( 'wps_deals_email_templates', $templates );
 	}
+	/**
+	 * Return Billing Details
+	 * 
+	 * Handles to return billing details for email
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	public function wps_deals_email_billing_details( $data ) {
+		
+		$billingdetailsstr = '';
+		
+		if( isset( $data['order_details']['billing_details'] ) && !empty( $data['order_details']['billing_details'] ) ) {
+			
+			$billingdetails = $data['order_details']['billing_details'];
+			
+			//billingcountry 
+			$billingcountry		= isset( $billingdetails['country'] ) ? wps_deals_get_country_name( $billingdetails['country'] ) : '';
+			//billing state
+			$billingstate		= isset( $billingdetails['state'] ) ? wps_deals_get_state_name ( $billingdetails['state'], $billingdetails['country'] ) : '';
+			//billing company	
+			$billingcompany		= isset( $billingdetails['company'] ) ? $billingdetails['company'] : '';
+			//billing adddress
+			$billingaddress1	= isset( $billingdetails['address1'] ) ? $billingdetails['address1'] : '';
+			$billingaddress2	= isset( $billingdetails['address2'] ) ? $billingdetails['address2'] : '';
+			//billing city
+			$billingcity		= isset( $billingdetails['city'] ) ? $billingdetails['city'] : '';
+			//billing postcode
+			$billingpostcode	= isset( $billingdetails['postcode'] ) ? $billingdetails['postcode'] : '';
+			//billing phone
+			$billingphone		= isset( $billingdetails['phone'] ) ? $billingdetails['phone'] : '';
+			
+			$billingdetailsstr .= "\n" . sprintf( __( 'Address : %s','wpsdeals'),			$billingaddress1 ."\n".$billingaddress2 );
+			$billingdetailsstr .= "\n" . sprintf( __( 'Company Name : %s','wpsdeals'),		$billingcompany );
+			$billingdetailsstr .= "\n" . sprintf( __( 'Town / City : %s','wpsdeals'), 		$billingcity );
+			$billingdetailsstr .= "\n" . sprintf( __( 'County / State : %s','wpsdeals'), 	wps_deals_get_state_name ( $billingstate, $billingdetails['country'] ) );
+			$billingdetailsstr .= "\n" . sprintf( __( 'Zip / Postal Code : %s','wpsdeals'), $billingpostcode );
+			$billingdetailsstr .= "\n" . sprintf( __( 'Country : %s','wpsdeals'), 			$billingcountry );
+			$billingdetailsstr .= "\n" . sprintf( __( 'Phone : %s','wpsdeals'), 			$billingcountry );
+			
+		}  //end if to check order details contain billing details
+		else {
+			//$billingdetailsstr .= "\n" . __( 'N / A','wpsdeals');
+		}
+		
+		return $billingdetailsstr;
+	}
+	
+	/**
+	 * Send E-mail to user when user reset password
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_send_reset_password_email($args = array()) {
+		
+		global $wps_deals_options;
+		
+		$email_template_option = isset( $wps_deals_options['email_template'] ) && !empty( $wps_deals_options['email_template'] ) ? $wps_deals_options['email_template'] : 'default';
+		
+		$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
+		
+		$subject = isset($wps_deals_options['reset_password_email_subject']) ? $wps_deals_options['reset_password_email_subject'] : '';
+		
+		$message = isset($wps_deals_options['reset_password_email']) ? $wps_deals_options['reset_password_email'] : '';
+		
+		$lost_password_page = isset( $wps_deals_options['lost_password'] ) && !empty( $wps_deals_options['lost_password'] ) ? $wps_deals_options['lost_password'] : '';
+		$reset_link = add_query_arg( array( 'wps_deal_user_key' => $args['user_key'], 'wps_deals_user_name' => $args['user_name'] ), get_permalink( $lost_password_page ) );
+		
+		$reset_link_html = '<a href="' . $reset_link . '">' . __( 'Click here to reset your password', 'wpsdeals' ) . '</a>';
+						
+		$message = str_replace( '{user_name}', $args['user_name'], $message );
+		$message = str_replace( '{reset_link}', $reset_link_html, $message );
+		
+		$headers = 'From: ' . $fromemail . "\r\n";
+		$headers .= "Reply-To: ". $fromemail . "\r\n";
+		$headers .= "MIME-Version: 1.0\r\n";
+		$headers .= "Content-Type: text/html; charset=utf-8\r\n";
+
+		$message = nl2br($message);
+		
+		$html = '';
+		$html .= '<html>
+					<head>';
+		$html .= apply_filters( 'wps_deals_email_template_css_' . $email_template_option, $html );
+		$html .= '</head>
+					<body>';
+		$html .= apply_filters( 'wps_deals_email_template_' . $email_template_option, $html, $message, '' );
+		$html .= '	</body>
+				</html>';
+		
+		$html = apply_filters( 'wps_deals_buyer_email_html', $html, $message, '' );
+		
+		wp_mail( $args['user_email'], $subject, $html, $headers );
+		
+	}
+	
 }
 ?>

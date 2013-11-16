@@ -181,7 +181,6 @@ class Wps_Deals_Paypal {
          $this->log_ipn_results(false);   
          return false;
        
-         
       }
       
    }
@@ -196,30 +195,35 @@ class Wps_Deals_Paypal {
  	*
  	*/
    function log_ipn_results($success) {
-       
-      if (!$this->ipn_log) return;  // is logging turned off?
-      
-      // Timestamp
-      $text = '['.date('m/d/Y g:i A').'] - '; 
-      
-      // Success or failure being logged?
-      if ($success) $text .= "SUCCESS!\n";
-      else $text .= 'FAIL: '.$this->last_error."\n";
-      
-      // Log the POST variables
-      $text .= "IPN POST Vars from Paypal:\n";
-      foreach ($this->ipn_data as $key=>$value) {
-         $text .= "$key=$value, ";
-      }
- 
-      // Log the response from the paypal server
-      $text .= "\nIPN Response from Paypal Server:\n ".$this->ipn_response;
-      
-      // Write to log
-      $fp=fopen($this->ipn_log_file,'a');
-      fwrite($fp, $text . "\n\n"); 
-
-      fclose($fp);  // close file
+    
+		global $wps_deals_payment_log; 
+   	 
+		if (!$this->ipn_log) return;  // is logging turned off?
+		
+		// Timestamp
+		$text = '['.date('m/d/Y g:i A').'] - '; 
+		
+		// Success or failure being logged?
+		if ($success) $text .= "SUCCESS!\n";
+		else $text .= 'FAIL: '.$this->last_error."\n";
+		
+		// Log the POST variables
+		$text .= "IPN POST Vars from Paypal:\n";
+		foreach ($this->ipn_data as $key=>$value) {
+		 	$text .= "$key=$value, ";
+		}
+		
+		// Log the response from the paypal server
+		$text .= "\nIPN Response from Paypal Server:\n ".$this->ipn_response;
+		
+		// Write to log
+		$wps_deals_payment_log->wps_deals_add( 'paypal', $text );
+		
+		// Write to log
+		/*$fp=fopen($this->ipn_log_file,'a');
+		fwrite($fp, $text . "\n\n"); 
+		
+		fclose($fp);  // close file*/
    }
 }
 ?>

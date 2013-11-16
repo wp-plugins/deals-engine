@@ -20,8 +20,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @package Social Deals Engine
  * @since 1.0.0 
  */
-
-function wps_deals_register_post_types() {
+function wps_deals_register_deal_post_type() {
 	
 	//array for all required labels
 	$deals_labels =  array(
@@ -59,6 +58,20 @@ function wps_deals_register_post_types() {
 	//register deals post type
 	register_post_type( WPS_DEALS_POST_TYPE, $deals_args );
 	
+}
+//register deals post type
+add_action( 'init','wps_deals_register_deal_post_type' );
+
+/**
+ * Setup Deals Sales Post Type
+ *
+ * Registers the Deals Sales Post Types
+ * 
+ * @package Social Deals Engine
+ * @since 1.0.0 
+ **/
+function wps_deals_register_sales_post_types() {
+	
 	//deals sales post type
 	$sales_labels = array(
 						    'name'				=> __('Sales','wpsdeals'),
@@ -93,9 +106,9 @@ function wps_deals_register_post_types() {
 	//register deals sales post type
 	register_post_type( WPS_DEALS_SALES_POST_TYPE, $sales_args );
 }
-//register custom post type
-add_action('init','wps_deals_register_post_types',100); // we need to keep priority 100, because we need to execute this init action after all other init action called.
-
+//register deals sales post type
+// we need to keep priority 100, because we need to execute this init action after all other init action called, only when hidden post type is need to created.
+add_action( 'init','wps_deals_register_sales_post_types', 100 );
 
 /**
  * Message Filter
@@ -239,7 +252,7 @@ function wps_deals_register_taxonomies() {
 }
 
 //register taxonomies (categories) for custom post type
-add_action('init','wps_deals_register_taxonomies');
+add_action( 'init','wps_deals_register_taxonomies' );
 /**
  * Filter By Category
  * 
@@ -312,7 +325,7 @@ function wps_deals_restrict_manage_posts() {
 }
 
 // Add category filter in deals list page
-add_action('restrict_manage_posts','wps_deals_restrict_manage_posts');
+add_action( 'restrict_manage_posts','wps_deals_restrict_manage_posts' );
 /**
  * Categorywise Search
  * 

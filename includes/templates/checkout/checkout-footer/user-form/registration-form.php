@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	<div class="wps-deals-reg-wrap row-fluid clearfix">
 		<span><?php _e('Already have an account?','wpsdeals');?>
 		<?php echo apply_filters( 'wps_deals_cart_login_link','<a href="javascript:void(0);" class="wps-deals-login-link">'.__('Login','wpsdeals').'</a>');?></span>
-		<div class="wps-deals-registration-form">
+		<div class="wps-deals-registration-form checkout-fields-container">
 			<h2><?php echo apply_filters( 'wps_deals_cart_create_account_label', __('Create an account '.$optiontext,'wpsdeals'));?></h2>
 			
 			<?php

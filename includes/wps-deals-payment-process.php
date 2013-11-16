@@ -51,6 +51,9 @@ function wps_deals_payment_process() {
 		//user details 
 		$uservalid = wps_deals_valid_user_data();
 		
+		//valid billing details
+		$userbilling	= wps_deals_valid_billing_data();
+		
 		$agreeterms = true;
 		 
 		 //terms and conditions
@@ -60,7 +63,7 @@ function wps_deals_payment_process() {
 		}		 
 		
 		// !$noncevalidate ||
-		if( empty( $cartdata['products'] ) || !$validatedata || !$uservalid || !$validgateway || !$agreeterms ) { //check some data valid or not
+		if( empty( $cartdata['products'] ) || !$validatedata || !$uservalid || !$validgateway || !$agreeterms || !$userbilling ) { //check some data valid or not
 			//redirect to checkout page
 			wps_deals_send_on_checkout_page();
 		} 
@@ -249,6 +252,7 @@ function wps_deals_payment_agree_to_terms($agree) {
 	
 	global $wps_deals_message;
 	
+	//message class object
 	$message = $wps_deals_message;
 		
 	// Validate agree to terms
@@ -258,5 +262,64 @@ function wps_deals_payment_agree_to_terms($agree) {
 		return false;
 	}
 	return true;
+}
+/**
+ * Validate Billing Details
+ * 
+ * Handles to call validatin billing details
+ * 
+ * @package Social Deals Engine
+ * @since 1.0.0
+ **/
+function wps_deals_valid_billing_data() {
+	
+	global $wps_deals_message;
+	
+	//message class object
+	$message = $wps_deals_message;
+	
+	$error = false;
+	
+	//cehck billing details set on checkout page or not
+	if( isset( $_POST['wps_deals_billing_details'] ) && !empty( $_POST['wps_deals_billing_details'] ) ) {
+		
+		//billing data 
+		$billingdata = $_POST['wps_deals_billing_details'];
+		
+		//check billing country
+		if( isset( $billingdata['country'] ) && empty( $billingdata['country'] ) ) {
+			$message->add_session( 'cartuser', __( '<span><strong>ERROR : </strong>Please select billing country.</span>','wpsdeals' ),'multierror');
+			$error = true;
+		}
+		//check billing address
+		if( isset( $billingdata['address1'] ) && empty( $billingdata['address1'] ) ) {
+			$message->add_session( 'cartuser', __( '<span><strong>ERROR : </strong>Please enter billing address.</span>','wpsdeals' ),'multierror');
+			$error = true;
+		}
+		//check billing city / town
+		if( isset( $billingdata['city'] ) && empty( $billingdata['city'] ) ) {
+			$message->add_session( 'cartuser', __( '<span><strong>ERROR : </strong>Please enter billing town / city.</span>','wpsdeals' ),'multierror');
+			$error = true;
+		}
+		//check billing state / county
+		if( isset( $billingdata['state'] ) && empty( $billingdata['state'] ) ) {
+			$message->add_session( 'cartuser', __( '<span><strong>ERROR : </strong>Please enter billing state / county.</span>','wpsdeals' ),'multierror');
+			$error = true;
+		}
+		//check billing postcode
+		if( isset( $billingdata['postcode'] ) && empty( $billingdata['postcode'] ) ) {
+			$message->add_session( 'cartuser', __( '<span><strong>ERROR : </strong>Please enter billing postcode.</span>','wpsdeals' ),'multierror');
+			$error = true;
+		}
+		//check billing phone
+		/*if( isset( $billingdata['phone'] ) && empty( $billingdata['phone'] ) ) {
+			$message->add_session( 'cartuser', __( '<span><strong>ERROR : </strong>Please enter billing phone number.</span>','wpsdeals' ),'multierror');
+			$error = true;
+		}*/
+	}
+	
+	//check error is occured or not
+	if( $error == true ) { return  false; } else { return true; }
+
 }
 ?>

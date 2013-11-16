@@ -103,11 +103,13 @@ wp_enqueue_script( 'wps-deals-popup-scripts' );
 												<code>{product_details}</code> - displays the details for each product for this purchase<br />
 												<code>{payment_method}</code> - displays the payment method the buyer used for this purchase<br />
 												<code>{purchase_date}</code> - displays the date on which the purchase was made<br />
-												<code>{order_id}</code> – displays the Order ID of this purchase<br />
-												<code>{sitename}</code> – displays the name of your site<br />
-												<code>{subtotal}</code> – displays the subtotal amount of this purchase<br />
-												<code>{total}</code> – displays the total amount of this purchase';
-												$buyeremail_desc = apply_filters('wps_deals_buyer_email_body_desc',$buyeremail_desc);
+												<code>{order_id}</code> - displays the Order ID of this purchase<br />
+												<code>{sitename}</code> - displays the name of your site<br />
+												<code>{subtotal}</code> - displays the subtotal amount of this purchase<br />
+												<code>{total}</code> - displays the total amount of this purchase<br />
+												<code>{payment_gateway_description}</code> - displays the buyer\'s payment gateway details<br />
+												<code>{billing_details}</code> - displays the buyer\'s billing details';
+												$buyeremail_desc = apply_filters( 'wps_deals_buyer_email_body_desc', $buyeremail_desc );
 										?><br />		
 										<span class="description"><?php _e($buyeremail_desc,'wpsdeals');?></span>
 									</td>
@@ -155,11 +157,14 @@ wp_enqueue_script( 'wps-deals-popup-scripts' );
 												<code>{first_name}</code> - displays the buyer\'s first name<br />
 												<code>{last_name}</code> - displays the buyer\'s last name<br />
 												<code>{username}</code> - displays the buyer\'s username on the site, if they registered an account<br />
+												<code>{email}</code> - displays the buyer\'s email<br />
 												<code>{product_details}</code> - displays the details for each product for this purchase<br />
 												<code>{payment_method}</code> - displays the payment method the buyer used for this purchase<br />
-												<code>{subtotal}</code> – displays the subtotal amount of this purchase<br />
-												<code>{total}</code> – displays the total amount of this purchase';
-												
+												<code>{purchase_date}</code> - displays the date on which the purchase was made<br />
+												<code>{order_id}</code> - displays the Order ID of this purchase<br />
+												<code>{subtotal}</code> - displays the subtotal amount of this purchase<br />
+												<code>{total}</code> - displays the total amount of this purchase<br />
+												<code>{billing_details}</code> - displays the buyer\'s billing details';
 												$selleremail_desc = apply_filters('wps_deals_seller_email_body_desc',$selleremail_desc);
 										?><br />
 										<span class="description"><?php _e($selleremail_desc,'wpsdeals');?></span>
@@ -191,6 +196,33 @@ wp_enqueue_script( 'wps-deals-popup-scripts' );
 												$update_order_desc = apply_filters('wps_deals_update_order_email_desc',$update_order_desc);
 										?><br />
 										<span class="description"><?php _e($update_order_desc,'wpsdeals');?></span>
+									</td>
+								</tr>
+								
+								<tr>
+									<th scope="row">
+										<label for="wps_deals_options[reset_password_email_subject]"><?php _e( 'Reset Password Email Subject:', 'wpsdeals' ); ?></label>
+									</th>
+									<td>
+										<input type="text" id="wps_deals_options[reset_password_email_subject]" name="wps_deals_options[reset_password_email_subject]" value="<?php echo $model->wps_deals_escape_attr( $wps_deals_options['reset_password_email_subject'] );?>" class="large-text" /><br />
+										<span class="description"><?php _e('This is the subject of the email that will be sent to the user when user reset the password.','wpsdeals');?></span>
+									</td>
+								</tr>
+								
+								<tr>
+									<th scope="row">
+										<label for="wps_deals_options[reset_password_email]"><?php _e( 'Reset Password Email Body:', 'wpsdeals' ); ?></label>
+									</th>
+									<td>
+										<textarea id="wps_deals_options[reset_password_email]" name="wps_deals_options[reset_password_email]" rows="7" class="large-text"><?php echo $model->wps_deals_escape_attr($wps_deals_options['reset_password_email'])?></textarea>
+										<?php 
+												$reset_password_desc = 'This is the body of the email that will be sent to the user when user reset the password. Do not change the email tags (text within the braces { })<br />
+																			<code>{reset_link}</code> - displays reset link for reset user password.<br />
+																			<code>{user_name}</code> - displays user name.';
+												
+												$reset_password_desc = apply_filters('wps_deals_reset_password_email_desc',$reset_password_desc);
+										?><br />
+										<span class="description"><?php _e($reset_password_desc,'wpsdeals');?></span>
 									</td>
 								</tr>
 								

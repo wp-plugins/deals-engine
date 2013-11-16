@@ -17,11 +17,13 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 <div class="wps-deals-connect-buttons">
 	<div class="wps-deals-gp-button">
-		<g:plusone href="<?php echo $dealurl;?>" size="medium" annotation="bubble" callback="wps_deals_gp_<?php echo $dealid;?>"></g:plusone>
+		<g:plusone href="<?php echo $dealurl;?>" size="medium" annotation="bubble" onendinteraction="wps_deals_gp_share_<?php echo $dealid;?>"></g:plusone>
 	</div><!--wps-deals-gp-button-->
 		<script type="text/javascript">
-			function wps_deals_gp_<?php echo $dealid;?>(res){
-				if(res.state == "on") {	
+			function wps_deals_gp_share_<?php echo $dealid;?>( res ){
+				
+				//check user shared deal on google plus or not
+				if( res.type == "confirm" ) {	
 					var data = { 
 									postid	: '<?php echo $dealid;?>',
 									action	: "deals_update_social_media_values",

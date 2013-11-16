@@ -18,17 +18,6 @@
 	$model = $wps_deals_model;
 
 ?>
-
-<div class="wps-deals-paging">
-	<div id="wps-deals-tablenav-pages" class="wps-deals-tablenav-pages">
-		<?php echo $paging->getOutput(); ?>
-	</div>
-</div>
-<div class="wps-deals-sales-loader">
-	<img src="<?php echo WPS_DEALS_URL;?>includes/images/cart-loader.gif"/>
-</div>
-<div class="wps-deals-clear"></div>
-
 <table class="wps-deals-ordered-table">
 	<thead>
 		<tr class="wps-deals-ordered-row-head">
@@ -71,7 +60,7 @@
 			<?php
 					//order view page url
 					$order_query = get_permalink( $wps_deals_options['payment_thankyou_page'] );
-					$order_query = add_query_arg( array('order_id' => $order['ID']), $order_query );
+					$order_query = add_query_arg( array('order_id' => $order['ID'] ), $order_query );
 			?>
 			<td><a href="<?php echo $order_query; ?>" title="<?php _e('View Details','wpsdeals');?>"><?php _e('View Details','wpsdeals');?></a></td>
 			<?php 
@@ -99,3 +88,12 @@
 		</tr>
 	</tfoot>
 </table>
+
+<div class="wps-deals-paging">
+	<div id="wps-deals-tablenav-pages" class="wps-deals-tablenav-pages">
+		<?php echo $paging->getOutput(); ?>
+	</div><!--.wps-deals-tablenav-pages-->
+</div><!--.wps-deals-paging-->
+<div class="wps-deals-sales-loader">
+	<img src="<?php echo WPS_DEALS_URL;?>includes/images/cart-loader.gif"/>
+</div><!--.wps-deals-sales-loader-->

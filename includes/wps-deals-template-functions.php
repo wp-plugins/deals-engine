@@ -435,17 +435,25 @@ if( !function_exists( 'wps_deals_home_header_timer' ) ) {
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		// get the value for the deal end date from the post meta box
-		$enddate = get_post_meta($post->ID,$prefix.'end_date',true);
+		$enddatemeta = get_post_meta($post->ID,$prefix.'end_date',true);
 		
-		if(!empty($enddate)) { //check deal end date 
+		if( !empty( $enddatemeta ) ) { //check deal end date 
 			
-			$countdowntimer = $wps_deals_model->wps_deals_getting_countdown_script( $enddate );
-			echo $countdowntimer;
+			$timerargs = array();
 			
+			$enddate = strtotime( $enddatemeta );
+			$timerargs['year']			=	date( 'Y', $enddate );
+			$timerargs['month']			=	date( 'm', $enddate );
+			$timerargs['day']			=	date( 'd', $enddate );
+			$timerargs['hours']			=	date( 'H', $enddate );
+			$timerargs['minute']		=	date( 'i', $enddate );
+			$timerargs['seconds']		=	date( 's', $enddate );
+			
+			//show home page header timer template
+			wps_deals_get_template( 'home/home-header/header-timer.php', $timerargs );
 		}
 		
-		//show home page header timer template
-		wps_deals_get_template( 'home/home-header/header-timer.php' );
+		
 		
 	}
 }
@@ -465,7 +473,7 @@ if( !function_exists( 'wps_deals_home_header_discount' ) ) {
 		global $post,$wps_deals_price;
 		
 		//discount 
-		$discount = $wps_deals_price->wps_deals_get_discount($post->ID);
+		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
 		
 		//show home page header discount templage
 		wps_deals_get_template( 'home/home-header/header-discount.php', array( 'discount' => $discount ) );
@@ -635,6 +643,32 @@ if( !function_exists( 'wps_deals_social_google' ) ) {
 			wp_enqueue_script( 'google' );		
 			//social google+ button template
 			wps_deals_get_template( 'social-buttons/google.php', $args );
+			
+			//call ajax when user will share content to google plus
+		?>	
+			<script type="text/javascript">
+				function wps_deals_gp_share_<?php echo $post->ID;?>( res ){
+					
+					//check user shared deal on google plus or not
+					if( res.type == 'confirm' ) {	
+						var data = { 
+										postid	: '<?php echo $post->ID;?>',
+										action	: 'deals_update_social_media_values',
+										type	: 'gp'
+									};
+				
+						jQuery.post( '<?php echo admin_url('admin-ajax.php');?>', data, function( response ) {
+							if(response != '') {
+								//window.location.reload();
+								wps_deals_reload();
+							}
+						});
+					}
+				}
+			</script>
+			
+		<?php
+		
 		}
 	}
 	
@@ -766,7 +800,7 @@ if( !function_exists( 'wps_deals_home_more_deal_discount' ) ) {
 		global $post,$wps_deals_price;
 		
 		//discount 
-		$discount = $wps_deals_price->wps_deals_get_discount($post->ID);
+		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
 		
 		//deal discount template
 		wps_deals_get_template( 'home/home-content/deal-discount.php', array( 'discount' => $discount ) );
@@ -813,18 +847,20 @@ if( !function_exists( 'wps_deals_home_more_deal_footer_time' ) ) {
 	
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		//now time
-		$today = date('Y-m-d H:i:s');
-	
 		// get the value for the deal end date from the post meta box
-		$deal_end_date = get_post_meta($post->ID,$prefix.'end_date',true);
-						
-		$difference = strtotime($deal_end_date) - strtotime($today);
+		$deal_end_date = get_post_meta( $post->ID, $prefix.'end_date',true );
 		
-		$datediff = $wps_deals_model->wps_deals_seconds_to_time($difference);
+		$args = array( 
+							'year'		=>	date( 'Y', strtotime( $deal_end_date ) ),
+							'month'		=>	date( 'm', strtotime( $deal_end_date ) ),
+							'day'		=>	date( 'd', strtotime( $deal_end_date ) ),
+							'hours'		=>	date( 'H', strtotime( $deal_end_date ) ),
+							'minute'	=>	date( 'i', strtotime( $deal_end_date ) ),
+							'seconds'	=>	date( 's', strtotime( $deal_end_date ) )
+						);
 		
 		//deal timer template
-		wps_deals_get_template( 'home/home-content/timer.php', array( 'timeremain' => $datediff ) );
+		wps_deals_get_template( 'home/home-content/timer.php', $args );
 	}
 }
 
@@ -852,7 +888,7 @@ if( !function_exists( 'wps_deals_home_more_deal_footer_see_deal' ) ) {
 /**
  * Single Deals Template Functions
  * 
- * Handles to View Single Deal
+ * Handles to Show Single Deal
  * page
  * 
  * @package Social Deals Engine
@@ -1150,14 +1186,18 @@ if( !function_exists( 'wps_deals_single_deal_timer' ) ) {
 				} else {
 					$counterdate = $enddate;
 				}
-				$countdowntimer = $wps_deals_model->wps_deals_getting_countdown_script($counterdate);
-				echo $countdowntimer;
 			}
 			
 			$args = array( 
 							'startdate'	=>	$startdate, 
 							'enddate'	=>	$enddate,
-							'today'		=>	$today
+							'today'		=>	$today,
+							'year'		=>	date( 'Y', strtotime( $enddate ) ),
+							'month'		=>	date( 'm', strtotime( $enddate ) ),
+							'day'		=>	date( 'd', strtotime( $enddate ) ),
+							'hours'		=>	date( 'H', strtotime( $enddate ) ),
+							'minute'	=>	date( 'i', strtotime( $enddate ) ),
+							'seconds'	=>	date( 's', strtotime( $enddate ) )
 						);
 			
 			//deal timer template
@@ -1763,6 +1803,35 @@ if( !function_exists( 'wps_deals_single_terms_conditions' ) ) {
 
 /*************************** Orders Deals Page Template ******************************/
 
+if( !function_exists( 'wps_deals_order_view_content_before' ) ) {
+
+	/**
+	 * Load Cheque Payment Message Template 
+	 * 
+	 * Handles to show cheque payment message content
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.1
+	 */
+	function wps_deals_order_view_content_before( $order_id ) {
+		
+		global $wps_deals_model, $wps_deals_options;
+		
+		// get the value for the order details from the post meta box
+		$order_details = $wps_deals_model->wps_deals_get_post_meta_ordered( $order_id );
+		
+		$payment_method = isset( $order_details['payment_method'] ) ? $order_details['payment_method'] : '';
+	
+		// Check payment method is cheque payment and not empty customer message from settings
+		if( $payment_method == 'cheque' && isset( $wps_deals_options['cheque_customer_msg'] )
+			 && !empty( $wps_deals_options['cheque_customer_msg'] ) ) {
+		
+			//cheque payment message details template
+			wps_deals_get_template( 'orders/order-cheque-payment-message.php', array( 'cheque_customer_msg' => $wps_deals_options['cheque_customer_msg'] ) );
+		
+		}
+	}
+}
 if( !function_exists( 'wps_deals_orders_content' ) ) {
 
 	/**
@@ -2024,20 +2093,28 @@ if( !function_exists( 'wps_deals_cart_social_login' ) ) {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_cart_social_login( $title = '', $redirect_url = '' ) {
+	function wps_deals_cart_social_login() {
 		
 		global $wps_deals_options;
 		
 		//check user is not logged in and social login is enable or not for any one service
 		if( !is_user_logged_in() && wps_deals_enable_social_login() ) {
 			
+			// get redirect url from settings
+			$defaulturl = isset( $wps_deals_options['login_redirect_url'] ) && !empty( $wps_deals_options['login_redirect_url'] ) 
+								? $wps_deals_options['login_redirect_url'] : wps_deals_get_current_page_url();
+			
+			//redirect url for shortcode
+			$defaulturl = isset( $redirect_url ) && !empty( $redirect_url ) ? $redirect_url : $defaulturl; 
+			
+			//session create for redirect url
+			$_SESSION['wps_deals_stcd_redirect_url'] = $defaulturl;
+			
 			// get title from settings
 			$login_heading = isset( $wps_deals_options['login_heading'] ) ? $wps_deals_options['login_heading'] : __( 'Login with Social Media', 'wpsdeals' );
-			$login_heading = !empty( $title ) ? $title : $login_heading; // check title first from shortcode
 			
 			// get redirect url from settings
 			$login_redirect_url = isset( $wps_deals_options['login_redirect_url'] ) ? $wps_deals_options['login_redirect_url'] : '';
-			$login_redirect_url = !empty( $redirect_url ) ? $redirect_url : $login_redirect_url; // check redirect url first from shortcode
 			
 			//load social login buttons template
 			wps_deals_get_template( 'checkout/checkout-content/social.php', array( 	'title' 			=> $login_heading,
@@ -2047,9 +2124,40 @@ if( !function_exists( 'wps_deals_cart_social_login' ) ) {
 			//enqueue social front script
 			wp_enqueue_script( 'wps-deals-social-front-scripts' );
 		}
-		
 	}
+}
+
+if( !function_exists( 'wps_deals_social_login_shortcode' ) ) {
 	
+	/**
+	 * Load Shortcode Social Login Buttons Template
+	 * 
+	 * Handles to load shortcode social login buttons
+	 * template
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_social_login_shortcode( $title = '', $redirect_url = '' ) {
+		
+		global $wps_deals_options;
+		
+		// get title from settings
+		$login_heading = isset( $wps_deals_options['login_heading'] ) ? $wps_deals_options['login_heading'] : __( 'Login with Social Media', 'wpsdeals' );
+		$login_heading = !empty( $title ) ? $title : $login_heading; // check title first from shortcode
+		
+		// get redirect url from settings
+		$login_redirect_url = isset( $wps_deals_options['login_redirect_url'] ) ? $wps_deals_options['login_redirect_url'] : '';
+		$login_redirect_url = !empty( $redirect_url ) ? $redirect_url : $login_redirect_url; // check redirect url first from shortcode
+		
+		//load social login buttons template
+		wps_deals_get_template( 'checkout/checkout-content/social.php', array( 	'title' 			=> $login_heading,
+																				'login_redirect_url'=> $login_redirect_url
+																				) );
+		
+		//enqueue social front script
+		wp_enqueue_script( 'wps-deals-social-front-scripts' );
+	}
 }
 
 if( !function_exists( 'wps_deals_checkout_payment_gateways' ) ) {
@@ -2163,6 +2271,70 @@ if( !function_exists( 'wps_deals_cart_user_personal_details' ) ) {
 		//personal details template
 		wps_deals_get_template( 'checkout/checkout-footer/personal-details.php' );
 		
+	}
+}
+if( !function_exists( 'wps_deals_cart_user_billing_details' ) ) {
+	
+	/**
+	 * Load Cart User Billing Details Template
+	 * 
+	 * Handles to load user billing details
+	 * template
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_cart_user_billing_details() {
+		
+		global $current_user, $wps_deals_options;
+		
+		//check billing is enable from settings page
+		if( isset( $wps_deals_options['enable_billing'] ) && !empty( $wps_deals_options['enable_billing'] ) ) {
+		
+			$prefix = WPS_DEALS_META_PREFIX;
+			
+			//get user billing data saved
+			$userbillingdata	=	get_user_meta( $current_user->ID, $prefix.'billing_details', true );
+			
+			//get user country from saved
+			$usercountry		=	isset( $userbillingdata['country'] ) ? $userbillingdata['country'] : '';
+			//get user company name
+			$usercompany		=	isset( $userbillingdata['company'] ) ? $userbillingdata['company'] : '';
+			//get user address1 
+			$useraddress1		=	isset( $userbillingdata['address1'] ) ? $userbillingdata['address1'] : '';
+			//get user address2 
+			$useraddress2		=	isset( $userbillingdata['address2'] ) ? $userbillingdata['address2'] : '';
+			//get user city or town
+			$usercity			=	isset( $userbillingdata['city'] ) ? $userbillingdata['city'] : '';
+			//get user state or county
+			$userstate			=	isset( $userbillingdata['state'] ) ? $userbillingdata['state'] : '';
+			//get user post code
+			$userpostcode		=	isset( $userbillingdata['postcode'] ) ? $userbillingdata['postcode'] : '';
+			//get user phone
+			$userphone			=	isset( $userbillingdata['phone'] ) ? $userbillingdata['phone'] : '';
+			
+			//get statelist from country
+			$statesfrom =  wps_deals_get_states_from_country( $usercountry );
+			$states = !empty( $statesfrom ) ? $statesfrom : '';
+			
+			//data pased to template
+			$billingargs = array( 
+									'countries'		=>	wps_deals_get_country_list(),
+									'usercountry'	=>	$usercountry,
+									'usercompany'	=>	$usercompany,
+									'useraddress1'	=>	$useraddress1,
+									'useraddress2'	=>	$useraddress2,
+									'usercity'		=>	$usercity,
+									'userstate'		=>	$userstate,
+									'userpostcode'	=>	$userpostcode,
+									'userphone'		=>	$userphone,
+									'statelist'		=>	$states
+								);
+			
+			//billing details template
+			wps_deals_get_template( 'checkout/checkout-footer/billing-details.php', $billingargs );
+			
+		} //end if to check enable billing or not
 	}
 }
 if( !function_exists( 'wps_deals_cart_agree_terms' ) ) {
@@ -2528,6 +2700,488 @@ if( !function_exists( 'wps_deals_social_login_windowslive' ) ) {
 			
 		}
 		
-	}	
+	}
+}
+if( !function_exists( 'wps_deals_localize_map_script' ) ) {
+	
+	/**
+	 * Add Localize Script for Individual Post Data
+	 * 
+	 * Handles to add localize script for individual post data
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_localize_map_script() {
+		
+		global $post;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		// get the value for the google map address from the post meta box
+		$gmapaddress = get_post_meta( $post->ID, $prefix.'address', true );
+		$gmapaddress = isset($gmapaddress) && !empty($gmapaddress) ? $gmapaddress : '';
+		
+		// get the value for the google map popup content from the post meta box
+		$gmappopupcontent = get_post_meta( $post->ID, $prefix.'gmaps_popup_content', true );
+		$gmappopupcontent = isset($gmappopupcontent) && !empty($gmappopupcontent) ? $gmappopupcontent : '';
+		
+		// get the value for the google map popup max width from the post meta box
+		$gmapwidth = get_post_meta( $post->ID, $prefix.'gmap_popup_width', true );
+		
+		$popupmaxwidth = isset($gmapwidth) && !empty($gmapwidth) ? $gmapwidth : '220';
+		
+		$address = str_replace("'", "&prime;", $gmapaddress);
+		
+		if (!empty($gmappopupcontent)) {
+			$popupcontent =  '<div class="wps-deals-gmap-popup-content">'.$gmappopupcontent.'</div>';
+		} else {
+			$popupcontent = $address;
+		}
+		
+		wp_localize_script( 'wps-deals-map-script', 'Wps_Deals_Map', array( 
+																				'URL' 			=>	WPS_DEALS_URL,
+																			   	'address'		=>	$address,
+																			   	'popupcontent' 	=> 	$popupcontent,
+																			  	'popupmaxwidth'	=>	$popupmaxwidth
+																		  	) );
+	}
+}
+/*************************** My Account Page Template ******************************/
+/**
+ * My Account Template Functions
+ * 
+ * Handles to show my account page content
+ * 
+ * @package Social Deals Engine
+ * @since 1.0.0
+ **/
+if( !function_exists( 'wps_deals_my_account_address_success_msg' ) ) {
+	/**
+	 * My Account Address Success Message
+	 * 
+	 * Handles to show my account page address success message
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_my_account_address_success_msg() {
+		
+		global $wps_deals_message;
+		
+		$success_message = '';
+		if ( $wps_deals_message->size( 'my_account_msg' ) > 0 ) {
+			// if we need to display the error message, we will do it here
+			$success_message = $wps_deals_message->output( 'my_account_msg' );
+		}
+	
+		//load my account page address success message template
+		wps_deals_get_template( 'my-account/address-success-message.php', array( 'success_message' => $success_message ) );
+		
+	}
+}
+if( !function_exists( 'wps_deals_my_account_top_content' ) ) {
+	/**
+	 * My Account Top Content
+	 * 
+	 * Handles to show my account page top content
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_my_account_top_content() {
+		
+		global $current_user, $wps_deals_options;
+		
+		$change_password_page = isset( $wps_deals_options['change_password'] ) && !empty( $wps_deals_options['change_password'] ) ? $wps_deals_options['change_password'] : ''; 
+		
+		$changepasswordlink = get_permalink( $change_password_page );
+		
+		//load my account page top content template
+		wps_deals_get_template( 'my-account/top-content.php', array( 'username' => $current_user->display_name, 'changepasswordlink' => $changepasswordlink ) );
+		
+	}
+}
+if( !function_exists( 'wps_deals_my_account_available_downloads' ) ) {
+	/**
+	 * My Account Available Downloads
+	 * 
+	 * Handles to show my account page available downloads
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_my_account_available_downloads() {
+		
+		global $current_user, $wps_deals_model;
+		
+		//model class
+		$model = $wps_deals_model;
+		
+		///get recent 5 orders
+		$orders = $model->wps_deals_get_sales( array( 'author' => $current_user->ID, 'posts_per_page' => '5' ) );
+		
+		//if orders are not empty then show recent orders
+		if( !empty( $orders ) ) {
+			
+			$downloadfiles = array();
+				
+			foreach ( $orders as $key => $order ) {
+				
+				//get ordered files
+				$orderedfiles = $model->wps_deals_get_ordered_file_list( $order['ID'] );
+				
+				// get the value for the order details from the post meta box
+				$order_details = $model->wps_deals_get_post_meta_ordered( $order['ID'] );
+				
+				//payment status value
+				$payment_status_val = $model->wps_deals_get_ordered_payment_status( $order['ID'], true );
+
+				foreach ( $order_details['deals_details'] as $product ) {
+					
+					//check payment status is completed and order download files should not empty
+					if( $payment_status_val == '1' 
+						&& !empty( $orderedfiles[$product['deal_id']] ) && is_array( $orderedfiles[$product['deal_id']] ) ) {
+						
+						foreach ( $orderedfiles[$product['deal_id']] as $key => $file ) {
+							
+							//get file name from deal id and file key
+							$filename = $model->wps_deals_get_download_file_name( $product['deal_id'], $key );
+							
+							if( !empty( $filename ) ) { // check file name is exist or not
+								
+								//make file display to user
+								$filename = sprintf( __( '%s - %s','wpsdeals' ), get_the_title( $product['deal_id'] ), $filename );
+								$downloadfiles[] = '<a href="'.$file.'" target="_blank">'.$filename.'</a>';
+								
+							}
+						}
+					}
+				}
+				
+			} //orders loop end
+			
+			if( !empty( $downloadfiles ) ) {
+				
+				//load my account page available downloads template
+				wps_deals_get_template( 'my-account/available-downloads.php', array( 'downloadfiles' => $downloadfiles )  );
+			}
+		}
+	}
+}
+if( !function_exists( 'wps_deals_my_account_recent_orders' ) ) {
+	/**
+	 * My Account Recent Orders
+	 * 
+	 * Handles to show my account page top content
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_my_account_recent_orders() {
+		
+		global $current_user, $wps_deals_model;
+		//model class
+		$model = $wps_deals_model;
+		
+		///get recent 5 orders
+		$orders = $model->wps_deals_get_sales( array( 'author' => $current_user->ID, 'posts_per_page' => '5' ) );
+		
+		//if orders are not empty then show recent orders
+		if( !empty( $orders ) ) {
+			
+			//collect order data to single array
+			$orderdata = array();
+			
+			$downloadfiles = array();
+				
+			foreach ( $orders as $key => $order ) {
+				
+				//order ID
+				$orderdata[$key]['order_id']		=	$order['ID'];
+				//ordered date
+				$orderdata[$key]['order_date']		=	$model->wps_deals_get_date_format( $order['post_date'] );
+				//payment status
+				$orderdata[$key]['payment_status']	=	$model->wps_deals_get_ordered_payment_status( $order['ID'] );
+				//ordered deal details
+				$orderdetails						=	$model->wps_deals_get_post_meta_ordered( $order['ID'] );
+				//order total
+				$orderdata[$key]['order_total']		=	$orderdetails['display_order_total'];
+				//order deal count
+				$orderdata[$key]['deal_count']		=	count( $orderdetails['deals_details'] );
+								
+			} //orders loop end
+			
+			//load my account page recent orders template
+			wps_deals_get_template( 'my-account/recent-orders.php', array( 'orderdata' => $orderdata )  );
+		}
+		
+	}
+}
+if( !function_exists( 'wps_deals_my_account_addresses' ) ) {
+	/**
+	 * My Account My Addresses
+	 * 
+	 * Handles to show my account page my addresses
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_my_account_addresses( $currentpage = '' ) {
+		
+		global $wps_deals_options;
+		
+		$billingargs = array();
+		$my_account_addresses = array();
+		
+		//check billing is enable from settings page
+		if( isset( $wps_deals_options['enable_billing'] ) && !empty( $wps_deals_options['enable_billing'] ) ) {
+		
+			$my_account_addresses['billing'] = __( 'Billing Details', 'wpsdeals' );
+										
+		} //end if to check enable billing or not
+		
+		$my_account_addresses = apply_filters( 'wps_deals_my_account_addresses', $my_account_addresses );
+		
+		$address_title = '';
+		if( !empty( $my_account_addresses ) && count( $my_account_addresses ) > 1 ) {
+			$address_title = __( 'My Addresses', 'wpsdeals' );
+		} else if( !empty( $my_account_addresses ) ) {
+			$address_title = __( 'My Address', 'wpsdeals' );
+		}
+		$billingargs['address_title'] =	$address_title;
+		$billingargs['my_account_addresses'] = $my_account_addresses;
+		
+		if( !empty( $currentpage ) && $currentpage == 'edit_address' ) { // Check current page is edit address page
+			$billingargs['emptymessage'] = __( 'This feature is not available.', 'wpsdeals' );
+		}
+		//load my account page my addresses template
+		wps_deals_get_template( 'my-account/my-addresses.php', $billingargs );
+		
+	}
+}
+if( !function_exists( 'wps_deals_my_account_billing_address' ) ) {
+	/**
+	 * My Account Billing Address
+	 * 
+	 * Handles to show my account billing address
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_my_account_billing_address( $key, $title ) {
+			
+		global $current_user, $wps_deals_options;
+		
+		//check billing is enable from settings page
+		if( isset( $wps_deals_options['enable_billing'] ) && !empty( $wps_deals_options['enable_billing'] ) ) {
+		
+			$prefix = WPS_DEALS_META_PREFIX;
+			
+			//get user billing data saved
+			$userbillingdata	=	get_user_meta( $current_user->ID, $prefix.'billing_details', true );
+			
+			//get user country from saved
+			$usercountry		=	isset( $userbillingdata['country'] ) ? wps_deals_get_country_name( $userbillingdata['country'] ) : '';
+			//get user state or county
+			$userstate			=	isset( $userbillingdata['state'] ) ? wps_deals_get_state_name ( $userbillingdata['state'], $userbillingdata['country'] ) : '';
+			//get user company name
+			$usercompany		=	isset( $userbillingdata['company'] ) ? $userbillingdata['company'] : '';
+			//get user address1 
+			$useraddress1		=	isset( $userbillingdata['address1'] ) ? $userbillingdata['address1'] : '';
+			//get user address2 
+			$useraddress2		=	isset( $userbillingdata['address2'] ) ? $userbillingdata['address2'] : '';
+			//get user city or town
+			$usercity			=	isset( $userbillingdata['city'] ) ? $userbillingdata['city'] : '';
+			//get user post code
+			$userpostcode		=	isset( $userbillingdata['postcode'] ) ? $userbillingdata['postcode'] : '';
+			//get user phone
+			$userphone			=	isset( $userbillingdata['phone'] ) ? $userbillingdata['phone'] : '';
+			
+			//data pased to template
+			$billingargs = array( 
+									'billingkey'		=>	$key,
+									'billingtitle'		=>	$title,
+									'billingcountry'	=>	$usercountry,
+									'billingstate'		=>	$userstate,
+									'billingcompany'	=>	$usercompany,
+									'billingaddress1'	=>	$useraddress1,
+									'billingaddress2'	=>	$useraddress2,
+									'billingcity'		=>	$usercity,
+									'billingpostcode'	=>	$userpostcode,
+									'billingphone'		=>	$userphone,
+									'billingalldata'	=>	$userbillingdata
+								);
+			
+			//billing details template
+			do_action( 'wps_deals_display_address', $billingargs );
+			
+		} //end if to check enable billing or not
+		
+	}
+}
+if( !function_exists( 'wps_deals_my_account_login_content' ) ) {
+	/**
+	 * My Account Login Content
+	 * 
+	 * Handles to show my account login content
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_my_account_login_content() {
+		
+		global $wps_deals_options;
+		
+		$lost_password_page = isset( $wps_deals_options['lost_password'] ) && !empty( $wps_deals_options['lost_password'] ) ? $wps_deals_options['lost_password'] : ''; 
+		
+		$lostpasswordlink = get_permalink( $lost_password_page );
+		
+		//load login template
+		wps_deals_get_template( 'my-account/login.php', array( 'lostpasswordlink' => $lostpasswordlink ) );
+	}
+}	
+if( !function_exists( 'wps_deals_display_address' ) ) {
+	/**
+	 * Display Billing Address
+	 * 
+	 * Handles to show billing address
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_display_address( $billingargs ) {
+		
+		global $wps_deals_options;
+		
+		$address_key = isset( $billingargs['billingkey'] ) ? $billingargs['billingkey'] : '';
+		
+		$editlink = '';
+		//Check Edit Address Page is not empty from general setting
+		if( isset( $wps_deals_options['edit_adderess'] ) && !empty( $wps_deals_options['edit_adderess'] ) ) {
+			$editlink = add_query_arg( array( 'wps_deals_address' => $address_key ), get_permalink( $wps_deals_options['edit_adderess'] ) );
+		}
+		$billingargs['editlink'] = $editlink;
+		
+		//load billing addresses template
+		wps_deals_get_template( 'my-account/billing-address.php', $billingargs );
+	}
+}
+if( !function_exists( 'wps_deals_edit_address_content' ) ) {
+	/**
+	 * Edit Billing Address
+	 * 
+	 * Handles to edit billing address
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_edit_address_content() {
+		
+		if( isset( $_GET['wps_deals_address'] ) && !empty( $_GET['wps_deals_address'] ) ) {
+		
+			do_action( 'wps_deals_edit_' . $_GET['wps_deals_address'] . '_address' );
+			
+		} else {
+			
+			do_action( 'wps_deals_edit_address_page', 'edit_address' );
+		}
+	}
+}
+if( !function_exists( 'wps_deals_edit_billing_address' ) ) {
+	/**
+	 * Edit Billing Address
+	 * 
+	 * Handles to edit billing address
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_edit_billing_address() {
+		
+		//load edit billing addresses template
+		wps_deals_get_template( 'my-account/edit-billing-address.php' );
+	}
+}
+if( !function_exists( 'wps_deals_change_password_content' ) ) {
+	/**
+	 * Change Address Page
+	 * 
+	 * Handles to show change address
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_change_password_content() {
+		
+		//load change password template
+		wps_deals_get_template( 'my-account/change-password.php' );
+	}
+}
+if( !function_exists( 'wps_deals_lost_password_content' ) ) {
+	/**
+	 * Lost Address Page
+	 * 
+	 * Handles to show lost address
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_lost_password_content() {
+		
+		global $wpdb, $wps_deals_message;
+		
+		$password_form = '';
+		$error 	= false;
+		
+		if( isset( $_GET['wps_deal_user_key'] ) && !empty( $_GET['wps_deal_user_key'] )
+			&& isset( $_GET['wps_deals_user_name'] ) && !empty( $_GET['wps_deals_user_name'] ) ) {
+			
+			$key 	= $_GET['wps_deal_user_key'];
+			$login 	= $_GET['wps_deals_user_name'];
+			
+			$key = preg_replace( '/[^a-z0-9]/i', '', $key );
+	
+			if ( empty( $key ) || ! is_string( $key ) ) {
+				
+				$wps_deals_message->add( 'lostpassword', __( '<span><strong>ERROR : </strong>Invalid key.', 'wpsdeals' ), 'error' );
+				$error = true;
+			}
+	
+			if ( empty( $login ) || ! is_string( $login ) ) {
+				
+				$wps_deals_message->add( 'lostpassword', __( '<span><strong>ERROR : </strong>Invalid key.', 'wpsdeals' ), 'error' );
+				$error = true;
+			}
+	
+			$user = $wpdb->get_row( "SELECT * FROM $wpdb->users WHERE user_activation_key = '{$key}' AND user_login = '{$login}'" );
+	 
+			if ( empty( $user ) ) {
+				
+				$wps_deals_message->add( 'lostpassword', __( '<span><strong>ERROR : </strong>Invalid key.', 'wpsdeals' ), 'error' );
+				$error = true;
+			}
+			
+			if( !$error ) {
+				$password_form = 'reset';
+			}
+			
+		}
+		
+		if( !empty( $password_form ) ) {
+			
+			$user_args = array(
+									'wps_deals_reset_key' 	=> $key,
+									'wps_deals_reset_login' => $login,
+								);
+			
+			//load change password template
+			wps_deals_get_template( 'my-account/change-password.php', $user_args );
+			
+		} else {
+			//load lost password template
+			wps_deals_get_template( 'my-account/lost-password.php' );
+		}
+	}
 }
 ?>

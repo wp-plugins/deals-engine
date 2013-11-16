@@ -92,10 +92,12 @@ class Wps_Deals_Sales_List extends WP_List_Table {
 
 			//popup data
 			$popupdata = array();
-			$popupdata = array_merge($value,$order_details);
-			$popupdata['payment_status'] = $payment_status;
-			$popupdata['ipndata'] = $paypal_data;
-			$popupdata['userdetails'] = $userdetails;
+			$popupdata 						= array_merge($value,$order_details);
+			$popupdata['payment_status']	= $payment_status;
+			$popupdata['ipndata']			= $paypal_data;
+			$popupdata['userdetails']		= $userdetails;
+			$popupdata['payment_method']	= isset( $order_details['admin_label'] ) ? $order_details['admin_label'] : $order_details['payment_method'];
+			$popupdata['billing_details']	= isset( $order_details['billing_details'] ) ? $order_details['billing_details'] : array();
 					
 			$data[$key]['user_details']		= !empty($userdetails) ? $userdetails : array();
 			$data[$key]['useremail'] 		= isset($userdetails['user_email']) ? $userdetails['user_email'] : '';
@@ -106,7 +108,7 @@ class Wps_Deals_Sales_List extends WP_List_Table {
 			$data[$key]['currency']			= $currency;
 			$data[$key]['deals_data']		= $order_details;
 			$data[$key]['order_ip']			= $order_details['order_ip'];
-			$data[$key]['payment_method']	= $order_details['payment_method'];
+			$data[$key]['payment_method']	= isset( $order_details['admin_label'] ) ? $order_details['admin_label'] : $order_details['payment_method'];
 			$data[$key]['user_id']			= $userdetails['user_id'];
 			$data[$key]['user_name']		= $userdetails['user_name'];
 			$data[$key]['showusername']		= $displayusername;

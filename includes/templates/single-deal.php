@@ -21,53 +21,50 @@ get_header();
 	// get the size for the design from the settings page
 	$size = $wps_deals_options['deals_size'];
 	
-?>
 
-<?php while ( have_posts() ) : the_post(); ?>
+	while ( have_posts() ) : the_post(); ?>
 
-	<div class="site-content" id="primary">
-	
-		<div itemscope itemtype="http://schema.org/Product" id="content" role="main">
+		<div class="site-content" id="primary">
 		
-			<article class="post-<?php echo $post->ID;?> page type-page status-publish hentry" id="post-<?php echo $post->ID;?>">
+			<div itemscope itemtype="http://schema.org/Product" id="content" role="main">
 			
-				<header class="entry-header">
-					<h1 itemprop="name" class="entry-title"><?php echo get_the_title( $post->ID );?></h1>
-				</header> 
+				<article class="post-<?php echo $post->ID;?> page type-page status-publish hentry" id="post-<?php echo $post->ID;?>">
 				
-				<div class="entry-content">
-				
-					<?php 
-							//do action to add in top of single page
-							do_action( 'wps_deals_single_top');
-					?>
-				
-					<div class="row-fluid <?php echo $size;?>">
+					<header class="entry-header">
+						<h1 itemprop="name" class="entry-title"><?php echo get_the_title( $post->ID );?></h1>
+					</header> 
+					
+					<div class="entry-content">
 					
 						<?php 
+								//do action to add in top of single page
+								do_action( 'wps_deals_single_top' );
+						?>
+					
+						<div class="row-fluid <?php echo $size;?>">
+						
+							<?php 
+								
+									//do action to add deal single content
+									do_action( 'wps_deal_single_content' );
+							?>
 							
-								//do action to add deal single content
-								do_action( 'wps_deal_single_content' );
+						</div><!--.row-fluid-->
+						
+						<?php 
+								//do action to add in top of single
+								do_action( 'wps_deals_single_bottom' );
 						?>
 						
-					</div><!--.row-fluid-->
+					</div><!--entry-content-->
 					
-					<?php 
-							//do action to add in top of single
-							do_action( 'wps_deals_single_bottom');
-					?>
-					
-				</div><!--entry-content-->
+				</article>
 				
-			</article>
+			</div><!--#content-->
 			
-		</div><!--#content-->
-		
-	</div><!--site-content-->
+		</div><!--site-content-->
 	
-<?php endwhile; // end of the loop. ?>
-	
-<?php
+<?php endwhile; // end of the loop.
 	
 	//get sidebar
 	get_sidebar();

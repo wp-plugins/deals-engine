@@ -132,6 +132,15 @@ table.dealsales .column-user{ width:10%; }
 .wps-deals-view-bill-details table tr td{
 	vertical-align:top;
 }
+.order-view-bill-details {
+	width:48% !important;
+	float: left;
+}
+.wps-deals-view-bill-details-wrap {
+	float:left;
+	width:100%;
+	margin-bottom:20px;
+}
 /** CSS for Deal Sales page End**/
 
 /** CSS for Deal Download Log page Start **/
@@ -158,9 +167,7 @@ table.dealsalelogs .column-deals{ width:25%; }
 	float:right;
 	width: 50%;
 }
-.wps-deals-dashboard-left{
-	
- }
+
 .wps-deals-dashboard-left-first{
 	float:left;
 	width: 50%;
@@ -395,4 +402,7 @@ table.wps-deals-edit-sale table.status-table th.comments{ width:30%; }
 }
 .wps-deals-email-error {
 	color: #CC0000;
+}
+select.chzn-select {
+	width: 250px;
 }

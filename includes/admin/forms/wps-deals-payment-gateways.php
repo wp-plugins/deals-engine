@@ -13,6 +13,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @since 1.0.0
  */
 
+global $wps_deals_payment_log;
+
 		//get all pages					
 		$get_pages = get_pages(); 
 		$paymentgateways = wps_deals_get_payment_gateways();
@@ -82,11 +84,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								
 								<tr>
 									<th scope="row">
-										<label for="wps_deals_options[enable_debug]"><?php _e('Enable Debug:', 'wpsdeals');?></label>
+										<label for="wps_deals_options[enable_debug]"><?php _e('Enable Debug Log:', 'wpsdeals');?></label>
 									</th>
 									<td>
 										<input type="checkbox" id="wps_deals_options[enable_debug]" name="wps_deals_options[enable_debug]" value="1" <?php if(isset($wps_deals_options['enable_debug'])) { checked('1',$wps_deals_options['enable_debug']); }?>/><br />
-										<span class="description"><?php _e( 'If checked, debug output will be written to log files. This is useful for troubleshooting post payment failures (for example, if you are not receiving the email after payment).', 'wpsdeals' ); ?></span>
+										<span class="description"><?php echo sprintf( __( 'If checked, debug output will be written to log files. Log PayPal events, such as IPN requests, inside <code>deals-engine/logs/%s</code>', 'wpsdeals' ), $wps_deals_payment_log->wps_deals_file_name( 'paypal' ) ); ?></span>
 									</td>
 								</tr>
 								

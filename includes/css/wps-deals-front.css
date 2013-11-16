@@ -171,7 +171,7 @@ p.deals-value-title {
 .wps-deals-btn-large a {
 	margin: 8px 0 0;
 	text-align: center;
-	color: #fff;
+	color: #fff !important;
 	font-weight: bold;
 	font-size: 22px;
 	line-height: 2;
@@ -401,6 +401,9 @@ p.deals-value-title {
 	font-weight: bold;
 	color: #ff0000;
 }
+.wps-deals-timing span{
+	margin-right:3px !important;
+}
 .wps-deals-header-timing .timer-icon-big{
 	background:url("../images/deal-timer-big.png") no-repeat 0 2px;
 	padding: 1px 12px;
@@ -500,10 +503,16 @@ p.wps-deals-business-title {
 .row-fluid .span6.box-19 {
 	margin-left: 0 !important;
 }
+.wps-deals-timer-home-list .timer-icon {
+	background: url( ../images/deal-timer-small.png) no-repeat 0 4px !important;
+}
 .wps-deals-timing .timer-icon-small {
+	background: url( ../images/deal-timer-small.png) no-repeat 0 0 !important;
+}
+.wps-deals-timing .timer-icon-small,
+.wps-deals-timer-home-list .timer-icon {
 	float: left;
 	display: inline-block;
-	background: url( ../images/deal-timer-small.png) no-repeat 0 3px;
 	padding: 0 17px 20px 0;
 }
 .wps-deals-dimesale-text p {
@@ -623,6 +632,10 @@ p.wps-deals-business-title {
 .wps-deals-cart-item-action	{
 	padding-right: 10px;
 }
+.wps-deals-cart-select.billing-country{
+	max-width: 215px !important;
+	min-width: 215px !important;
+}
 .wps-deals-cart-select {
 	border: 1px solid #CCCCCC;
 	-webkit-border-radius: 3px;
@@ -642,12 +655,8 @@ p.wps-deals-business-title {
 .wps-deals-login-form-wrap {
 	display: none;
 }
-.wps-deals-registration-form,
-.wps-deals-login-form,
-.wps-deals-guest-details,
 .wps-deals-checkout-details,
-.wps-deals-payment-form,
-.wps-deals-cc-wrap {
+.checkout-fields-container, .wps-deals-fields-container {
 	border: 1px solid #E6E6E6;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
@@ -655,15 +664,7 @@ p.wps-deals-business-title {
 	margin: 10px 0 20px 0;
 	padding: 10px;
 }
-.wps-deals-guest-details {
-	border: 1px solid #E6E6E6;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
-	margin: 10px 0 20px 0;
-	padding: 10px;
-}
-.wps-deals-cart-wrap h2, .wps-deals-social-container h2 {
+.wps-deals-cart-wrap h2, .wps-deals-social-container h2, .wps-deals-guest-details-wrap h2, .wps-deals-billing-details h2, .wps-deals-checkout-details h2 {
 	border-bottom: 1px solid #C3C3C3;
 	padding: 0;
 	margin: 0 0 20px 0;
@@ -682,8 +683,14 @@ p.wps-deals-business-title {
 .wps-deals-cartdetails-loader,
 .wps-deals-sales-loader {
 	display: none;
-	text-align: right;
 	margin-right: 10px;
+}
+.wps-deals-cartdetails-loader{
+	text-align: right;
+}
+.wps-deals-sales-loader {
+	text-align: center !important;
+	margin-top: -5px !important;
 }
 .wps-deals-cart-details a,
 table.wps-deals-latest-widget-cart-items a {
@@ -733,6 +740,9 @@ tr.wps-deals-cart-update-row td {
 /* ==========================================================================
    Messages
    ========================================================================== */
+.wps-deals-cart-success {
+	display: none !important;
+}
 .wps-deals-cart-success,
 .message_stack_success {
 	padding: 8px 5px 8px 8px;
@@ -744,7 +754,6 @@ tr.wps-deals-cart-update-row td {
 	font-weight: bold;
 	color: #6D8332;
 	margin-bottom: 1.650em;
-	display: none;	
 }
 .wps-deals-checkout-error {
 	font-weight: bold;
@@ -772,9 +781,7 @@ tr.wps-deals-cart-update-row td {
 	border: 1px solid #EE4B4B;
 	margin-bottom: 1.650em;
 	box-shadow: 0px 2px 2px 2px #ccc;
-}
-.wps-deals-multierror {
-	padding: 5px 5px 5px 10px;
+	padding: 8px 5px 8px 8px;
 }
 .wps-deals-error,
 .message_stack_error,
@@ -986,8 +993,8 @@ table.paypal-detail-front td {
 	border-style: solid;
 }
 .
-/* paging */
-.wps-deals-paging {
+/************************************** Pagination CSS Start *****************************************/
+/*.wps-deals-paging {
 	clear: both;
 }
 .wps-deals-paging .wps-deals-tablenav-pages {
@@ -1022,9 +1029,9 @@ table.paypal-detail-front td {
     font-weight: normal;
     margin-right: 1px;
     padding: 0 2px;
-}
+}*/
 .wps-deals-sales-loader	{
-	line-height: 31px;
+	line-height: 10px;
 }
 .wps-deals-clear {
 	clear: both;
@@ -1035,6 +1042,59 @@ table.paypal-detail-front td {
 .wps-deals-float-right{
 	float: right;
 }
+.wps-deals-paging {
+	clear: both;
+	margin-top: 10px;
+    text-align: center;
+}
+.wps-deals-paging .wps-deals-tablenav-pages {
+    color: #636363;
+}
+.wps-deals-paging .wps-deals-tablenav-pages .dots {
+	color: #636363 !important;
+	font-weight: bold !important;
+}
+.wps-deals-paging .wps-deals-tablenav-pages {
+    cursor: default;
+    display: block;
+    /*float: right;*/
+    line-height: 10px;
+}
+.wps-deals-paging .wps-deals-tablenav-pages a, .wps-deals-tablenav-pages span.disabled {
+	color: #636363 !important;
+	background-color: #F5F5F5;
+}
+.wps-deals-paging .wps-deals-tablenav-pages  a, 
+.wps-deals-tablenav-pages span.current, .wps-deals-tablenav-pages span.disabled{
+    padding: 3px 6px;
+    text-decoration: none;
+    margin: 0px 2.5px;
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+    box-shadow: 0px 2px 2px 0px #CCCCCC;
+    background: linear-gradient(to bottom, #f9f9f9 0%,#efefef 44%,#e7e7e7 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#e7e7e7',GradientType=0 ); /* IE6-9 */
+}
+.wps-deals-paging .wps-deals-tablenav-pages .current {
+    font-weight: bold;
+    background-color:#F5F5F5;
+}
+.wps-deals-tablenav-pages a {
+    font-weight: normal;
+    padding: 0px 2px;
+}
+.wps-deals-loader {
+	line-height: 31px;
+	display: none;
+	margin-top: 10px;
+    text-align: center;
+}
+.wps-deals-paging .wps-deals-tablenav-pages a:hover, 
+.wps-deals-tablenav-pages span.current:hover, 
+.wps-deals-tablenav-pages span.disabled:hover {
+    background: #e7e7e7;
+}
+/************************************** Pagination CSS End *****************************************/
 
 /* css start for thank you page */
 table#wps-deals-purchase-receipt-products,
@@ -1130,3 +1190,71 @@ ul.wps-deals-purchase-receipt-files a{
 	margin:0 !important;
 }
 /** CSS for Payment Description End **/
+.wps-deals-list-wrapper {
+	width: 290px;
+	float: left;
+	margin-right: 15px;
+}
+.wps-deals-downloads li {
+    background: url("../images/download.png") no-repeat scroll 1% 50%;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 1.5em;
+}
+a.wps-deals-edit-address-link {
+	font-size: 12px;
+	margin-left: 5px;
+	outline: 0;
+}
+.wps-deals-form-table, .wps-deals-form-table td {
+	border: none !important;
+}
+.wps-deals-change-password-error, .wps-deals-lost-password-error, .wps-deals-login-error {
+	display: none;
+}
+.wps-deals-btn {
+	font-weight: bold !important;
+}
+
+/* Login Form Css Start */
+.wps-deals-login-wrap {
+	margin: auto;
+    width: 320px;
+    padding: 10px 0;
+}
+.wps-deals-login-wrap form {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E5E5E5;
+    box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
+    font-weight: normal;
+    margin-top: 10px;
+    padding: 26px 24px;
+}
+.wps-deals-login-wrap input[type="text"], .wps-deals-login-wrap input[type="password"] {
+    background: none repeat scroll 0 0 #FBFBFB;
+    border: 1px solid #E5E5E5;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
+    color: #555555;
+    font-size: 24px;
+    font-weight: 200;
+    line-height: 1;
+    margin-bottom: 16px;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 3px 5px;
+    width: 95%;
+}
+.wps-deals-login-wrap .wps-deals-login-submit-wrap {
+    width: 97%;
+}
+.wps-deals-login-wrap .wps-deals-lost-password {
+    float: left;
+    margin-top: 5px;
+}
+.wps-deals-login-wrap .wps-deals-login-submit-btn {
+    float: right;
+}
+/* Login Form Css End */

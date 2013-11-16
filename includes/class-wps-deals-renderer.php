@@ -102,10 +102,108 @@ class Wps_Deals_Renderer {
 							</table>
 						</div>';
 		
+		//do action to add some content before billing details
+		do_action( 'wps_deals_sales_paymentdetails_before_billing', $data['ID'] );
 		
-		do_action('wps_deals_sales_paymentdetails_after_billing',$data['ID']);
+		echo '		<div class="wps-deals-view-bill-details-wrap order-view-bill-details-left">';
 		
-		if( $data['payment_method'] == __( 'PayPal Standard', 'wpsdeals' ) ) { //check payment method
+		//billing details
+		$billingdetails		= isset( $data['billing_details'] ) && !empty( $data['billing_details'] ) ? $data['billing_details'] : array() ;
+		
+		//check billing details is not empty
+		if( !empty( $billingdetails ) ) {
+		
+			//billingcountry 
+			$billingcountry		= isset( $billingdetails['country'] ) ? wps_deals_get_country_name( $billingdetails['country'] ) : '';
+			//billing state
+			$billingstate		= isset( $billingdetails['state'] ) ? wps_deals_get_state_name ( $billingdetails['state'], $billingdetails['country'] ) : '';
+			//billing company	
+			$billingcompany		= isset( $billingdetails['company'] ) ? $billingdetails['company'] : '';
+			//billing adddress
+			$billingaddress1	= isset( $billingdetails['address1'] ) ? $billingdetails['address1'] : '';
+			$billingaddress2	= isset( $billingdetails['address2'] ) ? $billingdetails['address2'] : '';
+			//billing city
+			$billingcity		= isset( $billingdetails['city'] ) ? $billingdetails['city'] : '';
+			//billing postcode
+			$billingpostcode		= isset( $billingdetails['postcode'] ) ? $billingdetails['postcode'] : '';
+			//billing phone
+			$billingphone		= isset( $billingdetails['phone'] ) ? $billingdetails['phone'] : '';
+		
+			echo '		<div class="wps-deals-view-bill-details order-view-bill-details">';
+			
+			echo '			<h3>'.__( 'Billing Details','wpsdeals' ).'</h3>
+							<table>
+								<tbody>';
+							echo '<tr>
+									<td><strong>'.__( 'Address :','wpsdeals' ).'</strong></td>
+									<td>'.$billingaddress1.'<br />'.
+											$billingaddress2.
+									'</td>
+								</tr>';
+									
+									//do action to add content after billing address
+									do_action( 'wps_deals_order_view_billing_address_after', $data['ID'] );
+							
+							echo '<tr>
+									<td><strong>'.__( 'Company Name :','wpsdeals' ).'</strong></td>
+									<td>'.$billingcompany.'</td>
+								</tr>';
+							
+									//do action to add content after billing company name
+									do_action( 'wps_deals_order_view_billing_company_after', $data['ID'] );
+							
+							echo '<tr>
+									<td><strong>'.__( 'Town / City :','wpsdeals').'</strong></td>
+									<td>'.$billingcity.'</td>
+								</tr>';
+							
+									//do action to add content after billing city
+									do_action( 'wps_deals_order_view_billing_city_after', $data['ID'] );
+							
+							echo '<tr>
+									<td><strong>'.__( 'County / State :','wpsdeals' ).'</strong></td>
+									<td>'.$billingstate.'</td>
+								</tr>';
+								
+									//do action to add content after billing county / state
+									do_action( 'wps_deals_order_view_billing_county_after', $data['ID'] );
+							
+							echo '<tr>
+									<td><strong>'.__( 'Zip / Postal Code :','wpsdeals').'</strong></td>
+									<td>'.$billingpostcode.'</td>
+								</tr>';
+							
+									//do action to add content after billing postcode
+									do_action( 'wps_deals_order_view_billing_postcode_after', $data['ID'] );
+							
+							echo '<tr>
+									<td><strong>'.__( 'Country :','wpsdeals' ).'</strong></td>
+									<td>'.$billingcountry.'</td>
+								</tr>';
+									//do action to add content after billing country
+									do_action( 'wps_deals_order_view_billing_country_after', $data['ID'] );
+							
+							echo '<tr>
+									<td><strong>'.__( 'Phone :','wpsdeals').'</strong></td>
+									<td>'.$billingphone.'</td>
+								</tr>';
+									//do action to add content after billing details after
+									do_action( 'wps_deals_order_view_billing_after', $data['ID'] );
+			echo '				</tbody>
+							</table>
+						</div><!--.wps-deals-view-bill-details-->';
+			
+		}
+		
+			//do action to add some content after billing details
+			do_action( 'wps_deals_sales_paymentdetails_after_billing', $data['ID'] );
+		
+		echo '</div><!--.wps-deals-view-bill-details-wrap-->';
+		
+		//do action to add some content after billing details
+		do_action( 'wps_deals_sales_paymentdetails_after_billing_content', $data['ID'] );
+		
+		if( $data['payment_method'] == __( 'PayPal Standard', 'wpsdeals' ) || $data['payment_method'] == 'paypal' ) { //check payment method
 			
 			echo '<div class="wps-deals-view-paypal-details">
 					<img src="'.WPS_DEALS_URL.'includes/images/paypal_logo.gif" />
@@ -155,72 +253,72 @@ class Wps_Deals_Renderer {
 					</table>
 				</div><!--wps-deals-view-paypal-details-->';
 		}
-		
+		//add some content before payment details
 		do_action('wps_deals_sales_paymentdetails_before_items',$data['ID']);
 								
 		echo '<div class="wps-deals-view-product-details">
-							<div class="wps-deal-bill-title">'.__('Item Ordered','wpsdeals').'</div>
-								<table class="widefat fixed">
-									<tbody>
-										<thead>
-											<tr>';
-												do_action('wps_deals_sales_order_deatails_header_before',$data['ID']);
-									   echo    '<th>'.__('Name','wpsdeals').'</th>
-												<th>'.__('Quantity','wpsdeals').'</th>
-												<th>'.__('Price','wpsdeals').'</th>
-												<th>'.__('Total','wpsdeals').'</th>';
-									   			do_action('wps_deals_sales_order_deatail_header_after',$data['ID']);
-										echo '</tr>
-										</thead>';
-							$alternate = '';
+					<div class="wps-deal-bill-title">'.__('Item Ordered','wpsdeals').'</div>
+						<table class="widefat fixed">
+							<tbody>
+								<thead>
+									<tr>';
+										do_action('wps_deals_sales_order_deatails_header_before',$data['ID']);
+							   echo    '<th>'.__('Name','wpsdeals').'</th>
+										<th>'.__('Quantity','wpsdeals').'</th>
+										<th>'.__('Price','wpsdeals').'</th>
+										<th>'.__('Total','wpsdeals').'</th>';
+							   			do_action('wps_deals_sales_order_deatail_header_after',$data['ID']);
+								echo '</tr>
+								</thead>';
+					$alternate = '';
+					
+					foreach ($data['deals_details'] as $deal) {	
+																
+						echo '<tr '.$alternate.'>';
 							
-							foreach ($data['deals_details'] as $deal) {	
-																		
-								echo '<tr '.$alternate.'>';
+								do_action('wps_deals_sales_order_details_data_before',$data['ID']);
+							
+								echo '<td>'.get_the_title($deal['deal_id']).'</td>
 									
-										do_action('wps_deals_sales_order_details_data_before',$data['ID']);
+									<td>'.$deal['deal_quantity'].'</td>
 									
-										echo '<td>'.get_the_title($deal['deal_id']).'</td>
+									<td>'.$deal['display_price'].'</td>
+																									
+									<td>'.$deal['display_total'].'</td>';
+								
+								do_action('wps_deals_sales_order_details_data_after',$data['ID']);	
+								
+						echo '</tr>';
+						$alternate = $alternate ? '' : 'class="alternate"';
+										
+					}
+					
+					do_action('wps_deals_sales_popup_order_row_after',$data['ID']);
+					
+					echo '<tr class="alternate">
 											
-											<td>'.$deal['deal_quantity'].'</td>
+							<td colspan="2"></td>
+							
+							<td>'.__('Sub Total','wpsdeals').'</td>
+							
+							<td>'.$data['display_order_subtotal'].'</td>
+							
+						</tr>';
+					
+					do_action('wps_deals_sales_popup_order_row_after_subtotal',$data['ID']);
+					
+					echo '<tr class="alternate">
 											
-											<td>'.$deal['display_price'].'</td>
-																											
-											<td>'.$deal['display_total'].'</td>';
+							<td colspan="2"></td>
+							
+							<td>'.__('Total','wpsdeals').'</td>
+							
+							<td>'.$data['display_order_total'].'</td>
+							
+						</tr>';
 										
-										do_action('wps_deals_sales_order_details_data_after',$data['ID']);	
-										
-								echo '</tr>';
-								$alternate = $alternate ? '' : 'class="alternate"';
-												
-							}
-							
-							do_action('wps_deals_sales_popup_order_row_after',$data['ID']);
-							
-							echo '<tr class="alternate">
-													
-									<td colspan="2"></td>
-									
-									<td>'.__('Sub Total','wpsdeals').'</td>
-									
-									<td>'.$data['display_order_subtotal'].'</td>
-									
-								</tr>';
-							
-							do_action('wps_deals_sales_popup_order_row_after_subtotal',$data['ID']);
-							
-							echo '<tr class="alternate">
-													
-									<td colspan="2"></td>
-									
-									<td>'.__('Total','wpsdeals').'</td>
-									
-									<td>'.$data['display_order_total'].'</td>
-									
-								</tr>';
-										
-		echo '			</tbody>
-								</table>';
+		echo '		</tbody>
+				</table>';
 					
 		echo '	</div><!--wps-deals-view-product-details-->
 						
@@ -311,14 +409,73 @@ class Wps_Deals_Renderer {
 		$orderdata = $this->model->wps_deals_get_post_meta_ordered( $orderid );
 		$payment_status = $this->model->wps_deals_get_ordered_payment_status( $orderid, true );
 		
-		if( current_user_can( 'manage_options' ) && 
-			$orderdata['payment_method'] == WPS_DEALS_PAYPAL_GATEWAY && $payment_status == '1' ) { //if status is completed and payment gateway is paypal standard
+		if( current_user_can( 'manage_options' ) && $payment_status == '1' &&
+			( $orderdata['payment_method'] == __( 'PayPal Standard','wpsdeals') || $orderdata['payment_method'] == 'paypal' ) ) { //if status is completed and payment gateway is paypal standard
 			
 			$refundurl = add_query_arg( array( 'page' => 'wps-deals-sales', 'action' => 'refund', 'orderid' => $orderid ), admin_url( 'edit.php?post_type='.WPS_DEALS_POST_TYPE ) );
 		
 			echo '<a href="'.$refundurl.'" class="button-primary wps-deals-issue-refund" title="'.__( 'Issue Refund', 'wpsdeals' ).'">'.__( 'Issue Refund', 'wpsdeals' ).'</a>';
 				
 		} 
+	}
+	
+	/**
+	 * Display Multiple Deals from shortcode
+	 * 
+	 * Handles to display multiple deals from shortcode
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_multiple_deals( $atts ) {
+		
+		global $post, $wps_deals_options;
+		
+		extract( shortcode_atts( array(	
+			'ids' => '',
+			'disable_price' => '',
+			'disable_timer' => '',
+		), $atts ) );
+		
+		$html = '';
+		
+		if( !empty( $ids ) ) { // Check ids are not empty
+		
+			$ids = explode( ',', $ids );
+			
+			$prefix = WPS_DEALS_META_PREFIX;
+			
+			//current date and time
+			$today = date('Y-m-d H:i:s');
+			
+			/* all active deals listing start */
+			$dealsmetaquery = array( 
+									
+									array(		
+												'key' => $prefix.'start_date',
+												'value' => $today,
+												'compare' => '<=',
+												'type' => 'STRING'
+										),
+									array(
+												'key' => $prefix.'end_date',
+												'value' => $today,
+												'compare' => '>=',
+												'type' => 'STRING'
+										)
+								 );
+			
+			$argssrcd = array( 'post_type' => WPS_DEALS_POST_TYPE, 'post__in' => $ids, 'meta_query' => $dealsmetaquery, 'posts_per_page' => '-1' );
+			
+			ob_start();
+			
+				//active deals template
+				wps_deals_get_template( 'home/home-content/more-deals.php', array( 'args' => $argssrcd, 'tab' => '' ) );
+			
+			$html .= ob_get_clean();
+		
+		}
+		echo $html;
 	}
 }
 ?>

@@ -13,21 +13,18 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
 ?>	
 <div class="wps-deals-right-header">
 	<h2><?php echo apply_filters( 'wps_deals_timer_text', __('This deal will end in','wpsdeals') );?></h2>
 </div><!--wps-deals-right-header-->
 <div class="wps-deals-timing-front">
-	<div align="center" class="wps-deals-time">
+	<div align="center" class="wps-deals-time wps-deals-end-timer" 
+		timer-year="<?php echo $year;?>"
+		timer-month="<?php echo $month;?>"
+		timer-day="<?php echo $day;?>"
+		timer-hours="<?php echo $hours;?>"
+		timer-minute="<?php echo $minute;?>"
+		timer-second="<?php echo $seconds;?>">
 		<span class="timer-icon-big"></span>
-		<span class="wps-deals-days"></span>&nbsp;
-		<span><?php _e('days','wpsdeals');?></span>&nbsp;
-		<span class="wps-deals-hrs"></span>&nbsp;
-		<span><?php _e('hrs','wpsdeals');?></span>&nbsp;
-		<span class="wps-deals-mins"></span>&nbsp;
-		<span><?php _e('mins','wpsdeals');?></span>&nbsp;
-		<span class="wps-deals-secs"></span>&nbsp;
-		<span><?php _e('secs','wpsdeals');?></span>
-	</div><!--wps-deals-time-->
+	</div><!--.wps-deals-end-time-->
 </div><!--.wps-deals-timing-front-->

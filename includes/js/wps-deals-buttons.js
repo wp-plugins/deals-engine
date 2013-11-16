@@ -13,11 +13,45 @@ jQuery(document).ready(function($) {
 					$( '.wps-deals-popup-overlay' ).fadeIn();
                     $( '.wps-deals-popup-content' ).fadeIn();
                      
-                    $( '#wps_deals_shortcodes' ).val('');
+                    //$( '#wps_deals_shortcodes' ).val('');
                     $( '#wps_deals_insert_container' ).hide();
                     
                     $( '#wps_deals_by_category_options' ).hide(); 
                     $( '#wps_deals_social_login_options' ).hide();
+                    $( '#wps_deals_single_deal_options' ).hide();
+                    $( '#wps_deals_multiple_deal_options' ).hide();
+                    
+                    var select_shortcode = $( '#wps_deals_shortcodes' ).val();
+		
+					if( select_shortcode != '') {
+						$( '#wps_deals_insert_container' ).show();
+						$( '.wps-deals-shortcodes-options').hide();
+						
+						switch ( select_shortcode ) {
+							
+							case 'wps_deals_by_category'	:
+									
+									$( '#wps_deals_by_category_options' ).show();
+									break;
+							case 'wps_deals_social_login'	:
+									 
+									$( '#wps_deals_social_login_options' ).show();
+									break;
+							case 'wps_deals_by_id'	:
+									 
+									$( '#wps_deals_single_deal_options' ).show();
+									break;
+							case 'wps_deals_by_ids'	:
+									 
+									$( '#wps_deals_multiple_deal_options' ).show();
+									break;
+						}
+					
+						//trigger for doing on change for shortcode options select box admin side
+						$('body').trigger('wps-deals-admin-shortcodes-options-change', select_shortcode, $(this) );
+							
+					}
+					
  				}
             });
         },
@@ -56,6 +90,14 @@ jQuery(document).ready(function($) {
 						 
 						$( '#wps_deals_social_login_options' ).show();
 						break;
+				case 'wps_deals_by_id'	:
+						 
+						$( '#wps_deals_single_deal_options' ).show();
+						break;
+				case 'wps_deals_by_ids'	:
+						 
+						$( '#wps_deals_multiple_deal_options' ).show();
+						break;
 			}
 		
 			//trigger for doing on change for shortcode options select box admin side
@@ -89,6 +131,24 @@ jQuery(document).ready(function($) {
 								var redirect_url = $( '#wps_deals_redirect_url' ).val();
 								dealsshortcodestr	+= '['+dealsshortcode+' title="'+title+'"'+' redirect_url="'+redirect_url+'"][/'+dealsshortcode+']';
 								break;
+					case 'wps_deals_by_id'	:
+								var id = $( '#wps_deals_single_deal_id' ).val();
+								dealsshortcodestr	+= '['+dealsshortcode+' id="'+id+'"][/'+dealsshortcode+']';
+								break;
+					case 'wps_deals_by_ids'	:
+								var deal_ids = $( '#wps_deals_multiple_deal_ids' ).val();
+								if( deal_ids == null ) {
+									deal_ids = ''; 
+								}
+								var options = '';
+								if( $( '#wps_deals_disable_price' ).is(":checked") ) {
+									options += ' disable_price="true"';
+								}
+								if( $( '#wps_deals_disable_timer' ).is(":checked") ) {
+									options += ' disable_timer="true"';
+								}
+								dealsshortcodestr	+= '['+dealsshortcode+' ids="'+deal_ids+'"'+options+'][/'+dealsshortcode+']';
+								break;
 					case 'wps_deals' 				:
 					case 'wps_deals_checkout' 		:
 					case 'wps_deals_order_complete' :
@@ -112,6 +172,7 @@ jQuery(document).ready(function($) {
 			}
 		
 	});
+	
 });
 //switch wordpress editor to visual mode
 function wpsDealsSwitchDefaultEditorVisual() {

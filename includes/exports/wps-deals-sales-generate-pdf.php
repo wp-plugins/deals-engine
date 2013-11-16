@@ -120,7 +120,7 @@ function wps_deals_report_to_pdf() {
 				$data[$key]['payment_status']	= isset($payment_status) ? $payment_status : '';
 				$data[$key]['amount']			= $order_details['display_order_total'];
 				$data[$key]['date_time']		= $model->wps_deals_get_date_format($value['post_date'],true);
-				$data[$key]['payment_method']	= $order_details['payment_method'];
+				$data[$key]['payment_method']	= isset( $order_details['admin_label'] ) ? $order_details['admin_label'] : $order_details['payment_method'];
 				$data[$key]['user_id']			= $userdetails['user_id'];
 				$data[$key]['user_name']		= $username;
 				

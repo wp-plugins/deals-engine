@@ -35,11 +35,11 @@ class Wps_Deals_Price{
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		$normalprice = get_post_meta($dealid,$prefix.'normal_price',true);
-		$saleprice = get_post_meta($dealid,$prefix.'sale_price',true);
+		$normalprice = get_post_meta( $dealid, $prefix.'normal_price', true );
+		$saleprice = get_post_meta( $dealid, $prefix.'sale_price', true );
 		
-		$price = '';
-		if(!empty($saleprice)) {
+		$price = 0;
+		if( !empty( $saleprice ) ) {
 			$price = $saleprice;
 		} else {
 			$price = $normalprice;
@@ -57,10 +57,10 @@ class Wps_Deals_Price{
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		$normalprice = get_post_meta($dealid,$prefix.'normal_price',true);
-		$saleprice = $this->wps_deals_get_price($dealid);//get_post_meta($dealid,$prefix.'sale_price',true);
+		$normalprice = get_post_meta( $dealid, $prefix.'normal_price', true );
+		$saleprice = $this->wps_deals_get_price( $dealid );
 		
-		if( isset( $normalprice )  && !empty( $normalprice ) && isset( $saleprice )  && !empty( $saleprice ) ) {
+		if( isset( $normalprice ) && isset( $saleprice ) && floatval( $saleprice ) > 0 ) {
 			$save_price = ( $normalprice - $saleprice );
 		} else {
 			$save_price = '0.00';
@@ -79,10 +79,10 @@ class Wps_Deals_Price{
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		$normalprice = get_post_meta($dealid,$prefix.'normal_price',true);
-		$saleprice = $this->wps_deals_get_price($dealid);//get_post_meta($dealid,$prefix.'sale_price',true);
-				
-		if( isset( $normalprice )  && !empty( $normalprice ) && isset( $saleprice )  && !empty( $saleprice ) ) {
+		$normalprice = get_post_meta( $dealid, $prefix.'normal_price', true );
+		$saleprice = $this->wps_deals_get_price( $dealid );//get_post_meta($dealid,$prefix.'sale_price',true);
+		
+		if( isset( $normalprice ) && isset( $saleprice ) && floatval( $saleprice ) > 0 ) {
 			$save_price = ( $normalprice - $saleprice );
 			$save_percent = ( $save_price * 100 ) / $normalprice;
 			$save_percent = round( $save_percent );

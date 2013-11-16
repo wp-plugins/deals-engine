@@ -33,12 +33,6 @@ function wps_deals_process_testmode( $cartdetails, $postdata ) {
 	//message class
 	$message = $wps_deals_message;
 	
-	//get payment gateways
-	$paymentgateways = wps_deals_get_payment_gateways();
-	
-	//payment method
-	$method	= $postdata['wps_deals_payment_gateways'];
-	
 	$purchasedata = array();
 	$purchasedata['user_info'] = array( 
 										'first_name' => $postdata['wps_deals_cart_user_first_name'],
@@ -46,15 +40,14 @@ function wps_deals_process_testmode( $cartdetails, $postdata ) {
 										'user_name' => $postdata['user_name'],
 										'user_email' => $postdata['wps_deals_cart_user_email'],
 									  );
-	$purchasedata['payment_method'] = $paymentgateways[$method]['admin_label'];
-	$purchasedata['checkout_label'] = $paymentgateways[$method]['checkout_label'];
 	$purchasedata['post_data'] = $postdata;
 	$purchasedata['cartdata'] = $cartdetails;
 	$purchasedata['payment_status'] = '1';
 	
 	$salesid = wps_deals_insert_payment_data($purchasedata);
 	
-	if(!empty($salesid)) {
+	//check sales id id not empty
+	if( !empty( $salesid ) ) {
 		
 	 	//empty cart
 	 	wps_deals_empty_cart();
@@ -63,7 +56,7 @@ function wps_deals_process_testmode( $cartdetails, $postdata ) {
 	 	$queryurl = array( 'order_id' => $salesid );
 	 	wps_deals_send_on_success_page( $queryurl );
 	 	
-	} else {
+	} else { //else show payment is failed
 		
 		$errormsg = __( 'Payment creation failed while processing a manual (free or test) purchase, Please try again after sometime.', 'wpsdeals' );
 		

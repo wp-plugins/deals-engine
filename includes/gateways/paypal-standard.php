@@ -31,10 +31,10 @@ function wps_deals_process_payment_paypal( $cartdetails, $postdata ) {
 	$currency = $wps_deals_currency;
 	
 	//get payment gateways
-	$paymentgateways = wps_deals_get_payment_gateways();
+	//$paymentgateways = wps_deals_get_payment_gateways();
 	
 	//payment method
-	$method	= isset( $postdata['wps_deals_payment_gateways'] ) ? $postdata['wps_deals_payment_gateways'] : 'paypal';
+	//$method	= isset( $postdata['wps_deals_payment_gateways'] ) ? $postdata['wps_deals_payment_gateways'] : 'paypal';
 	
 	$purchasedata = array();
 	$purchasedata['user_info'] = array( 
@@ -43,8 +43,9 @@ function wps_deals_process_payment_paypal( $cartdetails, $postdata ) {
 										'user_name' => $postdata['user_name'],
 										'user_email' => $postdata['wps_deals_cart_user_email'],
 									  );
-	$purchasedata['payment_method'] = $paymentgateways[$method]['admin_label'];
-	$purchasedata['checkout_label'] = $paymentgateways[$method]['checkout_label'];
+	//$purchasedata['payment_method'] = $method;
+	//$purchasedata['admin_label'] 	= $paymentgateways[$method]['admin_label'];
+	//$purchasedata['checkout_label'] = $paymentgateways[$method]['checkout_label'];
 	$purchasedata['post_data'] = $postdata;
 	$purchasedata['cartdata'] = $cartdetails;
 	$payment_status['payment_status'] = '0';
@@ -55,7 +56,12 @@ function wps_deals_process_payment_paypal( $cartdetails, $postdata ) {
 	$thankyouurl = isset($wps_deals_options['payment_thankyou_page']) ? get_permalink($wps_deals_options['payment_thankyou_page']) : '';
 	
 	$cancelurl = add_query_arg( array( 'wps_deals_cancel_order' => '1', 'order_id' => $salesid ), $cancelurl );
-	$thankyouurl = add_query_arg( array( 'order_id' => $salesid ), $thankyouurl );
+	
+	$thankyouargs = array();
+	//check user is logged in or not
+	if( is_user_logged_in() ) { $thankyouargs['order_id'] = $salesid; }
+	
+	$thankyouurl = add_query_arg( $thankyouargs, $thankyouurl );
 	
 	if(!empty($salesid)) {
 		
@@ -164,7 +170,7 @@ function wps_deals_paypal_verfication() {
 		 	/************** Code For Buy Now Start ( Signle Purchase ) **************/
 		 	
 		 	// get the value of payment user email from the post meta
-		 	$payment_user_email = get_post_meta( $salesid, $prefix.'payment_user_email', true ); // ipn data
+		 	$payment_user_email = get_post_meta( $orderid, $prefix.'payment_user_email', true ); // ipn data
 		 	
 		 	if( empty( $payment_user_email ) ) {
 		 		

@@ -15,6 +15,12 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 ?>
-<div class="wps-deals-timing">
-	<span class="timer-icon-small"></span><span><?php echo $timeremain;?></span>
+<div class="wps-deals-timing wps-deals-timer-home-list wps-deals-end-timer"
+		timer-year="<?php echo $year;?>"
+		timer-month="<?php echo $month;?>"
+		timer-day="<?php echo $day;?>"
+		timer-hours="<?php echo $hours;?>"
+		timer-minute="<?php echo $minute;?>"
+		timer-second="<?php echo $seconds;?>">
+	<span class="timer-icon"></span>
 </div>

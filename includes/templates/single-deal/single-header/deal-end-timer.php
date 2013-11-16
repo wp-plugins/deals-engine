@@ -27,16 +27,14 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		<?php	} ?>
 				
 			<div class="wps-deals-header-timing">
-				<div align="center" class="wps-deals-time">
+				<div align="center" class="wps-deals-time wps-deals-end-timer"
+					timer-year="<?php echo $year;?>"
+					timer-month="<?php echo $month;?>"
+					timer-day="<?php echo $day;?>"
+					timer-hours="<?php echo $hours;?>"
+					timer-minute="<?php echo $minute;?>"
+					timer-second="<?php echo $seconds;?>">
 					<span class="timer-icon-big"></span>
-					<span class="wps-deals-days"></span>&nbsp;
-					<span><?php _e('days','wpsdeals');?></span>&nbsp;
-					<span class="wps-deals-hrs"></span>&nbsp;
-					<span><?php _e('hrs','wpsdeals');?></span>&nbsp;
-					<span class="wps-deals-mins"></span>&nbsp;
-					<span><?php _e('mins','wpsdeals');?></span>&nbsp;
-					<span class="wps-deals-secs"></span>&nbsp;
-					<span><?php _e('secs','wpsdeals');?></span>
 				</div>
 			</div>
 	<?php 

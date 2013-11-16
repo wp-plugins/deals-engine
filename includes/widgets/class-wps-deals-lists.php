@@ -156,7 +156,8 @@ class Wps_Deals_Lists extends WP_Widget {
 											</a>
 										</div>';
 					
-					if( empty($disable_price) ) {
+					//check price is disable or not
+					if( empty( $disable_price ) ) {
 					
 						$html .= '		<div class="wps-deals-widget-price-box">
 											<div class="wps-deals-widget-price">
@@ -177,15 +178,27 @@ class Wps_Deals_Lists extends WP_Widget {
 					}
 					$html .= '		</div><!--.wps-deals-sub-content-->';
 
-					$difference = strtotime($enddate) - strtotime($today);
-					
-					$datediff = $this->model->wps_deals_seconds_to_time($difference);
-					
 					$html .= '		<div class="wps-deals-contentdeal-footer footer-widget">';
+
+					//check timer is disable or not
+					if( empty( $disable_timer ) ) {
 					
-					if( empty($disable_timer) ) {
-					
-						$html .= '		<div class="wps-deals-timing"><span class="timer-icon-small"></span><span class="wps-deals-widget-ending">'.$datediff.'</span></div>';
+						$endyear		=	date( 'Y', strtotime( $enddate ) );
+						$endmonth		=	date( 'm', strtotime( $enddate ) );
+						$endday			=	date( 'd', strtotime( $enddate ) );
+						$endhours		=	date( 'H', strtotime( $enddate ) );
+						$endminute		=	date( 'i', strtotime( $enddate ) );
+						$endseconds		=	date( 's', strtotime( $enddate ) );
+						
+						$html .= '		<div class="wps-deals-timing wps-deals-end-timer" 
+											timer-year="'.$endyear.'"
+											timer-month="'.$endmonth.'"
+											timer-day="'.$endday.'"
+											timer-hours="'.$endhours.'"
+											timer-minute="'.$endminute.'"
+											timer-second="'.$endseconds.'">
+											<span class="timer-icon-small"></span>
+										</div>';
 					
 					}
 					$html .= '			<div class="wps-deals-btn-small"><a href="'.get_permalink($post->ID).'">'.__('See Deal','wpsdeals').'</a></div>

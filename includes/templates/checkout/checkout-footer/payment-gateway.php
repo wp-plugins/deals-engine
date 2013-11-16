@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	
 		?>	
 			<div class="wps-deals-payment-wrap row-fluid clearfix">
-				<div class="wps-deals-payment-form">
+				<div class="wps-deals-payment-form checkout-fields-container">
 					<h2><?php echo apply_filters('wps_deals_cart_payment_method_label', __('Payment Method','wpsdeals'));?></h2>
 					
 						<?php

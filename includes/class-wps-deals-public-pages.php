@@ -14,12 +14,13 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Public_Pages	{
 	
-	var $model,$scripts,$render,$cart,$currency,$price;
+	var $model,$scripts,$render,$cart,$currency,$price,$message;
 	
 	public function __construct() {
 		
 		global $wps_deals_model,$wps_deals_scripts,$wps_deals_render,
-				$wps_deals_cart,$wps_deals_currency,$wps_deals_price;
+				$wps_deals_cart,$wps_deals_currency,$wps_deals_price,
+				$wps_deals_message;
 		
 		$this->model = $wps_deals_model;
 		$this->scripts = $wps_deals_scripts;
@@ -27,6 +28,7 @@ class Wps_Deals_Public_Pages	{
 		$this->cart = $wps_deals_cart;
 		$this->currency = $wps_deals_currency;
 		$this->price = $wps_deals_price;
+		$this->message = $wps_deals_message;
 		
 	}
 	
@@ -215,10 +217,10 @@ class Wps_Deals_Public_Pages	{
 				$invalid_password = isset($user->errors['incorrect_password']) ? $user->errors['incorrect_password'] : '';
 				
 				if(!empty($invalid_username)) { //check user login is valid or not
-					$result['error'] = __('<span><strong>ERROR</strong>: Invalid username.</span>','wpsdeals');
+					$result['error'] = __( '<span><strong>ERROR</strong>: Invalid username.</span>', 'wpsdeals' );
 				}
 				if(empty($result['error']) && !empty($invalid_password)) { //check user password is valid or not
-					$result['error'] = __('<span><strong>ERROR</strong>: The password you entered for the username <strong>'.$creds['user_login'].'</strong> is incorrect.</span>','wpsdeals');
+					$result['error'] = __( '<span><strong>ERROR</strong>: The password you entered for the username <strong>'.$creds['user_login'].'</strong> is incorrect.</span>', 'wpsdeals' );
 				} 
 				
 			} else {
@@ -428,6 +430,30 @@ class Wps_Deals_Public_Pages	{
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 			
+		} elseif ( is_page( $wps_deals_options['my_account_page'] ) ) { //deals my account page
+			
+			$file 	= 'my-account.php';
+			$find[] = $file;
+			$find[] = 'deals-engine/' . $file;
+			
+		} elseif ( is_page( $wps_deals_options['change_password'] ) ) { //deals change password page 
+			
+			$file = 'change-password.php';
+			$find[] = $file;
+			$find[] = 'deals-engine/' . $file;
+			
+		} elseif ( is_page( $wps_deals_options['edit_adderess'] ) ) { //deals edit address page
+			
+			$file 	= 'edit-address.php';
+			$find[] = $file;
+			$find[] = 'deals-engine/' . $file;
+			
+		} elseif ( is_page( $wps_deals_options['lost_password'] ) ) { //deals lost password page
+			
+			$file 	= 'lost-password.php';
+			$find[] = $file;
+			$find[] = 'deals-engine/' . $file;
+			
 		}
 		
 		if ( $file ) {
@@ -436,6 +462,366 @@ class Wps_Deals_Public_Pages	{
 		}
 		
 		return $template;
+	}
+	/**
+	 * Redirect Template
+	 * 
+	 * Handles to redirects before content is output - hooked into template_redirect so is_page works.
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0 
+ 	 */
+	public function wps_deals_template_redirect() {
+		
+		global $wps_deals_options;
+		
+		// My account page redirects ( logged out )
+		if ( !is_user_logged_in() && 
+			( is_page( $wps_deals_options['change_password'] ) || is_page( $wps_deals_options['edit_adderess'] ) 
+				|| is_page( $wps_deals_options['ordered_page'] ) ) ) {
+			
+			//redirect to my account page
+			wps_deals_send_on_my_account_page();
+			
+		}
+		
+		// Logout 
+		elseif ( is_page( $wps_deals_options['logout'] ) ) {
+			
+			wp_redirect( str_replace( '&amp;', '&', wp_logout_url( get_permalink( $wps_deals_options['my_account_page'] ) ) ) );
+			exit;
+		}
+
+	}
+	
+	/**
+	 * Call to return state list from Country Code
+	 * 
+	 * Handles to return state list from country code
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0 
+	 **/
+	public function wps_deals_state_list_from_country() {
+		
+		$country = isset( $_POST['country'] ) && !empty( $_POST['country'] ) ? $_POST['country'] : '';
+		
+		$stateid 	= isset( $_POST['stateid'] ) ? $_POST['stateid'] : '';
+		//$stateclass = isset( $_POST['stateclass'] ) ? $_POST['stateclass'] : '';
+		$statename	= isset( $_POST['statename'] ) ? $_POST['statename'] : '';
+		//$stateplaceholder	= isset( $_POST['stateplaceholder'] ) ? $_POST['stateplaceholder'] : '';
+		
+		//get states from country
+		$states = wps_deals_get_states_from_country( $country );
+		
+		//check states not empty
+		if( !empty( $states ) &&  is_array( $states ) ) {
+			
+			$statefield = '<select name="'.$statename.'" id="'.$stateid.'" class="wps-deals-cart-select wps-deals-required billing-country wps-deals-state-combo">';
+			$statefield .= '<option value="">'.__( 'Select State / County&hellip;', 'wpsdeals' ).'</option>';
+			foreach ( $states as $statekey => $state ) {
+				$statefield .= '<option value="'.$statekey.'">'.$state.'</option>';
+			}
+			
+			$statefield .= '</select>';
+		} else {
+			
+			$statefield = '<input type="text" name="'.$statename.'" id="'.$stateid.'" value="" class="wps-deals-cart-text wps-deals-required wps-deals-state-combo" placeholder="'.__( 'State / County', 'wpsdeals' ).'"/>';
+			
+		}
+		
+		echo $statefield;
+		exit;
+	}
+	
+	/**
+	 * Manage Billing Address
+	 *
+	 * Handles to manage billing address from
+	 * my account > edit address page
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_manage_billing_address() {
+		
+		global $wps_deals_options, $current_user;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+	
+		if( isset( $_POST['wps_deals_save_billing_address'] ) && !empty( $_POST['wps_deals_save_billing_address'] )
+			&& isset( $_POST['wps_deals_billing_details'] ) && !empty( $_POST['wps_deals_billing_details'] ) ) {
+			
+			//valid billing details
+			$userbilling	= wps_deals_valid_billing_data();
+			
+			if( $userbilling ) {
+				
+				//save billing to user meta
+				update_user_meta( $current_user->ID, $prefix.'billing_details', $_POST['wps_deals_billing_details'] );
+				
+				$successmsg = __( '<span>Address changed successfully.</span>', 'wpsdeals' );
+				$this->message->add_session( 'my_account_msg', $successmsg, 'success' );
+				
+				//redirect to my account page
+				wps_deals_send_on_my_account_page();
+				
+			} else {
+				
+				//redirect to edit address page
+				wps_deals_send_on_edit_adderess_page( array( 'wps_deals_address' => 'billing' ) );
+				
+			}
+		}
+	}
+	
+	/**
+	 * Change Password
+	 *
+	 * Handles to change password from
+	 * my account > change password page
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_change_password() {
+		
+		global $wpdb, $wps_deals_options, $current_user;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+	
+		//Check change password button is click or not
+		if( isset( $_POST['wps_deals_change_password'] ) && !empty( $_POST['wps_deals_change_password'] ) ) {
+			
+			$error = false;
+			$new_password = $re_enter_password = '';
+			
+			if( isset( $_POST['wps_deals_reset_key'] ) && !empty( $_POST['wps_deals_reset_key'] )
+				&& isset( $_POST['wps_deals_reset_login'] ) && !empty( $_POST['wps_deals_reset_login'] ) ) {
+				
+				$key 	= $_POST['wps_deals_reset_key'];
+				$login 	= $_POST['wps_deals_reset_login'];
+				
+				$user = $wpdb->get_row( "SELECT * FROM $wpdb->users WHERE user_activation_key = '{$key}' AND user_login = '{$login}'" );
+		
+				if ( empty( $user ) ) {
+					
+					$this->message->add( 'changepassword', __( '<span><strong>ERROR : </strong>Invalid key.', 'wpsdeals' ), 'multierror' );
+					$error = true;
+					
+				} else {
+					
+					$user_id = $user->ID;
+				}
+					
+			} else {
+				$user_id = $current_user->ID;
+			}
+			
+			
+			if( isset( $_POST['wps_deals_new_password'] ) && !empty( $_POST['wps_deals_new_password'] ) ) {
+				$new_password = $_POST['wps_deals_new_password'];
+			} else {
+				$this->message->add( 'changepassword', __( '<span><strong>ERROR : </strong>Please enter new password.</span>','wpsdeals' ),'multierror');
+				$error = true;
+			}
+			
+			if( isset( $_POST['wps_deals_re_enter_password'] ) && !empty( $_POST['wps_deals_re_enter_password'] ) ) {
+				$re_enter_password = $_POST['wps_deals_re_enter_password'];
+			} else {
+				$this->message->add( 'changepassword', __( '<span><strong>ERROR : </strong>Please enter re-enter new password.</span>','wpsdeals' ),'multierror');
+				$error = true;
+			}
+			
+			if( !empty( $new_password ) && !empty( $re_enter_password ) && $new_password != $re_enter_password ) {
+				$this->message->add( 'changepassword', __( '<span><strong>ERROR : </strong>Passwords do not match, please enter your password.</span>','wpsdeals' ),'multierror');
+				$error = true;
+			}
+			
+			if( !$error ) {
+				
+				wp_update_user( array ( 'ID' => $user_id, 'user_pass' => $new_password ) ) ;
+				
+				$successmsg = __( '<span>Password changed successfully.</span>', 'wpsdeals' );
+				$this->message->add_session( 'my_account_msg', $successmsg, 'success' );
+				
+				//redirect to my account page
+				wps_deals_send_on_my_account_page();
+				
+			}
+		}
+	}
+	
+	/**
+	 * Lost Password
+	 *
+	 * Handles to lost password from
+	 * my account > lost password page
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_lost_password() {
+		
+		global $wps_deals_options, $wpdb;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+	
+		//Check lost password button is click or not
+		if( isset( $_POST['wps_deals_reset_password'] ) && !empty( $_POST['wps_deals_reset_password'] ) ) {
+			
+			$error = false;
+			
+			//check username or email is empty
+			if( !isset( $_POST['wps_deals_user_email'] ) || empty( $_POST['wps_deals_user_email'] ) ) {
+	
+				$this->message->add_session( 'lostpassword', __( '<span><strong>ERROR : </strong>Please enter username or e-mail address.</span>','wpsdeals' ), 'error' );
+				$error = true;
+	
+			} else if ( isset( $_POST['wps_deals_user_email'] ) && strpos( $_POST['wps_deals_user_email'], '@' ) ) { // check email-id
+	
+				if( is_email( $_POST['wps_deals_user_email'] ) ) { // check email validation
+					
+					$user_data = get_user_by( 'email', trim( $_POST['wps_deals_user_email'] ) );
+					if ( empty( $user_data ) ) { // check user exist
+
+						$this->message->add_session( 'lostpassword', __( '<span><strong>ERROR : </strong>There is no user registered with that email address.', 'wpsdeals' ), 'error' );
+						$error = true;
+					}
+				} else {
+					
+					$this->message->add_session( 'lostpassword', __( '<span><strong>ERROR : </strong>Please enter valid e-mail address.</span>','wpsdeals' ), 'error' );
+					$error = true;
+		
+				}
+	
+			} else {
+	
+				$login = trim( $_POST['wps_deals_user_email'] );
+	
+				$user_data = get_user_by( 'login', $login );
+				
+				if ( empty( $user_data ) ) { // check user exist
+
+					$this->message->add_session( 'lostpassword', __( '<span><strong>ERROR : </strong>Invalid username or e-mail.', 'wpsdeals' ), 'error' );
+					$error = true;
+				}
+				
+			}
+
+			// add do action for validate post field
+			do_action( 'wps_deals_lost_password_post' );
+
+			if ( !empty( $user_data ) ) { // Check user is exist
+				
+				$allow = apply_filters('wps_deals_allow_password_reset', true, $user_data->ID);
+	
+				if ( ! $allow ) { // Check permission not allow for reset password
+		
+					$this->message->add_session( 'lostpassword', __( '<span><strong>ERROR : </strong>Password reset is not allowed for this user.', 'wpsdeals' ), 'error' );
+					$error = true;
+				}
+			}
+			
+			if( !$error ) {
+				
+				// defining user_login ensures we return the right case in the email
+				$user_login = $user_data->user_login;
+				$user_email = $user_data->user_email;
+
+				$key = $wpdb->get_var( "SELECT user_activation_key FROM $wpdb->users WHERE user_login = '{$user_login}'" );
+		
+				if ( empty( $key ) ) {
+		
+					// Generate something random for a key...
+					$key = wp_generate_password( 20, false );
+		
+					do_action('wps_deals_retrieve_password_key', $user_login, $key);
+		
+					// Now insert the new md5 key into the db
+					$wpdb->update( $wpdb->users, array( 'user_activation_key' => $key ), array( 'user_login' => $user_login ) );
+					
+				}
+		
+				//Send email for reset password
+				$args = array(
+									'user_key' 		=> $key,
+									'user_name' 	=> $user_login,
+									'user_email' 	=> $user_email,
+								);
+								
+				$this->model->wps_deals_send_reset_password_email( $args );
+				
+				// Send email notification
+				do_action( 'wps_deals_reset_password_notification', $user_login, $key );
+
+				$successmsg = __( '<span>Check your e-mail for the confirmation link.</span>', 'wpsdeals' );
+				$this->message->add_session( 'lostpasswordsuccess', $successmsg, 'success' );
+				
+			}
+			
+			//redirect to lost password page
+			wps_deals_send_on_lost_password_page();
+			
+		}
+	}
+	
+	/**
+	 * Login
+	 *
+	 * Handles to login from
+	 * my account page
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_login() {
+		
+		if( isset( $_POST['wps_deals_login_submit'] ) && !empty( $_POST['wps_deals_login_submit'] ) ) {
+			
+			$creds = array();
+	 		$error = false;
+	 		
+	 		if( isset( $_POST['wps_deals_user_name'] ) && !empty( $_POST['wps_deals_user_name'] ) ) { //check user name
+				$creds['user_login'] = $_POST['wps_deals_user_name'];
+	 		} else {
+				$this->message->add( 'login', __( '<span><strong>ERROR : </strong>Please enter your username.', 'wpsdeals' ), 'multierror' );
+				$error = true;
+	 		}
+	 		if( isset( $_POST['wps_deals_user_pass'] ) && !empty( $_POST['wps_deals_user_pass'] ) ) { //check user password
+				$creds['user_password'] = $_POST['wps_deals_user_pass'];
+	 		} else {
+	 			$this->message->add( 'login', __( '<span><strong>ERROR : </strong>Please enter your password.', 'wpsdeals' ), 'multierror' );
+				$error = true;
+	 		}
+			if( isset($_POST['wps_deals_remember'] ) && !empty( $_POST['wps_deals_remember'] ) ) { //check remember me check box in login form
+				$creds['remember'] = true;
+			} else {
+				$creds['remember'] = false; 
+			}
+		  
+	 		if( !$error ) { // Check username and password are not empty
+	 			
+	 			$user = wp_signon( $creds, false );
+	 			
+	 			if ( is_wp_error( $user ) ) { //check error given by wordpress
+	 				
+	 				if( isset( $user->errors['invalid_username'] ) && !empty( $user->errors['invalid_username'] ) ) { //check user name is invalid
+	 					$this->message->add( 'login', __( '<span><strong>ERROR : </strong>Invalid username.', 'wpsdeals' ), 'multierror' );
+	 				} 
+	 				
+	 				if( isset( $user->errors['incorrect_password'] ) && !empty( $user->errors['incorrect_password'] ) ) { //check user password is incorrect
+	 					$this->message->add( 'login', __( '<span><strong>ERROR : </strong>The password you entered for username <strong>'.$creds['user_login'].'</strong> is incorrect.', 'wpsdeals' ), 'multierror' );
+	 				}
+	 			} else {
+	 				
+					//redirect to my account page
+					wps_deals_send_on_my_account_page();
+					
+	 			}
+	 			
+	 		}
+		}
 	}
 	
 	/**
@@ -480,9 +866,16 @@ class Wps_Deals_Public_Pages	{
 		add_action( 'wp_ajax_deals_update_social_media_values', array( $this, 'wps_deals_update_social_count' ) );
 		add_action( 'wp_ajax_nopriv_deals_update_social_media_values', array( $this, 'wps_deals_update_social_count' ) );
 		
+		//ajax call action to return state list from contry code
+		add_action( 'wp_ajax_deals_state_from_country', array( $this, 'wps_deals_state_list_from_country' ) );
+		add_action( 'wp_ajax_nopriv_deals_state_from_country', array( $this, 'wps_deals_state_list_from_country' ) );
+		
 		//template loader
 		add_filter( 'template_include', array( $this, 'wps_deals_load_template' ) );
 		
+		//template redirect
+		add_action( 'template_redirect', array( $this, 'wps_deals_template_redirect' ) );
+
 		//email actions to fire email to admin & user
 		$emailactions = array( 
 								'wps_deals_order_status_pending_to_completed', 
@@ -494,7 +887,18 @@ class Wps_Deals_Public_Pages	{
 			add_action( $action, 'wps_deals_send_order_notification', 10, 3 );
 		}
 		
+		//add action to manage billing address from my account > edit address page
+		add_action( 'init', array( $this, 'wps_deals_manage_billing_address' ) );
+		
+		//add action to change password from my account > change password page
+		add_action( 'init', array( $this, 'wps_deals_change_password' ) );
+		
+		//add action to lost password from my account > lost password page
+		add_action( 'init', array( $this, 'wps_deals_lost_password' ) );
+		
+		//add action to login from my account page
+		add_action( 'init', array( $this, 'wps_deals_login' ) );
+		
 	}
-	
 }
 ?>

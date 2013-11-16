@@ -730,6 +730,8 @@ jQuery(document).ready(function(jQuery) {
 
 	jQuery('.metabox-tabs').show();
 	
+	jQuery('select.chzn-select').chosen();
+	
 });
 
 /**
@@ -737,9 +739,12 @@ jQuery(document).ready(function(jQuery) {
  * @since 2.9.8
  */
 function wpsDealsFancySelect(){
-  jQuery(".wps-deals-metabox-tabs-div select").each(function (){
+  /*jQuery(".wps-deals-metabox-tabs-div select").each(function (){
     if(! jQuery(this).hasClass('no-fancy'))
       jQuery(this).select2();
+  });*/
+  jQuery(".wps-deals-metabox-tabs-div select").each(function (){
+      jQuery(this).chosen();
   });
 }
 

@@ -12,27 +12,47 @@
  * @since 1.0.0
  */
 
-global $wps_deals_model, $wps_deals_options;
+global $wps_deals_model, $wps_deals_options, $current_user;
 
-$model = $wps_deals_model;
+	$model = $wps_deals_model;
 
-if( isset($_GET['order_id']) && !empty( $_GET['order_id'] ) ) {
+	$orderargs = array();
 
-	$order_id = $_GET['order_id'];
+	//check user is logged in or not if user is logged in then use url's order id
+	if( is_user_logged_in() ) {
+		
+		$order_id = isset( $_GET['order_id'] ) ?  $_GET['order_id'] : '';
+		$orderargs = array( 'author' => $current_user->ID, 'p' => $order_id );
+		
+	} else { //guest order data
+		
+		$order_id = isset( $_SESSION['wps_deals_last_ordered_id'] ) && !empty( $_SESSION['wps_deals_last_ordered_id'] ) 
+						? $_SESSION['wps_deals_last_ordered_id'] : '0';
+		$orderargs = array( 'author' => '0', 'p' => $order_id );
+		
+	}
 
-	$salesdata = get_post( $order_id );
+	//get user's orders data
+	$salesdata = $model->wps_deals_get_sales( $orderargs );
+	$salesdata = array_shift( $salesdata );
+
+//check sales data is not empty for particular user and order id
+if( !empty( $salesdata ) && !empty( $order_id ) ) {
 
 	// get the value for the user details from the post meta box
-	$userdetails = $model->wps_deals_get_ordered_user_details($order_id);
+	$userdetails = $model->wps_deals_get_ordered_user_details( $order_id );
 	
 	// get the value for the order details from the post meta box
-	$order_details = $model->wps_deals_get_post_meta_ordered($order_id);
+	$order_details = $model->wps_deals_get_post_meta_ordered( $order_id );
 	
 	// get the value for the payment status from the post meta box
-	$payment_status = $model->wps_deals_get_ordered_payment_status($order_id);
+	$payment_status = $model->wps_deals_get_ordered_payment_status( $order_id );
 	
+	//payment status value
+	$payment_status_val = $model->wps_deals_get_ordered_payment_status( $order_id, true );
+
 	//get order date for payment
-	$orderddate = $model->wps_deals_get_date_format($salesdata->post_date);
+	$orderddate = $model->wps_deals_get_date_format( $salesdata['post_date'] );
 	
 	//get ordered files
 	$orderedfiles = $model->wps_deals_get_ordered_file_list( $order_id );
@@ -40,17 +60,7 @@ if( isset($_GET['order_id']) && !empty( $_GET['order_id'] ) ) {
 	//do action for view order content before
 	do_action( 'wps_deals_order_view_content_before', $order_id );
 	
-	$payment_method = isset( $order_details['checkout_label'] ) ? $order_details['checkout_label'] : $order_details['payment_method'];
-	
-	 // Check payment method is cheque payment and not empty customer message from settings
-	if( $payment_method == __( 'Cheque Payment', 'wpsdeals' ) && !empty( $wps_deals_options['cheque_customer_msg'] ) ) {
-	
-	?>		
-		<p><?php echo $wps_deals_options['cheque_customer_msg']; ?></p>
-	<?php
-	
-	}
-?>
+	?>
 		<table id="wps-deals-purchase-receipt">
 			<thead>
 				<tr>
@@ -93,8 +103,8 @@ if( isset($_GET['order_id']) && !empty( $_GET['order_id'] ) ) {
 				<tr>
 					<td><strong><?php _e( 'Payment Method', 'wpsdeals' ); ?>:</strong></td>
 					<td><?php 
-								$payment_method = isset( $order_details['checkout_label'] ) ? $order_details['checkout_label'] : $order_details['payment_method'];
-								echo apply_filters( 'wps_deals_order_view_payment_method',$payment_method  ); 
+							$payment_method = isset( $order_details['checkout_label'] ) ? $order_details['checkout_label'] : $order_details['admin_label'];
+							echo apply_filters( 'wps_deals_order_view_payment_method',$payment_method  ); 
 						?>
 					</td>
 				</tr>
@@ -188,7 +198,9 @@ if( isset($_GET['order_id']) && !empty( $_GET['order_id'] ) ) {
 								
 								$downloadfiles .= '<ul class="wps-deals-purchase-receipt-files">';
 								
-								if( !empty( $orderedfiles[$product['deal_id']] ) && is_array( $orderedfiles[$product['deal_id']] ) ) {
+								//check payment status is completed and order download files should not empty
+								if( $payment_status_val == '1' 
+									&& !empty( $orderedfiles[$product['deal_id']] ) && is_array( $orderedfiles[$product['deal_id']] ) ) {
 									
 									foreach ( $orderedfiles[$product['deal_id']] as $key => $file ) {
 										
@@ -280,12 +292,111 @@ if( isset($_GET['order_id']) && !empty( $_GET['order_id'] ) ) {
 			</tfoot>
 		
 		</table>
-<?php	
+<?php		
+
+		//do action to add content after order deal items
+		do_action( 'wps_deals_order_view_ordered_deals_after', $order_id );
+		
+		//billing details
+		$billingdetails		= isset( $order_details['billing_details'] ) ? $order_details['billing_details'] : array();
+
+		// check billing details not empty
+		if( !empty( $billingdetails ) ) { 
+			
+			//billingcountry 
+			$billingcountry		= isset( $billingdetails['country'] ) ? wps_deals_get_country_name( $billingdetails['country'] ) : '';
+			//billing state
+			$billingstate		= isset( $billingdetails['state'] ) ? wps_deals_get_state_name ( $billingdetails['state'], $billingdetails['country'] ) : '';
+			//billing company	
+			$billingcompany		= isset( $billingdetails['company'] ) ? $billingdetails['company'] : '';
+			//billing adddress
+			$billingaddress1	= isset( $billingdetails['address1'] ) ? $billingdetails['address1'] : '';
+			$billingaddress2	= isset( $billingdetails['address2'] ) ? $billingdetails['address2'] : '';
+			//billing city
+			$billingcity		= isset( $billingdetails['city'] ) ? $billingdetails['city'] : '';
+			//billing postcode
+			$billingpostcode		= isset( $billingdetails['postcode'] ) ? $billingdetails['postcode'] : '';
+			//billing phone
+			$billingphone		= isset( $billingdetails['phone'] ) ? $billingdetails['phone'] : '';
+?>			
+
+		<div class="wps-deals-view-bill-details">
+			<h3><?php _e( 'Billing Details','wpsdeals' );?></h3>
+			<table>
+				<tbody>
+					<tr>
+						<td><strong><?php _e( 'Address :','wpsdeals' );?></strong></td>
+						<td><?php echo $billingaddress1.'<br />'.
+										$billingaddress2;?>
+						</td>
+					</tr>
+					<?php
+							//do action to add content after billing address
+							do_action( 'wps_deals_order_view_billing_address_after', $order_id );
+							
+						if( !empty( $billingcompany ) ) {
+					?>
+					<tr>
+						<td><strong><?php _e( 'Company Name :','wpsdeals' );?></strong></td>
+						<td><?php echo $billingcompany;?></td>
+					</tr>
+					<?php
+						}
+							//do action to add content after billing company name
+							do_action( 'wps_deals_order_view_billing_company_after', $order_id );
+					?>
+					<tr>
+						<td><strong><?php _e( 'Town / City :','wpsdeals');?></strong></td>
+						<td><?php echo $billingcity;?></td>
+					</tr>
+					<?php
+							//do action to add content after billing city
+							do_action( 'wps_deals_order_view_billing_city_after', $order_id );
+					?>
+					<tr>
+						<td><strong><?php _e( 'County / State :','wpsdeals' );?></strong></td>
+						<td><?php echo $billingstate;?></td>
+					</tr>
+					<?php
+							//do action to add content after billing county / state
+							do_action( 'wps_deals_order_view_billing_county_after', $order_id );
+					?>
+					<tr>
+						<td><strong><?php _e( 'Zip / Postal Code :','wpsdeals');?></strong></td>
+						<td><?php echo $billingpostcode;?></td>
+					</tr>
+					<?php
+							//do action to add content after billing postcode
+							do_action( 'wps_deals_order_view_billing_postcode_after', $order_id );
+					?>
+					<tr>
+						<td><strong><?php _e( 'Country :','wpsdeals' );?></strong></td>
+						<td><?php echo $billingcountry;?></td>
+					</tr>
+					<?php
+							//do action to add content after billing country
+							do_action( 'wps_deals_order_view_billing_country_after', $order_id );
+					?>
+					<tr>
+						<td><strong><?php _e( 'Phone :','wpsdeals');?></strong></td>
+						<td><?php echo $billingphone;?></td>
+					</tr>
+					<?php
+							//do action to add content after billing details after
+							do_action( 'wps_deals_order_view_billing_after', $order_id );
+					?>
+				 </tbody>
+			</table>
+		</div><!--.wps-deals-view-bill-details-->
+<?php
+		} //check billing details should not empty
+		
 		//do action for view order content after
 		do_action('wps_deals_order_view_content_after',$order_id);
 
 } else {
 	
-	echo apply_filters('wps_deals_success_order_message','<p>' . __( 'Thank you for your purchase! Your order has been completed successfully. You will receive an email from us within a few minutes containing the download link(s) from your purchased deal(s) as well as all the payment information for your records.', 'wpsdeals' ) . '</p>');
+	echo apply_filters( 'wps_deals_success_order_message','<p>' . __( 'Thank you for your purchase! Your order has been completed successfully. You will receive an email from us within a few minutes containing the download link(s) from your purchased deal(s) as well as all the payment information for your records.<br />Sorry, trouble to retrieving order details.', 'wpsdeals' ) . '</p>');
 }
+//}
 ?>

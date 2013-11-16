@@ -314,18 +314,8 @@ class Wps_Deals_Social_Public {
 		if( !is_user_logged_in() && isset( $_GET['wps_deals_social_login'] ) 
 			&& !empty( $socialtype ) && array_key_exists( $socialtype, $allsocialtypes ) ) {
 		
-			if( isset( $_GET['page_id'] ) && !empty( $_GET['page_id'] ) ) {
-				$redirect_url = get_permalink( $_GET['page_id'] );
-			} else {
-				$redirect_url = home_url();
-			}
-	
-			// get redirect url from settings
-			$redirect_url = isset( $wps_deals_options['login_redirect_url'] ) && !empty( $wps_deals_options['login_redirect_url'] ) ? $wps_deals_options['login_redirect_url'] : $redirect_url;
-			
-			// get redirect url from shortcode
-			$stcd_redirect_url = isset( $_SESSION['wps_deals_stcd_redirect_url'] ) ? $_SESSION['wps_deals_stcd_redirect_url'] : '';
-			$redirect_url = !empty( $stcd_redirect_url ) ? $stcd_redirect_url : $redirect_url;
+			//check if session is set and !empty then it will take get_permalink url
+			$redirect_url = isset( $_SESSION['wps_deals_stcd_redirect_url'] ) ? $_SESSION['wps_deals_stcd_redirect_url'] : wps_deals_get_current_page_url();
 			
 			//get cart details
 			$cartdetails = $this->cart->get();
@@ -359,11 +349,9 @@ class Wps_Deals_Social_Public {
 	  		//and accessing the url then send back user to checkout page
 	  		if( /*empty( $cartdetails ) || */!isset( $data['id'] ) || empty( $data['id'] ) ) {
 	  			
-	  			if( isset( $_GET['page_id'] ) && !empty( $_GET['page_id'] ) ) {
-					$redirect_url = get_permalink( $_GET['page_id'] );
-				} else {
-					$redirect_url = home_url();
-				}
+	  			if( isset( $_SESSION['wps_deals_stcd_redirect_url'] ) ) {
+	  				unset( $_SESSION['wps_deals_stcd_redirect_url'] );
+	  			}
 				wp_redirect( $redirect_url );
 				exit;
 	  			//send user to checkout page
@@ -401,7 +389,9 @@ class Wps_Deals_Social_Public {
 			  		 		//create user
 							$usercreated = $this->wps_deals_social_create_user( $data );
 							
-							unset( $_SESSION['wps_deals_stcd_redirect_url'] );
+				  			if( isset( $_SESSION['wps_deals_stcd_redirect_url'] ) ) {
+				  				unset( $_SESSION['wps_deals_stcd_redirect_url'] );
+				  			}
 							wp_redirect( $redirect_url );
 							exit;
 							//send user to checkout page
@@ -445,7 +435,9 @@ class Wps_Deals_Social_Public {
 					//make user logged in
 					wp_set_auth_cookie( $wpuser->ID, false );
 					
-					unset( $_SESSION['wps_deals_stcd_redirect_url'] );
+		  			if( isset( $_SESSION['wps_deals_stcd_redirect_url'] ) ) {
+		  				unset( $_SESSION['wps_deals_stcd_redirect_url'] );
+		  			}
 					wp_redirect( $redirect_url );
 					exit;
 					//send user to checkout page
