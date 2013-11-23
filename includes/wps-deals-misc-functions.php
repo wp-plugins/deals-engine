@@ -20,9 +20,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	function wps_deals_currency_data() {
 		 
 		$currency_data = array(	
-									'USD'	=> __( 'US Dollars (&#36;)', 'wpsdeals' ),
-									'GBP'	=> __( 'Pounds Sterling (&pound;)', 'wpsdeals' ),
-									'EUR'	=> __( 'Euros (&euro;)', 'wpsdeals' ),
+									'USD'	=> __('US Dollars (&#36;)', 'wpsdeals'),
+									'GBP'	=> __('Pounds Sterling (&pound;)', 'wpsdeals'),
+									'EUR'	=> __('Euros (&euro;)', 'wpsdeals'),
 									'AUD' 	=> __('Australian Dollars (&#36;)', 'wpsdeals'),
 									'BRL' 	=> __('Brazilian Real (R&#36;)', 'wpsdeals'),
 									'CAD' 	=> __('Canadian Dollars (&#36;)', 'wpsdeals'),
@@ -30,6 +30,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									'DKK'	=> __('Danish Krone', 'wpsdeals'),
 									'HKD' 	=> __('Hong Kong Dollar (&#36;)', 'wpsdeals'),
 									'HUF' 	=> __('Hungarian Forint', 'wpsdeals'),
+									'RIAL' 	=> __('Iranian Rial', 'wpsdeals'),
 									'ILS' 	=> __('Israeli Shekel', 'wpsdeals'),
 									'JPY' 	=> __('Japanese Yen (&yen;)', 'wpsdeals'),
 									'MYR' 	=> __('Malaysian Ringgits', 'wpsdeals'),
@@ -39,13 +40,14 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									'PHP' 	=> __('Philippine Pesos', 'wpsdeals'),
 									'PLN' 	=> __('Polish Zloty', 'wpsdeals'),
 									'SGD' 	=> __('Singapore Dollar (&#36;)', 'wpsdeals'),
+									'ZAR'	=> __('South African Rand (R)', 'wpsdeals'),
 									'SEK' 	=> __('Swedish Krona', 'wpsdeals'),
 									'CHF' 	=> __('Swiss Franc', 'wpsdeals'),
 									'TWD' 	=> __('Taiwan New Dollars', 'wpsdeals'),
 									'THB' 	=> __('Thai Baht', 'wpsdeals'),
 									'INR' 	=> __('Indian Rupee', 'wpsdeals'),
 									'TRY' 	=> __('Turkish Lira', 'wpsdeals'),
-									'RIAL' 	=> __('Iranian Rial', 'wpsdeals')
+									
 						  		 );
 		return $currency_data;
 	}
