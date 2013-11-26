@@ -3,7 +3,7 @@
 Plugin Name: Social Deals Engine
 Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
 Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
-Version: 1.0.3
+Version: 1.0.4
 Author: WPSocial.com
 Author URI: http://wpsocial.com
 
@@ -32,7 +32,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 global $wpdb;
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '1.0.3' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '1.0.4' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -126,6 +126,28 @@ function wps_deals_load_textdomain() {
 
 add_action( 'init', 'wps_deals_load_textdomain' ); 
 
+/**
+ * Admin Warning
+ *
+ * This will output a warning message, if the main plugin isn't activated.
+ *
+ * @package Social Deals Engine
+ * @since 1.0.0
+ */
+function wps_deals_admin_notice() {
+	
+	//check Woocommerce is activated
+	if( class_exists( 'Woocommerce' ) ) {
+		
+		$woo_link = '<a target="_BLANK" href="http://codecanyon.net/item/social-deals-engine-woocommerce-edition/5599760">http://codecanyon.net/item/social-deals-engine-woocommerce-edition/5599760</a>';
+		
+		echo '<div class="error">';
+		echo "<p><strong>" . sprintf( __( 'We noticed, that you have WooCommerce installed. For that we recommend, that you\'re using the Deals Extension for WooCommerce available here: %s you can take that one.', 'wpsdeals' ), $woo_link ) . "</strong></p>";
+		echo '</div>';
+	}
+}
+add_action( 'admin_notices', 'wps_deals_admin_notice' );
+	
 /**
  * Activation Hook
  *
@@ -531,9 +553,31 @@ function wps_deals_install() {
 	
 	if( $wps_deals_set_option == '1.0.2' ) {
 		
-		// future code will be done here
+		$udpopt = false;
+		
+		//check reset password email body is set in options or not
+		if( !isset( $wps_deals_options['cheque_title'] ) ) {
+			$cheque_title = array( 'cheque_title'=> __( 'Cheque Payment','wpsdeals') );
+			$wps_deals_options = array_merge( $wps_deals_options, $cheque_title );
+			$udpopt = true;
+		}
+		
+		if( $udpopt == true ) { // if any of the settings need to be updated 				
+			update_option( 'wps_deals_options', $wps_deals_options );
+		}
+		
+		//update plugin version to option 
+		update_option( 'wps_deals_set_option', '1.0.3' );
 		
 	} //check plugin set option value is 1.0.2
+	
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+	
+	if( $wps_deals_set_option == '1.0.3' ) {
+		
+		// future code will be done here
+		
+	} //check plugin set option value is 1.0.3
 }
 
 /**
@@ -813,6 +857,7 @@ function wps_deals_default_settings() {
 								'social_order'					=> array('facebook','twitter','googleplus','linkedin','yahoo','foursquare','windowslive'),
 								'default_payment_gateway'		=> 'paypal',
 								'caching'						=> '',
+								'cheque_title'					=> __( 'Cheque Payment', 'wpsdeals' ),
 								'cheque_customer_msg'			=> __( 'Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.', 'wpsdeals' ),
 								'login_heading'					=> __( 'Login with Social Media', 'wpsdeals' ),
 								'login_redirect_url'			=> '',

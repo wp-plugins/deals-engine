@@ -442,9 +442,13 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	  */
 	 function wps_deals_get_payment_gateways() {
 	 	
+	 	global $wps_deals_options;
+	 	
+	 	$cheque_title = isset( $wps_deals_options['cheque_title'] ) && !empty( $wps_deals_options['cheque_title'] ) ? $wps_deals_options['cheque_title'] : __( 'Cheque Payment','wpsdeals');
+	 	
 	 	$gateways = array(
 							'paypal'	=>	array( 'admin_label' => __( 'PayPal Standard','wpsdeals'), 'checkout_label' => __( 'PayPal','wpsdeals') ),
-							'cheque'	=>	array( 'admin_label' => __( 'Cheque Payment','wpsdeals'), 'checkout_label' => __( 'Cheque Payment','wpsdeals') ),
+							'cheque'	=>	array( 'admin_label' => $cheque_title, 'checkout_label' => $cheque_title ),
 							'testmode'	=>	array( 'admin_label' => __( 'Test Mode','wpsdeals'), 'checkout_label' => __( 'Test Mode','wpsdeals') ),
 						);
 		$gateways = apply_filters('wps_deals_add_more_payment_gateways',$gateways);
@@ -699,7 +703,23 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			
 		} //end if to check $wp_roles
 	}
-	
+
+	/**
+	 * Deals page IDs
+	 * 
+	 * Handles to return page id from settings
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_get_page_id( $page ) {
+		
+		$wps_deals_options = wps_deals_get_settings();
+		$pageid = !empty( $page ) && isset( $wps_deals_options[$page] ) && !empty( $wps_deals_options[$page] ) ? $wps_deals_options[$page] : '-1';
+		
+		return $pageid;
+	}
+		
 	/**
 	 * Current Page URL
 	 *

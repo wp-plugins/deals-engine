@@ -77,6 +77,9 @@ class Wps_Deals_Currencies{
 			case 'JPY' : 
 						return '&yen;'; 
 						break;
+			case 'ZAR' : 
+						return 'R'; 
+						break;
 			default:
 						return $val;
  						break;

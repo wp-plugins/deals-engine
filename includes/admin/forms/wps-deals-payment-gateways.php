@@ -140,11 +140,31 @@ global $wps_deals_payment_log;
 								
 								<tr>
 									<th scope="row">
+										<label for="wps_deals_options[cheque_title]"><?php _e( 'Title:', 'wpsdeals' );?></label>
+									</th>
+									<td>
+										<input type="text" id="wps_deals_options[cheque_title]" name="wps_deals_options[cheque_title]" value="<?php echo $model->wps_deals_escape_attr($wps_deals_options['cheque_title']);?>" class="large-text"/><br />
+										<span class="description"><?php _e( 'Enter the title which the user sees during checkout.','wpsdeals' );?></span>
+									</td>
+								</tr>
+								
+								<tr>
+									<th scope="row">
 										<label for="wps_deals_options[cheque_customer_msg]"><?php _e( 'Customer Message:', 'wpsdeals' );?></label>
 									</th>
 									<td>
 										<textarea id="wps_deals_options[cheque_customer_msg]" rows="5" name="wps_deals_options[cheque_customer_msg]" class="large-text"><?php echo $model->wps_deals_escape_attr($wps_deals_options['cheque_customer_msg']);?></textarea><br />
 										<span class="description"><?php _e( 'Let the customer know the payee and where they should be sending the cheque to and that their order won\'t be processed until you receive it.','wpsdeals' );?></span>
+									</td>
+								</tr>
+								
+								<tr>
+									<th scope="row">
+										<label for="wps_deals_options[mark_order_complete]"><?php _e('Mark Order As Completed:', 'wpsdeals');?></label>
+									</th>
+									<td>
+										<input type="checkbox" id="wps_deals_options[mark_order_complete]" name="wps_deals_options[mark_order_complete]" value="1" <?php if(isset($wps_deals_options['mark_order_complete'])) { checked('1',$wps_deals_options['mark_order_complete']); }?>/><br />
+										<span class="description"><?php _e( 'Check this box if you want to mark the order as completed.', 'wpsdeals' ); ?></span>
 									</td>
 								</tr>
 								

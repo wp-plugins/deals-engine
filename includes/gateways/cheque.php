@@ -36,6 +36,13 @@ function wps_deals_process_cheque( $cartdetails, $postdata ) {
 	//payment method
 	$method	= $postdata['wps_deals_payment_gateways'];
 	
+	// Check Mark Order As Completed from payment gateways settings
+	if( isset( $wps_deals_options['mark_order_complete'] ) && $wps_deals_options['mark_order_complete'] == '1' ) {
+		$payment_status = '1'; //completed
+	} else {
+		$payment_status = '5'; //on-hold by default
+	}
+	
 	$purchasedata = array();
 	$purchasedata['user_info'] = array( 
 										'first_name' => $postdata['wps_deals_cart_user_first_name'],
@@ -45,7 +52,7 @@ function wps_deals_process_cheque( $cartdetails, $postdata ) {
 									  );
 	$purchasedata['post_data'] 		= $postdata;
 	$purchasedata['cartdata'] 		= $cartdetails;
-	$purchasedata['payment_status'] = '5'; //on-hold by default
+	$purchasedata['payment_status'] = $payment_status;
 	
 	$salesid = wps_deals_insert_payment_data($purchasedata);
 	

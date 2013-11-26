@@ -385,12 +385,6 @@ class Wps_Deals_Public_Pages	{
 		
 		global $wps_deals_options;
 		
-		//deals main page
-		$dealsshoppage = $wps_deals_options['deals_main_page']; 
-		
-		//deals ordered page
-		$dealorderedpage = $wps_deals_options['ordered_page']; 
-		
 		$find = array( 'deals-engine.php' );
 		$file = '';
 		
@@ -400,55 +394,55 @@ class Wps_Deals_Public_Pages	{
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 
-		} else if ( is_post_type_archive( WPS_DEALS_POST_TYPE ) || is_page( $dealsshoppage ) ) { //check it is deals shop page
+		} else if ( is_post_type_archive( WPS_DEALS_POST_TYPE ) || is_page( wps_deals_get_page_id( 'deals_main_page' ) ) ) { //check it is deals shop page
 
 			$file 	= 'home-deals.php';
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 
-		} elseif ( is_page( $dealorderedpage ) ) { //check it is ordered deals page
+		} elseif ( is_page( wps_deals_get_page_id( 'ordered_page' ) ) ) { //check it is ordered deals page
 			
 			$file 	= 'ordered-deals.php';
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 			
-		} elseif ( is_page( $wps_deals_options['payment_thankyou_page'] ) ) { //order complete page
+		} elseif ( is_page( wps_deals_get_page_id( 'payment_thankyou_page' ) ) ) { //order complete page
 			
 			$file 	= 'order-complete.php';
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 			
-		} elseif ( is_page( $wps_deals_options['payment_cancel_page'] ) ) { //order cancel page
+		} elseif ( is_page( wps_deals_get_page_id( 'payment_cancel_page' ) ) ) { //order cancel page
 			
 			$file 	= 'order-cancel.php';
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 			
-		} elseif ( is_page( $wps_deals_options['payment_checkout_page'] ) ) { //order cancel page
+		} elseif ( is_page( wps_deals_get_page_id( 'payment_checkout_page' ) ) ) { //order cancel page
 			
 			$file 	= 'checkout-deals.php';
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 			
-		} elseif ( is_page( $wps_deals_options['my_account_page'] ) ) { //deals my account page
+		} elseif ( is_page( wps_deals_get_page_id( 'my_account_page' ) ) ) { //deals my account page
 			
 			$file 	= 'my-account.php';
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 			
-		} elseif ( is_page( $wps_deals_options['change_password'] ) ) { //deals change password page 
+		} elseif ( is_page( wps_deals_get_page_id( 'change_password' ) ) ) { //deals change password page 
 			
 			$file = 'change-password.php';
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 			
-		} elseif ( is_page( $wps_deals_options['edit_adderess'] ) ) { //deals edit address page
+		} elseif ( is_page( wps_deals_get_page_id( 'edit_adderess' ) ) ) { //deals edit address page
 			
 			$file 	= 'edit-address.php';
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 			
-		} elseif ( is_page( $wps_deals_options['lost_password'] ) ) { //deals lost password page
+		} elseif ( is_page( wps_deals_get_page_id( 'lost_password' ) ) ) { //deals lost password page
 			
 			$file 	= 'lost-password.php';
 			$find[] = $file;
@@ -477,8 +471,8 @@ class Wps_Deals_Public_Pages	{
 		
 		// My account page redirects ( logged out )
 		if ( !is_user_logged_in() && 
-			( is_page( $wps_deals_options['change_password'] ) || is_page( $wps_deals_options['edit_adderess'] ) 
-				|| is_page( $wps_deals_options['ordered_page'] ) ) ) {
+			( is_page( wps_deals_get_page_id( 'change_password' ) ) || is_page( wps_deals_get_page_id( 'edit_adderess' ) ) 
+				|| is_page( wps_deals_get_page_id( 'ordered_page' ) ) ) ) {
 			
 			//redirect to my account page
 			wps_deals_send_on_my_account_page();
@@ -486,7 +480,7 @@ class Wps_Deals_Public_Pages	{
 		}
 		
 		// Logout 
-		elseif ( is_page( $wps_deals_options['logout'] ) ) {
+		elseif ( is_page( wps_deals_get_page_id( 'logout' ) ) ) {
 			
 			wp_redirect( str_replace( '&amp;', '&', wp_logout_url( get_permalink( $wps_deals_options['my_account_page'] ) ) ) );
 			exit;

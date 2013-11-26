@@ -164,6 +164,7 @@ class Wps_Deals_AdminPages {
 		$input['paypal_api_user'] 		= $this->model->wps_deals_escape_slashes_deep( $input['paypal_api_user'] );
 		$input['paypal_api_pass'] 		= $this->model->wps_deals_escape_slashes_deep( $input['paypal_api_pass'] );
 		$input['paypal_api_sign'] 		= $this->model->wps_deals_escape_slashes_deep( $input['paypal_api_sign'] );
+		$input['cheque_title'] 			= $this->model->wps_deals_escape_slashes_deep( $input['cheque_title'] );
 		$input['cheque_customer_msg'] 	= $this->model->wps_deals_escape_slashes_deep( $input['cheque_customer_msg'] );
 		$input['from_email'] 			= $this->model->wps_deals_escape_slashes_deep( $input['from_email'], true );
 		$input['buyer_email_subject'] 	= $this->model->wps_deals_escape_slashes_deep( $input['buyer_email_subject'] );
