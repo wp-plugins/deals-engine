@@ -539,7 +539,7 @@ $DealsSalesListTable->prepare_items();
     	?>
 	</form>
     <!-- Forms are NOT created automatically, so you need to wrap the table in one to use features like bulk actions -->
-    <form id="product-filter" method="get">
+    <form id="product-filter" method="get" class="wps-deals-form">
         
     	<!-- For plugins, we also need to ensure that the form posts back to our current page -->
         <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />

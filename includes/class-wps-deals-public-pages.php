@@ -485,7 +485,42 @@ class Wps_Deals_Public_Pages	{
 			wp_redirect( str_replace( '&amp;', '&', wp_logout_url( get_permalink( $wps_deals_options['my_account_page'] ) ) ) );
 			exit;
 		}
-
+		// Force SSL
+		//check unforce SSL is set & not empty then redirect to http URL to https URL
+		elseif ( isset( $wps_deals_options['force_ssl_checkout'] ) && !empty( $wps_deals_options['force_ssl_checkout'] ) && ! is_ssl() ) {
+	
+			//check the current page is checkout page or my account page or child page of my account page
+			if ( wps_deals_is_checkout() || wps_deals_is_account() || apply_filters( 'wps_deals_force_ssl_checkout', false ) ) {
+				//check if there is http exist in request uri
+				if ( strpos( $_SERVER['REQUEST_URI'], 'http' ) === 0 ) {
+					wp_safe_redirect( preg_replace( '|^http://|', 'https://', $_SERVER['REQUEST_URI'] ) );
+					exit;
+				} else {
+					//check there is https exist in request uri
+					wp_safe_redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+					exit;
+				} //end else
+				
+			} //end if to check is checkout page or is account page
+			
+		} //end if to check force ssl checkout is checked & is it not SSL
+		
+		//Unforce SSL
+		//check unforce SSL is set & not empty then redirect to https url to http url
+		elseif ( isset( $wps_deals_options['force_ssl_checkout'] ) && !empty( $wps_deals_options['force_ssl_checkout'] )
+				&& isset( $wps_deals_options['unforce_ssl_checkout'] ) && !empty( $wps_deals_options['unforce_ssl_checkout'] ) 
+				&& is_ssl() && $_SERVER['REQUEST_URI'] && !wps_deals_is_checkout() 
+				&& !is_page( wps_deals_get_page_id( 'payment_thankyou_page' ) )
+				&& !wps_deals_is_account() && apply_filters( 'wps_deals_unforce_ssl_checkout', true ) ) {	
+					
+			if ( strpos( $_SERVER['REQUEST_URI'], 'http' ) === 0 ) {
+				wp_safe_redirect( preg_replace( '|^https://|', 'http://', $_SERVER['REQUEST_URI'] ) );
+				exit;
+			} else {
+				wp_safe_redirect( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+				exit;
+			}
+		} //end if to check force ssl checkout is checked & is it not SSL
 	}
 	
 	/**

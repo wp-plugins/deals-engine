@@ -93,7 +93,10 @@ wp_enqueue_script( 'wps-deals-popup-scripts' );
 										<label for="wps_deals_options[buyer_email_body]"><?php _e( 'Purchase Receipt:', 'wpsdeals' ); ?></label>
 									</th>
 									<td>
-										<textarea id="wps_deals_options[buyer_email_body]" name="wps_deals_options[buyer_email_body]" rows="7" class="large-text"><?php echo $model->wps_deals_escape_attr($wps_deals_options['buyer_email_body']);?></textarea>
+										<?php 
+												$settings = array();
+												wp_editor($wps_deals_options['buyer_email_body'],'wps_deals_options[buyer_email_body]',$settings);
+										?><br />
 										<?php 
 												$buyeremail_desc = 'This is the body of the email that will be sent to the buyer. Do not change the email tags (text within the braces { })<br />
 												<code>{first_name}</code> - displays the buyer\'s first name<br />
@@ -110,7 +113,7 @@ wp_enqueue_script( 'wps-deals-popup-scripts' );
 												<code>{payment_gateway_description}</code> - displays the buyer\'s payment gateway details<br />
 												<code>{billing_details}</code> - displays the buyer\'s billing details';
 												$buyeremail_desc = apply_filters( 'wps_deals_buyer_email_body_desc', $buyeremail_desc );
-										?><br />		
+										?>		
 										<span class="description"><?php _e($buyeremail_desc,'wpsdeals');?></span>
 									</td>
 								</tr>
@@ -214,14 +217,17 @@ wp_enqueue_script( 'wps-deals-popup-scripts' );
 										<label for="wps_deals_options[reset_password_email]"><?php _e( 'Reset Password Email Body:', 'wpsdeals' ); ?></label>
 									</th>
 									<td>
-										<textarea id="wps_deals_options[reset_password_email]" name="wps_deals_options[reset_password_email]" rows="7" class="large-text"><?php echo $model->wps_deals_escape_attr($wps_deals_options['reset_password_email'])?></textarea>
+										<?php 
+												$settings = array();
+												wp_editor($wps_deals_options['reset_password_email'],'wps_deals_options[reset_password_email]',$settings);
+										?><br />
 										<?php 
 												$reset_password_desc = 'This is the body of the email that will be sent to the user when user reset the password. Do not change the email tags (text within the braces { })<br />
 																			<code>{reset_link}</code> - displays reset link for reset user password.<br />
 																			<code>{user_name}</code> - displays user name.';
 												
 												$reset_password_desc = apply_filters('wps_deals_reset_password_email_desc',$reset_password_desc);
-										?><br />
+										?>
 										<span class="description"><?php _e($reset_password_desc,'wpsdeals');?></span>
 									</td>
 								</tr>

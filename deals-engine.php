@@ -3,7 +3,7 @@
 Plugin Name: Social Deals Engine
 Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
 Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
-Version: 1.0.4
+Version: 1.0.5
 Author: WPSocial.com
 Author URI: http://wpsocial.com
 
@@ -32,7 +32,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 global $wpdb;
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '1.0.4' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '1.0.5' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -575,9 +575,38 @@ function wps_deals_install() {
 	
 	if( $wps_deals_set_option == '1.0.3' ) {
 		
-		// future code will be done here
+		$udpopt = false;
+		
+		//check force ssl checkout settings is set or not
+		if( !isset( $wps_deals_options['force_ssl_checkout'] ) ) {
+			$force_ssl = array( 'force_ssl_checkout' => '' );
+			$wps_deals_options = array_merge( $wps_deals_options, $force_ssl );
+			$udpopt = true;
+		}
+		
+		//check unforce ssl checkout settings is set or not
+		if( !isset( $wps_deals_options['unforce_ssl_checkout'] ) ) {
+			$unforce_ssl = array( 'unforce_ssl_checkout' => '' );
+			$wps_deals_options = array_merge( $wps_deals_options, $unforce_ssl );
+			$udpopt = true;
+		}
+		
+		if( $udpopt == true ) { // if any of the settings need to be updated 				
+			update_option( 'wps_deals_options', $wps_deals_options );
+		}
+		
+		//update plugin version to option 
+		update_option( 'wps_deals_set_option', '1.0.4' );
 		
 	} //check plugin set option value is 1.0.3
+	
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+	
+	if( $wps_deals_set_option == '1.0.4' ) {
+		
+		// future code will be done here
+		
+	} //check plugin set option value is 1.0.4
 }
 
 /**

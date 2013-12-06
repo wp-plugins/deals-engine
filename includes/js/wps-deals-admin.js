@@ -1,5 +1,8 @@
 jQuery(document).ready(function($) {
 	
+	jQuery(".wps-deals-content-section select, .wps-deals-edit-sale select, .wps-deals-form select").each(function () {
+	  	jQuery(this).chosen();
+	});
 	//code for plugin settings tabs
 	
 	//set selected tab for reports page default first tab will be selected
@@ -351,4 +354,17 @@ jQuery(document).ready(function($) {
 		});
 	});
 	
+	//Show Hide Un-force SSL setting based on click of force SSL Setting
+	$( '.wps_deals_force_ssl_setting' ).live( 'click', function() {
+	
+		var unforcerow = $( this ).parents( 'tr' ).next( 'tr' );
+		
+		if( $( this ).is( ':checked' ) ) {
+			//show un-force ssl setting
+			unforcerow.show();
+		} else {
+			//hide un-force ssl setting
+			unforcerow.hide();
+		}
+	});
 });

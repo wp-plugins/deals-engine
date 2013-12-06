@@ -430,7 +430,7 @@ $logs_table->prepare_items();
 			do_action( 'wps_deals_logs_downloads_before' ); 
 	?>
 	
-	<form id="wps-deals-logs-filter" method="GET" action="edit.php">
+	<form id="wps-deals-logs-filter" method="GET" action="edit.php" class="wps-deals-form">
 		<input type="hidden" name="post_type" value="<?php echo WPS_DEALS_POST_TYPE;?>" />
 		<input type="hidden" name="page" value="wps-deals-reports" />
 		<input type="hidden" name="tab" value="logs" />

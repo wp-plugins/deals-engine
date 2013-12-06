@@ -141,7 +141,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 				//update order track to database
 				$notify = isset( $_POST['wps-deals-order-edit-notify'] ) && !empty( $_POST['wps-deals-order-edit-notify'] ) ? '1' : '0';
 				$track = array(
-								'date'				=>	date('Y-m-d H:i:s'),
+								'date'				=>	wps_deals_current_date('Y-m-d H:i:s'),
 								'notify'			=>	$notify,
 								'payment_status'	=>	$newstatus,
 								'comments'			=>	$comments,
@@ -253,6 +253,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									foreach ($statuses as $val => $status) { ?>
 										<option value="<?php echo $val;?>" <?php selected( $val, $payment_status, true);?>><?php echo $status;?></option>
 							<?php	} ?>
+								</select>
 							</td>
 						</tr>
 						<tr>

@@ -14,13 +14,13 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	
-get_header();
+	//get header
+	get_header( 'deals' );
 
 	global $post,$wps_deals_options;
 	
 	// get the size for the design from the settings page
 	$size = $wps_deals_options['deals_size'];
-	
 
 	while ( have_posts() ) : the_post(); ?>
 
@@ -66,10 +66,10 @@ get_header();
 	
 <?php endwhile; // end of the loop.
 	
-	//get sidebar
-	get_sidebar();
+	//wps_deals_sidebar action
+	do_action('wps_deals_sidebar');
 	
 	//get footer
-	get_footer(); 
+	get_footer( 'deals' ); 
 	
 ?>	

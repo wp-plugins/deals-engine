@@ -919,8 +919,8 @@ class Wps_Deals_AdminPages {
 				<div class="wps-deals-preview-<?php echo $key; ?>-popup wps-deals-preview-popup">
 					<?php
 						$html = ''; 
-						$html .= apply_filters( 'wps_deals_email_template_css_' . $key, $html );
-						$html .= apply_filters( 'wps_deals_email_template_' . $key, $html, $message );
+						$html = apply_filters( 'wps_deals_email_template_css_' . $key, $html );
+						$html = apply_filters( 'wps_deals_email_template_' . $key, $html, $message );
 						$html .= '<div class="clear"></div>';
 						echo $html;
 					?>
@@ -928,33 +928,6 @@ class Wps_Deals_AdminPages {
 			<?php } ?>
 		</div>
 		<?php
-	}
-	
-	/**
-	 * Add css for default email template
-	 *
-	 * Handles to add css for default email template
-	 *
-	 * @package Social Deals Engine
-	 * @since 1.0.1
-	 */
-	function wps_deals_email_template_css_default( $html ) {
-		
-		$html .= '<style type="text/css">
-						.wps-deals-purchase-child{ 
-							background-color:#fff;
-							margin:0 auto; 
-							padding:15px;
-						}
-						.wps-deals-purchase-parent{ 
-							border:1px solid #464646;
-							background-color:#E6E6E6;
-							width:60%;
-							margin:0 auto; 
-							padding:10px;
-						}';
-		$html .= '</style>';
-		return $html;
 	}
 	
 	/**
@@ -968,8 +941,8 @@ class Wps_Deals_AdminPages {
 	 */
 	public function wps_deals_email_template_default( $html, $message ) {
 		
-		$html .= '<div class="wps-deals-purchase-parent">';
-		$html .= '	<div class="wps-deals-purchase-child">';
+		$html .= '<div class="wps-deals-purchase-parent" style="border:1px solid #464646; background-color:#E6E6E6; width:60%; margin:0 auto; padding:10px;">';
+		$html .= '	<div class="wps-deals-purchase-child" style="background-color:#fff; margin:0 auto; padding:15px;">';
 		$html .= 		$message;
 		$html .= '	</div>';
 		$html .= '</div>';
@@ -1043,9 +1016,6 @@ class Wps_Deals_AdminPages {
 		add_action( 'wp_ajax_deals_test_email', array($this, 'wps_deals_send_test_email'));
 		add_action( 'wp_ajax_nopriv_deals_test_email',array( $this, 'wps_deals_send_test_email'));
 		
-		// add filter to add css for default email template
-		add_filter( 'wps_deals_email_template_css_default', array( $this, 'wps_deals_email_template_css_default' ) );
-
 		// add filter to change template design for default email template
 		add_filter( 'wps_deals_email_template_default', array( $this, 'wps_deals_email_template_default' ), 10, 2 );
 

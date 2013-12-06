@@ -446,7 +446,7 @@ class Wps_Deals_Renderer {
 			$prefix = WPS_DEALS_META_PREFIX;
 			
 			//current date and time
-			$today = date('Y-m-d H:i:s');
+			$today = wps_deals_current_date('Y-m-d H:i:s');
 			
 			/* all active deals listing start */
 			$dealsmetaquery = array( 

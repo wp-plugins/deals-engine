@@ -500,7 +500,18 @@ p.wps-deals-business-title {
 .row-fluid .span6.box-13,
 .row-fluid .span6.box-15,
 .row-fluid .span6.box-17,
-.row-fluid .span6.box-19 {
+.row-fluid .span6.box-19,
+.row-fluid .span6.box-21,
+.row-fluid .span6.box-23,
+.row-fluid .span6.box-25,
+.row-fluid .span6.box-27,
+.row-fluid .span6.box-29,
+.row-fluid .span6.box-31,
+.row-fluid .span6.box-33,
+.row-fluid .span6.box-35,
+.row-fluid .span6.box-37,
+.row-fluid .span6.box-39,
+.row-fluid .span6.box-41 {
 	margin-left: 0 !important;
 }
 .wps-deals-timer-home-list .timer-icon {
@@ -741,7 +752,7 @@ tr.wps-deals-cart-update-row td {
    Messages
    ========================================================================== */
 .wps-deals-cart-success {
-	display: none !important;
+	display: none;
 }
 .wps-deals-cart-success,
 .message_stack_success {
@@ -1175,6 +1186,13 @@ ul.wps-deals-purchase-receipt-files a{
     display: block;
     font-size: 80%;
     margin: 0 0 5px;
+}
+/* Common Credit Card CSS */
+.wps-deals-cc-wrap{
+	border: 1px solid #E6E6E6;
+    border-radius: 6px 6px 6px 6px;
+    margin: 10px 0 20px;
+    padding: 10px;
 }
 /** CSS for Credit Card Details Field End**/
 

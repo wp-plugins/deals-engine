@@ -110,6 +110,33 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							
 							<tr>
 								<th scope="row">
+									<label for="wps_deals_options[force_ssl_checkout]"><?php _e( 'Force Secure Checkout:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="checkbox" name="wps_deals_options[force_ssl_checkout]" id="wps_deals_options[force_ssl_checkout]" class="wps_deals_force_ssl_setting" value="1" <?php if ( isset( $wps_deals_options['force_ssl_checkout'] ) ) { checked( '1', $wps_deals_options['force_ssl_checkout'] ); } ?> /><br />
+									<span class="description"><?php _e( 'If checked, force SSL (HTTPS) on the checkout page (an SSL certificate is required).', 'wpsdeals' ); ?></span>  
+								</td>
+							</tr>
+							<?php
+								//check force_ssl_chekckout is enable or not
+								if( isset( $wps_deals_options['force_ssl_checkout'] ) && !empty( $wps_deals_options['force_ssl_checkout'] ) ) {
+									$unforcedisplay = 'style="display:table-row;"';
+								} else {
+									$unforcedisplay = 'style="display:none;"';
+								}
+							?>
+							<tr <?php echo $unforcedisplay;?>>
+								<th scope="row">
+									<label for="wps_deals_options[unforce_ssl_checkout]"><?php _e( 'Un-force Secure Checkout:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="checkbox" name="wps_deals_options[unforce_ssl_checkout]" id="wps_deals_options[unforce_ssl_checkout]" value="1" <?php if ( isset( $wps_deals_options['unforce_ssl_checkout'] ) ) { checked( '1', $wps_deals_options['unforce_ssl_checkout'] ); } ?> /><br />
+									<span class="description"><?php _e( 'If checked, Un-force HTTPS when leaving the checkout.', 'wpsdeals' ); ?></span>  
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
 									<label for="wps_deals_options[enable_billing]"><?php _e( 'Enable Billing:', 'wpsdeals' ); ?></label>
 								</th>
 								<td>

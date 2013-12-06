@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		if(!empty($cartdetails)) { //check cart details should not blank
 			
 			//current date time
-			$today = date('Y-m-d H:i:s');
+			$today = wps_deals_current_date('Y-m-d H:i:s');
 			
 			$totalamount = isset($cartdetails['total']) ? $cartdetails['total'] : '';
 			

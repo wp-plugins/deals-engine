@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 				<p><?php echo apply_filters( 'wps_deals_billing_company_label',__( 'Company Name','wpsdeals' ) );?></p>
 			</div>
 			<div class="span8">
-				<input type="text" name="wps_deals_billing_details[company]" id="wps_deals_billing_details_company" value="<?php echo $usercompany;?>" class="wps-deals-cart-text"/>
+				<input type="text" name="wps_deals_billing_details[company]" id="wps_deals_billing_details_company" value="<?php echo $usercompany;?>" class="wps-deals-cart-text" placeholder="<?php _e( 'Company Name', 'wpsdeals' );?>"/>
 			</div>
 		</div><!--wps-deals-details-->
 		
@@ -136,7 +136,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 				<p><?php echo apply_filters( 'wps_deals_billing_phone_label',__( 'Phone','wpsdeals' ) );?></p>
 			</div>
 			<div class="span8">
-				<input type="text" name="wps_deals_billing_details[phone]" id="wps_deals_billing_details_phone" value="<?php echo $userphone;?>" class="wps-deals-cart-text wps-deals-required"/>
+				<input type="text" name="wps_deals_billing_details[phone]" id="wps_deals_billing_details_phone" value="<?php echo $userphone;?>" class="wps-deals-cart-text" placeholder="<?php _e( 'Phone', 'wpsdeals' );?>"/>
 			</div>
 		</div><!--wps-deals-details-->
 		

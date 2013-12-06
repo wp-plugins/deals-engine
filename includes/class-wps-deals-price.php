@@ -39,7 +39,7 @@ class Wps_Deals_Price{
 		$saleprice = get_post_meta( $dealid, $prefix.'sale_price', true );
 		
 		$price = 0;
-		if( $saleprice != '' ) {
+		if( $saleprice !== '' ) {
 			$price = $saleprice;
 		} else {
 			$price = $normalprice;
@@ -60,7 +60,7 @@ class Wps_Deals_Price{
 		$normalprice = get_post_meta( $dealid, $prefix.'normal_price', true );
 		$saleprice = $this->wps_deals_get_price( $dealid );
 		
-		if( $normalprice != '' && $saleprice != '' ) {
+		if( $normalprice !== '' && $saleprice !== '' ) {
 			$save_price = ( $normalprice - $saleprice );
 		} else {
 			$save_price = '0.00';
@@ -82,7 +82,7 @@ class Wps_Deals_Price{
 		$normalprice = get_post_meta( $dealid, $prefix.'normal_price', true );
 		$saleprice = $this->wps_deals_get_price( $dealid );//get_post_meta($dealid,$prefix.'sale_price',true);
 		
-		if( $normalprice != '' && $saleprice != '' ) {
+		if( $normalprice !== '' && $saleprice !== '' ) {
 			$save_price = ( $normalprice - $saleprice );
 			$save_percent = ( $save_price * 100 ) / $normalprice;
 			$save_percent = round( $save_percent );

@@ -15,5 +15,5 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 	<div class="wps-deals-product-btn row-fluid">
-		<div class="wps-deals-add-to-cart-button-end deals-end"><?php echo apply_filters( 'wps_deals_expired_text', __( 'Deal expired', 'wpsdeals' ) );?></div>
+		<div class="wps-deals-add-to-cart-button-end deals-end"><?php echo apply_filters( 'wps_deals_expired_text', $expiredtext );?></div>
 	</div>

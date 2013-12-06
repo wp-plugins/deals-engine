@@ -91,7 +91,7 @@ if( !class_exists( 'Wps_Deals_Social_LinkedIn' ) ) {
 						$protocol = is_ssl() ? 'https' : 'http';
 						
 						// set the callback url
-						$this->linkedinconfig['callbackUrl'] = $protocol . '://' . $_SERVER['SERVER_NAME'] . ( ( ( $_SERVER['SERVER_PORT'] != LINKEDIN_PORT_HTTP ) || ( $_SERVER['SERVER_PORT'] != LINKEDIN_PORT_HTTP_SSL ) ) ? ':' . $_SERVER['SERVER_PORT'] : '' ) . $_SERVER['PHP_SELF'] . '?wpsocialdeals=linkedin&' . LINKEDIN::_GET_TYPE . '=initiate&' . LINKEDIN::_GET_RESPONSE . '=1';
+						$this->linkedinconfig['callbackUrl'] = $protocol . '://' . $_SERVER['SERVER_NAME'] . ( ( ( $_SERVER['SERVER_PORT'] != LINKEDIN_PORT_HTTP ) && ( $_SERVER['SERVER_PORT'] != LINKEDIN_PORT_HTTP_SSL ) ) ? ':' . $_SERVER['SERVER_PORT'] : '' ) . $_SERVER['PHP_SELF'] . '?wpsocialdeals=linkedin&' . LINKEDIN::_GET_TYPE . '=initiate&' . LINKEDIN::_GET_RESPONSE . '=1';
 						$this->linkedin = new LinkedIn( $this->linkedinconfig );
 						  
 						// check for response from LinkedIn

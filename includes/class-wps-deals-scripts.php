@@ -32,8 +32,12 @@ class Wps_Deals_Scripts {
 	 */
 	public function wps_deals_admin_styles() {
 		
+		wp_register_style( 'wps-deals-chosen-styles', WPS_DEALS_URL . 'includes/css/chosen/chosen.css' );
+		wp_enqueue_style( 'wps-deals-chosen-styles' );
+		
 		wp_register_style( 'wps-deals-admin-styles', WPS_DEALS_URL . 'includes/css/wps-deals-admin.css', array(), null);
 		wp_enqueue_style( 'wps-deals-admin-styles' );
+		
 	}
 	
 	/**
@@ -45,6 +49,9 @@ class Wps_Deals_Scripts {
 	public function wps_deals_admin_scripts() {
 		
 		global $wp_version;
+		
+		wp_register_script( 'wps-deals-chosen-scripts', WPS_DEALS_URL . 'includes/js/chosen/chosen.jquery.js', array( 'jquery' ), null, true );
+		wp_enqueue_script( 'wps-deals-chosen-scripts' );
 		
 		wp_register_script( 'wps-deals-admin-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-admin.js', array( 'jquery','jquery-ui-datepicker', 'jquery-ui-sortable' ) , null, true );
 		wp_enqueue_script( 'wps-deals-admin-scripts' );
@@ -218,15 +225,17 @@ class Wps_Deals_Scripts {
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		$disableguest = !empty($wps_deals_options['disable_guest_checkout']) ? '1' : '0';
-		$enableterms = !empty($wps_deals_options['enable_terms']) ? '1' : '0';
+		//check site is running on SSL or not
+		$urlsuffix = is_ssl() ? 'https://' : 'http://'; 
 		
+		$disableguest = !empty( $wps_deals_options['disable_guest_checkout'] ) ? '1' : '0';
+		$enableterms = !empty( $wps_deals_options['enable_terms'] ) ? '1' : '0';
+		
+		//register credit card validator script
 		wp_register_script( 'wps-deals-credit-card-validator-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-credit-card-validator.js', array( 'jquery' ), null );
-		wp_enqueue_script( 'wps-deals-credit-card-validator-scripts' );
 		
 		//countdown timer script
 		wp_register_script( 'wps-deals-countdown-timer-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-countdown.js', array( 'jquery' ), null );
-		wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
 		
 		//do not include this script in footer otherwise timer countdown will disabled
 		wp_register_script( 'wps-deals-front-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-front.js', array( 'jquery' ), null );
@@ -241,7 +250,7 @@ class Wps_Deals_Scripts {
 		$caching = isset( $wps_deals_options['caching'] ) && !empty( $wps_deals_options['caching'] ) ? '1' : '';
 		
 		//generic localize script
-		wp_localize_script( 'wps-deals-front-scripts', 'Wps_Deals', array(  'ajaxurl' 					=> admin_url('admin-ajax.php'),
+		wp_localize_script( 'wps-deals-front-scripts', 'Wps_Deals', array(  'ajaxurl' 					=>	admin_url('admin-ajax.php'),
 																			'disableguest'				=>	$disableguest,
 																			'cart_email_blank'			=>	__( '<span><strong>ERROR : </strong>Please enter valid email.</span>','wpsdeals' ),
 																			'cart_email_invalid'		=>	__( '<span><strong>ERROR : </strong>Invalid email entered.</span>','wpsdeals' ),
@@ -269,8 +278,8 @@ class Wps_Deals_Scripts {
 																		) );
 
 		//get billing is enable or not
-		$enablebilling = isset( $wps_deals_options['enable_billing'] ) && !empty( $wps_deals_options['enable_billing'] ) 
-							?	'1'	:	'0';
+		$enablebilling = isset( $wps_deals_options['enable_billing'] ) && !empty( $wps_deals_options['enable_billing'] ) ?	'1'	:	'0';
+
 		//billing details locatize script
 		wp_localize_script( 'wps-deals-front-scripts', 'Wps_Deals_Billing',	array(
 																					'enable'			=>	$enablebilling,
@@ -294,14 +303,13 @@ class Wps_Deals_Scripts {
 																					'hours'		=>	__( 'hrs', 'wpsdeals' ),
 																					'minutes'	=>	__( 'mins', 'wpsdeals' ),
 																					'seconds'	=>	__( 'secs', 'wpsdeals' ),
-																					'today'		=>	date('F d, Y H:i:s', time())
+																					'today'		=>	wps_deals_current_date( 'F d, Y H:i:s' ) //date('F d, Y H:i:s', time())
 																				));
 		
-		if(is_singular()) { //check current page is not home page
+		if( is_singular() ) { //check current page is not home page
 			
 			// register google Map Js files 
-			wp_register_script( 'wps-deals-google-map', "http://maps.google.com/maps/api/js?sensor=false", array(), null, true );
-			wp_enqueue_script( 'wps-deals-google-map' );
+			wp_register_script( 'wps-deals-google-map', $urlsuffix.'maps.google.com/maps/api/js?sensor=false', array(), null, true );
 			wp_register_script( 'wps-deals-map-script', WPS_DEALS_URL . 'includes/js/wps-deals-map.js', array(), null, true );	
 			
 			//do action to add localize script for individual post data
@@ -318,14 +326,14 @@ class Wps_Deals_Scripts {
 				|| ( !empty( $wps_deals_options['enable_facebook'] ) && WPS_DEALS_FB_APP_ID != '' && WPS_DEALS_FB_APP_SECRET != '' ) ) )  {
 				
 				wp_deregister_script( 'facebook' );
-				wp_register_script( 'facebook', 'http://connect.facebook.net/'.$wps_deals_options['fb_language'].'/all.js#xfbml=1', false, null, true );
+				wp_register_script( 'facebook', $urlsuffix.'connect.facebook.net/'.$wps_deals_options['fb_language'].'/all.js#xfbml=1', false, null, true );
 				
 			}
 			//twitter button
 			if(in_array('twitter',$wps_deals_options['social_buttons'])) {
 				
 				wp_deregister_script( 'twitter' );
-				wp_register_script( 'twitter', 'http://platform.twitter.com/widgets.js',array( 'jquery' ), null, true );
+				wp_register_script( 'twitter', $urlsuffix.'platform.twitter.com/widgets.js',array( 'jquery' ), null, true );
 				
 			}
 			
@@ -333,7 +341,7 @@ class Wps_Deals_Scripts {
 			if(in_array('google',$wps_deals_options['social_buttons'])) {
 				
 				wp_deregister_script('google');
-				wp_register_script( 'google', 'https://apis.google.com/js/plusone.js',array( 'jquery' ), null, true );
+				wp_register_script( 'google', $urlsuffix.'apis.google.com/js/plusone.js',array( 'jquery' ), null, true );
 				
 			}
 		}
@@ -452,9 +460,6 @@ class Wps_Deals_Scripts {
 		// Enqueue select2 library, use proper version.
 		//wp_enqueue_style( 'wps-multiselect-select2-css', WPS_DEALS_META_URL . '/js/select2/select2.css', array(), null );
 		
-		wp_register_style( 'wps-deals-chosen-styles', WPS_DEALS_URL . 'includes/css/chosen/chosen.css' );
-		wp_enqueue_style( 'wps-deals-chosen-styles' );
-		
 		// Enqueue for datepicker
 		wp_enqueue_style( 'wps-deals-meta-jquery-ui-css', WPS_DEALS_META_URL.'/css/datetimepicker/date-time-picker.css' );
 		
@@ -496,11 +501,8 @@ class Wps_Deals_Scripts {
 		// Enqueue JQuery select2 library, use proper version.
 		//wp_enqueue_script( 'wps-multiselect-select2-js', WPS_DEALS_META_URL . '/js/select2/select2.js', array( 'jquery' ), false, true );
 		
-		wp_register_script( 'wps-deals-chosen-scripts', WPS_DEALS_URL . 'includes/js/chosen/chosen.jquery.js', array( 'jquery' ), null, true );
-		wp_enqueue_script( 'wps-deals-chosen-scripts' );
-		
 		// Enqueue for datepicker
-		wp_enqueue_script(array('jquery','jquery-ui-core','jquery-ui-datepicker','jquery-ui-slider'));
+		wp_enqueue_script( array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'jquery-ui-slider' ) );
 		
 		wp_deregister_script( 'datepicker-slider' );
 		wp_register_script('datepicker-slider', WPS_DEALS_META_URL.'/js/datetimepicker/jquery-ui-slider-Access.js');
@@ -529,7 +531,10 @@ class Wps_Deals_Scripts {
 	 */
 	public function wps_deals_social_login_scripts() {
 		
-		wp_register_script( 'google-jsapi', 'https://www.google.com/jsapi', array('jquery'), false, false); // in header
+		//check site is running on SSL or not
+		$urlsuffix = is_ssl() ? 'https://' : 'http://'; 
+		
+		wp_register_script( 'google-jsapi', $urlsuffix.'www.google.com/jsapi', array('jquery'), false, false); // in header
 		wp_enqueue_script( 'google-jsapi' );
 	}
 	/**

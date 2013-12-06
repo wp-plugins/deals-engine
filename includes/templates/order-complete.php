@@ -14,7 +14,8 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	
-get_header();
+	//get header
+	get_header( 'deals' );
 
 	global $post;
 ?>
@@ -58,10 +59,10 @@ get_header();
 	</div><!--site-content-->
 <?php
 
-	//get sidebar
-	get_sidebar();
+	//register sidebar with following action
+	do_action( 'wps_deals_sidebar' );
 	
 	//get footer
-	get_footer(); 
+	get_footer( 'deals' );
 	
 ?>

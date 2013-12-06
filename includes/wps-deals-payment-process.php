@@ -117,7 +117,7 @@ function wps_deals_order_data_validate(){
 	$errormsg = '';
 	
 	//get today's date & time
-	$today = date('Y-m-d H:i:s');
+	$today = wps_deals_current_date();
 		
 	//validation code
 	//checking is there error occuered before proceed for storing data in data base

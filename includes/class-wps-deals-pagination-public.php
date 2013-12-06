@@ -114,11 +114,11 @@ class Wps_Deals_Pagination_Public{
 				$this->calculate == true;
 				$error = false;
 				if($this->urlF and $this->urlF != '%' and strpos($this->target,$this->urlF)===false){
-						//Es necesario especificar el comodin para sustituir
-						echo "Especificaste un wildcard para sustituir, pero no existe en el target<br />";
+						//Wildcard to replace one you specified, but does not exist in the target
+						echo "Wildcard to replace one you specified, but does not exist in the target<br />";
 						$error = true;
 					}elseif($this->urlF and $this->urlF == '%' and strpos($this->target,$this->urlF)===false){
-						echo "Es necesario especificar en el target el comodin % para sustituir el número de página<br />";
+						echo "You must specify the target in the wildcard % to replace the page number<br />";
 						$error = true;
 					}
 

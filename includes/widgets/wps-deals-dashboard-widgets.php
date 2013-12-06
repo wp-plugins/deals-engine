@@ -38,10 +38,10 @@ function wps_deals_sales_summary_widget() {
 	$totalsales = $model->wps_deals_get_dashboard_sale_count_earning();
 	
 	//current month sales and earnings
-	$currentmonth = $model->wps_deals_get_sale_count_earning_by_date('', date( 'n' ), date( 'Y' ) );
+	$currentmonth = $model->wps_deals_get_sale_count_earning_by_date('', wps_deals_current_date( 'n' ), wps_deals_current_date( 'Y' ) );
 	
-	$previous_month   = date( 'n' ) == 1 ? 12 : date( 'n' ) - 1;
-	$previous_year    = $previous_month == 12 ? date( 'Y' ) - 1 : date( 'Y' );
+	$previous_month   = wps_deals_current_date( 'n' ) == 1 ? 12 : wps_deals_current_date( 'n' ) - 1;
+	$previous_year    = $previous_month == 12 ? wps_deals_current_date( 'Y' ) - 1 : wps_deals_current_date( 'Y' );
 	
 	//last month sales and earnings
 	$lastmonth = $model->wps_deals_get_sale_count_earning_by_date('', $previous_month, $previous_year );

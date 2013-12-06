@@ -292,4 +292,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	//add action to lost password page - 5
 	add_action( 'wps_deals_lost_password_content', 'wps_deals_lost_password_content'	, 5 );
 	
+	//add action to display sidebar template - 10
+	add_action( 'wps_deals_sidebar', 'wps_deals_get_sidebar', 10 );
+
 ?>

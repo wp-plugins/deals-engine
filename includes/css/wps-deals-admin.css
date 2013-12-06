@@ -12,6 +12,19 @@
 .wps-deals-content-section {
 	margin-top: 20px;
 }
+.wps-deals-content-section select, .wps-deals-edit-sale select, .wps-deals-form select {
+	width: 200px;
+}
+.wps-deals-form .tablenav .actions {
+	overflow: visible;
+}
+.wps-deals-form .tablenav input[type="submit"] {
+	margin-left: 3px !important;
+}
+.wps-deals-form .alignleft.actions .chzn-container-single {
+    display: inline-block;
+    vertical-align: middle;
+}
 /** WPSocial Settings Page CSS Start **/
 .wps-deals-image-text{	
 	width:85% !important;

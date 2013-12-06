@@ -36,7 +36,7 @@ function wps_deals_log_views() {
 	$views        = wps_deals_log_default_views();
 	$current_view = isset( $_GET['view'] ) ? $_GET['view'] : 'downloads';
 	?>
-	<form id="wps-deals-logs-filter" method="GET">
+	<form id="wps-deals-logs-filter" method="GET" class="wpw-deals-form">
 		<input type="hidden" name="post_type" value="<?php echo WPS_DEALS_POST_TYPE;?>"/>
 		<input type="hidden" name="page" value="wps-deals-reports"/>
 		<input type="hidden" name="tab" value="logs"/>

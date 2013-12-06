@@ -723,7 +723,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	/**
 	 * Current Page URL
 	 *
-	 * @package  Jigoshop - Social Login
+	 * Handles to return current page URL
+	 * 
+	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
 	function wps_deals_get_current_page_url(){
@@ -742,4 +744,80 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		return $curent_page_url;
 	}
 	
+	/**
+	 * Check the current page is checkout page
+	 * 
+	 * Handles to check the current page is 
+	 * checkout page
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_is_checkout() {
+		return ( is_page( wps_deals_get_page_id( 'payment_checkout_page' ) ) )  ? true : false;
+	}
+	
+	/**
+	 * Check the current page is my account page
+	 * 
+	 * Handles to check the current page is 
+	 * my account page
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_is_account() {
+		//check current page is my account page 
+		//or edit address or view order or change password or lost password page
+		if( is_page( wps_deals_get_page_id( 'my_account_page' ) ) 
+			|| is_page( wps_deals_get_page_id( 'edit_adderess' ) ) 
+			|| is_page( wps_deals_get_page_id( 'ordered_page' ) ) 
+			|| is_page( wps_deals_get_page_id( 'change_password' ) )
+			|| is_page( wps_deals_get_page_id( 'lost_password' ) ) 
+			|| apply_filters( 'wps_deals_is_account_page', false ) ) {
+			
+			//return true	
+			return true;
+		} else {
+			//return false
+			return false;
+		}
+	}
+	
+	/**
+	 * Get the current date from timezone
+	 * 
+	 * Handles to get current date
+	 * acording to timezone setting
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_current_date( $format = 'Y-m-d H:i:s' ) { 
+		
+		if( !empty($format) ) {
+			
+			$date_time = date( $format, current_time('timestamp') );
+		} else {
+			
+			$date_time = date( 'Y-m-d H:i:s', current_time('timestamp') );
+		}
+		
+		return $date_time;
+	}
+	
+	/**
+	 * Get the current timestamp from timezone
+	 * 
+	 * Handles to get current timestamp
+	 * acording to timezone setting
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_current_time() {
+		
+		$current_time	= current_time('timestamp');
+		return $current_time;
+	}
 ?>

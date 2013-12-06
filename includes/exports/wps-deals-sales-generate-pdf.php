@@ -148,7 +148,7 @@ function wps_deals_report_to_pdf() {
 			$pdf->Row( array( $title ) );
 		}
 		
-		$pdf->Output( 'wps-deals-sales-reports-' . date('d-m-Y') . '.pdf', 'D' );
+		$pdf->Output( 'wps-deals-sales-reports-' . wps_deals_current_date('d-m-Y') . '.pdf', 'D' );
 	}
 }
 add_action('init','wps_deals_report_to_pdf');

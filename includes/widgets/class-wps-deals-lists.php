@@ -62,8 +62,11 @@ class Wps_Deals_Lists extends WP_Widget {
 		//get the value for deals listing page
 		$dealspage = $wps_deals_options['deals_main_page'];
 		
+		//counter timer script
+		wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
+		
 		//current date and time
-		$today = date('Y-m-d H:i:s');
+		$today = wps_deals_current_date('Y-m-d H:i:s');
 		
 		$title 			= apply_filters( 'widget_title', $instance['title'] );
 		$limit 			= $instance['limit'];

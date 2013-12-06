@@ -66,7 +66,7 @@ function wps_deals_report_to_csv() {
 		
 		// Output to browser with appropriate mime type, you choose ;)
 		header("Content-type: text/x-csv");
-		header("Content-Disposition: attachment; filename=wps-deals-sales-report-".date('d-m-Y').".csv");
+		header("Content-Disposition: attachment; filename=wps-deals-sales-report-".wps_deals_current_date('d-m-Y').".csv");
 		echo $exports;
 		exit;
 		
@@ -127,7 +127,7 @@ function wps_deals_report_to_csv() {
 		
 		// Output to browser with appropriate mime type, you choose ;)
 		header("Content-type: text/x-csv");
-		header("Content-Disposition: attachment; filename=wps-deals-customers-report-".date('d-m-Y').".csv");
+		header("Content-Disposition: attachment; filename=wps-deals-customers-report-".wps_deals_current_date('d-m-Y').".csv");
 		echo $exports;
 		exit;
 		

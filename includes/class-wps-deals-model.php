@@ -538,10 +538,10 @@ class Wps_Deals_Model {
 		$html = '';
 		$html .= '<html>
 					<head>';
-		$html .= apply_filters( 'wps_deals_email_template_css_' . $email_template_option, $html );
+		$html = apply_filters( 'wps_deals_email_template_css_' . $email_template_option, $html );
 		$html .= '</head>
 					<body>';
-		$html .= apply_filters( 'wps_deals_email_template_' . $email_template_option, $html, $message, $orderid );
+		$html = apply_filters( 'wps_deals_email_template_' . $email_template_option, $html, $message, $orderid );
 		$html .= '	</body>
 				</html>';
 		
@@ -2261,10 +2261,10 @@ class Wps_Deals_Model {
 		$html = '';
 		$html .= '<html>
 					<head>';
-		$html .= apply_filters( 'wps_deals_email_template_css_' . $email_template_option, $html );
+		$html = apply_filters( 'wps_deals_email_template_css_' . $email_template_option, $html );
 		$html .= '</head>
 					<body>';
-		$html .= apply_filters( 'wps_deals_email_template_' . $email_template_option, $html, $message, '' );
+		$html = apply_filters( 'wps_deals_email_template_' . $email_template_option, $html, $message, '' );
 		$html .= '	</body>
 				</html>';
 		

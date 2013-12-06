@@ -91,7 +91,7 @@ function wps_deals_reports_graph() {
 	   					if( $dates['range'] == 'today' ) {
 	   						// Hour by hour
 	   						$hour  = 1;
-	   						$month = date( 'n' );
+	   						$month = wps_deals_current_date( 'n' );
 							while ( $hour <= 23 ) :
 								$sales_array = $model->wps_deals_get_sale_count_earning_by_date( $dates['day'], $month, $dates['year'], $hour );
 								$sales = $sales_array['salescount'];
@@ -162,7 +162,7 @@ function wps_deals_reports_graph() {
 
 	   						// Hour by hour
 	   						$hour  = 1;
-	   						$month = date( 'n' );
+	   						$month = wps_deals_current_date( 'n' );
 							while ( $hour <= 23 ) :
 								$earnings_array = $model->wps_deals_get_sale_count_earning_by_date( $dates['day'], $month, $dates['year'], $hour );
 								$earnings = $earnings_array['earnings'];
@@ -349,7 +349,7 @@ function wps_deals_reports_graph_controls() {
 	$view = isset( $_GET['tab'] ) ? $_GET['tab'] : 'earnings';
 
 	?>
-	<form id="wps-deals-garphs-filter" method="get">
+	<form id="wps-deals-garphs-filter" method="get" class="wps-deals-form">
 		<div class="tablenav top">
 			<div class="alignleft actions">
 
@@ -386,7 +386,7 @@ function wps_deals_reports_graph_controls() {
 			    </div>
 
 			    <input type="hidden" name="wps_deals_action" value="filter_reports" />
-		       	<input type="submit" class="button-secondary" value="<?php _e( 'Filter', 'wpsdeals' ); ?>"/>
+		       	<input type="submit" class="button button-secondary" value="<?php _e( 'Filter', 'wpsdeals' ); ?>"/>
 			</div>
 		</div>
 	</form>
@@ -411,17 +411,17 @@ function wps_deals_get_report_dates() {
 	$dates['day']		= isset( $_GET['day'] ) 	? $_GET['day'] 		: null;
 	$dates['m_start'] 	= isset( $_GET['m_start'] ) ? $_GET['m_start'] 	: 1;
 	$dates['m_end']		= isset( $_GET['m_end'] ) 	? $_GET['m_end'] 	: 12;
-	$dates['year'] 		= isset( $_GET['year'] ) 	? $_GET['year'] 	: date( 'Y' );
-	$dates['year_end']	= date( 'Y' );
+	$dates['year'] 		= isset( $_GET['year'] ) 	? $_GET['year'] 	: wps_deals_current_date( 'Y' );
+	$dates['year_end']	= wps_deals_current_date( 'Y' );
 
 	// Modify dates based on predefined ranges
 	switch( $dates['range'] ) :
 
 		case 'this_month' :
 
-			$dates['m_start'] 	= date( 'n' );
-			$dates['m_end']		= date( 'n' );
-			$dates['year']		= date( 'Y' );
+			$dates['m_start'] 	= wps_deals_current_date( 'n' );
+			$dates['m_end']		= wps_deals_current_date( 'n' );
+			$dates['year']		= wps_deals_current_date( 'Y' );
 
 			break;
 
@@ -429,12 +429,12 @@ function wps_deals_get_report_dates() {
 			if( $dates['m_start'] == 12 ) {
 				$dates['m_start'] = 12;
 				$dates['m_end']	  = 12;
-				$dates['year']    = date( 'Y' ) - 1;
-				$dates['year_end']= date( 'Y' ) - 1;
+				$dates['year']    = wps_deals_current_date( 'Y' ) - 1;
+				$dates['year_end']= wps_deals_current_date( 'Y' ) - 1;
 			} else {
-				$dates['m_start'] = date( 'n' ) - 1;
-				$dates['m_end']	  = date( 'n' ) - 1;
-				$dates['year']    = date( 'Y' );
+				$dates['m_start'] = wps_deals_current_date( 'n' ) - 1;
+				$dates['m_end']	  = wps_deals_current_date( 'n' ) - 1;
+				$dates['year']    = wps_deals_current_date( 'Y' );
 			}
 
 
@@ -442,58 +442,58 @@ function wps_deals_get_report_dates() {
 
 		case 'today' :
 
-			$dates['day']		= date( 'd' );
-			$dates['m_start'] 	= date( 'n' );
-			$dates['m_end']		= date( 'n' );
-			$dates['year']		= date( 'Y' );
+			$dates['day']		= wps_deals_current_date( 'd' );
+			$dates['m_start'] 	= wps_deals_current_date( 'n' );
+			$dates['m_end']		= wps_deals_current_date( 'n' );
+			$dates['year']		= wps_deals_current_date( 'Y' );
 
 			break;
 
 		case 'this_week' :
 
-			$dates['day']       = date( 'd', time() - ( date( 'w' ) - 1 ) *60*60*24 );
+			$dates['day']       = date( 'd', wps_deals_current_time() - ( wps_deals_current_date( 'w' ) - 1 ) *60*60*24 );
 			$dates['day_end']   = $dates['day'] + 6;
-			$dates['m_start'] 	= date( 'n' );
-			$dates['m_end']		= date( 'n' );
-			$dates['year']		= date( 'Y' );
+			$dates['m_start'] 	= wps_deals_current_date( 'n' );
+			$dates['m_end']		= wps_deals_current_date( 'n' );
+			$dates['year']		= wps_deals_current_date( 'Y' );
 			break;
 
 		case 'last_week' :
 
-			$dates['day']       = date( 'd', time() - ( date( 'w' ) - 1 ) *60*60*24 ) - 6;
+			$dates['day']       = date( 'd', wps_deals_current_time() - ( wps_deals_current_date( 'w' ) - 1 ) *60*60*24 ) - 6;
 			$dates['day_end']   = $dates['day'] + 6;
-			$dates['m_start'] 	= date( 'n' );
-			$dates['m_end']		= date( 'n' );
-			$dates['year']		= date( 'Y' );
+			$dates['m_start'] 	= wps_deals_current_date( 'n' );
+			$dates['m_end']		= wps_deals_current_date( 'n' );
+			$dates['year']		= wps_deals_current_date( 'Y' );
 			break;
 
 		case 'this_quarter' :
 
-			$month_now = date( 'n' );
+			$month_now = wps_deals_current_date( 'n' );
 
 			if ( $month_now <= 3 ) {
 
 				$dates['m_start'] 	= 1;
 				$dates['m_end']		= 3;
-				$dates['year']		= date( 'Y' );
+				$dates['year']		= wps_deals_current_date( 'Y' );
 
 			} else if ( $month_now <= 6 ) {
 
 				$dates['m_start'] 	= 4;
 				$dates['m_end']		= 6;
-				$dates['year']		= date( 'Y' );
+				$dates['year']		= wps_deals_current_date( 'Y' );
 
 			} else if ( $month_now <= 9 ) {
 
 				$dates['m_start'] 	= 7;
 				$dates['m_end']		= 9;
-				$dates['year']		= date( 'Y' );
+				$dates['year']		= wps_deals_current_date( 'Y' );
 
 			} else {
 
 				$dates['m_start'] 	= 10;
 				$dates['m_end']		= 12;
-				$dates['year']		= date( 'Y' );
+				$dates['year']		= wps_deals_current_date( 'Y' );
 
 			}
 
@@ -501,31 +501,31 @@ function wps_deals_get_report_dates() {
 
 		case 'last_quarter' :
 
-			$month_now = date( 'n' );
+			$month_now = wps_deals_current_date( 'n' );
 
 			if ( $month_now <= 3 ) {
 
 				$dates['m_start'] 	= 10;
 				$dates['m_end']		= 12;
-				$dates['year']		= date( 'Y' ) - 1; // Previous year
+				$dates['year']		= wps_deals_current_date( 'Y' ) - 1; // Previous year
 
 			} else if ( $month_now <= 6 ) {
 
 				$dates['m_start'] 	= 1;
 				$dates['m_end']		= 3;
-				$dates['year']		= date( 'Y' );
+				$dates['year']		= wps_deals_current_date( 'Y' );
 
 			} else if ( $month_now <= 9 ) {
 
 				$dates['m_start'] 	= 4;
 				$dates['m_end']		= 6;
-				$dates['year']		= date( 'Y' );
+				$dates['year']		= wps_deals_current_date( 'Y' );
 
 			} else {
 
 				$dates['m_start'] 	= 7;
 				$dates['m_end']		= 9;
-				$dates['year']		= date( 'Y' );
+				$dates['year']		= wps_deals_current_date( 'Y' );
 
 			}
 
@@ -535,7 +535,7 @@ function wps_deals_get_report_dates() {
 
 			$dates['m_start'] 	= 1;
 			$dates['m_end']		= 12;
-			$dates['year']		= date( 'Y' );
+			$dates['year']		= wps_deals_current_date( 'Y' );
 
 			break;
 
@@ -543,7 +543,7 @@ function wps_deals_get_report_dates() {
 
 			$dates['m_start'] 	= 1;
 			$dates['m_end']		= 12;
-			$dates['year']		= date( 'Y' ) - 1;
+			$dates['year']		= wps_deals_current_date( 'Y' ) - 1;
 
 			break;
 

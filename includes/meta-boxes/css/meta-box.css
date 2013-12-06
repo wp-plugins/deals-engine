@@ -290,9 +290,3 @@ table.wps-deals-stat-table tr th {
 #wps_deals_purchase_link_wrapper {
 	display: none;
 }
-.chzn-search input {
-	width: 100% !important;
-}
-.chzn-container-multi .chzn-choices .search-field input {
-	height: auto !important;
-}

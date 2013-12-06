@@ -395,3 +395,10 @@
   direction: rtl;
 }
 /* @end */
+
+.chzn-search input {
+	width: 100% !important;
+}
+.chzn-container-multi .chzn-choices .search-field input {
+	height: auto !important;
+}

@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	$disable_button = get_post_meta($post->ID, $prefix.'disable_button_bottom', true);
 	
 	//today's date time
-	$today = date('Y-m-d H:i:s');
+	$today = wps_deals_current_date('Y-m-d H:i:s');
 	
 	//get the value for start date & time of deals from the post meta box
 	$startdate = get_post_meta($post->ID,$prefix.'start_date',true);

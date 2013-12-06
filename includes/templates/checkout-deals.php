@@ -14,8 +14,8 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-	//header of the page
-	get_header();
+	//get header
+	get_header( 'deals' );
 ?>
 
 	<div class="site-content" id="primary">
@@ -62,10 +62,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	</div><!--site-content-->
 <?php
 
-	//get sidebar
-	get_sidebar();
+	//register sidebar with following action
+	do_action( 'wps_deals_sidebar' );
 	
 	//get footer
-	get_footer(); 
+	get_footer( 'deals' ); 
 	
 ?>

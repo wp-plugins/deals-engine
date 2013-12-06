@@ -1075,13 +1075,6 @@ function wps_deals_validate_billing_info() {
 			errorstr += Wps_Deals_Billing.postcode;
 			postcode.addClass('error').removeClass('valid');
 		}
-		//check phone
-		/*if( phone.val() == '' ) {
-			error = true;
-			errorstr += Wps_Deals_Billing.phone;
-			phone.addClass('error').removeClass('valid');
-		}*/
-		
 		if( error == true ) {
 			if( errel.html() == '' ) {
 				errel.html( errorstr );

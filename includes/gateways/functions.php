@@ -459,7 +459,7 @@ function wps_deals_update_order_track( $args = array() ) {
 	//initialize tracking data with array
 	$track = !empty( $track ) ? $track : array();
 	$track[] = array(
-					'date'		=>	date( 'Y-m-d H:i:s' ),
+					'date'		=>	wps_deals_current_date( 'Y-m-d H:i:s' ),
 					'notify'	=>	$notifycustomer,
 					'status'	=>	$paymentstatus,
 					'comments'	=>	$comments

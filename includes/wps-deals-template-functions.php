@@ -123,7 +123,7 @@ if( !function_exists( 'wps_deals_home_header' ) ) {
 	 */	
 	function wps_deals_home_header() {
 		
-		$today = date('Y-m-d H:i:s');
+		$today	= wps_deals_current_date();
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
@@ -221,7 +221,7 @@ if( !function_exists( 'wps_deals_home_more_deal_active' ) ) {
 		
 		global $wps_deals_options;
 		
-		$today = date('Y-m-d H:i:s');
+		$today	= wps_deals_current_date();
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
@@ -254,6 +254,10 @@ if( !function_exists( 'wps_deals_home_more_deal_active' ) ) {
 		if( isset( $category ) && !empty( $category ) ) { //check category id is set or not
 			$activeargs[WPS_DEALS_POST_TAXONOMY] = $category;
 		}
+		
+		//counter timer script
+		wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
+		
 		//active deals template
 		wps_deals_get_template( 'home/home-content/more-deals.php', array( 'args' => $activeargs, 'tab' => 'active' ) );
 	}
@@ -276,7 +280,7 @@ if( !function_exists( 'wps_deals_home_more_deal_ending' ) ) {
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		$today = date('Y-m-d H:i:s');
+		$today	= wps_deals_current_date();
 			
 		//get page limit from plugin settings page
 		$pagelimit = isset($wps_deals_options['deals_per_page']) ? $wps_deals_options['deals_per_page'] : -1;
@@ -336,7 +340,7 @@ if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
 		
 		global $wps_deals_options;
 		
-		$today = date('Y-m-d H:i:s');
+		$today	= wps_deals_current_date();
 		
 		$prefix = WPS_DEALS_META_PREFIX;	
 		
@@ -448,7 +452,9 @@ if( !function_exists( 'wps_deals_home_header_timer' ) ) {
 			$timerargs['hours']			=	date( 'H', $enddate );
 			$timerargs['minute']		=	date( 'i', $enddate );
 			$timerargs['seconds']		=	date( 's', $enddate );
-			
+
+			//counter timer script
+			wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
 			//show home page header timer template
 			wps_deals_get_template( 'home/home-header/header-timer.php', $timerargs );
 		}
@@ -843,24 +849,25 @@ if( !function_exists( 'wps_deals_home_more_deal_footer_time' ) ) {
 	 */
 	function wps_deals_home_more_deal_footer_time() {
 		
-		global $post,$wps_deals_model;
+		global $post;
 	
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		// get the value for the deal end date from the post meta box
-		$deal_end_date = get_post_meta( $post->ID, $prefix.'end_date',true );
+		//get the value for end date & time of deals from the post meta box
+		$enddate = get_post_meta($post->ID,$prefix.'end_date',true);
 		
 		$args = array( 
-							'year'		=>	date( 'Y', strtotime( $deal_end_date ) ),
-							'month'		=>	date( 'm', strtotime( $deal_end_date ) ),
-							'day'		=>	date( 'd', strtotime( $deal_end_date ) ),
-							'hours'		=>	date( 'H', strtotime( $deal_end_date ) ),
-							'minute'	=>	date( 'i', strtotime( $deal_end_date ) ),
-							'seconds'	=>	date( 's', strtotime( $deal_end_date ) )
+							'year'		=>	date( 'Y', strtotime( $enddate ) ),
+							'month'		=>	date( 'm', strtotime( $enddate ) ),
+							'day'		=>	date( 'd', strtotime( $enddate ) ),
+							'hours'		=>	date( 'H', strtotime( $enddate ) ),
+							'minute'	=>	date( 'i', strtotime( $enddate ) ),
+							'seconds'	=>	date( 's', strtotime( $enddate ) )
 						);
-		
+	
 		//deal timer template
 		wps_deals_get_template( 'home/home-content/timer.php', $args );
+		
 	}
 }
 
@@ -906,6 +913,8 @@ if( !function_exists( 'wps_deals_single_header' ) ){
 	 */
 	function wps_deals_single_header() {
 	
+		//counter timer script
+		wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
 		//single deal header template
 		wps_deals_get_template( 'single-deal/single-header.php' );
 	}
@@ -984,7 +993,8 @@ if( !function_exists( 'wps_deals_single_add_to_cart' ) ) {
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		//today's date time
-		$today = date('Y-m-d H:i:s');
+		//$today = date('Y-m-d H:i:s');
+		$today	= wps_deals_current_date();
 		
 		//get the value for available deals from the post meta box
 		$available = get_post_meta($post->ID,$prefix.'avail_total',true);
@@ -1037,7 +1047,8 @@ if( !function_exists( 'wps_deals_single_dimsale_box' ) ) {
 		if( $wps_deal_type != 'affiliate' )	{
 				
 			//today's date time
-			$today = date('Y-m-d H:i:s');
+			//$today = date('Y-m-d H:i:s');
+			$today	= wps_deals_current_date();
 			
 			//get the value for available deals from the post meta box
 			$available = get_post_meta($post->ID,$prefix.'avail_total',true);
@@ -1099,7 +1110,7 @@ if( !function_exists( 'wps_deals_single_deal_expired' ) ) {
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		//today's date time
-		$today = date('Y-m-d H:i:s');
+		$today	= wps_deals_current_date();
 		
 		//get the value for available deals from the post meta box
 		$available = get_post_meta($post->ID,$prefix.'avail_total',true);
@@ -1113,19 +1124,22 @@ if( !function_exists( 'wps_deals_single_deal_expired' ) ) {
 		//when deal expired
 		$dealexpired = false;
 	
+		//expired label
+		$expiredtext = __( 'Deal expired', 'wpsdeals' );
+		
 		if ( $available == '' ) {
 			//$availdeals =  __('Unlimited','wpsdeals');
-		} elseif ( intval( $available ) == 0 ) {
-			//$availdeals =  __('Out of Stock','wpsdeals');
+		} elseif ( intval( $available ) == 0  && $enddate >= $today) { // deal out of stock
+			$expiredtext = __( 'Sold Out', 'wpsdeals' );
 			$dealexpired = true;
 		} else {
-			//$availdeals = $available;
+			//nothing to do
 		}
 		
 		if( $enddate <= $today || $dealexpired == true ) {
 			
 			//deal expired template
-			wps_deals_get_template( 'single-deal/single-header/add-to-cart/expired.php' );
+			wps_deals_get_template( 'single-deal/single-header/add-to-cart/expired.php', array( 'expiredtext' => $expiredtext ) );
 		}
 		
 	}
@@ -1170,7 +1184,7 @@ if( !function_exists( 'wps_deals_single_deal_timer' ) ) {
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		//today's date time
-		$today = date('Y-m-d H:i:s');
+		echo $today	= wps_deals_current_date();
 		
 		//get the value for start date & time of deals from the post meta box
 		$startdate = get_post_meta($post->ID,$prefix.'start_date',true);
@@ -1181,7 +1195,7 @@ if( !function_exists( 'wps_deals_single_deal_timer' ) ) {
 		if( $enddate >= $today ) { //check if the deal is still active
 			
 			if(!empty($enddate) || !empty($startdate)) { //check end date is not empty or startdate is not empty
-				if($startdate >= $today) { // check startdate is greater than today 
+				if( $startdate >= $today)  { // check startdate is greater than today 
 					$counterdate = $startdate;
 				} else {
 					$counterdate = $enddate;
@@ -1192,12 +1206,12 @@ if( !function_exists( 'wps_deals_single_deal_timer' ) ) {
 							'startdate'	=>	$startdate, 
 							'enddate'	=>	$enddate,
 							'today'		=>	$today,
-							'year'		=>	date( 'Y', strtotime( $enddate ) ),
-							'month'		=>	date( 'm', strtotime( $enddate ) ),
-							'day'		=>	date( 'd', strtotime( $enddate ) ),
-							'hours'		=>	date( 'H', strtotime( $enddate ) ),
-							'minute'	=>	date( 'i', strtotime( $enddate ) ),
-							'seconds'	=>	date( 's', strtotime( $enddate ) )
+							'year'		=>	date( 'Y', strtotime( $counterdate ) ),
+							'month'		=>	date( 'm', strtotime( $counterdate ) ),
+							'day'		=>	date( 'd', strtotime( $counterdate ) ),
+							'hours'		=>	date( 'H', strtotime( $counterdate ) ),
+							'minute'	=>	date( 'i', strtotime( $counterdate ) ),
+							'seconds'	=>	date( 's', strtotime( $counterdate ) )
 						);
 			
 			//deal timer template
@@ -1230,7 +1244,7 @@ if( !function_exists( 'wps_deals_single_deal_avail_bought' ) ) {
 		if( $wps_deal_type != 'affiliate' )	{ // Check deal type is not affiliate
 				
 			//today's date time
-			$today = date('Y-m-d H:i:s');
+			$today	= wps_deals_current_date();
 			
 			//get the value for end date & time of deals from the post meta box
 			$enddate = get_post_meta($post->ID,$prefix.'end_date',true);
@@ -1915,6 +1929,8 @@ if( !function_exists( 'wps_deals_checkout_header' ) ) {
 	 */
 	function wps_deals_checkout_header() {
 		
+		//credit card validator script
+		wp_enqueue_script( 'wps-deals-credit-card-validator-scripts' );
 		//checkout header template
 		wps_deals_get_template( 'checkout/checkout-header.php' );
 	}
@@ -3184,4 +3200,21 @@ if( !function_exists( 'wps_deals_lost_password_content' ) ) {
 		}
 	}
 }
+if ( ! function_exists( 'wps_deals_get_sidebar' ) ) {
+
+	/**
+	 * Sidebar Template
+	 * 
+	 * Handles to show sidebar tempate
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_get_sidebar() {
+		
+		//load sidebar template
+		wps_deals_get_template( 'sidebar/sidebar.php' );
+	}
+}
+
 ?>
