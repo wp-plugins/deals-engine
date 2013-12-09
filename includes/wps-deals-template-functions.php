@@ -1184,7 +1184,7 @@ if( !function_exists( 'wps_deals_single_deal_timer' ) ) {
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		//today's date time
-		echo $today	= wps_deals_current_date();
+		$today	= wps_deals_current_date();
 		
 		//get the value for start date & time of deals from the post meta box
 		$startdate = get_post_meta($post->ID,$prefix.'start_date',true);

@@ -1,16 +1,17 @@
 jQuery(document).ready(function($) {
 	
-	jQuery(".wps-deals-content-section select, .wps-deals-edit-sale select, .wps-deals-form select").each(function () {
+	jQuery( '.wps-deals-content-section select, .wps-deals-edit-sale select, .wps-deals-form select' ).each(function () {
 	  	jQuery(this).chosen();
 	});
 	//code for plugin settings tabs
 	
 	//set selected tab for reports page default first tab will be selected
-	$(".wps-deals-reports-content .nav-tab-wrapper a:first").addClass("nav-tab-active");
-	$(".wps-deals-reports-content .wps-deals-content div:first").show();
+	$( '.wps-deals-reports-content .nav-tab-wrapper a:first' ).addClass( 'nav-tab-active' );
+	$( '.wps-deals-reports-content .wps-deals-content div:first' ).show();
 	
 	//  When user clicks on tab, this code will be executed
-    $(".nav-tab-wrapper a").live('click',function() {
+	$( document ).on( 'click', '.nav-tab-wrapper a', function() {
+  
         //  First remove class "active" from currently active tab
         $(".nav-tab-wrapper a").removeClass('nav-tab-active');
  
@@ -35,7 +36,8 @@ jQuery(document).ready(function($) {
     });
     
     //call on click reset options button from settings page
-	$('#wps_deals_reset_settings').live('click',function() {
+    $( document ).on( 'click', '#wps_deals_reset_settings', function() {
+	
 		var ans;
 		ans = confirm('Click OK to reset all options. All settings will be lost!');
 
@@ -80,7 +82,7 @@ jQuery(document).ready(function($) {
 	});
 	
 	//for delete confirm box
-	jQuery('.wps-deals-sales-delete').live('click',function() {
+	$( document ).on( 'click', 'a.wps-deals-sales-delete', function() {
 		
 		var ans = confirm("Are you sure want to delete sales order?");
     	
@@ -201,8 +203,8 @@ jQuery(document).ready(function($) {
 	}).change();
 	
 	//Media Uploader
-	jQuery('.wps-deals-image-upload').live('click',function(e) {
-
+	$( document ).on( 'click', '.wps-deals-image-upload', function() {
+	
 		var imgfield,showfield;
 		imgfield = jQuery(this).prev('input').attr('id');
 		showfield = jQuery(this).parents('td').find('.wps-deals-img-view');
@@ -306,7 +308,7 @@ jQuery(document).ready(function($) {
 	});
 	
 	//issue refund transaction confirm alert
-	$( '.wps-deals-issue-refund' ).live( 'click', function() {
+	$( document ).on( 'click', '.wps-deals-issue-refund', function() {
 		
 		if( WpsDealsSettings.paypalapi != '' && WpsDealsSettings.paypalapi == '1' ) {
 			alert(WpsDealsSettings.paypalapierror);
@@ -324,7 +326,7 @@ jQuery(document).ready(function($) {
 	});
 	
 	//send test email from email settings
-	$( '.wps-deals-send-test-email' ).live( 'click', function() {
+	$( document ).on( 'click', '.wps-deals-send-test-email', function() {
 		
 		$( '.wps-deals-loader' ).show();
 		var email_template = $('.wps-deals-email-template').val();
@@ -355,7 +357,7 @@ jQuery(document).ready(function($) {
 	});
 	
 	//Show Hide Un-force SSL setting based on click of force SSL Setting
-	$( '.wps_deals_force_ssl_setting' ).live( 'click', function() {
+	$( document ).on( 'click', '.wps_deals_force_ssl_setting', function() {
 	
 		var unforcerow = $( this ).parents( 'tr' ).next( 'tr' );
 		

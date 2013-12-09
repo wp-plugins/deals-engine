@@ -95,8 +95,7 @@ function wps_deals_update_repeater_fields(){
      *
      * @since 1.0
      */
-    jQuery('.wps-deals-meta-upload').delegate( '.wps-deals-meta-delete-file', 'click' , function() {
-      
+    jQuery( document ).on( 'click', '.wps-deals-meta-upload .wps-deals-meta-delete-file', function() {
       var jQuerythis   = jQuery(this),
           jQueryparent = jQuerythis.parent(),
           data     = jQuerythis.attr('rel');
@@ -256,7 +255,7 @@ jQuery(document).ready(function(jQuery) {
    * @since 1.1
    */
   //edit
-  jQuery(".wps-deals-meta-re-toggle").live('click', function() {
+  jQuery( document ).on( 'click', '.wps-deals-meta-re-toggle', function() {
     //jQuery(this).prev().toggle('slow');
     if( jQuery(this).prev().is(':visible') ) {
     	jQuery(this).prev().hide();
@@ -307,11 +306,10 @@ jQuery(document).ready(function(jQuery) {
    * which now works both when button is clicked and when field gains focus.
    */
   if (jQuery.farbtastic){//since WordPress 3.5
-    jQuery('.wps-deals-meta-color').live('focus', function() {
+  	jQuery( document ).on( 'focus', '.wps-deals-meta-color', function() {
       load_colorPicker(jQuery(this).next());
     });
-
-    jQuery('.wps-deals-meta-color').live('focusout', function() {
+	jQuery( document ).on( 'focusout', '.wps-deals-meta-color', function() {
       hide_colorPicker(jQuery(this).next());
     });
 
@@ -320,7 +318,7 @@ jQuery(document).ready(function(jQuery) {
      *
      * @since 1.0
      */
-    jQuery('.wps-deals-meta-color-select').live('click', function(){
+    jQuery( document ).on( 'click', '.wps-deals-meta-color-select', function() {
       if (jQuery(this).next('div').css('display') == 'none')
         load_colorPicker(jQuery(this));
       else
@@ -358,7 +356,7 @@ jQuery(document).ready(function(jQuery) {
    *
    * @since 1.0
    */
-  jQuery('.wps-deals-meta-add-file').click( function() {
+  jQuery( document ).on( 'click', '.wps-deals-meta-add-file', function() {
     var jQueryfirst = jQuery(this).parent().find('.file-input:first');
     jQueryfirst.clone().insertAfter(jQueryfirst).show();
     return false;
@@ -367,7 +365,7 @@ jQuery(document).ready(function(jQuery) {
   *
   * Advanced Add Files
   */
-  jQuery('.wps-deals-meta-add-fileadvanced').live('click', function() {
+  jQuery( document ).on( 'click', '.wps-deals-meta-add-fileadvanced', function() {
      var jQueryfirst = jQuery(this).parent().find('.file-input-advanced:last');
      jQueryfirst.clone().insertAfter(jQueryfirst).show();
      jQuery(this).parent().find('.file-input-advanced:last .wps-deals-upload-file-link').val('');
@@ -379,7 +377,7 @@ jQuery(document).ready(function(jQuery) {
    *
    * Advanced Add Files
    */
-  jQuery('.wps-deals-delete-fileadvanced').live('click', function() {
+  jQuery( document ).on( 'click', '.wps-deals-delete-fileadvanced', function() {
   	var row = jQuery(this).parent().parent().parent( 'tr' );
   	var count =	row.find('.file-input-advanced').length;
 	  	if(count > 1) {
@@ -391,9 +389,8 @@ jQuery(document).ready(function(jQuery) {
    });
    
    // WP 3.5+ uploader
+	jQuery( document ).on( 'click', '.wps-deals-upload-fileadvanced', function(e) {
 	
-	jQuery('.wps-deals-upload-fileadvanced').live('click',function(e) {
-
 		e.preventDefault();
 		
 		if(typeof wp == "undefined" || WpsDeals.new_media_ui != '1' ){// check for media uploader
@@ -501,8 +498,7 @@ jQuery(document).ready(function(jQuery) {
    *
    * @since 1.0
    */
-  jQuery('.wps-deals-meta-upload').delegate( '.wps-deals-meta-delete-file', 'click' , function() {
-    
+  jQuery( document ).on( 'click', '.wps-deals-meta-upload .wps-deals-meta-delete-file', function() {
     var jQuerythis   = jQuery(this),
         jQueryparent = jQuerythis.parent(),
         data = jQuerythis.attr('rel');
@@ -577,7 +573,7 @@ jQuery(document).ready(function(jQuery) {
   wps_deals_load_images_muploader();
   //delete img button
   
-  jQuery('.wps-deals-meta-delete_image_button').live('click', function(e){
+  jQuery( document ).on( 'click', '.wps-deals-meta-delete_image_button', function() {
   	jQuery(this).prev().val('');
   	jQuery(this).prev().prev().val('');
   	jQuery(this).prev().prev().prev().html('');
@@ -602,8 +598,8 @@ jQuery(document).ready(function(jQuery) {
 	var formfield1;
     var formfield2;
     
-	jQuery('.wps-deals-meta-upload_image_button').live('click',function(e) {
-
+    jQuery( document ).on( 'click', '.wps-deals-meta-upload_image_button', function(e) {
+	
 		e.preventDefault();
 		formfield1 = jQuery(this).prev();
 		formfield2 = jQuery(this).prev().prev();

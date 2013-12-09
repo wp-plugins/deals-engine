@@ -1,7 +1,7 @@
 jQuery(document).ready( function($) {
 	
 	// login with facebook
-	$('.wps-deals-social-login-facebook').live( 'click', function() {
+	$( document ).on( 'click', 'a.wps-deals-social-login-facebook', function() {
 	
 		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
@@ -26,7 +26,7 @@ jQuery(document).ready( function($) {
 	});	
 	
 	// login with google+
-	jQuery('.wps-deals-social-login-gplus').live('click', function(event) {
+	$( document ).on( 'click', 'a.wps-deals-social-login-gplus', function() {
 	
 		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
@@ -62,7 +62,7 @@ jQuery(document).ready( function($) {
 	});
 		
 	// login with twitter
-	jQuery('.wps-deals-social-login-twitter').live('click', function(event) {
+	$( document ).on( 'click', 'a.wps-deals-social-login-twitter', function() {
 	
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
 		
@@ -97,7 +97,7 @@ jQuery(document).ready( function($) {
 	});
 	
 	// login with linkedin
-	jQuery('.wps-deals-social-login-linkedin').live('click', function(event) {
+	$( document ).on( 'click', 'a.wps-deals-social-login-linkedin', function() {
 	
 		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
@@ -131,7 +131,7 @@ jQuery(document).ready( function($) {
 	});
 	
 	// login with yahoo
-	jQuery('.wps-deals-social-login-yahoo').live('click', function(event) {
+	$( document ).on( 'click', 'a.wps-deals-social-login-yahoo', function() {
 	
 		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
@@ -165,7 +165,7 @@ jQuery(document).ready( function($) {
 	});
 	
 	// login with foursquare
-	jQuery('.wps-deals-social-login-foursquare').live('click', function(event) {
+	$( document ).on( 'click', 'a.wps-deals-social-login-foursquare', function() {
 	
 		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
@@ -199,7 +199,7 @@ jQuery(document).ready( function($) {
 	});
 	
 	// login with windowslive
-	jQuery('.wps-deals-social-login-windowslive').live('click', function(event) {
+	$( document ).on( 'click', 'a.wps-deals-social-login-windowslive', function() {
 	
 		var object = $(this);
 		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');

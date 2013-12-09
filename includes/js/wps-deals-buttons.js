@@ -64,7 +64,7 @@ jQuery(document).ready(function($) {
 })();
 	
 	//close popup window
-	$( '.wps-deals-close-button, .wps-deals-popup-overlay' ).live( 'click',function (){
+	$( document ).on( 'click', 'a.wps-deals-close-button, div.wps-deals-popup-overlay', function() {
 		
 		$( '.wps-deals-popup-overlay' ).fadeOut();
         $( '.wps-deals-popup-content' ).fadeOut();
@@ -111,7 +111,7 @@ jQuery(document).ready(function($) {
 	});
 	
 	//on click of shortcode insert button in admin shortcode popup
-	$('#wps_deals_insert_shortcode').live('click',function(){
+	$( document ).on( 'click', '#wps_deals_insert_shortcode', function() {
 		
 		var dealsshortcode = $('#wps_deals_shortcodes').val();
 		var dealsshortcodestr = '';

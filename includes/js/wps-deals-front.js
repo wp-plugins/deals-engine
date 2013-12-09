@@ -1,9 +1,9 @@
 jQuery(document).ready(function($){
 	
-	jQuery('.wps-deals-navdeal').removeClass('wps-deals-nav1').removeClass('wps-deals-nav2');
-	jQuery('div.wps-deals-list:first').show();
+	jQuery( '.wps-deals-navdeal' ).removeClass( 'wps-deals-nav1' ).removeClass( 'wps-deals-nav2' );
+	jQuery( 'div.wps-deals-list:first' ).show();
 	
-	jQuery('.wps-deals-active').live('click',function(){
+	$( document ).on( 'click', '.wps-deals-active', function() {
 		jQuery('.wps-deals-navdeal span').removeClass('active');
 		jQuery(this).addClass('active');
 		jQuery('.wps-deals-navdeal').removeClass('wps-deals-nav1').removeClass('wps-deals-nav2');
@@ -11,7 +11,7 @@ jQuery(document).ready(function($){
 		jQuery('.wps-deals-active').show();
 	});
 	
-	jQuery('.wps-deals-ending-soon').live('click',function(){
+	$( document ).on( 'click', '.wps-deals-ending-soon', function() {
 		jQuery('.wps-deals-navdeal span').removeClass('active');
 		jQuery(this).addClass('active');
 		jQuery('.wps-deals-navdeal').addClass('wps-deals-nav1');
@@ -20,7 +20,7 @@ jQuery(document).ready(function($){
 		jQuery('.wps-deals-ending-soon').show();
 	});
 	
-	jQuery('.wps-deals-upcoming-soon').live('click',function(){
+	$( document ).on( 'click', '.wps-deals-upcoming-soon', function() {
 		jQuery('.wps-deals-navdeal span').removeClass('active');
 		jQuery(this).addClass('active');
 		jQuery('.wps-deals-navdeal').addClass('wps-deals-nav2');
@@ -30,7 +30,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//add to cart button click
-	$('.wps-deals-add-to-cart-button').live('click',function() {
+	$( document ).on( 'click', '.wps-deals-add-to-cart-button', function() {
 		
 		$('.wps-deals-add-to-cart-button').hide();
 		
@@ -67,7 +67,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//remove product from cart
-	$('.wps-deals-cart-item-remove').live('click', function() {
+	$( document ).on( 'click', '.wps-deals-cart-item-remove', function() {
 		
 		var details = $('.wps-deals-cart-details');
 		var loader = $('.wps-deals-cartdetails-loader');
@@ -112,8 +112,8 @@ jQuery(document).ready(function($){
 		});
 	});
 	
-	//remove product from cart
-	$('.wps-deals-cart-item-update').live('click', function() {
+	//update products in cart
+	$( document ).on( 'click', '.wps-deals-cart-item-update', function() {
 		
  		var loader = $('.wps-deals-cartdetails-loader');
 		var details = $('.wps-deals-cart-details');
@@ -172,7 +172,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//empty cart
-	$('.wps-deals-cart-empty').live('click', function() {
+	$( document ).on( 'click', '.wps-deals-cart-empty', function() {
 		
 		var details = $('.wps-deals-cart-details');
 		var loader = $('.wps-deals-cartdetails-loader');
@@ -207,7 +207,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//checkout validation
-	$('.wps-deals-checkout-btn').live('click',function() {
+	$( document ).on( 'click', '.wps-deals-checkout-btn', function() {
 		
 		if(!$(this).hasClass('wps-deals-login-button-submit') 
 			&& !$(this).hasClass('wps-deals-reg-button-submit')) {
@@ -286,7 +286,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//login form submit
-	$('.wps-deals-login-button-submit').live('click',function() {
+	$( document ).on( 'click', '.wps-deals-login-button-submit', function() {
 		
 		var error = false;
 		var errorstr = '';
@@ -380,7 +380,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//registration form submit
-	$('.wps-deals-reg-button-submit').live('click',function() {
+	$( document ).on( 'click', '.wps-deals-reg-button-submit', function() {
 		
 		var error = false;
 		var errorstr 	= '';
@@ -547,7 +547,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//manage billing addres form submit
-	$('.wps-deals-save-address-btn').live('click',function() {
+	$( document ).on( 'click', '.wps-deals-save-address-btn', function() {
 		
 		var errel		= $('.wps-deals-cart-user-error');
 		
@@ -567,7 +567,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//change password form submit
-	$('.wps-deals-change-password-btn').live('click',function() {
+	$( document ).on( 'click', '.wps-deals-change-password-btn', function() {
 		
 		var error 		= false;
 		var errorstr 	= '';
@@ -612,7 +612,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//lost password form submit
-	$('.wps-deals-reset-password-btn').live('click',function() {
+	$( document ).on( 'click', '.wps-deals-reset-password-btn', function() {
 		
 		var error 			= false;
 		var errorstr 		= '';
@@ -651,7 +651,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//login form submit
-	$('.wps-deals-login-submit-btn').live('click',function() {
+	$( document ).on( 'click', '.wps-deals-login-submit-btn', function() {
 		
 		var error 			= false;
 		var errorstr 		= '';
@@ -698,7 +698,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//front side cart login & registration form
-	$('.wps-deals-login-link').live('click',function() {
+	$( document ).on( 'click', '.wps-deals-login-link', function() {
 		$('.wps-deals-reg-wrap').hide();
 		$('.wps-deals-guest-details').hide();
 		$('.wps-deals-login-form-wrap').show();
@@ -708,7 +708,7 @@ jQuery(document).ready(function($){
 		
 	});
 	//front side cart login & registration form
-	$('.wps-deals-class-reg-link').live('click',function() {
+	$( document ).on( 'click', '.wps-deals-class-reg-link', function() {
 		$('.wps-deals-reg-wrap').show();
 		$('.wps-deals-guest-details').show();
 		$('.wps-deals-login-form-wrap').hide();
@@ -793,7 +793,7 @@ jQuery(document).ready(function($){
 	}
 		
 	//on blur of required field
-	$('.wps-deals-cart-text.wps-deals-required, .wps-deals-cart-select.wps-deals-required').live('blur',function() {
+	$( document ).on( 'blur', '.wps-deals-cart-text.wps-deals-required, .wps-deals-cart-select.wps-deals-required', function() {
 		if($(this).val() == '') {
 			$(this).removeClass('valid').addClass('error');
 		} else {
@@ -851,7 +851,7 @@ jQuery(document).ready(function($){
 	/********** Deals Timer End *************/
 	
 	/********** Country Combo Load State As per Country Start ************/
-	$( '.wps-deals-country-combo' ).live( 'change', function() {
+	$( document ).on( 'change', '.wps-deals-country-combo', function() {
 		
 		//get state field
 		var statecontainer 		= $( this ).parents( 'div.wps-deals-address-container' ).find( '.wps-deals-state-field' );
