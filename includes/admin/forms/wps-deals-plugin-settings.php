@@ -133,9 +133,18 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			 <div class="wps-deals-content">
 			 	<?php do_action('wps_deals_add_settings_tab_data_before',$selected_tab); ?>
 			 	<div class="wps-deals-tab-content<?php echo $general_content; ?>" id="wps-deals-tab-general"> 
+				
+					<?php 
+						// About
+						require( WPS_DEALS_ADMIN . '/forms/wps-deals-about-box.php' );
+					?>
 				 	<?php   
 				 		// General
 						require( WPS_DEALS_ADMIN . '/forms/wps-deals-general-settings.php' ); 
+					?>
+					<?php 
+						// Feed
+						require( WPS_DEALS_ADMIN . '/forms/wps-deals-feed.php' );
 					?>
 			 	</div>
 			 	<div class="wps-deals-tab-content<?php echo $payments_content; ?>" id="wps-deals-tab-payments"> 
@@ -183,8 +192,5 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		<!--end of the left meta box section -->
 		</div><!--.content wps-deals-content-section-->
 	</form>
-	<!-- including the about box -->
-
-	<?php require( WPS_DEALS_ADMIN . '/wps-deals-about-box.php' ); // the plugins about meta box ?>
 <!--end .wrap-->
 </div>

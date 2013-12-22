@@ -663,7 +663,7 @@ if( !function_exists( 'wps_deals_social_google' ) ) {
 										type	: 'gp'
 									};
 				
-						jQuery.post( '<?php echo admin_url('admin-ajax.php');?>', data, function( response ) {
+						jQuery.post( '<?php echo admin_url( 'admin-ajax.php', ( is_ssl() ? 'https' : 'http' ) );?>', data, function( response ) {
 							if(response != '') {
 								//window.location.reload();
 								wps_deals_reload();
@@ -1841,7 +1841,7 @@ if( !function_exists( 'wps_deals_order_view_content_before' ) ) {
 			 && !empty( $wps_deals_options['cheque_customer_msg'] ) ) {
 		
 			//cheque payment message details template
-			wps_deals_get_template( 'orders/order-cheque-payment-message.php', array( 'cheque_customer_msg' => $wps_deals_options['cheque_customer_msg'] ) );
+			wps_deals_get_template( 'orders/order-cheque-payment-message.php', array( 'cheque_customer_msg' => nl2br( $wps_deals_options['cheque_customer_msg'] ) ) );
 		
 		}
 	}
@@ -2091,7 +2091,7 @@ if( !function_exists( 'wps_deals_display_description' ) ) {
 		
 		if( !empty( $cheque_customer_msg ) ) {
 			//cheque description template
-			wps_deals_get_template( 'checkout/checkout-footer/cheque-payment-description.php', array( 	'description' 	=> $cheque_customer_msg,
+			wps_deals_get_template( 'checkout/checkout-footer/cheque-payment-description.php', array( 	'description' 	=> nl2br( $cheque_customer_msg ),
 																										'enablebankdesc'=> $enablebankdesc ) );
 		}
 		
@@ -2111,7 +2111,7 @@ if( !function_exists( 'wps_deals_cart_social_login' ) ) {
 	 */
 	function wps_deals_cart_social_login() {
 		
-		global $wps_deals_options;
+		global $wps_deals_options, $wps_deals_session;
 		
 		//check user is not logged in and social login is enable or not for any one service
 		if( !is_user_logged_in() && wps_deals_enable_social_login() ) {
@@ -2124,7 +2124,7 @@ if( !function_exists( 'wps_deals_cart_social_login' ) ) {
 			$defaulturl = isset( $redirect_url ) && !empty( $redirect_url ) ? $redirect_url : $defaulturl; 
 			
 			//session create for redirect url
-			$_SESSION['wps_deals_stcd_redirect_url'] = $defaulturl;
+			$wps_deals_session->set( 'wps_deals_stcd_redirect_url', $defaulturl );
 			
 			// get title from settings
 			$login_heading = isset( $wps_deals_options['login_heading'] ) ? $wps_deals_options['login_heading'] : __( 'Login with Social Media', 'wpsdeals' );

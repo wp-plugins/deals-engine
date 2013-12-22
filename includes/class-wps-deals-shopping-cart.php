@@ -14,13 +14,14 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 class Wps_Deals_Shopping_Cart {
 	
-	var $price;
+	var $price,$session;
 	
 	public function __construct() {
 		
-		global $wps_deals_price;
-		$this->price = $wps_deals_price;
-		//$this->calculate();
+		global $wps_deals_price, $wps_deals_session;
+		
+		$this->price	= $wps_deals_price;
+		$this->session	= $wps_deals_session;
 		
 	}
 	
@@ -37,7 +38,9 @@ class Wps_Deals_Shopping_Cart {
 		
 		$this->calculate();
 		//get cart data from session
-		$cartdata = isset($_SESSION['deals-cart']['products']) ? $_SESSION['deals-cart']['products'] : false;
+		$cartsession	= $this->session->get( 'deals-cart' );
+		//get cart data from session
+		$cartdata		= isset( $cartsession['products'] ) ? $cartsession['products'] : false;
 		return $cartdata;
 	}
 	
@@ -54,7 +57,8 @@ class Wps_Deals_Shopping_Cart {
 		
 		$this->calculate();
 		//get cart data from session
-		$cartdata = isset($_SESSION['deals-cart']) ? $_SESSION['deals-cart'] : false;
+		$cartdata	= $this->session->get( 'deals-cart' );
+		//return cart data
 		return $cartdata;
 	}
 	
@@ -109,9 +113,10 @@ class Wps_Deals_Shopping_Cart {
 			
 			$add[$dealid]	=	$existdata;
 		}
-		$alldatacart['total'] = $totalprice;
-		$alldatacart['subtotal'] = $subtotal;
-		$alldatacart['products'] = $add;
+		
+		$alldatacart['total'] 		= $totalprice;
+		$alldatacart['subtotal']	= $subtotal;
+		$alldatacart['products']	= $add;
 		
 		$this->modifysession($alldatacart); 
 		return true;
@@ -159,10 +164,10 @@ class Wps_Deals_Shopping_Cart {
 			$i++;
 		}
 		
-		$totalprice = $subtotal;
-		$cartdata['products'] = $updated;
-		$cartdata['subtotal'] = $subtotal;
-		$cartdata['total'] = $totalprice;
+		$totalprice				= $subtotal;
+		$cartdata['products']	= $updated;
+		$cartdata['subtotal']	= $subtotal;
+		$cartdata['total']		= $totalprice;
 		
 		$this->modifysession($cartdata); 
 		
@@ -188,12 +193,12 @@ class Wps_Deals_Shopping_Cart {
 		//get cart data
 		$getcart = $this->get();
 		
-		if(empty($getcart['products'])) {
-			//$_SESSION['deals-cart']['products'] = $getcart['products'];	
-			unset($_SESSION['deals-cart']);
+		if( empty( $getcart['products'] ) ) {
+			//unset($_SESSION['deals-cart']);
+			$this->session->remove( 'deals-cart' );
 		} else {
-			$_SESSION['deals-cart']['products'] = $getcart['products'];	
-			
+			//$_SESSION['deals-cart']['products'] = $getcart['products'];	
+			$this->session->set( 'deals-cart', $getcart );
 			//update cart
 			$this->update();
 		}
@@ -214,7 +219,8 @@ class Wps_Deals_Shopping_Cart {
 	public function cartempty() {
 		
 		//remove all item from cart
-		unset($_SESSION['deals-cart']);
+		//unset($_SESSION['deals-cart']);
+		$this->session->remove( 'deals-cart' );
 		return true;
 		
 	}
@@ -252,22 +258,25 @@ class Wps_Deals_Shopping_Cart {
 	public function calculate() {
 		
 		//$cartdata = $this->get();
-		$cartdata = isset($_SESSION['deals-cart']) ? $_SESSION['deals-cart'] : false;
+		//$cartdata = isset($_SESSION['deals-cart']) ? $_SESSION['deals-cart'] : false;
+		$cartdata	= $this->session->get( 'deals-cart' );
 		
 		if(!empty($cartdata)) {
 			
-			$products = isset($cartdata['products']) && !empty($cartdata['products']) ? $cartdata['products'] : array();
+			$products = isset( $cartdata['products'] ) && !empty( $cartdata['products'] ) ? $cartdata['products'] : array();
 			$subtotal = 0;
 			$total = 0;
 			
 			foreach ($products as $key => $value) {
 			
-				$sale_price = $this->price->wps_deals_get_price($value['dealid']);
-				$subtotal = $subtotal + ($sale_price * $value['quantity']);
+				$sale_price = $this->price->wps_deals_get_price( $value['dealid'] );
+				$subtotal 	= $subtotal + ( $sale_price * $value['quantity'] );
 			}
-			$cartdata['subtotal'] = $subtotal;
-			$cartdata['total']	= $subtotal;
-			$this->modifysession($cartdata);
+			//get applied fees in cart
+			$fees     				= wps_deals_get_cart_fee_total();
+			$cartdata['subtotal'] 	= $subtotal;
+			$cartdata['total']		= $subtotal + $fees;
+			$this->modifysession( $cartdata );
 		}
 		return $cartdata;
 	}
@@ -297,8 +306,8 @@ class Wps_Deals_Shopping_Cart {
 	 */
 	public function show_total() {
 		
-		$cartdata = $this->get();
-		$total = $cartdata['total'];
+		$cartdata 	= $this->get();
+		$total 		= $cartdata['total'];
 		return $total;
 	}
 	/**
@@ -307,9 +316,11 @@ class Wps_Deals_Shopping_Cart {
 	 * Handles to overwrite session
 	 * This is called from add(),update(),calculate() and from discount and tax addons
 	 */
-	public function modifysession($cartdata) {
+	public function modifysession( $cartdata ) {
 		
-		$_SESSION['deals-cart'] = apply_filters('wps_deals_cart_session_update',$cartdata);
+		//$_SESSION['deals-cart'] = apply_filters( 'wps_deals_cart_session_update', $cartdata );
+		$sessiondata = apply_filters( 'wps_deals_cart_session_update', $cartdata );
+		$this->session->set( 'deals-cart', $sessiondata );
+		
 	}
-	
 }

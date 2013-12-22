@@ -15,10 +15,13 @@ if( !class_exists( 'Wps_Deals_Social_LinkedIn' ) ) {
 	
 	class Wps_Deals_Social_LinkedIn {
 		
-		var $linkedinconfig,$linkedin;
+		var $linkedinconfig, $linkedin, $session;
 		
 		public function __construct() {
 			
+			global $wps_deals_session;
+			
+			$this->session	= $wps_deals_session;
 		}
 		
 		/**
@@ -105,7 +108,11 @@ if( !class_exists( 'Wps_Deals_Social_LinkedIn' ) ) {
 							   
 							if( $response['success'] === TRUE) {
 								// store the request token
-								$_SESSION['wps_deals_linkedin_oauth']['linkedin']['request'] = $response['linkedin'];
+								$linkedinsess = array();
+								$linkedinsess['linkedin']['request'] = $response['linkedin']; 
+								
+								//set session
+								$this->session->set( 'wps_deals_linkedin_oauth', $linkedinsess );
 								 
 									// redirect the user to the LinkedIn authentication/authorisation page to initiate validation.
 									wp_redirect( LINKEDIN::_URL_AUTH . $response['linkedin']['oauth_token']);
@@ -116,20 +123,29 @@ if( !class_exists( 'Wps_Deals_Social_LinkedIn' ) ) {
 								}		        
 						  } else { //this code will execute when the user clicks on the allow access button on linkedin
 						  
+						  		$linkedinsessdata = $this->session->get( 'wps_deals_linkedin_oauth' );
+						  	
 								// LinkedIn has sent a response, user has granted permission, take the temp access token, the user's secret and the verifier to request the user's real secret key
-								$response = $this->linkedin->retrieveTokenAccess( $_SESSION['wps_deals_linkedin_oauth']['linkedin']['request']['oauth_token'], $_SESSION['wps_deals_linkedin_oauth']['linkedin']['request']['oauth_token_secret'], $_GET['oauth_verifier'] );
+								$response = $this->linkedin->retrieveTokenAccess( $linkedinsessdata['linkedin']['request']['oauth_token'], $linkedinsessdata['linkedin']['request']['oauth_token_secret'], $_GET['oauth_verifier'] );
 							   
 								if( $response['success'] === TRUE ) {
 									
+									// store the request token
+									$linkedinsess = array();
 									// the request went through without an error, gather user's 'access' tokens
-									$_SESSION['wps_deals_linkedin_oauth']['linkedin']['access'] = $response['linkedin'];
-								  
+									$linkedinsess['linkedin']['access'] 		= $response['linkedin'];
 									// set the user as authorized for future quick reference
-									$_SESSION['wps_deals_linkedin_oauth']['linkedin']['authorized'] = TRUE;
-								   
+									$linkedinsess['linkedin']['authorized']	= TRUE;
+									
+									//set session
+									$this->session->set( 'wps_deals_linkedin_oauth', $linkedinsess );
+									
+									//get session data
+									$linkedinsessdata = $this->session->get( 'wps_deals_linkedin_oauth' );
+									
 									//get profile data
 									$this->linkedin = new LinkedIn( $this->linkedinconfig );
-									$this->linkedin->setTokenAccess( $_SESSION['wps_deals_linkedin_oauth']['linkedin']['access'] );
+									$this->linkedin->setTokenAccess( $linkedinsessdata['linkedin']['access'] );
 									$this->linkedin->setResponseFormat(LINKEDIN::_RESPONSE_XML);
 									
 									//add user data to session for further user
@@ -139,8 +155,8 @@ if( !class_exists( 'Wps_Deals_Social_LinkedIn' ) ) {
 							        $resultdata = json_decode( json_encode( ( array ) simplexml_load_string( $response['linkedin'] ) ), 1 );
 							        
 							        //set user data to sesssion for further use
-							        $_SESSION['wps_deals_linkedin_user_cache'] = $resultdata;
-									
+							        $this->session->set( 'wps_deals_linkedin_user_cache', $resultdata );
+							        
 									// redirect the user back to the demo page
 									wp_redirect($_SERVER['PHP_SELF']);
 									exit;
@@ -187,13 +203,10 @@ if( !class_exists( 'Wps_Deals_Social_LinkedIn' ) ) {
 		 */
 		public function wps_deals_social_get_linkedin_user_data() {
 		
-			$user_profile_data = '';
-			
-			if ( isset( $_SESSION['wps_deals_linkedin_user_cache'] ) && !empty( $_SESSION['wps_deals_linkedin_user_cache'] ) ) {
-			
-				$user_profile_data = $_SESSION['wps_deals_linkedin_user_cache'];
-			}
+			$usersession 		= $this->session->get( 'wps_deals_linkedin_user_cache' );
+			$user_profile_data 	= !empty( $usersession ) ? $usersession : '';
 			return $user_profile_data;
+		
 		}
 	}
 }

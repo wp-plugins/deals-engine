@@ -38,12 +38,6 @@
 	text-align: left;
 	padding-left: 0;
 }
-.wpsdeals_page_wps-deals-settings .about .form-table th {
-	width: 20%;
-	font-weight: bold;
-	text-align: left;
-	padding-left: 0;
-}
 .wpsdeals_page_wps-deals-settings .form-table td p {
 	padding-top: 0;
 	margin-top: 0;
@@ -61,6 +55,9 @@
 }
 .wps-deals-tab-content .mceLayout .mceIframeContainer iframe{
 	min-height:350px;
+}
+.wps-deals-img-upload-input {
+	width: 80%;
 }
 /** WPSocial Settings Page CSS End **/
 
@@ -86,18 +83,12 @@
 	width: 98%;
 }
 .wpsdeals_page_wps-deals-settings .content {
-	float: left;
-	width: 75%;
 	margin-right: 10px;
 	min-height: 600px !important;
 }
 /** WPSocial Settings Page Tabs End **/
 
 /** About Box Start**/
-.wpsdeals_page_wps-deals-settings .about {
-	float: left;
-	width: 20%;
-}
 .wpsdeals_page_wps-deals-settings .icon-option {
 	float: left;
 	line-height: 20px;

@@ -107,6 +107,9 @@ jQuery(document).ready(function($){
 					$('.wps_deals_cart_total').html( result.total );
 				}
 				
+				//call trigger when cart update
+				$( 'body' ).trigger( 'wps_deals_cart_update', [ result, cartdetails ] );
+			
 			}
 			
 		});
@@ -159,6 +162,9 @@ jQuery(document).ready(function($){
 				
 				$('.wps_deals_cart_total').html(result.total);
 				
+				//call trigger when cart update
+				$( 'body' ).trigger( 'wps_deals_cart_update', [ result, cartdetails ] );
+			
 			} else if(result.empty == '1') {
 				
 				$('.wps-deals-cart-wrap').html( cartdetails );
@@ -840,13 +846,14 @@ jQuery(document).ready(function($){
 												<span class="wps-deals-secs">{snn} {sl}</span>\
 												<span>'+Wps_Deals_Timer.seconds+'</span>';
 		
-		$( this ).countdown( {	until		:	futurestring,
-								format		:	'DHMS',
-								labels		:	['','','','','','','',''], 
-								labels1		:	['','','','','','','',''],
-								layout		:	timerlayout,
-								significant	:	0,
-								serverSync	:	wpsdealstodaytime } );	
+		$( this ).wpsdealscountdown( {	until		:	futurestring,
+										format		:	'DHMS',
+										labels		:	['','','','','','','',''], 
+										labels1		:	['','','','','','','',''],
+										layout		:	timerlayout,
+										significant	:	0,
+										serverSync	:	wpsdealstodaytime 
+									} );	
 	});
 	/********** Deals Timer End *************/
 	

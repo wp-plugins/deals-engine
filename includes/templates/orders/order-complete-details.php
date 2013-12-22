@@ -12,9 +12,13 @@
  * @since 1.0.0
  */
 
-global $wps_deals_model, $wps_deals_options, $current_user;
+global $wps_deals_model, $wps_deals_options, $current_user,
+		$wps_deals_session;
 
+	//model class
 	$model = $wps_deals_model;
+	//session class
+	$session = $wps_deals_session;
 
 	$orderargs = array();
 
@@ -25,11 +29,9 @@ global $wps_deals_model, $wps_deals_options, $current_user;
 		$orderargs = array( 'author' => $current_user->ID, 'p' => $order_id );
 		
 	} else { //guest order data
-		
-		$order_id = isset( $_SESSION['wps_deals_last_ordered_id'] ) && !empty( $_SESSION['wps_deals_last_ordered_id'] ) 
-						? $_SESSION['wps_deals_last_ordered_id'] : '0';
+		$order_id = $session->get( 'wps_deals_last_ordered_id' );
+		$order_id = !empty( $order_id ) ? $order_id : '0';
 		$orderargs = array( 'author' => '0', 'p' => $order_id );
-		
 	}
 
 	//get user's orders data
@@ -144,10 +146,10 @@ if( !empty( $salesdata ) && !empty( $order_id ) ) {
 						//do action to add header in order item details before
 						do_action( 'wps_deals_order_view_details_before' );
 				?>
-				<th><?php _e( 'Name', 'wpsdeals' ); ?></th>
-				<th><?php _e( 'Quantity', 'wpsdeals' ); ?></th>
-				<th><?php _e( 'Price', 'wpsdeals' ); ?></th>
-				<th><?php _e( 'Total', 'wpsdeals' ); ?></th>
+				<th width="55%"><?php _e( 'Name', 'wpsdeals' ); ?></th>
+				<th width="15%"><?php _e( 'Quantity', 'wpsdeals' ); ?></th>
+				<th width="15%"><?php _e( 'Price', 'wpsdeals' ); ?></th>
+				<th width="15%"><?php _e( 'Total', 'wpsdeals' ); ?></th>
 				<?php 
 						//do action to add header in order item details after
 						do_action( 'wps_deals_order_view_details_after' );
@@ -160,7 +162,7 @@ if( !empty( $salesdata ) && !empty( $order_id ) ) {
 			
 				//do action to add row in view order item details row before loop
 				do_action( 'wps_deals_order_view_details_row_before', $order_id );
-			
+				
 				foreach ( $order_details['deals_details'] as $product ) { ?>
 			
 					<?php 
@@ -259,10 +261,9 @@ if( !empty( $salesdata ) && !empty( $order_id ) ) {
 					<?php 
 						//do action to add row in view order item details after inside loop
 						do_action( 'wps_deals_order_view_details_row_loop_after', $product, $order_id );
-				} 
-				
-						//do action to add row in view order item details row after loop
-						do_action( 'wps_deals_order_view_details_row_after', $order_id );
+				}
+					//do action to add row in view order item details row after loop
+					do_action( 'wps_deals_order_view_details_row_after', $order_id );
 				?>
 				
 			</tbody>
@@ -273,16 +274,35 @@ if( !empty( $salesdata ) && !empty( $order_id ) ) {
 						do_action( 'wps_deals_order_view_footer_row_before', $order_id );
 				?>
 				<tr>
-					<td colspan="2"></td>
-					<td><?php _e('Sub Total','wpsdeals');?></td>
+					<td></td>
+					<td  colspan="2"><?php _e('Sub Total','wpsdeals');?></td>
 					<td><?php echo $order_details['display_order_subtotal'];?></td>
 				</tr>
 				<?php 
 						//do action to add row after subtotal in order view
-						do_action('wps_deals_order_view_details_subtotal_after',$order_id);?>
+						do_action('wps_deals_order_view_details_subtotal_after',$order_id);
+				
+				//check fees is set in order data and not empty
+				if( isset( $order_details['fees'] ) && !empty( $order_details['fees'] ) ) {
+				
+					foreach ( $order_details['fees'] as $fee_key => $fee_val ) {
+						?> 
+						 <tr>
+							<td></td>
+							<td colspan="2"><?php echo $fee_val['label'];?></td>
+						  	<td><?php echo $fee_val['display_amount'];?></td>
+						  </tr>
+						<?php 
+					} //end foreach loop
+						
+				} //end if to check there is fees is exist in order or not
+				
+					//do action to add row after subtotal in order view
+					do_action('wps_deals_order_view_details_fees_after',$order_id);
+				?>
 				<tr>
-					<td colspan="2"></td>
-					<td><?php _e('Total','wpsdeals');?></td>
+					<td></td>
+					<td colspan="2"><?php _e('Total','wpsdeals');?></td>
 					<td><?php echo $order_details['display_order_total'];?></td>
 				</tr>
 				<?php 

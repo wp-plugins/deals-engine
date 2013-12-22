@@ -19,12 +19,12 @@ class Wps_Deals_Renderer {
 		
 		global $wps_deals_model,$wps_deals_scripts,$wps_deals_currency,$wps_deals_cart,$wps_deals_price,$wps_deals_message;
 		
-		$this->model = $wps_deals_model;
-		$this->scripts = $wps_deals_scripts;
-		$this->currency = $wps_deals_currency;
-		$this->cart = $wps_deals_cart;
-		$this->price = $wps_deals_price;
-		$this->message = $wps_deals_message;		
+		$this->model 	= $wps_deals_model;
+		$this->scripts	= $wps_deals_scripts;
+		$this->currency	= $wps_deals_currency;
+		$this->cart		= $wps_deals_cart;
+		$this->price	= $wps_deals_price;
+		$this->message	= $wps_deals_message;		
 	}
 	
 	/**
@@ -272,7 +272,7 @@ class Wps_Deals_Renderer {
 								</thead>';
 					$alternate = '';
 					
-					foreach ($data['deals_details'] as $deal) {	
+					foreach ( $data['deals_details'] as $deal ) {	
 																
 						echo '<tr '.$alternate.'>';
 							
@@ -290,7 +290,6 @@ class Wps_Deals_Renderer {
 								
 						echo '</tr>';
 						$alternate = $alternate ? '' : 'class="alternate"';
-										
 					}
 					
 					do_action('wps_deals_sales_popup_order_row_after',$data['ID']);
@@ -306,6 +305,24 @@ class Wps_Deals_Renderer {
 						</tr>';
 					
 					do_action('wps_deals_sales_popup_order_row_after_subtotal',$data['ID']);
+					
+					//check fees is set in order data and not empty
+					if( isset( $data['fees'] ) && !empty( $data['fees'] ) ) {
+						
+						foreach ( $data['fees'] as $fee_key => $fee_val ) {
+							
+							echo '<tr>
+									<td colspan="2"></td>
+									<td>'.$fee_val['label'].'</td>
+								  	<td>'.$fee_val['display_amount'].'</td>
+								  </tr>';
+							
+						} //end foreach loop
+							
+					} //end if to check there is fees is exist in order or not
+					
+					//do action to add something in backed order popup details after fees row
+					do_action('wps_deals_sales_popup_order_row_after_fees',$data['ID']);
 					
 					echo '<tr class="alternate">
 											

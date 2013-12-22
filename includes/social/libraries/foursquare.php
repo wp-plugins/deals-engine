@@ -15,10 +15,12 @@ if( !class_exists( 'Wps_Deals_Social_Foursquare' ) ) {
 	
 	class Wps_Deals_Social_Foursquare{
 
-		var $foursquare;
+		var $foursquare, $session;
 		
 		public function __construct(){
 			
+			global $wps_deals_session;
+			$this->session = $wps_deals_session;
 		}
 		/**
 		 * Load Foursquare Class
@@ -41,13 +43,12 @@ if( !class_exists( 'Wps_Deals_Social_Foursquare' ) ) {
 				}
 				
 				// Foursquare Object
-				$this->foursquare = new socialmedia_oauth_connect();
-						
-				$this->foursquare->provider		= "Foursquare";
-				$this->foursquare->client_id 	= WPS_DEALS_FS_CLIENT_ID;
-				$this->foursquare->client_secret= WPS_DEALS_FS_CLIENT_SECRET;
-				$this->foursquare->scope		= "";
-				$this->foursquare->redirect_uri	= WPS_DEALS_FS_REDIRECT_URL;
+				$this->foursquare 				 = new socialmedia_oauth_connect();
+				$this->foursquare->provider		 = "Foursquare";
+				$this->foursquare->client_id 	 = WPS_DEALS_FS_CLIENT_ID;
+				$this->foursquare->client_secret = WPS_DEALS_FS_CLIENT_SECRET;
+				$this->foursquare->scope		 = "";
+				$this->foursquare->redirect_uri	 = WPS_DEALS_FS_REDIRECT_URL;
 				$this->foursquare->Initialize();
 				
 				return true;
@@ -79,9 +80,11 @@ if( !class_exists( 'Wps_Deals_Social_Foursquare' ) ) {
 				$this->foursquare->code = $_GET['code'];
 				$user_profile_data = json_decode( $this->foursquare->getUserProfile() );
 				
-				if( isset( $user_profile_data->response ) && isset( $user_profile_data->response->user ) && !empty( $user_profile_data->response->user ) ) {
+				if( isset( $user_profile_data->response ) && isset( $user_profile_data->response->user ) 
+					&& !empty( $user_profile_data->response->user ) ) {
 				
-					$_SESSION['wps_deals_foursquare_user_cache'] = $user_profile_data->response->user;
+					//set user cache data to session
+					$this->session->set( 'wps_deals_foursquare_user_cache', $user_profile_data->response->user );
 				}
 			}
 		}
@@ -114,12 +117,8 @@ if( !class_exists( 'Wps_Deals_Social_Foursquare' ) ) {
 		 */		
 		public function wps_deals_social_get_foursquare_user_data() {
 		
-			$user_profile_data = '';
-			
-			if ( isset($_SESSION['wps_deals_foursquare_user_cache'] ) && !empty( $_SESSION['wps_deals_foursquare_user_cache'] ) ) {
-			
-				$user_profile_data = $_SESSION['wps_deals_foursquare_user_cache'];
-			}
+			$usersession 		= $this->session->get( 'wps_deals_foursquare_user_cache' );
+			$user_profile_data 	= !empty( $usersession ) ? $usersession : '';
 			return $user_profile_data;
 		}
 	}

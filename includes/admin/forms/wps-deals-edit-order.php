@@ -39,7 +39,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		<h2 class="wps-deals-settings-title"><?php _e( 'Edit Sale', 'wpsdeals' );?>
 		
-		<a href="<?php echo $salespagelink;?>" title="<?php _e( 'Go Back to Deals Sales', 'wpsdeals' );?>" class="button-secondary sales-edit-button"><?php _e('Go Back','wpsdeals');?></a></h2>
+		<a href="<?php echo $salespagelink;?>" title="<?php _e( 'Go Back to Deals Sales', 'wpsdeals' );?>" class="add-new-h2 sales-edit-button"><?php _e('Go Back','wpsdeals');?></a></h2>
 		
 <?php
 		

@@ -32,10 +32,10 @@ class Wps_Deals_Sales_List extends WP_List_Table {
 							            'ajax'      => false        //does this table support ajax?
 							        ) );   
 		
-		$this->model = $wps_deals_model;
+		$this->model 	= $wps_deals_model;
 		$this->currency = $wps_deals_currency;
-		$this->render = $wps_deals_render;
-		$this->scripts = $wps_deals_scripts;
+		$this->render 	= $wps_deals_render;
+		$this->scripts 	= $wps_deals_scripts;
 		
 		wp_enqueue_script( 'wps-deals-popup-scripts' );
     }
@@ -53,9 +53,11 @@ class Wps_Deals_Sales_List extends WP_List_Table {
 		//if search is call then pass searching value to function for displaying searching values
 		$args = array();
 		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
 		//sorting as per payment status
 		if(isset($_GET['payment_status'])) {
-			$args['payment_status'] = $_GET['payment_status'];
+			$args['meta_query'] = array( array( 'key' => $prefix . 'payment_status', 'value' => $_GET['payment_status'] ) );
 		}
 		
 		if(isset($_GET['userid'])){
@@ -310,20 +312,22 @@ class Wps_Deals_Sales_List extends WP_List_Table {
 	 */
 	function get_views() {
 		
-		$pendingargs = array( 'payment_status' => '0');
-		$completedargs = array( 'payment_status' => '1');
-		$failedargs = array( 'payment_status' => '3' );
-		$refundedargs = array( 'payment_status' => '2' );
-		$cancelledargs = array( 'payment_status' => '4');
-		$onholdargs = array( 'payment_status' => '5');
+		$prefix = WPS_DEALS_META_PREFIX;
 		
-		$allcount 		= count($this->model->wps_deals_get_sales());
-		$pendingcount 	= count($this->model->wps_deals_get_sales( $pendingargs));
-		$completedcount = count($this->model->wps_deals_get_sales($completedargs));
-		$cancelledcount = count($this->model->wps_deals_get_sales( $cancelledargs));
-		$failedcount 	= count($this->model->wps_deals_get_sales( $failedargs));
-		$refundcount 	= count($this->model->wps_deals_get_sales( $refundedargs ));
-		$onholdcount 	= count($this->model->wps_deals_get_sales( $onholdargs ));
+		$pendingargs 	= array( 'meta_query' => array( array( 'key' => $prefix . 'payment_status', 'value' => '0' ) ) );
+		$completedargs 	= array( 'meta_query' => array( array( 'key' => $prefix . 'payment_status', 'value' => '1' ) ) );
+		$failedargs 	= array( 'meta_query' => array( array( 'key' => $prefix . 'payment_status', 'value' => '3' ) ) );
+		$refundedargs 	= array( 'meta_query' => array( array( 'key' => $prefix . 'payment_status', 'value' => '2' ) ) );
+		$cancelledargs 	= array( 'meta_query' => array( array( 'key' => $prefix . 'payment_status', 'value' => '4' ) ) );
+		$onholdargs 	= array( 'meta_query' => array( array( 'key' => $prefix . 'payment_status', 'value' => '5' ) ) );
+		
+		$allcount 		= count( $this->model->wps_deals_get_sales() );
+		$pendingcount 	= count( $this->model->wps_deals_get_sales( $pendingargs) );
+		$completedcount = count( $this->model->wps_deals_get_sales($completedargs) );
+		$cancelledcount = count( $this->model->wps_deals_get_sales( $cancelledargs) );
+		$failedcount 	= count( $this->model->wps_deals_get_sales( $failedargs) );
+		$refundcount 	= count( $this->model->wps_deals_get_sales( $refundedargs ) );
+		$onholdcount 	= count( $this->model->wps_deals_get_sales( $onholdargs ) );
 		
 		
 		//makr proper class to show this link is viewing currently

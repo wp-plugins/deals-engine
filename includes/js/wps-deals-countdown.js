@@ -784,7 +784,7 @@ function isNotChained(command, otherArgs) {
                     (string) the command to run (optional)
    @return  (jQuery) for chaining further calls or
             (any) getter value */
-$.fn.countdown = function(options) {
+$.fn.wpsdealscountdown = function(options) {
 	var otherArgs = Array.prototype.slice.call(arguments, 1);
 	if (isNotChained(options, otherArgs)) {
 		return plugin['_' + options + 'Plugin'].
@@ -805,6 +805,6 @@ $.fn.countdown = function(options) {
 };
 
 /* Initialise the countdown functionality. */
-var plugin = $.countdown = new Countdown(); // Singleton instance
+var plugin = $.wpsdealscountdown = new Countdown(); // Singleton instance
 
 })(jQuery);

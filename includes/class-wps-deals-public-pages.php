@@ -22,13 +22,13 @@ class Wps_Deals_Public_Pages	{
 				$wps_deals_cart,$wps_deals_currency,$wps_deals_price,
 				$wps_deals_message;
 		
-		$this->model = $wps_deals_model;
-		$this->scripts = $wps_deals_scripts;
-		$this->render = $wps_deals_render;
-		$this->cart = $wps_deals_cart;
-		$this->currency = $wps_deals_currency;
-		$this->price = $wps_deals_price;
-		$this->message = $wps_deals_message;
+		$this->model 	= $wps_deals_model;
+		$this->scripts	= $wps_deals_scripts;
+		$this->render	= $wps_deals_render;
+		$this->cart		= $wps_deals_cart;
+		$this->currency	= $wps_deals_currency;
+		$this->price	= $wps_deals_price;
+		$this->message	= $wps_deals_message;
 		
 	}
 	

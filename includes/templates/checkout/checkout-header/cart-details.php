@@ -31,13 +31,15 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	//currency error
 	$currency = $wps_deals_currency;
 	
+	//get cart details
 	$cartdetails = $cart->get();
 	
 ?>
+
 <div class="wps-deals-cart-details row-fluid">
 	<?php
 		
-		if(!empty($cartdetails)) { //check cart details should not blank
+		if( !empty( $cartdetails ) ) { //check cart details should not blank
 			
 			//current date time
 			$today = wps_deals_current_date('Y-m-d H:i:s');
@@ -45,8 +47,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 			$totalamount = isset($cartdetails['total']) ? $cartdetails['total'] : '';
 			
 			$totalqty = 0;
-			$discount = 0;
-			
 			//do action to add something before cart details
 			do_action( 'wps_deals_cart_table_before', $cartdetails );
 			
@@ -58,18 +58,18 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 							//do action to add something before cart details table header
 							do_action( 'wps_deals_cart_table_header_before' );
 					?>
-					<th class="wps-deals-remove">&nbsp;</th>
-					<th class="wps-deals-name"><?php _e('Product','wpsdeals');?></th>
+					<th width="10%" class="wps-deals-remove">&nbsp;</th>
+					<th width="60%" class="wps-deals-name"><?php _e('Product','wpsdeals');?></th>
 					<?php 
 							//do action to add something after product head
 							do_action( 'wps_deals_cart_table_header_product_after' );
 					?>
-					<th class="wps-deals-quantity"><?php _e('QTY','wpsdeals');?></th>
+					<th width="10%" class="wps-deals-quantity"><?php _e('QTY','wpsdeals');?></th>
 					<?php 
 							//do action to add something after qunatity
 							do_action( 'wps_deals_cart_table_header_qty_after' );
 					?>
-					<th class="wps-deals-subtotal"><?php _e('Price','wpsdeals');?></th>
+					<th width="20%" class="wps-deals-subtotal"><?php _e('Price','wpsdeals');?></th>
 					<?php 
 							//do action to add something after cart details table header 
 							do_action( 'wps_deals_cart_table_header_after' );
@@ -84,7 +84,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 				//do action to add before table content
 				do_action( 'wps_deals_cart_table_content_before', $cartdetails );
 				
-					foreach ($cartdetails['products'] as $item)	 {
+					foreach ( $cartdetails['products'] as $item )	 {
 									
 						$error = '';
 						$dealname = get_the_title($item['dealid']);
@@ -94,7 +94,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 						
 							$quantity = $item['quantity'];
 						
-						$totalqty =	($totalqty + $quantity);
+						$totalqty =	( $totalqty + $quantity );
 						
 						//get the value of quantity availablity of stock
 						$available = get_post_meta($item['dealid'],$prefix.'avail_total',true);
@@ -105,13 +105,13 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 						//get the value of end date 
 						$startdate = get_post_meta($item['dealid'],$prefix.'start_date',true);
 						
-						if ($enddate < $today) { //check deal end date is greater then current date
+						if ( $enddate < $today ) { //check deal end date is greater then current date
 							$error = __('No longer available.','wpsdeals');
-						}else if ($startdate > $today) { //check deal start date for deal is started or not
+						}else if ( $startdate > $today ) { //check deal start date for deal is started or not
 							$error = __('Not started yet.','wpsdeals');
-						}else if($available != '' && $available < 1) { //check product availablity
+						}else if( $available != '' && $available < 1 ) { //check product availablity
 							$error = __('Out of Stock.','wpsdeals');
-						} else if ($quantity > $available && $available != '') { //check inserted quantity and available 
+						} else if ( $quantity > $available && $available != '' ) { //check inserted quantity and available 
 							$error = sprintf( __('Only %1$s deal(s) are available.', 'wpsdeals' ), $available );
 						}
 			?>
@@ -158,30 +158,43 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 							?>
 						</tr>
 			<?php
-					}
-				
+					} //end foreach to show cart items
+			
 				//do action to add someting before subtotal
 				do_action( 'wps_deals_cart_table_content_subtotal_before', $cartdetails );
 					
-				$cartsubtotal = $cart->show_subtotal();
-				$carttotal = $cart->show_total();
+				$cartsubtotal	= $cart->show_subtotal();
+				$carttotal 		= $cart->show_total();
 			
 				if( $cartsubtotal != $carttotal )	{ //check if cart subtotal and total are not same then show subtotal row
 					?>	
-						
 						<tr class="wps-deals-cart-subtotal-row alternate">
 							<td colspan="3" class="subtotal"><strong><?php echo apply_filters( 'wps_deals_checkout_subtotal_label', __('Sub Total','wpsdeals'), $cartdetails );?></strong></td>
 							<td class="wps-deals-cart-item-qty wps-deals-subtotal">
-							<?php 
-									//apply filter to modify cart subtotal on checkout page
-									$cartsubtotal = apply_filters( 'wps_deals_checkout_subtotal', $cartsubtotal, $cartdetails );
-									$displaysubtotal = apply_filters( 'wps_deals_checkout_subtotal_html', $currency->wps_deals_formatted_value( $cartsubtotal ), $cartdetails );
-									echo $displaysubtotal;
-							?></td>
+								<?php 
+										//apply filter to modify cart subtotal on checkout page
+										$cartsubtotal	 = apply_filters( 'wps_deals_checkout_subtotal', $cartsubtotal, $cartdetails );
+										$displaysubtotal = apply_filters( 'wps_deals_checkout_subtotal_html', $currency->wps_deals_formatted_value( $cartsubtotal ), $cartdetails );
+										echo $displaysubtotal;
+								?>
+							</td>
 						</tr>
 					<?php
 				
 				} //end if
+				
+				//Display Cart Fees Values, both positive and negative fees
+				if( wps_deals_cart_has_fees() ) {  //cart has fees or not
+				
+					foreach( wps_deals_get_cart_fees() as $fee_key => $fee_val ) { 
+					?>
+						<tr id="wps_deals_cart_fee_<?php echo $fee_key; ?>">
+							<td colspan="3"><?php echo $fee_val['label']; ?></td>
+							<td class="wps-deals-subtotal"><?php echo $fee_val['display_amount']; ?></td>
+						</tr>
+					<?php
+					} //endforeach
+				} //endif
 									
 				//do action to add before table after
 				do_action( 'wps_deals_cart_table_content_after', $cartdetails );

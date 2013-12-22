@@ -21,6 +21,8 @@ function wps_deals_report_to_pdf() {
 	
 	if(isset($_POST['wps-deals-sales-report-pdf']) && !empty($_POST['wps-deals-sales-report-pdf'])) { //check post is set or not
 		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
 		require_once 'PDF/class-wps-deals-fpdf.php';
 		require_once 'PDF/class-wps-deals-pdf.php';
 		
@@ -29,7 +31,7 @@ function wps_deals_report_to_pdf() {
 		
 		//sorting as per payment status
 		if(isset($_GET['payment_status'])) {
-			$args['payment_status'] = $_GET['payment_status'];
+			$args['meta_query'] = array( array( 'key' => $prefix . 'payment_status', 'value' => $_GET['payment_status'] ) );
 		}
 		
 		if(isset($_GET['userid'])){
@@ -44,10 +46,10 @@ function wps_deals_report_to_pdf() {
 								array('name' => __('NO.','wpsdeals') 		, 'width' => 13), 
 								array('name' => __('Order ID','wpsdeals') 	, 'width' => 18), 
 								array('name' => __('User Name','wpsdeals') 	, 'width' => 30), //35
-								array('name' => __('User Email','wpsdeals') 	, 'width' => 75), //80
-								array('name' => __('Amount','wpsdeals') 		, 'width' => 25),
+								array('name' => __('User Email','wpsdeals') , 'width' => 75), //80
+								array('name' => __('Amount','wpsdeals') 	, 'width' => 25),
 								array('name' => __('User','wpsdeals') 		, 'width' => 30),
-								array('name' => __('Status','wpsdeals') 		, 'width' => 30),
+								array('name' => __('Status','wpsdeals') 	, 'width' => 30),
 								array('name' => __('Date/Time','wpsdeals') 	, 'width' => 60)
 						));
 		

@@ -76,7 +76,7 @@
 								</th>
 								<td>
 									
-									<input type="text" name="wps_deals_options[tw_icon_url]" id="wps_deals_tw_icon_url" value="<?php echo $model->wps_deals_escape_attr( $wps_deals_options['tw_icon_url'] ); ?>" size="90" />
+									<input type="text" name="wps_deals_options[tw_icon_url]" id="wps_deals_tw_icon_url" value="<?php echo $model->wps_deals_escape_attr( $wps_deals_options['tw_icon_url'] ); ?>" class="wps-deals-img-upload-input" />
 									<input type="button" name="wps_deals_tw_icon_url_btn" id="wps_deals_icon_url" class="button-secondary wps-deals-image-upload" value="<?php _e( 'Upload Image', 'wpsdeals');?>"/> <br />
 									<span class="description"><?php _e( 'If you want to use your own Twitter Icon, upload one here.', 'wpsdeals' ); ?></span>
 									<?php 

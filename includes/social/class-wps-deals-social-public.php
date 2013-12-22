@@ -14,29 +14,31 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Social_Public {
 	
-	var $socialmodel,$model,$cart;
+	var $socialmodel,$model,$cart,$session;
 	var $facebook,$twitter,$linkedin,$yahoo,$foursquare,$windowslive;
 	
 	public function __construct() {
 		
 		global $wps_deals_social_model,$wps_deals_model,
-				$wps_deals_cart,$wps_deals_social_facebook,
-				$wps_deals_social_twitter,$wps_deals_social_google,
-				$wps_deals_social_linkedin,$wps_deals_social_yahoo,
-				$wps_deals_social_foursquare,$wps_deals_social_windowslive;
+				$wps_deals_cart,$wps_deals_session,
+				$wps_deals_social_facebook,$wps_deals_social_twitter,
+				$wps_deals_social_google,$wps_deals_social_linkedin,
+				$wps_deals_social_yahoo,$wps_deals_social_foursquare,
+				$wps_deals_social_windowslive;
 		
-		$this->socialmodel = $wps_deals_social_model;
-		$this->model = $wps_deals_model;
-		$this->cart = $wps_deals_cart;
+		$this->socialmodel	= $wps_deals_social_model;
+		$this->model		= $wps_deals_model;
+		$this->cart			= $wps_deals_cart;
+		$this->session		= $wps_deals_session;
 		
 		//social objects
-		$this->facebook = $wps_deals_social_facebook;
-		$this->twitter = $wps_deals_social_twitter;
-		$this->google = $wps_deals_social_google;
-		$this->linkedin = $wps_deals_social_linkedin;
-		$this->yahoo = $wps_deals_social_yahoo;
-		$this->foursquare = $wps_deals_social_foursquare;
-		$this->windowslive = $wps_deals_social_windowslive;
+		$this->facebook		= $wps_deals_social_facebook;
+		$this->twitter		= $wps_deals_social_twitter;
+		$this->google		= $wps_deals_social_google;
+		$this->linkedin		= $wps_deals_social_linkedin;
+		$this->yahoo		= $wps_deals_social_yahoo;
+		$this->foursquare	= $wps_deals_social_foursquare;
+		$this->windowslive	= $wps_deals_social_windowslive;
 		
 	}
 	
@@ -315,7 +317,8 @@ class Wps_Deals_Social_Public {
 			&& !empty( $socialtype ) && array_key_exists( $socialtype, $allsocialtypes ) ) {
 		
 			//check if session is set and !empty then it will take get_permalink url
-			$redirect_url = isset( $_SESSION['wps_deals_stcd_redirect_url'] ) ? $_SESSION['wps_deals_stcd_redirect_url'] : wps_deals_get_current_page_url();
+			$redirect_url = $this->session->get( 'wps_deals_stcd_redirect_url' );
+			$redirect_url = !empty( $redirect_url ) ? $redirect_url	: wps_deals_get_current_page_url();
 			
 			//get cart details
 			$cartdetails = $this->cart->get();
@@ -349,8 +352,9 @@ class Wps_Deals_Social_Public {
 	  		//and accessing the url then send back user to checkout page
 	  		if( /*empty( $cartdetails ) || */!isset( $data['id'] ) || empty( $data['id'] ) ) {
 	  			
-	  			if( isset( $_SESSION['wps_deals_stcd_redirect_url'] ) ) {
-	  				unset( $_SESSION['wps_deals_stcd_redirect_url'] );
+	  			$redirect_url = $this->session->get( 'wps_deals_stcd_redirect_url' );
+	  			if( !empty( $redirect_url ) ) {
+	  				$this->session->remove( 'wps_deals_stcd_redirect_url' );
 	  			}
 				wp_redirect( $redirect_url );
 				exit;
@@ -388,9 +392,10 @@ class Wps_Deals_Social_Public {
 			  		 		
 			  		 		//create user
 							$usercreated = $this->wps_deals_social_create_user( $data );
-							
-				  			if( isset( $_SESSION['wps_deals_stcd_redirect_url'] ) ) {
-				  				unset( $_SESSION['wps_deals_stcd_redirect_url'] );
+							//check shortcode redirect url is set and not empty then make it blank
+							$redirect_url = $this->session->get( 'wps_deals_stcd_redirect_url' );
+							if( !empty( $redirect_url ) ) {
+				  				$this->session->remove( 'wps_deals_stcd_redirect_url' );
 				  			}
 							wp_redirect( $redirect_url );
 							exit;
@@ -435,9 +440,12 @@ class Wps_Deals_Social_Public {
 					//make user logged in
 					wp_set_auth_cookie( $wpuser->ID, false );
 					
-		  			if( isset( $_SESSION['wps_deals_stcd_redirect_url'] ) ) {
-		  				unset( $_SESSION['wps_deals_stcd_redirect_url'] );
+					//check shortcode redirect url is set and not empty then make it blank
+					$redirect_url = $this->session->get( 'wps_deals_stcd_redirect_url' );
+					if( !empty( $redirect_url ) ) {
+		  				$this->session->remove( 'wps_deals_stcd_redirect_url' );
 		  			}
+		  			
 					wp_redirect( $redirect_url );
 					exit;
 					//send user to checkout page

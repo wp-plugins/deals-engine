@@ -53,8 +53,8 @@ function wps_deals_is_gateway_active($gateway) {
  */
 function wps_deals_insert_payment_data($data=array()) {
 	
-	global $wps_deals_price,$wps_deals_options,
-			$wps_deals_currency,$wps_deals_model,$current_user;
+	global $wps_deals_price,$wps_deals_options,$wps_deals_currency,
+			$wps_deals_model,$current_user,$wps_deals_session;
 	
 	$prefix = WPS_DEALS_META_PREFIX;
 	
@@ -288,7 +288,7 @@ function wps_deals_insert_payment_data($data=array()) {
 		
 		//set order id to session for guest user to show the order details
 		if( !is_user_logged_in() && !empty( $salesid ) ) {
-			$_SESSION['wps_deals_last_ordered_id'] = $salesid;
+			$wps_deals_session->set( 'wps_deals_last_ordered_id', $salesid );
 		}
 		
 	    //do action to do something before payment process

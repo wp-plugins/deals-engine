@@ -3,7 +3,7 @@
 Plugin Name: Social Deals Engine
 Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
 Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
-Version: 1.0.7
+Version: 1.0.8
 Author: WPSocial.com
 Author URI: http://wpsocial.com
 
@@ -32,7 +32,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 global $wpdb;
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '1.0.7' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '1.0.8' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -947,21 +947,6 @@ if ( !function_exists( 'wps_plugins_adminbar' ) ) {
 		));
 	}
 }
-
-/**
- * Start Session
- * 
- * @package Social Deals Engine
- * @since 1.0.0
- */
-
-function wps_deals_start_session() {
-	
-	if( !session_id() ) { 
-		session_start();
-	}
-}
-
 /**
  * Check if current page is edit page.
  *
@@ -984,7 +969,8 @@ function wps_deals_is_edit_page() {
  * 
  */
 
-global	$wps_deals_model,$wps_deals_scripts,$wps_deals_render,
+global	$wps_deals_session,$wps_deals_fees,
+		$wps_deals_model,$wps_deals_scripts,$wps_deals_render,
 		$wps_deals_paypal,$wps_deals_cart,$wps_deals_currency,
 		$wps_deals_price,$wps_deals_codes,$wps_deals_message,
 		$wps_deals_options,$wps_deals_logs,$wps_deals_shortcode,
@@ -999,11 +985,13 @@ global	$wps_deals_model,$wps_deals_scripts,$wps_deals_render,
  * @package Social Deals Engine
  * @since 1.0.0
  * 
- */
-
-
+ **/
 // loads the Misc Functions file
 require_once ( WPS_DEALS_DIR . '/includes/wps-deals-countries-states.php' );
+
+// loads the Misc Functions file
+require_once ( WPS_DEALS_DIR . '/includes/class-wps-deals-session.php' );
+$wps_deals_session = new Wps_Deals_Session();
 
 // loads the Misc Functions file
 require_once ( WPS_DEALS_DIR . '/includes/wps-deals-misc-functions.php' );
@@ -1024,6 +1012,10 @@ $wps_deals_currency = new Wps_Deals_Currencies();
 //Price class handles most of plugin related to price
 include_once( WPS_DEALS_DIR . '/includes/class-wps-deals-price.php' );
 $wps_deals_price = new Wps_Deals_Price();
+
+//Fees Class to handles most of fees related functionalities
+require_once ( WPS_DEALS_DIR . '/includes/class-wps-deals-fees.php' );
+$wps_deals_fees = new Wps_Deals_Fees();
 
 //Model class handles most of functionalities of plugin
 include_once( WPS_DEALS_DIR . '/includes/class-wps-deals-model.php' );
@@ -1132,10 +1124,6 @@ require_once( WPS_DEALS_SOCIAL_DIR .'/wps-deals-social.php');
 //Load Template Hook File
 require_once( WPS_DEALS_DIR . '/includes/wps-deals-template-hooks.php' );
 
-//add action init for starting a session
-add_action( 'init', 'wps_deals_start_session');
-
 //add action to delete log
 add_action( 'delete_post', array( $wps_deals_model,'wps_deals_remove_logs_on_delete' ) );
-
 ?>

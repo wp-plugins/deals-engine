@@ -15,10 +15,13 @@ if( !class_exists( 'Wps_Deals_Social_Google' ) ) {
 	
 	class Wps_Deals_Social_Google {
 		
-		var $google, $googleplus, $googleoauth2, $_google_user_cache;
+		var $google, $googleplus, $googleoauth2, $_google_user_cache, $session;
 		
 		public function __construct(){
 			
+			global $wps_deals_session;
+			
+			$this->session = $wps_deals_session;
 		}
 		
 		/**
@@ -93,11 +96,12 @@ if( !class_exists( 'Wps_Deals_Social_Google' ) ) {
 				//check access token is set or not
 				if ( !empty( $gplus_access_token ) ) {
 				
-					$userdata = $this->googleplus->people->get('me');
-					$useremail = $this->googleoauth2->userinfo->get(); // to get email
+					$userdata 			= $this->googleplus->people->get('me');
+					$useremail			= $this->googleoauth2->userinfo->get(); // to get email
+					$userdata['email']	= $useremail['email'];
 					
-					$_SESSION['wps_deals_google_user_cache'] = $userdata;
-					$_SESSION['wps_deals_google_user_cache']['email'] = $useremail['email'];
+					//set user data to session
+					$this->session->set( 'wps_deals_google_user_cache', $userdata );
 				}
 			
 			}
@@ -112,13 +116,8 @@ if( !class_exists( 'Wps_Deals_Social_Google' ) ) {
 		 */	
 		public function wps_deals_social_get_google_user_data() {
 			
-			$user_profile_data = '';
-			
-			if ( isset($_SESSION['wps_deals_google_user_cache'] ) && !empty( $_SESSION['wps_deals_google_user_cache'] ) ) {
-			
-				$user_profile_data = $_SESSION['wps_deals_google_user_cache'];
-			}
-			
+			$usersession 		= $this->session->get( 'wps_deals_google_user_cache' );
+			$user_profile_data 	= !empty( $usersession ) ? $usersession : '';
 			return $user_profile_data;
 		}
 		

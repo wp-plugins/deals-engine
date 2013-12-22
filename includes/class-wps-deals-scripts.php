@@ -250,7 +250,7 @@ class Wps_Deals_Scripts {
 		$caching = isset( $wps_deals_options['caching'] ) && !empty( $wps_deals_options['caching'] ) ? '1' : '';
 		
 		//generic localize script
-		wp_localize_script( 'wps-deals-front-scripts', 'Wps_Deals', array(  'ajaxurl' 					=>	admin_url('admin-ajax.php'),
+		wp_localize_script( 'wps-deals-front-scripts', 'Wps_Deals', array(  'ajaxurl' 					=>	admin_url( 'admin-ajax.php', ( is_ssl() ? 'https' : 'http' ) ),
 																			'disableguest'				=>	$disableguest,
 																			'cart_email_blank'			=>	__( '<span><strong>ERROR : </strong>Please enter valid email.</span>','wpsdeals' ),
 																			'cart_email_invalid'		=>	__( '<span><strong>ERROR : </strong>Invalid email entered.</span>','wpsdeals' ),
@@ -366,7 +366,7 @@ class Wps_Deals_Scripts {
 		
 		wp_register_script( 'wps-deals-social-front-scripts', WPS_DEALS_SOCIAL_URL . '/js/wps-deals-social-front.js', array( 'jquery' ), null, true );
 		wp_localize_script( 'wps-deals-social-front-scripts', 'WpsDealsSocial', array( 
-																						'ajaxurl'					=>	admin_url('admin-ajax.php'),
+																						'ajaxurl'					=>	admin_url( 'admin-ajax.php', ( is_ssl() ? 'https' : 'http' ) ),
 																						'fberror'					=>	$fberror,
 																						'gperror'					=>	$gperror,
 																						'twerror'					=>	$twerror,

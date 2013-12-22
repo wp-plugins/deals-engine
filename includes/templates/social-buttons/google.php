@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 									type	: "gp"
 								};
 			
-					jQuery.post("<?php echo admin_url('admin-ajax.php');?>", data, function(response) {
+					jQuery.post("<?php echo admin_url( 'admin-ajax.php', ( is_ssl() ? 'https' : 'http' ) );?>", data, function(response) {
 						if(response != "") {
 							//window.location.reload();
 							wps_deals_reload();

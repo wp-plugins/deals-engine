@@ -90,13 +90,10 @@ function wps_deals_process_payment_paypal( $cartdetails, $postdata ) {
 		$paypal->add_field('redirect_cmd', '_cart');
 		$paypal->add_field('upload', count($orderdetails));
 		
-		//do action to add field to paypal form
-		do_action('wps_deals_add_paypal_field',$salesid);
-		
 		$i = 1;
 		
 		//made proper data format for sending into paypal
-		foreach ($orderdetails as $order) {
+		foreach ( $orderdetails as $order ) {
 		
 			$dealid = $order['deal_id'];
 			
@@ -111,14 +108,48 @@ function wps_deals_process_payment_paypal( $cartdetails, $postdata ) {
 			$dealprice = $order['deal_sale_price'];
 			
 			//get deal quantity
-			//$dealqty .= $order['deal_quantity'].',';
 			$dealqty = $order['deal_quantity'];
 			
-			$paypal->add_field('item_name_'.$i, $item_name);
-			$paypal->add_field('amount_'.$i, $dealprice );
-			$paypal->add_field('quantity_'.$i, $dealqty);
+			$paypal->add_field( 'item_name_'.$i, $item_name );
+			$paypal->add_field( 'amount_'.$i, $dealprice );
+			$paypal->add_field( 'quantity_'.$i, $dealqty );
 			$i++;
 		}
+		
+		//do action to add field to paypal form
+		do_action( 'wps_deals_add_paypal_field', $salesid );
+		
+		 //add fee amount to paypal
+       $discounted_amount = 0.00;
+       	//check fees is set or not in order meta
+        if( isset( $orderdetailsall['fees']  ) && !empty( $orderdetailsall['fees'] ) ) {
+       	 	$i = empty( $i ) ? 1 : $i;
+	        foreach( $orderdetailsall['fees'] as $fee_val ) {
+	        	
+	        	//check fees amount is greated then 0
+	        	if( floatval( $fee_val['amount'] ) > '0' ) {
+		        	// this is a positive fee
+		        	$paypal->add_field( 'item_name_'.$i, $fee_val['label'] );
+		        	$paypal->add_field( 'quantity_'.$i, '1' );
+		        	$paypal->add_field( 'amount_'.$i, $fee_val['amount'] );
+		        	$i++;
+				} else {
+					// This is a negative fee (discount)
+					$discounted_amount += abs( $fee_val['amount'] );
+				} //end else
+	        } //end foreach loop
+	    } //end if
+	    
+	    $discount_count = '0';
+	    //check discounted amount should not empty then add discount amount as per fees
+	    if( !empty( $discounted_amount ) ) {
+	    	$discount_count = '1'; //initial discount count
+	    	$paypal->add_field( 'discount_amount_'.$discount_count, $discounted_amount );
+		} //end if to check discount amount
+	    
+	    //do action to add discount field into paypal fields
+		do_action( 'wps_deals_paypal_disocunt_field', $discount_count, $salesid );
+		
 		//empty cart
 	 	wps_deals_empty_cart();
 		// submit the fields to paypal

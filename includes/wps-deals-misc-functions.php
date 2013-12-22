@@ -78,7 +78,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 */
 	function wps_deals_initialize() {
 		
-		global $wps_deals_model,$wps_deals_options;
+		global $wps_deals_options;
 		
 		//facebook app data
 		$fb_app_id = isset( $wps_deals_options['fb_app_id'] ) ? $wps_deals_options['fb_app_id'] : '';
@@ -819,5 +819,95 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		$current_time	= current_time('timestamp');
 		return $current_time;
+	}
+	/**
+	 * Check if cart has fees applied
+	 *
+	 * Handles to check has fees in cart or not
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_cart_has_fees() {
+		
+		global $wps_deals_fees;
+		
+		return $wps_deals_fees->has_fees();
+	}
+	/**
+	 * Get Fees From Cart
+	 *
+	 * Handles to return fees of cart data
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_get_cart_fees() {
+		
+		global $wps_deals_fees;
+		
+		return $wps_deals_fees->get_fees();
+	}
+	/**
+	 * Get Fee From Particular ID From Cart
+	 *
+	 * Handles to return fee from particular ID 
+	 * of cart data
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_get_cart_fee( $id = '' ) {
+		
+		global $wps_deals_fees;
+		
+		return $wps_deals_fees->get_fee( $id );
+	}
+	/**
+	 * Get Total Fees From Cart
+	 *
+	 * Handles to return total fees
+	 * from cart data
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_get_cart_fee_total() {
+		
+		global $wps_deals_fees;
+		
+		return $wps_deals_fees->total();
+	}
+	/**
+	 * Return the fees for the purchase
+	 *
+	 * Handles to return purchase fees from order
+	 * data
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_get_order_fees( $order_data = false ) {
+		
+		if ( ! $order_data ) //when order data is set or not
+			return false;
+	
+		$fees = array();
+		$order_fees = isset( $order_data['fees'] ) ? $order_data['fees'] : false;
+	
+		//check fees is not empty in order data
+		if ( !empty( $order_fees ) ) {
+			//make array to return fees details
+			foreach ( $order_fees as $fee_id => $fee ) {
+				$fees[] = array(
+						'id'     			=> $fee_id,
+						'amount' 			=> $fee['amount'],
+						'display_amount'	=> $fee['display_amount'],
+						'label'  			=> $fee['label']
+					);
+			}
+		}
+	
+		return apply_filters( 'wps_deals_get_order_fees', $fees );
 	}
 ?>

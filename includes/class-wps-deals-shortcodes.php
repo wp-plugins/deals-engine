@@ -13,19 +13,20 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Shortcodes {
 	
-	var $model,$scripts,$render,$cart,$currency,$message;
+	var $model,$scripts,$render,$cart,$currency,$message,$session;
 	
 	function __construct(){
 		
 		global $wps_deals_model,$wps_deals_scripts,$wps_deals_render,$wps_deals_cart,
-				$wps_deals_currency,$wps_deals_message;
+				$wps_deals_currency,$wps_deals_message,$wps_deals_session;
 		
-		$this->model = $wps_deals_model;
-		$this->scripts = $wps_deals_scripts;
-		$this->render = $wps_deals_render;
-		$this->cart = $wps_deals_cart;
+		$this->model	= $wps_deals_model;
+		$this->scripts	= $wps_deals_scripts;
+		$this->render	= $wps_deals_render;
+		$this->cart		= $wps_deals_cart;
 		$this->currency = $wps_deals_currency;
-		$this->message = $wps_deals_message;
+		$this->message	= $wps_deals_message;
+		$this->session	= $wps_deals_session;
 		
 	}
 	
@@ -169,7 +170,7 @@ class Wps_Deals_Shortcodes {
 				$defaulturl = isset( $redirect_url ) && !empty( $redirect_url ) ? $redirect_url : $defaulturl; 
 				
 				//session create for redirect url
-				$_SESSION['wps_deals_stcd_redirect_url'] = $defaulturl;
+				$this->session->set( 'wps_deals_stcd_redirect_url', $defaulturl );
 				
 				ob_start();
 				//do action to add social login buttons
@@ -177,6 +178,7 @@ class Wps_Deals_Shortcodes {
 				$content .= ob_get_clean();
 			}
 		}
+		
 		return $content;
 	}
 	

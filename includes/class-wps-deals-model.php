@@ -40,6 +40,11 @@ class Wps_Deals_Model {
 			$dealsargs['fields'] = $args['fields'];
 		}
 		
+		//return based on meta query
+		if(isset($args['meta_query']) && !empty($args['meta_query'])) {
+			$dealsargs['meta_query'] = $args['meta_query'];
+		}
+		
 		//show how many per page records
 		if(isset($args['posts_per_page']) && !empty($args['posts_per_page'])) {
 			$dealsargs['posts_per_page'] = $args['posts_per_page'];
@@ -104,6 +109,17 @@ class Wps_Deals_Model {
 		
 		$salesargs = array('post_type' => WPS_DEALS_SALES_POST_TYPE, 'post_status' => 'publish');
 		
+		//return only id
+		if(isset($args['fields']) && !empty($args['fields'])) {
+			$salesargs['fields'] = $args['fields'];
+		}
+		
+		//return based on meta query 
+		//this should be passed like array( array( 'key' => $key, 'value' => $value ) )
+		if(isset($args['meta_query']) && !empty($args['meta_query'])) {
+			$salesargs['meta_query'] = $args['meta_query'];
+		}
+		
 		//this is for user is should not zero
 		if(isset($args['author']) && !empty($args['author'])) {
 			$salesargs['author'] = $args['author'];
@@ -115,10 +131,10 @@ class Wps_Deals_Model {
 		}
 		
 		//get payment status wise records
-		if(isset($args['payment_status'])) {
+		/*if(isset($args['payment_status'])) {
 			$metasale1['key'] = $prefix . 'payment_status';
 			$metasale1['value'] = $args['payment_status'];
-		}
+		}*/
 		
 		//show how many per page records
 		if(isset($args['posts_per_page']) && !empty($args['posts_per_page'])) {
@@ -138,10 +154,10 @@ class Wps_Deals_Model {
 		}
 		
 		//show per page records
-		if(isset($args['useremail']) && !empty($args['useremail'])) {
+		/*if(isset($args['useremail']) && !empty($args['useremail'])) {
 			$metasale2['key']	=	$prefix.'payment_user_email';
 			$metasale2['value']	=	$args['useremail'];
-		}
+		}*/
 		
 		//get the data by year
 		if(isset($args['year']) && !empty($args['year'])) {
@@ -167,9 +183,9 @@ class Wps_Deals_Model {
 		$salesargs['orderby'] = 'date';
 		
 		//set meta query parameters
-		if(!empty($metasale1) || !empty($metasale2)) {
-			$salesargs['meta_query'] = array($metasale1,$metasale2);
-		}
+		/*if(!empty($metasale1) || !empty($metasale2)) {
+			$salesargs['meta_query'] = array( $metasale1, $metasale2 );
+		}*/
 		
 		//fire query in to table for retriving data
 		$result = new WP_Query( $salesargs );
@@ -1063,14 +1079,17 @@ class Wps_Deals_Model {
 	 */
 	public function wps_deals_verify_download_link( $dealid, $email, $expire, $file_key, $orderid ) {//$download, 
 	
-		$queryargs = array(	'useremail'			=>	$email,
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		$queryargs = array(	
 							'p'					=>	$orderid,
- 							'post_type'			=>	WPS_DEALS_SALES_POST_TYPE
+ 							'post_type'			=>	WPS_DEALS_SALES_POST_TYPE,
+ 							'meta_query'		=>	array( array( 'key' => $prefix.'payment_user_email', 'value' => $email ) )
 						 );
 						 
 		$salesdata = $this->wps_deals_get_sales( $queryargs );
 		
-		if($salesdata) { //check order is stored or not
+		if( $salesdata ) { //check order is stored or not
 			
 			foreach ( $salesdata as $order ) {
 			
@@ -1310,8 +1329,12 @@ class Wps_Deals_Model {
 	 */
 	public function wps_deals_get_dashboard_sale_count_earning() {
 		
-		$salescount = $this->wps_deals_get_sales( array( 'payment_status' => '1', 'getcount' => '1'	) );
-		$salesdata = $this->wps_deals_get_sales( array(	'payment_status' => '1'	) );
+		$prefix = WPS_DEALS_META_PREFIX;
+		//meta query for payment status
+		$payment_statusargs = array( array( 'key' => $prefix . 'payment_status', 'value' => '1' ) );
+		
+		$salescount = $this->wps_deals_get_sales( array( 'meta_query' => $payment_statusargs, 'getcount' => '1'	) );
+		$salesdata 	= $this->wps_deals_get_sales( array( 'meta_query' => $payment_statusargs ) );
 		
 		$earning = 0;
 		if(!empty($salesdata)) {
@@ -1335,42 +1358,46 @@ class Wps_Deals_Model {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	public function wps_deals_get_sale_count_earning_by_date($day='',$month,$year='',$hour=''){
+	public function wps_deals_get_sale_count_earning_by_date( $day='', $month, $year='', $hour='' ){
 		
-			$args = $argscount = array(	
-										'year'				=>	$year,
-										'monthnum'			=>	$month,
-										'payment_status'	=>	'1'
-									 );
-			
-			if ( !empty( $day ) ) {
-				$args['day'] = $day;
-				$argscount['day'] = $day;
-			}
+		$prefix = WPS_DEALS_META_PREFIX;
+		//meta query for payment status
+		$payment_statusargs = array( array( 'key' => $prefix . 'payment_status', 'value' => '1' ) );
 		
-			if ( !empty( $hour ) ) {
-				$args['hour'] = $hour;
-				$argscount['hour'] = $hour;
-			}
+		$args = $argscount = array(	
+									'year'				=>	$year,
+									'monthnum'			=>	$month,
+									'meta_query'		=>	$payment_statusargs
+								 );
+		
+		if ( !empty( $day ) ) {
+			$args['day'] = $day;
+			$argscount['day'] = $day;
+		}
+	
+		if ( !empty( $hour ) ) {
+			$args['hour'] = $hour;
+			$argscount['hour'] = $hour;
+		}
 
-			//get the data from sales
-			$argscount['getcount'] = '1';
-			$salescount = $this->wps_deals_get_sales( $argscount );
-			$salesdata = $this->wps_deals_get_sales( $args );
-			
-			$earnings = 0;
-			
-			if ( !empty($salesdata) ) { //check sales data
-				
-				foreach ($salesdata as $sale) {
-				
-					//get orderdetails
-					$orderdetails = $this->wps_deals_get_post_meta_ordered($sale['ID']);
-					$earnings = $earnings + $orderdetails['order_total'];
-					
-				}
-			}
+		//get the data from sales
+		$argscount['getcount'] = '1';
+		$salescount	= $this->wps_deals_get_sales( $argscount );
+		$salesdata 	= $this->wps_deals_get_sales( $args );
 		
+		$earnings = 0;
+		
+		if ( !empty($salesdata) ) { //check sales data
+			
+			foreach ($salesdata as $sale) {
+			
+				//get orderdetails
+				$orderdetails = $this->wps_deals_get_post_meta_ordered($sale['ID']);
+				$earnings = $earnings + $orderdetails['order_total'];
+				
+			}
+		}
+	
 		$result = array( 'salescount' => $salescount, 'earnings' =>	$earnings );
 		return $result;
 	}
@@ -1384,9 +1411,13 @@ class Wps_Deals_Model {
 	 */
 	public function wps_deals_get_recent_purchases() {
 		
+		$prefix = WPS_DEALS_META_PREFIX;
+		//meta query for payment status
+		$payment_statusargs = array( array( 'key' => $prefix . 'payment_status', 'value' => '1' ) );
+		
 		$args = array(
 						'posts_per_page'	=>	'5',
-						'payment_status'	=>	'1'
+						'meta_query'		=>	$payment_statusargs
 					);
 		$salesdata = $this->wps_deals_get_sales( $args );			
 		
@@ -1404,7 +1435,7 @@ class Wps_Deals_Model {
 			$payment_status = $this->wps_deals_get_ordered_payment_status($sale['ID']);
 			
 			//ipn data
-			$ipndata = $this->wps_deals_get_ipn_data($sale['ID']);
+			$ipndata = $this->wps_deals_get_ipn_data( $sale['ID'] );
 			$recentdata[$sale['ID']] = array_merge($sale,$orderdetail);
 			$recentdata[$sale['ID']]['userdetails'] = $userdetail;
 			$recentdata[$sale['ID']]['ipndata'] = $ipndata;
@@ -1412,22 +1443,6 @@ class Wps_Deals_Model {
 		}
 		return $recentdata;
 	}
-	/**
-	 * Load payment module for payment gateway
-	 * 
-	 * Handles to load payment module as per selected from end user
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	/*public function wps_deals_payment_gateway_paypal_method($paymentgateway){
-		
-		if(isset($paymentgateway) && $paymentgateway == 'paypal') { //payment gateway module set
-		
-			$paymentgateway = 'Wps_Deals_Payment_Paypal';
-		}
-		return $paymentgateway;
-	}*/
 	/**
 	 * Sales Count & Earning for individual post
 	 * 
@@ -1438,7 +1453,11 @@ class Wps_Deals_Model {
 	 */
 	public function wps_deals_get_monthly_sales_earning($postid) {
 		
-		$salesdata = $this->wps_deals_get_sales( array(	'payment_status' => '1'	) );
+		$prefix = WPS_DEALS_META_PREFIX;
+		//meta query for payment status
+		$payment_statusargs = array( array( 'key' => $prefix . 'payment_status', 'value' => '1' ) );
+		
+		$salesdata = $this->wps_deals_get_sales( array(	'meta_query' => $payment_statusargs	) );
 		$salescount = 0;
 		$earning = 0;
 		
@@ -1496,8 +1515,16 @@ class Wps_Deals_Model {
 		$customers    = $wpdb->get_col( "SELECT DISTINCT meta_value FROM $wpdb->postmeta WHERE 1 = 1
 										AND meta_key = '{$prefix}payment_user_email'");
 		
-		foreach ($customers as $key => $customer) {
-			$salescount = $this->wps_deals_get_sales( array('useremail' => $customer,'payment_status' => '1','getcount' => '1') );
+		foreach ( $customers as $key => $customer ) {
+		
+			//meta query for payment status / user email
+			$meta_query = array(
+									array( 'key' => $prefix . 'payment_user_email', 'value' => $customer ), 
+									array( 'key' => $prefix . 'payment_status', 'value' => '1' ) 
+								);
+			
+			$salescount = $this->wps_deals_get_sales( array( 'meta_query' => $meta_query, 'getcount' => '1' ) );
+			
 			if($salescount > 0) { //check if user has purchase product successfully then return his email
 				$reports_customers[$key] = $customer;
 			} 
@@ -1515,8 +1542,16 @@ class Wps_Deals_Model {
 	 */
 	public function wps_deals_purchase_total_of_user( $customer_email ) {
 		
-		$salesdata = $this->wps_deals_get_sales( array('useremail' => $customer_email,'payment_status' => '1') );
-		$salescount = $this->wps_deals_get_sales( array('useremail' => $customer_email,'payment_status' => '1','getcount' => '1') );
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		//meta query for payment status / user email
+		$meta_query = array( 	
+								array( 'key' => $prefix . 'payment_user_email', 'value' => $customer_email ), 
+								array( 'key' => $prefix . 'payment_status', 'value' => '1' ) 
+							);
+		
+		$salesdata 	= $this->wps_deals_get_sales( array( 'meta_query' => $meta_query ) );
+		$salescount = $this->wps_deals_get_sales( array( 'meta_query' => $meta_query,'getcount' => '1') );
 		$earning = 0;
 		
 		if(!empty($salesdata)) {
@@ -1857,7 +1892,7 @@ class Wps_Deals_Model {
 															type	: "gp"
 														};
 									
-											jQuery.post("'.admin_url('admin-ajax.php').'", data, function(response) {
+											jQuery.post("'.admin_url( 'admin-ajax.php', ( is_ssl() ? 'https' : 'http' ) ).'", data, function(response) {
 												if(response != "") {
 													window.location.reload();
 												}
@@ -1885,7 +1920,15 @@ class Wps_Deals_Model {
 	 */
 	public function wps_deals_verified_owner( $useremail, $dealid ) { //$userid,
 
-		$args = array( 'payment_status' => '1', 'useremail' => $useremail ); //,
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		//meta query for payment status / user email
+		$meta_query = array( 	
+								array( 'key' => $prefix . 'payment_user_email', 'value' => $useremail ), 
+								array( 'key' => $prefix . 'payment_status', 'value' => '1' ) 
+							);
+		
+		$args = array( 'meta_query' => $meta_query ); //,
 		
 		$verifiedsales = $this->wps_deals_get_sales( $args );
 		

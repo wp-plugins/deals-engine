@@ -96,21 +96,28 @@ class Wps_Deals_Currencies{
 	 * @since 1.0.0
 	 */
 	
-	public function wps_deals_formatted_value($price,$currency='',$discount='') { //,$filterflag=true
+	public function wps_deals_formatted_value( $price, $currency='',$discount='') { //,$filterflag=true
 		
 		global $wpdb;
 		
-		$decimal_places = $this->currencies['cr_decimal_places']; //decimal places
-		$decimal_sep = $this->currencies['cr_decimal_sep']; // decimal seperator
-		$thousand_sep = $this->currencies['cr_thousands_sep']; //thousand seperator
-		$position = $this->currencies['cr_position']; // position
+		$decimal_places = $this->currencies['cr_decimal_places']; 	//decimal places
+		$decimal_sep 	= $this->currencies['cr_decimal_sep']; 		//decimal seperator
+		$thousand_sep 	= $this->currencies['cr_thousands_sep']; 	//thousand seperator
+		$position 		= $this->currencies['cr_position']; 		//position
 		
-		if (empty($currency)) $currency = $this->current_currency;
-		if (empty($price)) $price = 0.00;
+		//check price is negative or positive
+		$isnegative = ( $price < 0 ) ? true : false;
+		if( $isnegative ) {
+			//if price is negative then turn it to positive
+			$price = ( $price * -1 );
+		}
+		
+		if ( empty( $currency ) ) $currency = $this->current_currency;
+		if ( empty( $price ) ) $price = 0.00;
 		
 		$currency_symbol = $this->currencies['cr_symbol'];
 		
-		if(!empty($discount))	{			
+		if( !empty( $discount ) )	{
 			$price = $price - $discount;		
 		}
 		
@@ -126,6 +133,12 @@ class Wps_Deals_Currencies{
  			//if currency position is set after then show it to after currency value
  			$price = $value.' '.$currency_symbol;
  		}
+ 		
+ 		//check if price is negative then append hyphen before price
+ 		if( $isnegative ) {
+			//append minus sign before price
+			$price = '-' . $price;
+		}
 
 		return $price;
 	}
