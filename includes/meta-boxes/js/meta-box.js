@@ -351,6 +351,45 @@ jQuery(document).ready(function(jQuery) {
     //jQuery('.wps-deals-meta-color-iris').wpColorPicker();
   }
   
+  
+	/**
+	 * Add Bundle Field
+	 * 
+	 */
+	jQuery( document ).on( 'click', '.wps-deals-meta-add-bundle', function() {
+		
+		var jQueryfirst = jQuery(this).parent().find('.bundle-deal-advanced:last');
+		jQueryfirst.clone().insertAfter(jQueryfirst).show();
+		
+		jQuery(this).parent().find('.bundle-deal-advanced:last select').removeAttr('id');
+		jQuery(this).parent().find('.bundle-deal-advanced:last select').removeClass('chzn-done');
+		
+		jQuery(this).parent().find('.bundle-deal-advanced:last .chzn-container-single').remove();
+		
+		jQuery(this).parent().find('.bundle-deal-advanced:last select').val('');
+		
+		wpsDealsFancySelect();
+		
+		return false;
+	});
+	
+	/**
+	 * Delete Bundle Field
+	 * 
+	 */
+	jQuery('.wps-deals-delete-bundel').live('click', function() {
+		
+		var row = jQuery(this).parent().parent().parent( 'tr' );
+		var count =	row.find('.bundle-deal-advanced').length;
+		if(count > 1) {
+			jQuery(this).parent('.bundle-deal-advanced').remove();
+		} else {
+			alert( WpsDeals.one_deal_min );
+		}
+		return false;
+	});
+
+	
   /**
    * Add Files.
    *
@@ -755,10 +794,17 @@ function wpsDealsShowAndHide() {
 	
 	jQuery('body').trigger('wps_deals_type_change', deal_type, jQuery('select#wps_deals_type') );
 	
-	if( deal_type == 'affiliate' ) { // check deal type is affiliate
+	if( deal_type == 'bundle' ) { // check deal type is bundle
+		
+		jQuery('.wps-deals-metabox-tabs-div .purchase').show(); // Show Purchase Tab
+		jQuery('.wps-deals-metabox-tabs-div .upload').hide(); // Hide Upload Tab
+		jQuery('.wps-deals-metabox-tabs-div .bundle').show(); // Hide Bundle Tab
+		
+	} else if( deal_type == 'affiliate' ) { // check deal type is affiliate
 		
 		jQuery('.wps-deals-metabox-tabs-div .upload').hide(); // Hide Upload Tab
 		jQuery('.wps-deals-metabox-tabs-div .purchase').hide(); // Hide Purchase Tab
+		jQuery('.wps-deals-metabox-tabs-div .bundle').hide(); // Hide Bundle Tab
 		
 		jQuery('#wps_deals_purchase_link_wrapper').show(); // Show Purchase Link Row
 		jQuery('#wps_deals_add_to_cart_wrapper').show(); // Show Add To Cart Text Row
@@ -772,6 +818,7 @@ function wpsDealsShowAndHide() {
 		
 		jQuery('#metabox-tabs .upload').show(); // Show Upload Tab
 		jQuery('#metabox-tabs .purchase').show(); // Show Upload Tab
+		jQuery('#metabox-tabs .bundle').hide(); // Hide Bundle Tab
 		
 		jQuery('#wps_deals_purchase_link_wrapper').hide(); // Hide Purchase Link Row
 		jQuery('#wps_deals_avail_total_wrapper').show(); // Show Total Availables Deals Row
@@ -806,4 +853,15 @@ function wpsDealsBehaviour() {
 		
 	}
 	
+}
+
+/**
+ * Get Deal Type
+ * @since 2.9.8
+ */
+function wpsDealsGetDealType() {
+	
+	var wps_deals_deal_type = jQuery('#wps_deals_type').val();
+	
+	return wps_deals_deal_type;
 }

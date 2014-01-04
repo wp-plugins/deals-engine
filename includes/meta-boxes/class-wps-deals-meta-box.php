@@ -75,6 +75,8 @@ class Wps_Deals_Meta_Box {
 		
 		$deal_types = apply_filters( 'wps_deals_types', $this->model->wps_deals_get_deal_types() , $deal_stored_type );
 		
+		$get_bundle_deals = $this->model->wps_deals_get_deal_bundles();
+		
 	?>
 		<div class="wps-deals-metabox-tabs-div">
 			
@@ -95,12 +97,14 @@ class Wps_Deals_Meta_Box {
 						</optgroup>
 					</select>
 				</label>
+				
 				<?php do_action('wps_deals_type_after'); ?>
 			</span>
 			
 			<ul class="metabox-tabs" id="metabox-tabs">
 		
 				<li class="active general"><a class="active" href="javascript:void(null);"><?php _e('General','wpsdeals') ?></a></li>
+				<li class="bundle"><a href="javascript:void(null);"><?php _e('Bundle','wpsdeals') ?></a></li>
 				<li class="upload"><a href="javascript:void(null);"><?php _e('Uploads','wpsdeals') ?></a></li>
 				<li class="purchase"><a href="javascript:void(null);"><?php _e('Purchase','wpsdeals') ?></a></li>
 				
@@ -290,6 +294,22 @@ class Wps_Deals_Meta_Box {
 				
 			</div>
 			
+			
+			<div id="bundle_content" class="bundle">
+				<?php 
+				
+					wps_deals_tab_content_begin();
+					
+						do_action('wps_deals_bundle_tab_content_before');
+						
+						wps_deals_add_bundel( array( 'id' => $prefix. 'bundle_deals', 'options' => $get_bundle_deals, 'name'=> __( 'Deals:', 'wpsdeals' ) ) );
+						
+						do_action('wps_deals_bundle_files_after');
+						
+					wps_deals_tab_content_end();		
+				?>
+			</div>
+			
 			<div id="upload_content" class="upload">
 			
 				<?php 
@@ -404,8 +424,15 @@ class Wps_Deals_Meta_Box {
 		// Normal Price
 		update_post_meta( $post_id, $prefix.'normal_price', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'normal_price'] ) );
 		
-		// Deal Price
+		// Deal Sale Price
 		update_post_meta( $post_id, $prefix.'sale_price', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'sale_price'] ) );
+		
+		// Deal Price ( If slae_price is blank then it's take normal_price as price )
+		if( isset($_POST[$prefix.'sale_price'] ) && !empty($_POST[$prefix.'sale_price']) ) {
+			update_post_meta( $post_id, $prefix.'price', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'sale_price'] ) );
+		} else {
+			update_post_meta( $post_id, $prefix.'price', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'normal_price'] ) );
+		}
 		
 		// Increase Price
 		update_post_meta( $post_id, $prefix.'inc_price', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'inc_price'] ) );
@@ -459,6 +486,9 @@ class Wps_Deals_Meta_Box {
 		
 		// File Download Limit
 		update_post_meta( $post_id, $prefix.'download_limit', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'download_limit'] ) );
+		
+		// Deals Bundle 
+		update_post_meta( $post_id, $prefix. 'bundle_deals', $_POST[$prefix. 'bundle_deals'] );
 		
 		// Upload Files
 		update_post_meta( $post_id, $prefix.'upload_files', $_POST[$prefix.'upload_files'] );
@@ -515,15 +545,12 @@ class Wps_Deals_Meta_Box {
 	 */
 	public function add_hooks() {
 		
-		if(wps_deals_is_edit_page()) { // check metabox page
+		add_action( 'add_meta_boxes', array( $this, 'wps_deals_add_meta_box' ) );
+		
+		add_action( 'save_post', array( $this, 'wps_deals_save_meta' ) );
 			
-			add_action( 'add_meta_boxes', array( $this, 'wps_deals_add_meta_box' ) );
-			
-			add_action( 'save_post', array( $this, 'wps_deals_save_meta' ) );
-				
-			// Delete all attachments when delete custom post type.
-			add_action( 'wp_ajax_atm_delete_file', array( $this, 'wps_deals_delete_file' ) );
-		}
+		// Delete all attachments when delete custom post type.
+		add_action( 'wp_ajax_atm_delete_file', array( $this, 'wps_deals_delete_file' ) );
 	}
 }
 ?>

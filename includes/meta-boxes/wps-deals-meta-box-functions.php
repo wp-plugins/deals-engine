@@ -526,6 +526,71 @@ function wps_deals_add_wysiwyg( $args ) {
 }
 
 /**
+ * Show Bundel Deal Field.
+ * 
+ * @param string $field 
+ * @param string $meta 
+ * @since 1.0
+ * @access public
+ */
+function wps_deals_add_bundel( $args, $echo = true ) {
+	
+	$html = '';
+	
+	$new_field = array( 'type' => 'bundelfield', 'name' => __('Bundle Field','wpsdeals'), 'class' => '' );
+	$field = array_merge( $new_field, $args );
+	
+	$meta = wps_deals_meta_value( $field );
+	
+	$html .= wps_deals_show_field_begin( $field );
+	
+	if ( ! is_array( $meta ) ) {
+		$meta = (array) $meta;
+	}
+	if( ! empty( $meta ) ) {
+		foreach( ( array )$meta as $metakey => $metaatt ) {
+			
+			if( !empty( $metaatt ) ) {
+				
+				$html .= "<div class='bundle-deal-advanced'>";
+				
+				$html .= "<select class='wps-deals-meta-select {$field['class']} wps-deals-meta-single-select' name='{$field['id']}[]' >";
+				foreach ( $field['options'] as $key => $value ) {
+					$html .= "<option value='{$key}'" . selected( ( $key == $metaatt ), true, false ) . ">{$value}</option>";
+				}
+				$html .= "</select>";
+				
+				$html .= "<a href='javascript:void(0);' class='wps-deals-delete-bundel'><img src='".WPS_DEALS_META_URL."/images/delete-16.png' alt='".__('Delete','wpsdeals')."'/></a>";
+				$html .= "</div>";
+			}
+		}
+	}
+	if( empty( $meta[0] ) ) {
+		
+		$html .= "<div class='bundle-deal-advanced'>";
+		
+		$html .= "<select class='wps-deals-meta-select {$field['class']} wps-deals-meta-single-select' name='{$field['id']}[]' id='{$field['id']}' >";
+		foreach ( $field['options'] as $key => $value ) {
+			$html .= "<option value='{$key}'" . selected( in_array( $key, $meta ), true, false ) . ">{$value}</option>";
+		}
+		$html .= "</select>";
+		
+		$html .= "<a href='javascript:void(0);' class='wps-deals-delete-bundel'><img src='".WPS_DEALS_META_URL."/images/delete-16.png' alt='".__('Delete','wpsdeals')."'/></a>";
+		$html .= "</div>";
+	}
+	
+	$html .= "<a class='wps-deals-meta-add-bundle button' href='javascript:void(0);'>" . __( 'Add New', 'wpsdeals' ) . "</a>";
+	
+	$html .= wps_deals_show_field_end( $field );
+	
+	if($echo) {
+		echo $html;
+	} else {
+		return $html;
+	}
+}
+
+/**
  * Show File Field.
  *
  * @param string $field 

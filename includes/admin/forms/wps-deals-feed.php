@@ -21,7 +21,7 @@
 	<div class="metabox-holder">	
 		<div class="meta-box-sortables ui-sortable">
 			<div id="feed" class="postbox">	
-				<div class="handlediv" title="<?php _e( 'Click to toggle', 'wpsseo' ); ?>"><br /></div>
+				<div class="handlediv" title="<?php _e( 'Click to toggle', 'wpsdeals' ); ?>"><br /></div>
 
 					<h3 class="hndle">
 						<span style="vertical-align: top;"><?php esc_attr_e( 'Latest News from WPSocial', 'wpsdeals' ); ?></span>

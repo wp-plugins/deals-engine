@@ -186,12 +186,14 @@ class Wps_Deals_Shopping_Cart {
 	
 	public function remove($id) {
 		
-		if(!empty($id)) {
-			unset($_SESSION['deals-cart']['products'][$id]);
-		}
-		
 		//get cart data
 		$getcart = $this->get();
+		
+		if(!empty($id)) {
+			//unset($_SESSION['deals-cart']['products'][$id]);
+			//get cart data
+			unset($getcart['products'][$id]);
+		}
 		
 		if( empty( $getcart['products'] ) ) {
 			//unset($_SESSION['deals-cart']);

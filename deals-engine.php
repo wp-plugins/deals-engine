@@ -3,7 +3,7 @@
 Plugin Name: Social Deals Engine
 Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
 Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
-Version: 1.0.8
+Version: 1.0.9
 Author: WPSocial.com
 Author URI: http://wpsocial.com
 
@@ -32,7 +32,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 global $wpdb;
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '1.0.8' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '1.0.9' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -365,6 +365,10 @@ function wps_deals_install() {
 		
 	} //check deals options empty or not 
 	
+	// Cron jobs
+	wp_clear_scheduled_hook( 'wps_deals_scheduled_set_price_meta' );
+	wp_schedule_event( time(), 'daily', 'wps_deals_scheduled_set_price_meta' );
+	
 	if( $wps_deals_set_option == '1.0' ) { //check set option for plugin is set 1.0
 		 			
 		$udpopt = false;
@@ -604,9 +608,37 @@ function wps_deals_install() {
 	
 	if( $wps_deals_set_option == '1.0.4' ) {
 		
+		$udpopt = false;
+		
+		//check default deals orderby settings is set or not
+		if( !isset( $wps_deals_options['default_deals_orderby'] ) ) {
+			$default_deals_orderby	= array( 'default_deals_orderby' => 'date-desc' );
+			$wps_deals_options		= array_merge( $wps_deals_options, $default_deals_orderby );
+			$udpopt					= true;
+		}
+		
+		//check enable deals orderby settings
+		if( !isset( $wps_deals_options['enable_deals_orderby'] ) ) {
+			$enable_deals_orderby	= array( 'enable_deals_orderby' => '' );
+			$wps_deals_options		= array_merge( $wps_deals_options, $enable_deals_orderby );
+			$udpopt					= true;
+		}
+		
+		if( $udpopt == true ) { // if any of the settings need to be updated 				
+			update_option( 'wps_deals_options', $wps_deals_options );
+		}
+		
+		//update plugin version to option 
+		update_option( 'wps_deals_set_option', '1.0.5' );
+	} //check plugin set option value is 1.0.4
+	
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+	
+	if( $wps_deals_set_option == '1.0.5' ) {
+		
 		// future code will be done here
 		
-	} //check plugin set option value is 1.0.4
+	} //check plugin set option value is 1.0.5
 }
 
 /**
@@ -806,6 +838,7 @@ function wps_deals_default_settings() {
 								'ending_deals_in'				=>	'5',
 								'upcoming_deals_in'				=>	'5',
 								'deals_per_page'				=>	'10',
+								'default_deals_orderby'			=>	'date-asc',
 								'payment_gateways'				=>	array('paypal'),
 								'paypal_merchant_email'			=>	'',
 								'enable_testmode'				=>	'',
@@ -1067,17 +1100,14 @@ $wps_deals_public->add_hooks();
 require_once( WPS_DEALS_ADMIN . '/class-wps-deals-admin.php' );
 $wps_deals_admin = new Wps_Deals_AdminPages();
 $wps_deals_admin->add_hooks();
+	
+//include the meta functions file for metabox
+require_once ( WPS_DEALS_META_DIR . '/wps-deals-meta-box-functions.php' );
 
-if( wps_deals_is_edit_page() ) {
-	
-	//include the meta functions file for metabox
-	require_once ( WPS_DEALS_META_DIR . '/wps-deals-meta-box-functions.php' );
-	
-	//include the main class file for metabox
-	require_once ( WPS_DEALS_META_DIR . '/class-wps-deals-meta-box.php' );
-	$wps_deals_metabox = new Wps_Deals_Meta_Box();
-	$wps_deals_metabox->add_hooks();
-}
+//include the main class file for metabox
+require_once ( WPS_DEALS_META_DIR . '/class-wps-deals-meta-box.php' );
+$wps_deals_metabox = new Wps_Deals_Meta_Box();
+$wps_deals_metabox->add_hooks();
 
 //Post type to handle custom post type
 require_once( WPS_DEALS_DIR . '/includes/wps-deals-post-types.php' );

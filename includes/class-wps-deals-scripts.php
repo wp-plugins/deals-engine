@@ -326,8 +326,8 @@ class Wps_Deals_Scripts {
 				|| ( !empty( $wps_deals_options['enable_facebook'] ) && WPS_DEALS_FB_APP_ID != '' && WPS_DEALS_FB_APP_SECRET != '' ) ) )  {
 				
 				wp_deregister_script( 'facebook' );
-				wp_register_script( 'facebook', $urlsuffix.'connect.facebook.net/'.$wps_deals_options['fb_language'].'/all.js#xfbml=1', false, null, true );
-				
+				wp_register_script( 'facebook', $urlsuffix.'connect.facebook.net/'.$wps_deals_options['fb_language'].'/all.js#xfbml=1&appId='.WPS_DEALS_FB_APP_ID, false, null, true );
+								
 			}
 			//twitter button
 			if(in_array('twitter',$wps_deals_options['social_buttons'])) {
@@ -382,13 +382,6 @@ class Wps_Deals_Scripts {
 																						'wlerrormsg'				=>	__( 'Please enter Windows Live Client ID & Client Secret in settings page.', 'wpsdeals' ),
 																						'socialtwitterloginredirect'=>	$twitterloginurl
 																					) );
-		
-		//if facebook application id & application secret are not empty
-		if( !empty( $wps_deals_options['enable_facebook'] ) && WPS_DEALS_FB_APP_ID != '' && WPS_DEALS_FB_APP_SECRET != '' ) {
-			
-			wp_register_script( 'wps-deals-social-fbinit', WPS_DEALS_SOCIAL_URL . '/js/wps-deals-social-fbinit.js', array( 'jquery' ), null, true );
-			wp_localize_script( 'wps-deals-social-fbinit', 'WpsDealsFbInit', array( 'app_id' => WPS_DEALS_FB_APP_ID ) );
-		}
 		
 	}
 	
@@ -491,7 +484,8 @@ class Wps_Deals_Scripts {
 		//localize script
 		$newui = $wp_version >= '3.5' ? '1' : '0'; //check wp version for showing media uploader
 		wp_localize_script( 'wps-deals-meta-box','WpsDeals',array(	'new_media_ui'	=>	$newui,
-																	'one_file_min'	=>  __('You must have at least one file.','wpsdeals' )));
+																	'one_file_min'	=>  __('You must have at least one file.','wpsdeals' ),
+																	'one_deal_min'	=>  __('You must have at least one deal.','wpsdeals' )));
 
 		// Enqueue for  image or file uploader
 		wp_enqueue_script( 'media-upload' );
@@ -553,6 +547,20 @@ class Wps_Deals_Scripts {
 	}
 	
 	/**
+	 * Add Faceook Root Div
+	 * 
+	 * Handles to add facebook root
+	 * div to page
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	public function wps_deals_fb_root() {
+	
+		echo '<div id="fb-root"></div>';
+	}
+
+	/**
 	 * Adding Hooks
 	 *
 	 * Adding proper hoocks for the scripts.
@@ -579,17 +587,17 @@ class Wps_Deals_Scripts {
 		add_action( 'admin_print_scripts-index.php', array( $this, 'wps_deal_popup_scritps' ) );
 		add_action( 'admin_head-index.php', array( $this, 'wps_deals_sales_head_scripts' ) );
 		add_action( 'admin_print_styles-index.php', array( $this, 'wps_deals_sales_styles' ) );
+	
+		//add styles for metaboxes
+		add_action( 'admin_print_styles-post.php', array($this, 'wps_deals_metabox_styles') );
+		add_action( 'admin_print_styles-post-new.php', array($this, 'wps_deals_metabox_styles') );
 		
-		if( wps_deals_is_edit_page() ) { // check metabox page
-				
-			//add styles for metaboxes
-			add_action( 'admin_print_styles', array($this, 'wps_deals_metabox_styles') );
-			
-			//add styles for metaboxes
-			add_action( 'admin_print_scripts', array($this, 'wps_deals_metabox_scripts') );
-			
-		}
+		//add styles for metaboxes
+		add_action( 'admin_print_scripts-post.php', array($this, 'wps_deals_metabox_scripts') );
+		add_action( 'admin_print_scripts-post-new.php', array($this, 'wps_deals_metabox_scripts') );
 		
+		 //add facebook root div
+		add_action( 'wp_footer', array( $this, 'wps_deals_fb_root' ) );
 	}
 }
 ?>

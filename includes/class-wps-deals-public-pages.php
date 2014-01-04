@@ -104,6 +104,9 @@ class Wps_Deals_Public_Pages	{
 		
 		$cartdata = $this->cart->getproduct();
 		
+		//do action for change cart via ajax
+		do_action( 'wps_deals_cart_ajax' );
+		
 		if(empty($cartdata)) { //check cart data is empty or not
 			$resultdata['empty'] = '1';
 			$this->cart->cartempty();
@@ -145,6 +148,9 @@ class Wps_Deals_Public_Pages	{
 			//remove item from cart
 			$result = $this->cart->remove($dealid);
 			
+			//do action for change cart via ajax
+			do_action( 'wps_deals_cart_ajax' );
+		   
 			$resultdata['message'] = __('Product removed from cart successfully.','wpsdeals');
 			
 			//get cart details
@@ -854,6 +860,53 @@ class Wps_Deals_Public_Pages	{
 	}
 	
 	/**
+	 * Cron Job For Price Update
+	 * 
+	 * Handle to update price of all deals
+	 * using cron job
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_scheduled_set_price_meta() {
+		
+		global $wps_deals_options, $wpdb;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		$deals = $this->model->wps_deals_get_data();
+		
+		if( !empty($deals) ) {
+			
+			foreach ( $deals as $deal ) {
+				
+				// Check deal is not empty
+				if( isset($deal['ID']) && !empty($deal['ID']) ) {
+					
+					$normal_price	= get_post_meta( $deal['ID'], $prefix.'normal_price', true );
+					$sale_price		= get_post_meta( $deal['ID'], $prefix.'sale_price', true );
+					$price			= get_post_meta( $deal['ID'], $prefix.'price', true );
+					
+					// check the price meta is set or not
+					if( !$price ) {
+						
+						// If sale price not empty then update price as sale price
+						if( !empty( $sale_price ) ) {
+							
+							update_post_meta( $deal['ID'], $prefix.'price', $sale_price );
+							
+						} else if( $normal_price ) {
+							
+							update_post_meta( $deal['ID'], $prefix.'price', $sale_price );
+							
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Adding Hooks
 	 *
 	 * Adding proper hoocks for the public pages.
@@ -928,6 +981,8 @@ class Wps_Deals_Public_Pages	{
 		//add action to login from my account page
 		add_action( 'init', array( $this, 'wps_deals_login' ) );
 		
+		// add action to set price depentds on sale_price or normal_price
+		add_action( 'wps_deals_scheduled_set_price_meta', array( $this, 'wps_deals_scheduled_set_price_meta' ) );
 	}
 }
 ?>

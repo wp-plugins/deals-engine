@@ -47,6 +47,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									'THB' 	=> __('Thai Baht', 'wpsdeals'),
 									'INR' 	=> __('Indian Rupee', 'wpsdeals'),
 									'TRY' 	=> __('Turkish Lira', 'wpsdeals'),
+									'IDR' 	=> __('Indonesia Rupiah (Rp)', 'wpsdeals'),
 									
 						  		 );
 		return $currency_data;

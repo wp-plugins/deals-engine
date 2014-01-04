@@ -92,6 +92,31 @@ class Wps_Deals_Model {
 		
 		return $postslist;
 	}
+	
+	/**
+	 * Get Deal For Bundle
+	 * 
+	 * Handles get all sales deals data
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_get_deal_bundles() {
+		
+		$bundle_deals	= array( '' => __('Select a Deal', 'wpsdeals') );
+		$deals			= $this->wps_deals_get_data();
+		
+		if( !empty($deals) ) {
+			foreach ( $deals as $deal ) {
+				
+				$key = $deal['ID'];
+				$bundle_deals[$key] = $deal['post_title'];
+			}
+		}
+		
+		return $bundle_deals;
+	}
+	
 	/**
 	 * Get Deal Sales Data
 	 * 
@@ -489,12 +514,48 @@ class Wps_Deals_Model {
 					$dealtype = $this->wps_deals_get_deal_type( $product['deal_id'] );
 					
 					if( $dealtype == 'simple' ) { //check deal type is simple
+						
 						//get files list with specific deal id and order id
 						$files = apply_filters( 'wps_deals_email_download_links', $files, $product['deal_id'], $orderid );
+						
+					} else if( $dealtype == 'bundle' ) { //check deal type is bundle
+						
+						$bundled_deals = $this->wps_deals_get_bundled_deals_list( $product['deal_id'] );
+						if( !empty( $bundled_deals ) ) {
+							
+							$files .= '<ul>';
+							
+							foreach ( $bundled_deals as $bundled_deal ) {
+								
+								$files .= "<li>".get_the_title( $bundled_deal );
+								
+								if( !empty( $bundled_deal ) ) {
+									
+									//get files without href
+									$bundle_product['deal_id'] = $bundled_deal;
+									$filesmeta[$bundle_product['deal_id']] =  $this->wps_deals_purchase_download_links( $bundle_product, $userdata, $orderid, false );
+									
+									//get files with href to send to mail in 
+									$bundlefiles = $this->wps_deals_purchase_download_links( array('deal_id' => $bundled_deal), $userdata, $orderid );
+									
+									$bundlefiles = apply_filters( 'wps_deals_email_download_links', $bundlefiles, $bundled_deal, $orderid );
+									
+									$files .= $bundlefiles;
+								}
+								
+								$files .= "</li>";
+							}
+							
+							$files .= "</ul>";
+						}
+						$files = apply_filters( 'wps_deals_email_bundle_download_links', $files, $product['deal_id'], $orderid );
+						
+						//update ordered bundle deals to metabox
+						update_post_meta( $orderid, $prefix.'ordered_bundle_deals', $bundled_deals );
+						
 					} else {
 						$files = false;
 					}
-					
 					
 					if( $files != false ) {
 						$product_details .= $files;
@@ -703,6 +764,23 @@ class Wps_Deals_Model {
 	        's' => (int) $seconds,
 	    );*/
 	    return $since;
+	}
+	
+	/**
+	 * Get Ordered Bundle Deals Meta
+	 * 
+	 * Handles to return ordered bundled deals
+	 * data from meta
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_get_post_bundle_deals_ordered( $id ) {
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		$data = get_post_meta( $id, $prefix.'ordered_bundle_deals', true );
+		return apply_filters( 'wps_deals_ordered_bundle_deals', $data );
 	}
 	
 	/**
@@ -1106,20 +1184,30 @@ class Wps_Deals_Model {
 					
 					foreach ( $dealsdata as $key => $deal ) {
 						
-						$id = isset( $deal ) ? $deal['deal_id'] : $dealsdata;
+						$id			= isset( $deal ) ? $deal['deal_id'] : $dealsdata;
+						//$dealtype	= $this->wps_deals_get_deal_type( $dealid );
+						$dealtype	= $this->wps_deals_get_deal_type( $id );
+						$dealbundle	= $this->wps_deals_get_bundled_deals_list( $id );
 						
-						if ( $id != $dealid )
-							continue;
+						if( $dealtype == 'bundle' ) {
 							
-						$dealtype = $this->wps_deals_get_deal_type( $dealid );
-				
+							if( !in_array( $dealid, $dealbundle ) ) {
+								continue;
+							}
+							
+							$id = $dealid;
+						} else if ( $id != $dealid  ) {
+							
+							continue;
+						}
+						
 						// Check to see if the file download limit has been reached
 						if ( $this->wps_deals_is_file_at_download_limit( $id, $order['ID'], $file_key ) )
 							wp_die( apply_filters( 'wps_deals_download_limit_reached_text', __( '<strong>ERROR : </strong>Sorry but you have hit your download limit for this file.', 'wpsdeals' ) ), __( 'Download Error', 'wpsdeals' ) );
 				
 						// Make sure the link hasn't expired
 						//check product type is simple then only it will be downloaded
-						if ( time() < $expire || ( !isset( $expire ) || empty( $expire ) ) && $dealtype == 'simple' ) { //check link is expired or not if empty expire then allow download life time
+						if ( time() < $expire || ( !isset( $expire ) || empty( $expire ) ) && ( $dealtype == 'simple' || $dealtype == 'bundle' ) ) { //check link is expired or not if empty expire then allow download life time
 							return $order['ID'];
 						}
 						return false;
@@ -1297,6 +1385,59 @@ class Wps_Deals_Model {
 		//update ordered files to metabox
 		$files = get_post_meta( $orderid,$prefix.'ordered_files', true );
 		return apply_filters('wps_deals_ordered_files', $files );
+	}
+	/**
+	 * Get Ordered deals bundle list
+	 * 
+	 * Handles to get deals bundle list for 
+	 * order id
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_get_bundled_deals_list( $dealid ) {
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		//update bundled deals to metabox
+		$deals = get_post_meta( $dealid, $prefix.'bundle_deals', true );
+		return apply_filters('wps_deals_bundled_deals', $deals );
+	}
+	
+	/**
+	 * Get Ordered deals bundle list
+	 * 
+	 * Handles to get deals bundle list for 
+	 * order id on cart detail page
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_get_bundled_deals_cart( $dealid ) {
+		
+		$deal_type		= $this->wps_deals_get_deal_type( $dealid );
+		$bundle_deals	= $this->wps_deals_get_bundled_deals_list( $dealid );
+		
+		$bundle_html = '';
+		
+		if( $deal_type == 'bundle' && !empty( $bundle_deals ) ) {
+			
+			$bundle_html = '<ul>';
+			
+			foreach ( $bundle_deals as $bundle_deal ) {
+				
+				if( !empty($bundle_deal) ) {
+					
+					$dealname = get_the_title( $bundle_deal );
+					$bundle_html .= '<li><a href="'.get_permalink($bundle_deal).'" title="'.$dealname.'">'.$dealname.'</a></li>';
+				}
+			}
+			
+			$bundle_html .= '</ul>';
+		}
+		
+		return $bundle_html;
+		
 	}
 	
 	/**
@@ -2179,7 +2320,8 @@ class Wps_Deals_Model {
 		
 		$deal_types = array(
 								'simple' 	=> __( 'Simple deal', 'wpsdeals' ),
-								'affiliate'	=> __( 'Affiliate deal', 'wpsdeals' )
+								'affiliate'	=> __( 'Affiliate deal', 'wpsdeals' ),
+								'bundle'	=> __( 'Bundle deal', 'wpsdeals' )
 							);
 		return $deal_types;
 	}
@@ -2315,6 +2457,55 @@ class Wps_Deals_Model {
 		
 		wp_mail( $args['user_email'], $subject, $html, $headers );
 		
+	}
+	
+	/**
+	 * Returns an array of arguments for ordering
+	 * deals based on the selected values
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_get_deals_ordering_args( $orderby = '', $order = '' ) {
+		
+		global $wps_deals_options;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		if ( ! $orderby ) {
+			$orderby_value = isset( $_GET['orderby'] ) ? $_GET['orderby'] : apply_filters( 'wps_deals_default_deals_orderby', $wps_deals_options['default_deals_orderby'] );
+			
+			// Get order + orderby args from string
+			$orderby_value	= explode( '-', $orderby_value );
+			$orderby		= esc_attr( $orderby_value[0] );
+			$order			= ! empty( $orderby_value[1] ) ? $orderby_value[1] : $order;
+		}
+		
+		$orderby = strtolower( $orderby );
+		$order   = strtoupper( $order );
+		
+		$args = array();
+		
+		// default - menu_order
+		$args['orderby']  = 'menu_order title';
+		$args['order']    = $order == 'DESC' ? 'DESC' : 'ASC';
+		$args['meta_key'] = '';
+		
+		switch ( $orderby ) {
+			case 'date' :
+				$args['orderby']  = 'date';
+				$args['order']    = $order == 'ASC' ? 'ASC' : 'DESC';
+			break;
+			case 'price' :
+				$args['orderby']  = 'meta_value_num';
+				$args['order']    = $order == 'DESC' ? 'DESC' : 'ASC';
+				//$args['meta_key'] = $prefix . 'normal_price';
+				//$args['meta_key'] = $prefix . 'sale_price';
+				$args['meta_key'] = $prefix . 'price';
+			break;
+		}
+		
+		return apply_filters( 'wps_deals_get_deals_ordering_args_data', $args );
 	}
 	
 }

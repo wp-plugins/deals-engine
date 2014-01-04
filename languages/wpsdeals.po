@@ -44,7 +44,7 @@ msgid " secs "
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-template-functions.php:2698
+#: includes/wps-deals-template-functions.php:2750
 msgid "%s - %s"
 msgstr ""
 
@@ -64,8 +64,13 @@ msgid "&Aacute;vila"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:243
-#: includes/admin/forms/wps-deals-general-settings.php:318
+#: includes/admin/forms/wps-deals-general-settings.php:165
+msgid "--Select A Order--"
+msgstr ""
+
+#. Text in echo
+#: includes/admin/forms/wps-deals-general-settings.php:279
+#: includes/admin/forms/wps-deals-general-settings.php:354
 msgid "--Select A Page--"
 msgstr ""
 
@@ -80,14 +85,14 @@ msgid "--Select Category--"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 #: includes/wps-deals-payment-process.php:1
 msgid "<span><strong>ERROR : </strong>Invalid email entered.</span>"
 msgstr ""
 
 #. Text in function
+#: includes/wps-deals-template-functions.php:2750
 #: includes/class-wps-deals-public-pages.php:1
-#: includes/wps-deals-template-functions.php:2698
 msgid "<span><strong>ERROR : </strong>Invalid key."
 msgstr ""
 
@@ -102,13 +107,13 @@ msgid "<span><strong>ERROR : </strong>Invalid username."
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 #: includes/wps-deals-payment-process.php:1
 msgid "<span><strong>ERROR : </strong>No payment gateway selected.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Password and confirm password must be same.</span>"
 msgstr ""
 
@@ -118,58 +123,58 @@ msgid "<span><strong>ERROR : </strong>Password reset is not allowed for this use
 msgstr ""
 
 #. Text in function
+#: includes/class-wps-deals-scripts.php:181
 #: includes/class-wps-deals-public-pages.php:1
-#: includes/class-wps-deals-scripts.php:174
 msgid "<span><strong>ERROR : </strong>Passwords do not match, please enter your password.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please choose credit card expiry month.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please choose credit card expiry year.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 #: includes/wps-deals-payment-process.php:1
 msgid "<span><strong>ERROR : </strong>Please enter billing address.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 #: includes/wps-deals-payment-process.php:1
 msgid "<span><strong>ERROR : </strong>Please enter billing phone number.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 #: includes/wps-deals-payment-process.php:1
 msgid "<span><strong>ERROR : </strong>Please enter billing postcode.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 #: includes/wps-deals-payment-process.php:1
 msgid "<span><strong>ERROR : </strong>Please enter billing state / county.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 #: includes/wps-deals-payment-process.php:1
 msgid "<span><strong>ERROR : </strong>Please enter billing town / city.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter confirm password.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter correct password.</span>"
 msgstr ""
 
@@ -179,62 +184,62 @@ msgid "<span><strong>ERROR : </strong>Please enter email.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 #: includes/wps-deals-payment-process.php:1
 msgid "<span><strong>ERROR : </strong>Please enter first name.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 #: includes/wps-deals-payment-process.php:1
 msgid "<span><strong>ERROR : </strong>Please enter last name.</span>"
 msgstr ""
 
 #. Text in function
+#: includes/class-wps-deals-scripts.php:181
 #: includes/class-wps-deals-public-pages.php:1
-#: includes/class-wps-deals-scripts.php:174
 msgid "<span><strong>ERROR : </strong>Please enter new password.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter password.</span>"
 msgstr ""
 
 #. Text in function
+#: includes/class-wps-deals-scripts.php:181
 #: includes/class-wps-deals-public-pages.php:1
-#: includes/class-wps-deals-scripts.php:174
 msgid "<span><strong>ERROR : </strong>Please enter re-enter new password.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter user name.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter username and password.</span>"
 msgstr ""
 
 #. Text in function
+#: includes/class-wps-deals-scripts.php:181
 #: includes/class-wps-deals-public-pages.php:1
-#: includes/class-wps-deals-scripts.php:174
 msgid "<span><strong>ERROR : </strong>Please enter username or e-mail address.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter valid credit card name.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter valid credit card number.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter valid credit card security code.</span>"
 msgstr ""
 
@@ -244,12 +249,12 @@ msgid "<span><strong>ERROR : </strong>Please enter valid e-mail address.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter valid email.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter valid username.</span>"
 msgstr ""
 
@@ -259,7 +264,7 @@ msgid "<span><strong>ERROR : </strong>Please enter your password."
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter your password.</span>"
 msgstr ""
 
@@ -269,12 +274,12 @@ msgid "<span><strong>ERROR : </strong>Please enter your username."
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>Please enter your username.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 #: includes/wps-deals-payment-process.php:1
 msgid "<span><strong>ERROR : </strong>Please select billing country.</span>"
 msgstr ""
@@ -285,13 +290,13 @@ msgid "<span><strong>ERROR : </strong>There is no user registered with that emai
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 #: includes/wps-deals-payment-process.php:1
 msgid "<span><strong>ERROR : </strong>You must agree to the terms of purchase.</span>"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "<span><strong>ERROR : </strong>You must register or login to complete your purchase.</span>"
 msgstr ""
 
@@ -426,6 +431,7 @@ msgid "Add A Social Deals Engine Shortcode"
 msgstr ""
 
 #. Text in function
+#: includes/meta-boxes/wps-deals-meta-box-functions.php:1
 #: includes/wps-deals-post-types.php:163
 msgid "Add New"
 msgstr ""
@@ -451,12 +457,12 @@ msgid "Add New Tag"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Add To Cart"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Add To Cart Button Text:"
 msgstr ""
 
@@ -471,8 +477,8 @@ msgid "Add or remove tags"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-template-functions.php:670
 #: deals-engine.php:1
+#: includes/wps-deals-template-functions.php:712
 msgid "Add to Cart"
 msgstr ""
 
@@ -487,9 +493,9 @@ msgid "Address"
 msgstr ""
 
 #. Text in echo
-#: includes/templates/my-account/billing-address.php:28
+#: includes/templates/orders/order-complete-details.php:396
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:328
+#: includes/templates/my-account/billing-address.php:28
 msgid "Address :"
 msgstr ""
 
@@ -524,22 +530,22 @@ msgid "Afrikaans"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:361
+#: includes/admin/forms/wps-deals-general-settings.php:397
 msgid "After - 10$"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-misc-settings.php:144
+#: includes/admin/forms/wps-deals-misc-settings.php:171
 msgid "Agree to Terms Label:"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-misc-settings.php:134
+#: includes/admin/forms/wps-deals-misc-settings.php:161
 msgid "Agree to Terms:"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-misc-settings.php:154
+#: includes/admin/forms/wps-deals-misc-settings.php:181
 msgid "Agreement Content:"
 msgstr ""
 
@@ -710,7 +716,7 @@ msgid "Antigua and Barbuda"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-edit-order.php:265
+#: includes/admin/forms/wps-deals-edit-order.php:266
 msgid "Append Comments to status notification email"
 msgstr ""
 
@@ -815,7 +821,7 @@ msgid "Austria"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:53
+#: includes/admin/forms/wps-deals-about-box.php:50
 msgid "Author:"
 msgstr ""
 
@@ -910,7 +916,7 @@ msgid "Bay of Plenty"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:360
+#: includes/admin/forms/wps-deals-general-settings.php:396
 msgid "Before - $10"
 msgstr ""
 
@@ -1000,10 +1006,10 @@ msgid "Bihar"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-template-functions.php:2698
 #: includes/templates/checkout/checkout-footer/billing-details.php:21
+#: includes/templates/orders/order-complete-details.php:392
+#: includes/wps-deals-template-functions.php:2750
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:324
 msgid "Billing Details"
 msgstr ""
 
@@ -1087,6 +1093,21 @@ msgstr ""
 msgid "Bulgarian"
 msgstr ""
 
+#. Text in echo
+#: includes/meta-boxes/class-wps-deals-meta-box.php:107
+msgid "Bundle"
+msgstr ""
+
+#. Text in function
+#: includes/meta-boxes/wps-deals-meta-box-functions.php:1
+msgid "Bundle Field"
+msgstr ""
+
+#. Text in function
+#: includes/class-wps-deals-model.php:1
+msgid "Bundle deal"
+msgstr ""
+
 #. Text in function
 #: includes/wps-deals-countries-states.php:1
 msgid "Burgos"
@@ -1108,33 +1129,33 @@ msgid "Burundi"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Business Address:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Business Logo:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Business Title:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Business Website URL:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
-#: includes/wps-deals-template-functions.php:670
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
+#: includes/wps-deals-template-functions.php:712
 msgid "Buy Now"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Buy Now Text:"
 msgstr ""
 
@@ -1224,13 +1245,13 @@ msgid "Canadian Dollars (&#36;)"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:224
+#: includes/admin/forms/wps-deals-general-settings.php:260
 msgid "Cancel Page:"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/wps-deals-misc-functions.php:1
+#: includes/class-wps-deals-model.php:1
 msgid "Cancelled"
 msgstr ""
 
@@ -1285,8 +1306,8 @@ msgid "Catalan"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-post-types.php:163
 #: includes/admin/class-wps-deals-admin.php:1
+#: includes/wps-deals-post-types.php:163
 msgid "Categories"
 msgstr ""
 
@@ -1341,20 +1362,20 @@ msgid "Chandigarh"
 msgstr ""
 
 #. Text in function
+#: deals-engine.php:1
 #: includes/templates/my-account/change-password.php:1
 #: includes/admin/forms/wps-deals-admin-popup.php:49
-#: deals-engine.php:1
 msgid "Change Password"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:284
+#: includes/admin/forms/wps-deals-general-settings.php:320
 msgid "Change Password Page:"
 msgstr ""
 
 #. Text in function
-#: includes/admin/forms/wps-deals-plugin-settings.php:61
 #: includes/admin/forms/social/wps-deals-social-login-details.php:146
+#: includes/admin/forms/wps-deals-plugin-settings.php:61
 msgid "Changes Saved."
 msgstr ""
 
@@ -1364,7 +1385,7 @@ msgid "Chanthaburi (&#3592;&#3633;&#3609;&#3607;&#3610;&#3640;&#3619;&#3637;)"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:134
+#: includes/admin/forms/wps-deals-emails-settings.php:137
 msgid "Check this box if you do not want to receive emails when new sales are made."
 msgstr ""
 
@@ -1383,13 +1404,23 @@ msgstr ""
 msgid "Check this box if you want to disable timer below deal content."
 msgstr ""
 
-#. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
-msgid "Check this box if you want to make this deal as a featured deal."
+#. Text in echo
+#: includes/admin/forms/wps-deals-general-settings.php:145
+msgid "Check this box if you want to enable a sorting drop down on the Deals home page."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
+msgid "Check this box if you want to make this deal as a featured deal."
+msgstr ""
+
+#. Text in echo
+#: includes/admin/forms/wps-deals-payment-gateways.php:167
+msgid "Check this box if you want to mark the order as completed."
+msgstr ""
+
+#. Text in function
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Check this box to disable the purchase button after the deals content."
 msgstr ""
 
@@ -1399,7 +1430,7 @@ msgid "Check this box, if you don\\'t want to display the Active, Ending Soon an
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Check this box, if you don\\'t want to show the available and bought box for this deal. This option will only work, if you haven\\'t disabled these boxes within the settings page."
 msgstr ""
 
@@ -1414,7 +1445,7 @@ msgid "Check this box, if your theme does already include the Twitter Bootstrap 
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-misc-settings.php:138
+#: includes/admin/forms/wps-deals-misc-settings.php:165
 msgid "Check this to show an \"Agree To Terms\" check box on the checkout page, which users must agree to before they can complete a purchase."
 msgstr ""
 
@@ -1474,11 +1505,12 @@ msgid "Checkout &rarr;"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:194
+#: includes/admin/forms/wps-deals-general-settings.php:230
 msgid "Checkout Page:"
 msgstr ""
 
 #. Text in function
+#: deals-engine.php:1
 #: includes/wps-deals-misc-functions.php:1
 msgid "Cheque Payment"
 msgstr ""
@@ -1539,7 +1571,7 @@ msgid "Choose Deals:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Choose a start date for this deal."
 msgstr ""
 
@@ -1549,7 +1581,7 @@ msgid "Choose a template and Choose \"Preview Purchase Receipt\" to see the emai
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Choose an end date for this deal."
 msgstr ""
 
@@ -1574,7 +1606,12 @@ msgid "Choose that deals you want to display."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:363
+#: includes/admin/forms/wps-deals-general-settings.php:170
+msgid "Choose the default sorting for the Deals listing page."
+msgstr ""
+
+#. Text in echo
+#: includes/admin/forms/wps-deals-general-settings.php:399
 msgid "Choose the location of the currency sign."
 msgstr ""
 
@@ -1584,12 +1621,12 @@ msgid "Choose the size for the deals. This will then use different sizes for the
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:156
+#: includes/admin/forms/wps-deals-general-settings.php:192
 msgid "Choose which social sharing buttons you want to display."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:350
+#: includes/admin/forms/wps-deals-general-settings.php:386
 msgid "Choose your currency. Note that some payment gateways have currency restrictions."
 msgstr ""
 
@@ -1604,7 +1641,7 @@ msgid "Chumphon (&#3594;&#3640;&#3617;&#3614;&#3619;)"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:143
+#: includes/admin/forms/wps-deals-feed.php:57
 msgid "Circle WPSocial on Google+"
 msgstr ""
 
@@ -1619,20 +1656,22 @@ msgid "Click here to reset your password"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-custom-css-settings.php:20
-#: includes/admin/forms/social/wps-deals-windowslive-settings.php:19
-#: includes/admin/forms/wps-deals-misc-settings.php:20
-#: includes/admin/forms/wps-deals-payment-gateways.php:26
 #: includes/admin/forms/social/wps-deals-gplus-settings.php:19
-#: includes/admin/forms/social/wps-deals-yahoo-settings.php:19
-#: includes/admin/forms/social/wps-deals-linkedin-settings.php:19
-#: includes/admin/forms/social/wps-deals-foursquare-settings.php:19
-#: includes/admin/forms/wps-deals-general-settings.php:22
-#: includes/admin/forms/wps-deals-extension-settings.php:20
-#: includes/admin/forms/social/wps-deals-twiiter-settings.php:19
-#: includes/admin/forms/wps-deals-emails-settings.php:24
+#: includes/admin/forms/wps-deals-feed.php:24
 #: includes/admin/forms/social/wps-deals-general-settings.php:19
+#: includes/admin/forms/social/wps-deals-yahoo-settings.php:19
+#: includes/admin/forms/wps-deals-payment-gateways.php:26
+#: includes/admin/forms/wps-deals-misc-settings.php:20
+#: includes/admin/forms/social/wps-deals-foursquare-settings.php:19
+#: includes/admin/forms/social/wps-deals-windowslive-settings.php:19
+#: includes/admin/forms/social/wps-deals-twiiter-settings.php:19
+#: includes/admin/forms/wps-deals-custom-css-settings.php:20
+#: includes/admin/forms/wps-deals-about-box.php:21
+#: includes/admin/forms/social/wps-deals-linkedin-settings.php:19
+#: includes/admin/forms/wps-deals-extension-settings.php:20
 #: includes/admin/forms/social/wps-deals-facebook-settings.php:19
+#: includes/admin/forms/wps-deals-general-settings.php:22
+#: includes/admin/forms/wps-deals-emails-settings.php:24
 msgid "Click to toggle"
 msgstr ""
 
@@ -1673,13 +1712,14 @@ msgstr ""
 
 #. Text in function
 #: includes/templates/checkout/checkout-footer/billing-details.php:51
+#: includes/templates/checkout/checkout-footer/billing-details.php:54
 msgid "Company Name"
 msgstr ""
 
 #. Text in echo
-#: includes/templates/my-account/billing-address.php:40
+#: includes/templates/orders/order-complete-details.php:408
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:340
+#: includes/templates/my-account/billing-address.php:40
 msgid "Company Name :"
 msgstr ""
 
@@ -1689,8 +1729,8 @@ msgid "Company Name : %s"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/wps-deals-misc-functions.php:1
+#: includes/class-wps-deals-model.php:1
 msgid "Completed"
 msgstr ""
 
@@ -1785,9 +1825,9 @@ msgid "Country"
 msgstr ""
 
 #. Text in echo
-#: includes/templates/my-account/billing-address.php:73
+#: includes/templates/orders/order-complete-details.php:441
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:373
+#: includes/templates/my-account/billing-address.php:73
 msgid "Country :"
 msgstr ""
 
@@ -1802,9 +1842,9 @@ msgid "County / State"
 msgstr ""
 
 #. Text in echo
-#: includes/templates/my-account/billing-address.php:57
+#: includes/templates/orders/order-complete-details.php:425
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:357
+#: includes/templates/my-account/billing-address.php:57
 msgid "County / State :"
 msgstr ""
 
@@ -1844,17 +1884,17 @@ msgid "Cuenca"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:335
+#: includes/admin/forms/wps-deals-general-settings.php:371
 msgid "Currency Settings"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:356
+#: includes/admin/forms/wps-deals-general-settings.php:392
 msgid "Currency Sign Position:"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:341
+#: includes/admin/forms/wps-deals-general-settings.php:377
 msgid "Currency:"
 msgstr ""
 
@@ -1924,7 +1964,7 @@ msgid "Custom field updated."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-payment-gateways.php:143
+#: includes/admin/forms/wps-deals-payment-gateways.php:153
 msgid "Customer Message:"
 msgstr ""
 
@@ -1933,9 +1973,9 @@ msgstr ""
 msgid "Customer Notified"
 msgstr ""
 
-#. Text in echo
-#: includes/templates/home/home-header/ratings.php:23
+#. Text in function
 #: includes/templates/single-deal/single-header/ratings.php:23
+#: includes/templates/home/home-header/ratings.php:23
 msgid "Customer Rating"
 msgstr ""
 
@@ -1999,9 +2039,9 @@ msgstr ""
 msgid "Danish Krone"
 msgstr ""
 
-#. Text in echo
-#: includes/templates/my-account/recent-orders.php:82
+#. Text in function
 #: includes/class-wps-deals-renderer.php:1
+#: includes/templates/my-account/recent-orders.php:82
 msgid "Date"
 msgstr ""
 
@@ -2035,17 +2075,17 @@ msgstr ""
 msgid "Deal By Id"
 msgstr ""
 
-#. Text in echo
-#: includes/templates/home/home-header/header-content.php:28
-#: includes/wps-deals-template-functions.php:670
+#. Text in function
+#: includes/wps-deals-template-functions.php:712
 #: includes/templates/home/home-content/deal-image.php:19
-#: includes/widgets/class-wps-deals-lists.php:1
 #: includes/gateways/functions.php:1
+#: includes/widgets/class-wps-deals-lists.php:1
+#: includes/templates/home/home-header/header-content.php:28
 msgid "Deal Image"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Deal Main Image:"
 msgstr ""
 
@@ -2055,12 +2095,12 @@ msgid "Deal Name"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Deal Page Image:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Deal Price"
 msgstr ""
 
@@ -2070,13 +2110,13 @@ msgid "Deal Sales"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:85
+#: includes/meta-boxes/class-wps-deals-meta-box.php:87
 msgid "Deal Type"
 msgstr ""
 
 #. Text in function
-#: includes/templates/home/home-content/deal-value.php:18
 #: includes/templates/home/home-header/header-value.php:20
+#: includes/templates/home/home-content/deal-value.php:18
 #: includes/widgets/class-wps-deals-lists.php:1
 msgid "Deal Value"
 msgstr ""
@@ -2087,7 +2127,7 @@ msgid "Deal draft updated. <a target=\"_blank\" href=\"%s\">Preview Deal</a>"
 msgstr ""
 
 #. Text in function
-#: includes/templates/single-deal/single-header/add-to-cart/expired.php:18
+#: includes/wps-deals-template-functions.php:712
 msgid "Deal expired"
 msgstr ""
 
@@ -2132,10 +2172,10 @@ msgid "Deal updated. <a href=\"%s\">View Deal</a>"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-post-types.php:163
 #: includes/exports/wps-deals-exports.php:1
-#: includes/admin/reports/wps-deals-reports.php:62
 #: includes/admin/reports/wps-deals-reports-list.php:1
+#: includes/wps-deals-post-types.php:163
+#: includes/admin/reports/wps-deals-reports.php:62
 msgid "Deals"
 msgstr ""
 
@@ -2154,11 +2194,6 @@ msgstr ""
 msgid "Deals Engine - Deals"
 msgstr ""
 
-#. Text in function
-#: includes/widgets/class-wps-deals-latest-products-cart.php:1
-msgid "Deals In Your Cart"
-msgstr ""
-
 #. Text in echo
 #: includes/admin/forms/wps-deals-admin-popup.php:46
 msgid "Deals List By Id"
@@ -2170,7 +2205,7 @@ msgid "Deals Orders"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:179
+#: includes/admin/forms/wps-deals-general-settings.php:215
 msgid "Deals Overview / Home Page:"
 msgstr ""
 
@@ -2195,14 +2230,24 @@ msgstr ""
 msgid "Deals Stats"
 msgstr ""
 
+#. Text in function
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
+msgid "Deals:"
+msgstr ""
+
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:386
+#: includes/admin/forms/wps-deals-general-settings.php:422
 msgid "Decimal Places:"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:377
+#: includes/admin/forms/wps-deals-general-settings.php:413
 msgid "Decimal Separator:"
+msgstr ""
+
+#. Text in echo
+#: includes/admin/forms/wps-deals-general-settings.php:152
+msgid "Default Deals Sorting:"
 msgstr ""
 
 #. Text in echo
@@ -2213,6 +2258,11 @@ msgstr ""
 #. Text in function
 #: includes/class-wps-deals-model.php:1
 msgid "Default Template"
+msgstr ""
+
+#. Text in function
+#: includes/templates/home/home-content/home-orderby.php:22
+msgid "Default sorting"
 msgstr ""
 
 #. Text in function
@@ -2254,12 +2304,12 @@ msgid "Details"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:130
+#: includes/admin/forms/wps-deals-emails-settings.php:133
 msgid "Disable Admin Notifications:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Disable Available & Bought Box:"
 msgstr ""
 
@@ -2274,7 +2324,7 @@ msgid "Disable More Deals:"
 msgstr ""
 
 #. Text in echo
-#: includes/widgets/class-wps-deals-lists.php:263
+#: includes/widgets/class-wps-deals-lists.php:266
 msgid "Disable Price Box"
 msgstr ""
 
@@ -2284,12 +2334,12 @@ msgid "Disable Price Box:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Disable Purchase Button After Content:"
 msgstr ""
 
 #. Text in echo
-#: includes/widgets/class-wps-deals-lists.php:267
+#: includes/widgets/class-wps-deals-lists.php:270
 msgid "Disable Timer"
 msgstr ""
 
@@ -2305,14 +2355,14 @@ msgstr ""
 
 #. Text in function
 #: includes/templates/home/home-header/header-discount.php:20
-#: includes/widgets/class-wps-deals-lists.php:1
-#: includes/templates/home/home-content/deal-discount.php:18
 #: includes/templates/single-deal/single-header/deal-discount.php:
+#: includes/templates/home/home-content/deal-discount.php:18
+#: includes/widgets/class-wps-deals-lists.php:1
 msgid "Discount"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Display on Deals Home Page:"
 msgstr ""
 
@@ -2337,7 +2387,7 @@ msgid "Djibouti"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:62
+#: includes/admin/forms/wps-deals-about-box.php:59
 msgid "Documentation:"
 msgstr ""
 
@@ -2358,9 +2408,9 @@ msgid "Download Error"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/admin/class-wps-deals-admin.php:1
-#: includes/templates/orders/order-complete-details.php:190
+#: includes/templates/orders/order-complete-details.php:192
+#: includes/class-wps-deals-model.php:1
 msgid "Download File %d : "
 msgstr ""
 
@@ -2385,18 +2435,18 @@ msgid "Dutch"
 msgstr ""
 
 #. Text in echo
-#: includes/social/class-wps-deals-social-public.php:455
+#: includes/social/class-wps-deals-social-public.php:463
 msgid "E-mail"
 msgstr ""
 
 #. Text in echo
-#: includes/widgets/wps-deals-dashboard-widgets.php:69
-#: includes/widgets/wps-deals-dashboard-widgets.php:108
+#: includes/admin/reports/wps-deals-reports-earnings.php:222
+#: includes/admin/reports/wps-deals-reports-earnings.php:299
 #: includes/admin/class-wps-deals-admin.php:1
 #: includes/exports/wps-deals-exports.php:1
 #: includes/admin/reports/wps-deals-reports.php:63
-#: includes/admin/reports/wps-deals-reports-earnings.php:222
-#: includes/admin/reports/wps-deals-reports-earnings.php:299
+#: includes/widgets/wps-deals-dashboard-widgets.php:69
+#: includes/widgets/wps-deals-dashboard-widgets.php:108
 msgid "Earnings"
 msgstr ""
 
@@ -2420,14 +2470,14 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#. Text in echo
-#: includes/admin/forms/wps-deals-admin-popup.php:48
+#. Text in function
 #: deals-engine.php:1
+#: includes/admin/forms/wps-deals-admin-popup.php:48
 msgid "Edit Address"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:269
+#: includes/admin/forms/wps-deals-general-settings.php:305
 msgid "Edit Address Page:"
 msgstr ""
 
@@ -2462,9 +2512,9 @@ msgstr ""
 msgid "El Salvador"
 msgstr ""
 
-#. Text in function
+#. Text in echo
+#: includes/templates/orders/order-complete-details.php:88
 #: includes/exports/wps-deals-exports.php:1
-#: includes/templates/orders/order-complete-details.php:86
 msgid "Email"
 msgstr ""
 
@@ -2499,8 +2549,13 @@ msgid "Empty Cart"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-misc-settings.php:113
+#: includes/admin/forms/wps-deals-misc-settings.php:140
 msgid "Enable Billing:"
+msgstr ""
+
+#. Text in echo
+#: includes/admin/forms/wps-deals-general-settings.php:141
+msgid "Enable Deals Sorting:"
 msgstr ""
 
 #. Text in echo
@@ -2549,7 +2604,7 @@ msgid "Enable Yahoo:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "End Date: "
 msgstr ""
 
@@ -2569,7 +2624,7 @@ msgid "English"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Enter a max width for the Google Map popup window. Please enter only a numeric value (eg.50)."
 msgstr ""
 
@@ -2589,8 +2644,8 @@ msgid "Enter a number of days here. If you enter 2 as example, then all deals wh
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-admin-popup.php:120
 #: includes/admin/forms/social/wps-deals-general-settings.php:51
+#: includes/admin/forms/wps-deals-admin-popup.php:120
 msgid "Enter a redirect URL for users after they login with social media. The URL must start with http://"
 msgstr ""
 
@@ -2605,7 +2660,7 @@ msgid "Enter a social login title."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Enter a title about the business. This will appear above the business information related to this deal. Leave it blank if you don\\'t want to use it."
 msgstr ""
 
@@ -2615,32 +2670,32 @@ msgid "Enter social login title."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Enter terms & conditions for this deal here."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Enter the URL of the business which provides this deal. The URL must start with http://"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Enter the adress of the business related to this deal. Leave it blank if you don\\'t want to use it."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Enter the amount of available deals. Leave it empty for unlimited purchases."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Enter the complete address which will be used for the Google Map. Leave it blank if you don\\'t want to show a Google Map."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Enter the normal price of the product/service."
 msgstr ""
 
@@ -2650,13 +2705,18 @@ msgid "Enter the number of deals you want to display."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Enter the special deal price for the product/service."
 msgstr ""
 
 #. Text in echo
 #: includes/admin/forms/wps-deals-misc-settings.php:47
 msgid "Enter the text which will be displayed on the add to cart button."
+msgstr ""
+
+#. Text in echo
+#: includes/admin/forms/wps-deals-payment-gateways.php:147
+msgid "Enter the title which the user sees during checkout."
 msgstr ""
 
 #. Text in echo
@@ -2675,7 +2735,7 @@ msgid "Enter your API username."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:165
+#: includes/admin/forms/wps-deals-general-settings.php:201
 msgid "Enter your Twitter Username."
 msgstr ""
 
@@ -2760,10 +2820,10 @@ msgstr ""
 msgid "Extensions Settings"
 msgstr ""
 
-#. Text in function
-#: includes/wps-deals-misc-functions.php:1
-#: includes/admin/forms/wps-deals-general-settings.php:143
+#. Text in echo
 #: includes/templates/checkout/checkout-content/social/facebook.php:20
+#: includes/wps-deals-misc-functions.php:1
+#: includes/admin/forms/wps-deals-general-settings.php:179
 msgid "Facebook"
 msgstr ""
 
@@ -2793,8 +2853,8 @@ msgid "Facebook Settings"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/wps-deals-misc-functions.php:1
+#: includes/class-wps-deals-model.php:1
 msgid "Failed"
 msgstr ""
 
@@ -2824,7 +2884,7 @@ msgid "Featured"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Featured Deal:"
 msgstr ""
 
@@ -2849,7 +2909,7 @@ msgid "File Download Limit:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "File Download Limit: "
 msgstr ""
 
@@ -2894,8 +2954,13 @@ msgid "Florida"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:144
+#: includes/admin/forms/wps-deals-feed.php:58
 msgid "Follow WPSocial on Twitter"
+msgstr ""
+
+#. Text in echo
+#: includes/admin/forms/wps-deals-misc-settings.php:113
+msgid "Force Secure Checkout:"
 msgstr ""
 
 #. Text in echo
@@ -2996,19 +3061,19 @@ msgstr ""
 
 #. Text in echo
 #: includes/admin/forms/wps-deals-plugin-settings.php:116
-#: includes/meta-boxes/class-wps-deals-meta-box.php:103
+#: includes/meta-boxes/class-wps-deals-meta-box.php:106
 msgid "General"
 msgstr ""
 
 #. Text in echo
+#: includes/admin/forms/social/wps-deals-general-settings.php:23
 #: includes/admin/forms/wps-deals-general-settings.php:26
 #: includes/admin/forms/wps-deals-general-settings.php:36
-#: includes/admin/forms/social/wps-deals-general-settings.php:23
 msgid "General Settings"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-sales.php:535
+#: includes/admin/forms/wps-deals-sales.php:539
 msgid "Generate PDF"
 msgstr ""
 
@@ -3079,7 +3144,7 @@ msgstr ""
 
 #. Text in function
 #: includes/wps-deals-misc-functions.php:1
-#: includes/admin/forms/wps-deals-general-settings.php:143
+#: includes/admin/forms/wps-deals-general-settings.php:179
 #: includes/templates/checkout/checkout-content/social/googleplus.php:20
 msgid "Google+"
 msgstr ""
@@ -3280,17 +3345,17 @@ msgid "Henan / &#27827;&#21335;"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Here you can enter a custom \"Add To Cart\" text, which will be displayed on the button. Leave it empty to use the one from the settings page."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Here you can enter a custom \"Buy Now\" text, which will be displayed on the button."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Here you can enter custom content for the Google Map popup window. If you leave that empty, the address will be displayed."
 msgstr ""
 
@@ -3302,6 +3367,11 @@ msgstr ""
 #. Text in function
 #: includes/wps-deals-countries-states.php:1
 msgid "Heves"
+msgstr ""
+
+#. Text in echo
+#: includes/widgets/class-wps-deals-latest-products-cart.php:134
+msgid "Hide empty cart"
 msgstr ""
 
 #. Text in function
@@ -3390,7 +3460,7 @@ msgid "Hungary"
 msgstr ""
 
 #. Text in echo
-#: includes/templates/orders/order-complete-details.php:124
+#: includes/templates/orders/order-complete-details.php:126
 msgid "IP Address"
 msgstr ""
 
@@ -3415,8 +3485,13 @@ msgid "Idaho"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-misc-settings.php:161
+#: includes/admin/forms/wps-deals-misc-settings.php:188
 msgid "If Agree to Terms is checked, enter the agreement terms here."
+msgstr ""
+
+#. Text in echo
+#: includes/admin/forms/wps-deals-misc-settings.php:134
+msgid "If checked, Un-force HTTPS when leaving the checkout."
 msgstr ""
 
 #. Text in function
@@ -3426,6 +3501,11 @@ msgstr ""
 
 #. Text in echo
 #: includes/admin/forms/wps-deals-misc-settings.php:117
+msgid "If checked, force SSL (HTTPS) on the checkout page (an SSL certificate is required)."
+msgstr ""
+
+#. Text in echo
+#: includes/admin/forms/wps-deals-misc-settings.php:144
 msgid "If checked, the user needs to fill up billing details on the checkout page."
 msgstr ""
 
@@ -3440,7 +3520,7 @@ msgid "If checked, users need an account to be able to purchase your deals."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "If this is an affiliate or CPA deal, then you can enter the URL to that deal here. If an URL is entered, then the product won\\'t be added to the cart."
 msgstr ""
 
@@ -3455,12 +3535,12 @@ msgid "If you already created a Facebook Application for this site, then you can
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "If you want to use the deals as dimesale, then you can enter the amount of sales after which the price should increase here."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "If you want to use the deals as dimesale, then you can enter the price for which it should increase here."
 msgstr ""
 
@@ -3515,17 +3595,17 @@ msgid "Image Field"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "Improper CallBack URL."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Increase Price"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Increase Price Ratio:"
 msgstr ""
 
@@ -3547,6 +3627,11 @@ msgstr ""
 #. Text in function
 #: includes/wps-deals-countries-states.php:1
 msgid "Indonesia"
+msgstr ""
+
+#. Text in function
+#: includes/wps-deals-misc-functions.php:1
+msgid "Indonesia Rupiah (Rp)"
 msgstr ""
 
 #. Text in function
@@ -3875,7 +3960,7 @@ msgid "La Rioja"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-misc-settings.php:148
+#: includes/admin/forms/wps-deals-misc-settings.php:175
 msgid "Label shown next to the \"Agree To Terms\" check box."
 msgstr ""
 
@@ -3914,9 +3999,9 @@ msgstr ""
 msgid "Las Palmas"
 msgstr ""
 
-#. Text in echo
-#: includes/widgets/wps-deals-dashboard-widgets.php:103
+#. Text in function
 #: includes/admin/reports/wps-deals-reports-earnings.php:393
+#: includes/widgets/wps-deals-dashboard-widgets.php:103
 msgid "Last Month"
 msgstr ""
 
@@ -3941,7 +4026,7 @@ msgid "Last Year"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:113
+#: includes/admin/forms/wps-deals-feed.php:27
 msgid "Latest News from WPSocial"
 msgstr ""
 
@@ -3981,7 +4066,7 @@ msgid "Lesotho"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-payment-gateways.php:147
+#: includes/admin/forms/wps-deals-payment-gateways.php:157
 msgid "Let the customer know the payee and where they should be sending the cheque to and that their order won\\'t be processed until you receive it."
 msgstr ""
 
@@ -4006,13 +4091,13 @@ msgid "Liechtenstein"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:142
+#: includes/admin/forms/wps-deals-feed.php:56
 msgid "Like WPSocial on Facebook"
 msgstr ""
 
 #. Text in echo
-#: includes/widgets/class-wps-deals-latest-products-cart.php:117
-#: includes/widgets/class-wps-deals-lists.php:258
+#: includes/widgets/class-wps-deals-latest-products-cart.php:137
+#: includes/widgets/class-wps-deals-lists.php:261
 msgid "Limit:"
 msgstr ""
 
@@ -4021,9 +4106,9 @@ msgstr ""
 msgid "Limpopo"
 msgstr ""
 
-#. Text in echo
-#: includes/templates/checkout/checkout-content/social/linkedin.php:20
+#. Text in function
 #: includes/wps-deals-misc-functions.php:1
+#: includes/templates/checkout/checkout-content/social/linkedin.php:20
 msgid "LinkedIn"
 msgstr ""
 
@@ -4077,9 +4162,9 @@ msgstr ""
 msgid "Log Type"
 msgstr ""
 
-#. Text in echo
-#: includes/templates/my-account/login.php:44
+#. Text in function
 #: includes/templates/checkout/checkout-footer/user-form/registration-form.php:23
+#: includes/templates/my-account/login.php:44
 msgid "Login"
 msgstr ""
 
@@ -4089,8 +4174,8 @@ msgid "Login to your account?"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-template-functions.php:670
 #: deals-engine.php:1
+#: includes/wps-deals-template-functions.php:712
 msgid "Login with Social Media"
 msgstr ""
 
@@ -4105,13 +4190,13 @@ msgid "Logout"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:299
+#: includes/admin/forms/wps-deals-general-settings.php:335
 msgid "Logout Page:"
 msgstr ""
 
-#. Text in echo
-#: includes/admin/reports/wps-deals-reports.php:65
+#. Text in function
 #: includes/class-wps-deals-logging.php:1
+#: includes/admin/reports/wps-deals-reports.php:65
 msgid "Logs"
 msgstr ""
 
@@ -4126,7 +4211,7 @@ msgid "Lost Password"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:314
+#: includes/admin/forms/wps-deals-general-settings.php:350
 msgid "Lost Password Page:"
 msgstr ""
 
@@ -4281,18 +4366,23 @@ msgid "Manitoba"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Map Address:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Map Popup Width:"
 msgstr ""
 
 #. Text in function
 #: includes/wps-deals-countries-states.php:1
 msgid "Maranh&atilde;o"
+msgstr ""
+
+#. Text in echo
+#: includes/admin/forms/wps-deals-payment-gateways.php:163
+msgid "Mark Order As Completed:"
 msgstr ""
 
 #. Text in function
@@ -4491,24 +4581,24 @@ msgstr ""
 msgid "Murcia"
 msgstr ""
 
-#. Text in echo
-#: includes/admin/forms/wps-deals-admin-popup.php:47
+#. Text in function
 #: deals-engine.php:1
+#: includes/admin/forms/wps-deals-admin-popup.php:47
 msgid "My Account"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:254
+#: includes/admin/forms/wps-deals-general-settings.php:290
 msgid "My Account Page:"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-template-functions.php:2698
+#: includes/wps-deals-template-functions.php:2750
 msgid "My Address"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-template-functions.php:2698
+#: includes/wps-deals-template-functions.php:2750
 msgid "My Addresses"
 msgstr ""
 
@@ -4562,10 +4652,10 @@ msgstr ""
 msgid "Nakhon Si Thammarat (&#3609;&#3588;&#3619;&#3624;&#3619;&#3637;&#3608;&#3619;&#3619;&#3617;&#3619;&#3634;&#3594;)"
 msgstr ""
 
-#. Text in function
+#. Text in echo
+#: includes/templates/orders/order-complete-details.php:149
 #: includes/exports/wps-deals-exports.php:1
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:147
 msgid "Name"
 msgstr ""
 
@@ -4775,7 +4865,7 @@ msgid "Niue"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "No"
 msgstr ""
 
@@ -4800,8 +4890,8 @@ msgid "No deal sales found."
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-post-types.php:163
 #: includes/templates/home/home-content/home-no-deals.php:
+#: includes/wps-deals-post-types.php:163
 msgid "No deals found"
 msgstr ""
 
@@ -4816,12 +4906,12 @@ msgid "No download logs found."
 msgstr ""
 
 #. Text in function
-#: includes/templates/orders/order-complete-details.php:190
+#: includes/templates/orders/order-complete-details.php:192
 msgid "No downloadable files found."
 msgstr ""
 
 #. Text in function
-#: includes/admin/wps-deals-about-box.php:122
+#: includes/admin/forms/wps-deals-feed.php:36
 msgid "No items."
 msgstr ""
 
@@ -4876,8 +4966,8 @@ msgid "Norfolk Island"
 msgstr ""
 
 #. Text in function
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 #: includes/admin/class-wps-deals-admin.php:1
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
 msgid "Normal Price"
 msgstr ""
 
@@ -4937,7 +5027,7 @@ msgid "Norwegian Krone"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:65
+#: includes/admin/forms/wps-deals-about-box.php:62
 msgid "Not quite sure how to use the plugin? Visit our Knowledge Base to learn how to use it properly."
 msgstr ""
 
@@ -4952,28 +5042,28 @@ msgid "Notes :"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/admin/class-wps-deals-admin.php:1
+#: includes/class-wps-deals-model.php:1
 msgid "Notes : Purchase Notes"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:120
+#: includes/admin/forms/wps-deals-emails-settings.php:123
 msgid "Notification Email Address:"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:151
+#: includes/admin/forms/wps-deals-emails-settings.php:154
 msgid "Notification Email Body:"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:140
+#: includes/admin/forms/wps-deals-emails-settings.php:143
 msgid "Notification Email Subject:"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-edit-order.php:261
+#: includes/admin/forms/wps-deals-edit-order.php:262
 msgid "Notify Customer"
 msgstr ""
 
@@ -4983,7 +5073,7 @@ msgid "Nova Scotia"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:389
+#: includes/admin/forms/wps-deals-general-settings.php:425
 msgid "Number of decimal places."
 msgstr ""
 
@@ -5023,8 +5113,8 @@ msgid "Oman"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/wps-deals-misc-functions.php:1
+#: includes/class-wps-deals-model.php:1
 msgid "On-Hold"
 msgstr ""
 
@@ -5039,7 +5129,7 @@ msgid "Only %1$s deal(s) are available."
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-template-functions.php:670
+#: includes/wps-deals-template-functions.php:712
 msgid "Only %1$s left at this price"
 msgstr ""
 
@@ -5076,13 +5166,13 @@ msgid "Order Date"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:239
+#: includes/admin/forms/wps-deals-general-settings.php:275
 msgid "Order History Page:"
 msgstr ""
 
-#. Text in function
-#: includes/exports/wps-deals-sales-generate-pdf.php:1
+#. Text in echo
 #: includes/templates/my-account/recent-orders.php:81
+#: includes/exports/wps-deals-sales-generate-pdf.php:1
 #: includes/templates/orders/orders-listing/orders-listing.php:28
 #: includes/templates/orders/orders-listing/orders-listing.php:79
 msgid "Order ID"
@@ -5124,7 +5214,7 @@ msgid "Ourense"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-template-functions.php:670
+#: includes/wps-deals-template-functions.php:712
 msgid "Out of Stock"
 msgstr ""
 
@@ -5139,7 +5229,7 @@ msgid "Page limit for front side order sales page and backend deals sales page. 
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:174
+#: includes/admin/forms/wps-deals-general-settings.php:210
 msgid "Pages Settings"
 msgstr ""
 
@@ -5223,10 +5313,10 @@ msgstr ""
 msgid "Pashto"
 msgstr ""
 
-#. Text in echo
-#: includes/templates/my-account/login.php:35
-#: includes/templates/checkout/checkout-footer/user-form/registration-form.php:46
+#. Text in function
 #: includes/templates/checkout/checkout-footer/user-form/login-form.php:38
+#: includes/templates/checkout/checkout-footer/user-form/registration-form.php:46
+#: includes/templates/my-account/login.php:35
 msgid "Password"
 msgstr ""
 
@@ -5241,15 +5331,15 @@ msgid "Pattani (&#3611;&#3633;&#3605;&#3605;&#3634;&#3609;&#3637;)"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-misc-functions.php:1
 #: deals-engine.php:1
+#: includes/wps-deals-misc-functions.php:1
 msgid "PayPal"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/wps-deals-misc-functions.php:1
 #: includes/class-wps-deals-renderer.php:1
+#: includes/class-wps-deals-model.php:1
 msgid "PayPal Standard"
 msgstr ""
 
@@ -5268,9 +5358,9 @@ msgstr ""
 msgid "Payment Gateways:"
 msgstr ""
 
-#. Text in function
+#. Text in echo
+#: includes/templates/orders/order-complete-details.php:106
 #: includes/templates/checkout/checkout-footer/payment-gateway.php:22
-#: includes/templates/orders/order-complete-details.php:104
 msgid "Payment Method"
 msgstr ""
 
@@ -5289,15 +5379,15 @@ msgstr ""
 msgid "Payment Process"
 msgstr ""
 
-#. Text in function
+#. Text in echo
+#: includes/templates/orders/order-complete-details.php:118
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:116
 msgid "Payment Status"
 msgstr ""
 
-#. Text in echo
-#: includes/admin/forms/wps-deals-edit-order.php:244
+#. Text in function
 #: includes/class-wps-deals-renderer.php:1
+#: includes/admin/forms/wps-deals-edit-order.php:244
 msgid "Payment Status : "
 msgstr ""
 
@@ -5342,8 +5432,8 @@ msgid "Paypal Settings"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/wps-deals-misc-functions.php:1
+#: includes/class-wps-deals-model.php:1
 msgid "Pending"
 msgstr ""
 
@@ -5439,13 +5529,14 @@ msgstr ""
 
 #. Text in function
 #: includes/templates/checkout/checkout-footer/billing-details.php:136
+#: includes/templates/checkout/checkout-footer/billing-details.php:139
 msgid "Phone"
 msgstr ""
 
 #. Text in echo
-#: includes/templates/my-account/billing-address.php:83
+#: includes/templates/orders/order-complete-details.php:449
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:381
+#: includes/templates/my-account/billing-address.php:83
 msgid "Phone :"
 msgstr ""
 
@@ -5486,32 +5577,32 @@ msgid "Please Enter Paypal API User Name,Password and Signature in settings page
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "Please enter Facebook API Key & Secret in settings page."
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "Please enter Google+ Client ID & Secret in settings page."
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "Please enter LinkedIn API Key & Secret in settings page."
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "Please enter Twitter Consumer Key & Secret in settings page."
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "Please enter Windows Live Client ID & Client Secret in settings page."
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "Please enter Yahoo API Consumer Key, Secret & App Id in settings page."
 msgstr ""
 
@@ -5526,7 +5617,7 @@ msgid "Please send your cheque to Store Name, Store Street, Store Town, Store St
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:35
+#: includes/admin/forms/wps-deals-about-box.php:32
 msgid "Plugin:"
 msgstr ""
 
@@ -5561,7 +5652,7 @@ msgid "Popular Tags"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Popup Content:"
 msgstr ""
 
@@ -5606,9 +5697,9 @@ msgid "Preview Purchase Receipt"
 msgstr ""
 
 #. Text in echo
+#: includes/templates/orders/order-complete-details.php:151
 #: includes/templates/checkout/checkout-header/cart-details.php:72
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:149
 msgid "Price"
 msgstr ""
 
@@ -5653,17 +5744,17 @@ msgid "Punjabi"
 msgstr ""
 
 #. Text in echo
-#: includes/meta-boxes/class-wps-deals-meta-box.php:105
+#: includes/meta-boxes/class-wps-deals-meta-box.php:109
 msgid "Purchase"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Purchase Button Behavior:"
 msgstr ""
 
 #. Text in echo
-#: includes/templates/orders/order-complete-details.php:78
+#: includes/templates/orders/order-complete-details.php:80
 msgid "Purchase Date"
 msgstr ""
 
@@ -5673,7 +5764,7 @@ msgid "Purchase Date : "
 msgstr ""
 
 #. Text in echo
-#: includes/templates/orders/order-complete-details.php:67
+#: includes/templates/orders/order-complete-details.php:69
 msgid "Purchase ID"
 msgstr ""
 
@@ -5683,18 +5774,18 @@ msgid "Purchase ID : "
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Purchase Link:"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Purchase Notes:"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-misc-functions.php:1
 #: deals-engine.php:1
+#: includes/wps-deals-misc-functions.php:1
 msgid "Purchase Receipt"
 msgstr ""
 
@@ -5709,7 +5800,7 @@ msgid "Purchase Verification Failed"
 msgstr ""
 
 #. Text in function
-#: includes/templates/orders/order-complete-details.php:139
+#: includes/templates/orders/order-complete-details.php:141
 msgid "Purchased Deals"
 msgstr ""
 
@@ -5734,9 +5825,9 @@ msgstr ""
 msgid "Qinghai / &#38738;&#28023;"
 msgstr ""
 
-#. Text in function
+#. Text in echo
+#: includes/templates/orders/order-complete-details.php:150
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:148
 msgid "Quantity"
 msgstr ""
 
@@ -5791,14 +5882,14 @@ msgid "Recent Purchases"
 msgstr ""
 
 #. Text in function
-#: includes/admin/forms/wps-deals-sales.php:499
+#: includes/admin/forms/wps-deals-sales.php:503
 msgid "Record (s) deleted successfully."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-admin-popup.php:116
 #: includes/admin/forms/social/wps-deals-general-settings.php:47
 #: includes/admin/forms/social/wps-deals-facebook-settings.php:114
+#: includes/admin/forms/wps-deals-admin-popup.php:116
 msgid "Redirect URL:"
 msgstr ""
 
@@ -5808,8 +5899,8 @@ msgid "Redirect to Checkout:"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/wps-deals-misc-functions.php:1
+#: includes/class-wps-deals-model.php:1
 msgid "Refunded"
 msgstr ""
 
@@ -5820,7 +5911,7 @@ msgstr ""
 
 #. Text in function
 #: includes/social/class-wps-deals-social-public.php:1
-#: includes/social/class-wps-deals-social-public.php:462
+#: includes/social/class-wps-deals-social-public.php:470
 msgid "Register"
 msgstr ""
 
@@ -5866,19 +5957,19 @@ msgid "Reset All Settings"
 msgstr ""
 
 #. Text in function
+#: deals-engine.php:1
 #: includes/templates/my-account/change-password.php:69
 #: includes/templates/my-account/lost-password.php:52
-#: deals-engine.php:1
 msgid "Reset Password"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:214
+#: includes/admin/forms/wps-deals-emails-settings.php:217
 msgid "Reset Password Email Body:"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:204
+#: includes/admin/forms/wps-deals-emails-settings.php:207
 msgid "Reset Password Email Subject:"
 msgstr ""
 
@@ -6022,12 +6113,12 @@ msgstr ""
 msgid "Sale Price"
 msgstr ""
 
-#. Text in function
-#: includes/wps-deals-post-types.php:163
+#. Text in echo
+#: includes/admin/reports/wps-deals-reports-earnings.php:154
 #: includes/admin/class-wps-deals-admin.php:1
 #: includes/exports/wps-deals-exports.php:1
+#: includes/wps-deals-post-types.php:163
 #: includes/admin/logs/wps-deals-logs-functions.php:1
-#: includes/admin/reports/wps-deals-reports-earnings.php:154
 msgid "Sales"
 msgstr ""
 
@@ -6047,20 +6138,20 @@ msgid "Samoa"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/admin/class-wps-deals-admin.php:1
+#: includes/class-wps-deals-model.php:1
 msgid "Sample Deal Title"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/admin/class-wps-deals-admin.php:1
+#: includes/class-wps-deals-model.php:1
 msgid "Sample File"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-model.php:1
 #: includes/admin/class-wps-deals-admin.php:1
+#: includes/class-wps-deals-model.php:1
 msgid "Sample Method"
 msgstr ""
 
@@ -6129,26 +6220,27 @@ msgstr ""
 msgid "Save Address"
 msgstr ""
 
-#. Text in echo
-#: includes/admin/forms/social/wps-deals-windowslive-settings.php:107
-#: includes/admin/forms/wps-deals-misc-settings.php:169
-#: includes/admin/forms/wps-deals-payment-gateways.php:155
-#: includes/admin/forms/social/wps-deals-gplus-settings.php:107
-#: includes/admin/forms/social/wps-deals-yahoo-settings.php:117
-#: includes/admin/forms/social/wps-deals-linkedin-settings.php:97
-#: includes/admin/forms/social/wps-deals-foursquare-settings.php:98
-#: includes/admin/forms/wps-deals-general-settings.php:397
-#: includes/admin/forms/wps-deals-extension-settings.php:40
-#: includes/admin/forms/social/wps-deals-twiiter-settings.php:98
-#: includes/admin/forms/wps-deals-emails-settings.php:233
+#. Text in function
 #: includes/admin/forms/social/wps-deals-social-login-details.php:146
 #: includes/admin/forms/social/wps-deals-social-login-details.php:144
+#: includes/admin/forms/social/wps-deals-gplus-settings.php:107
 #: includes/admin/forms/social/wps-deals-general-settings.php:61
+#: includes/admin/forms/social/wps-deals-yahoo-settings.php:117
+#: includes/admin/forms/wps-deals-payment-gateways.php:175
+#: includes/admin/forms/wps-deals-misc-settings.php:196
+#: includes/admin/forms/social/wps-deals-foursquare-settings.php:98
+#: includes/admin/forms/social/wps-deals-windowslive-settings.php:107
+#: includes/admin/forms/social/wps-deals-twiiter-settings.php:98
+#: includes/admin/forms/social/wps-deals-linkedin-settings.php:97
+#: includes/admin/forms/wps-deals-extension-settings.php:40
 #: includes/admin/forms/social/wps-deals-facebook-settings.php:128
+#: includes/admin/forms/wps-deals-general-settings.php:433
+#: includes/admin/forms/wps-deals-emails-settings.php:239
 msgid "Save Changes"
 msgstr ""
 
 #. Text in function
+#: includes/admin/forms/wps-deals-sales.php:553
 #: includes/admin/logs/class-wps-deals-downloads-logs-list.php:437
 msgid "Search"
 msgstr ""
@@ -6234,10 +6326,15 @@ msgstr ""
 msgid "Select Field"
 msgstr ""
 
-#. Text in function
-#: includes/class-wps-deals-public-pages.php:1
+#. Text in echo
 #: includes/templates/checkout/checkout-footer/billing-details.php:103
+#: includes/class-wps-deals-public-pages.php:1
 msgid "Select State / County&hellip;"
+msgstr ""
+
+#. Text in function
+#: includes/class-wps-deals-model.php:1
+msgid "Select a Deal"
 msgstr ""
 
 #. Text in function
@@ -6251,7 +6348,7 @@ msgid "Select a color"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Select if this deal should be displayed on the deals home page."
 msgstr ""
 
@@ -6261,7 +6358,7 @@ msgid "Select the language for Facebook. With this option, you can explicitly te
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Select the purchase button behavior."
 msgstr ""
 
@@ -6323,6 +6420,11 @@ msgstr ""
 #. Text in function
 #: includes/wps-deals-countries-states.php:1
 msgid "Shanxi / &#23665;&#35199;"
+msgstr ""
+
+#. Text in function
+#: includes/widgets/class-wps-deals-latest-products-cart.php:1
+msgid "Shopping Cart"
 msgstr ""
 
 #. Text in echo
@@ -6406,7 +6508,7 @@ msgid "Small"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:140
+#: includes/admin/forms/wps-deals-general-settings.php:176
 msgid "Social Connect Buttons:"
 msgstr ""
 
@@ -6431,10 +6533,10 @@ msgid "Social Deals Checkout"
 msgstr ""
 
 #. Text in function
-#: includes/exports/wps-deals-sales-generate-pdf.php:1
-#: includes/meta-boxes/class-wps-deals-meta-box.php:1
-#: includes/admin/wps-deals-about-box.php:38
 #: deals-engine.php:1
+#: includes/meta-boxes/class-wps-deals-meta-box.php:1
+#: includes/admin/forms/wps-deals-about-box.php:35
+#: includes/exports/wps-deals-sales-generate-pdf.php:1
 msgid "Social Deals Engine"
 msgstr ""
 
@@ -6444,7 +6546,7 @@ msgid "Social Deals Engine - Reports"
 msgstr ""
 
 #. Text in function
-#: includes/admin/forms/wps-deals-sales.php:496
+#: includes/admin/forms/wps-deals-sales.php:500
 msgid "Social Deals Engine - Sales"
 msgstr ""
 
@@ -6459,12 +6561,12 @@ msgid "Social Deals Engine - Social Login"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:65
+#: includes/admin/forms/wps-deals-about-box.php:62
 msgid "Social Deals Engine Docs"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:65
+#: includes/admin/forms/wps-deals-about-box.php:62
 msgid "Social Deals Engine Knowledge Base"
 msgstr ""
 
@@ -6490,14 +6592,19 @@ msgid "Social Login"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-admin-popup.php:107
 #: includes/admin/forms/social/wps-deals-general-settings.php:37
+#: includes/admin/forms/wps-deals-admin-popup.php:107
 msgid "Social Login Title:"
 msgstr ""
 
 #. Text in echo
 #: includes/admin/forms/social/wps-deals-social-login-details.php:194
 msgid "Social Networks Register Percentage "
+msgstr ""
+
+#. Text in function
+#: includes/wps-deals-template-functions.php:712
+msgid "Sold Out"
 msgstr ""
 
 #. Text in function
@@ -6531,8 +6638,62 @@ msgid "Sorry, your order has been cancelled."
 msgstr ""
 
 #. Text in function
+#: includes/templates/home/home-content/home-orderby.php:22
+msgid "Sort by average rating"
+msgstr ""
+
+#. Text in function
+#: includes/templates/home/home-content/home-orderby.php:22
+#: includes/admin/forms/wps-deals-general-settings.php:179
+msgid "Sort by date (asc)"
+msgstr ""
+
+#. Text in function
+#: includes/templates/home/home-content/home-orderby.php:22
+#: includes/admin/forms/wps-deals-general-settings.php:179
+msgid "Sort by date (desc)"
+msgstr ""
+
+#. Text in function
+#: includes/templates/home/home-content/home-orderby.php:22
+msgid "Sort by newness"
+msgstr ""
+
+#. Text in function
+#: includes/templates/home/home-content/home-orderby.php:22
+msgid "Sort by popularity"
+msgstr ""
+
+#. Text in function
+#: includes/templates/home/home-content/home-orderby.php:22
+#: includes/admin/forms/wps-deals-general-settings.php:179
+msgid "Sort by price (asc)"
+msgstr ""
+
+#. Text in function
+#: includes/templates/home/home-content/home-orderby.php:22
+#: includes/admin/forms/wps-deals-general-settings.php:179
+msgid "Sort by price (desc)"
+msgstr ""
+
+#. Text in function
+#: includes/templates/home/home-content/home-orderby.php:22
+msgid "Sort by price: high to low"
+msgstr ""
+
+#. Text in function
+#: includes/templates/home/home-content/home-orderby.php:22
+msgid "Sort by price: low to high"
+msgstr ""
+
+#. Text in function
 #: includes/wps-deals-countries-states.php:1
 msgid "South Africa"
+msgstr ""
+
+#. Text in function
+#: includes/wps-deals-misc-functions.php:1
+msgid "South African Rand (R)"
 msgstr ""
 
 #. Text in function
@@ -6571,7 +6732,7 @@ msgid "Spanish"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Special notes or instructions for this deal. These notes will be added to the purchase receipt."
 msgstr ""
 
@@ -6586,20 +6747,20 @@ msgid "Srpski"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Start Date: "
 msgstr ""
 
-#. Text in function
-#: includes/class-wps-deals-public-pages.php:1
+#. Text in echo
 #: includes/templates/checkout/checkout-footer/billing-details.php:109
+#: includes/class-wps-deals-public-pages.php:1
 msgid "State / County"
 msgstr ""
 
-#. Text in function
-#: includes/exports/wps-deals-sales-generate-pdf.php:1
-#: includes/templates/my-account/recent-orders.php:83
+#. Text in echo
 #: includes/admin/forms/wps-deals-edit-order.php:206
+#: includes/templates/my-account/recent-orders.php:83
+#: includes/exports/wps-deals-sales-generate-pdf.php:1
 #: includes/templates/orders/orders-listing/orders-listing.php:30
 #: includes/templates/orders/orders-listing/orders-listing.php:81
 msgid "Status"
@@ -6610,20 +6771,20 @@ msgstr ""
 msgid "Stock"
 msgstr ""
 
-#. Text in function
-#: includes/templates/checkout/checkout-header/cart-details.php:173
+#. Text in echo
+#: includes/templates/orders/order-complete-details.php:326
+#: includes/templates/checkout/checkout-header/cart-details.php:175
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:277
 msgid "Sub Total"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:146
+#: includes/admin/forms/wps-deals-feed.php:60
 msgid "Subscribe by email"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:145
+#: includes/admin/forms/wps-deals-feed.php:59
 msgid "Subscribe with RSS"
 msgstr ""
 
@@ -6829,12 +6990,12 @@ msgid "Terms & Condition"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Terms & Conditions:"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-misc-settings.php:128
+#: includes/admin/forms/wps-deals-misc-settings.php:155
 msgid "Terms of Agreement Settings"
 msgstr ""
 
@@ -6844,8 +7005,8 @@ msgid "Teruel"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-misc-functions.php:1
 #: deals-engine.php:1
+#: includes/wps-deals-misc-functions.php:1
 msgid "Test Mode"
 msgstr ""
 
@@ -6890,12 +7051,12 @@ msgid "Thailand"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:209
+#: includes/admin/forms/wps-deals-general-settings.php:245
 msgid "Thank You Page:"
 msgstr ""
 
 #. Text in function
-#: includes/templates/orders/order-complete-details.php:391
+#: includes/templates/orders/order-complete-details.php:459
 msgid "Thank you for your purchase! Your order has been completed successfully. You will receive an email from us within a few minutes containing the download link(s) from your purchased deal(s) as well as all the payment information for your records.<br />Sorry, trouble to retrieving order details."
 msgstr ""
 
@@ -6925,7 +7086,7 @@ msgid "The following addresses will be used on the checkout page by default."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "The maximum number of times a buyer can download each file. Leave blank for unlimited."
 msgstr ""
 
@@ -6940,17 +7101,17 @@ msgid "The name printed on the front of your credit card."
 msgstr ""
 
 #. Text in function
-#: includes/admin/forms/wps-deals-sales.php:499
+#: includes/admin/forms/wps-deals-sales.php:503
 msgid "The purchase receipt has been resent."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:380
+#: includes/admin/forms/wps-deals-general-settings.php:416
 msgid "The symbol (usually , or .) to separate decimal points."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:371
+#: includes/admin/forms/wps-deals-general-settings.php:407
 msgid "The symbol (usually , or .) to separate thousands."
 msgstr ""
 
@@ -6986,7 +7147,7 @@ msgid "This deal will start in"
 msgstr ""
 
 #. Text in function
-#: includes/wps-deals-template-functions.php:2698
+#: includes/wps-deals-template-functions.php:2750
 msgid "This feature is not available."
 msgstr ""
 
@@ -6996,67 +7157,67 @@ msgid "This is a secure SSL encrypted payment."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:188
+#: includes/admin/forms/wps-deals-general-settings.php:224
 msgid "This is the Deals Overview / Home Page whcih does show all deals you enabled to show on the Homepage."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:293
+#: includes/admin/forms/wps-deals-general-settings.php:329
 msgid "This is the change password page where buyers can change their account password."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:203
+#: includes/admin/forms/wps-deals-general-settings.php:239
 msgid "This is the checkout page where buyers will complete their purchases."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:278
+#: includes/admin/forms/wps-deals-general-settings.php:314
 msgid "This is the edit address page where buyers can change their addresses for their account."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:124
+#: includes/admin/forms/wps-deals-emails-settings.php:127
 msgid "This is the email address(es) where the admin(s) will be notified of product sales. Separate multiple recipients by a comma."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:308
+#: includes/admin/forms/wps-deals-general-settings.php:344
 msgid "This is the logout page where buyers can logout."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:323
+#: includes/admin/forms/wps-deals-general-settings.php:359
 msgid "This is the lost password page where buyers can get their account password."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:263
+#: includes/admin/forms/wps-deals-general-settings.php:299
 msgid "This is the my account page where buyers will see all details for their account."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:248
+#: includes/admin/forms/wps-deals-general-settings.php:284
 msgid "This is the order history page where buyers will see all details for their purchases."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:218
+#: includes/admin/forms/wps-deals-general-settings.php:254
 msgid "This is the page buyers are sent to after completing their purchases."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:233
+#: includes/admin/forms/wps-deals-general-settings.php:269
 msgid "This is the page buyers are sent to, if their transaction has been cancelled or failed."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:144
+#: includes/admin/forms/wps-deals-emails-settings.php:147
 msgid "This is the subject of the email that will be sent to the admin(s) for record."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:180
+#: includes/admin/forms/wps-deals-emails-settings.php:183
 msgid "This is the subject of the email that will be sent to the buyer when an order will be updated from the backend."
 msgstr ""
 
@@ -7066,12 +7227,12 @@ msgid "This is the subject of the email that will be sent to the buyer."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:208
+#: includes/admin/forms/wps-deals-emails-settings.php:211
 msgid "This is the subject of the email that will be sent to the user when user reset the password."
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:368
+#: includes/admin/forms/wps-deals-general-settings.php:404
 msgid "Thousands Separator:"
 msgstr ""
 
@@ -7096,8 +7257,9 @@ msgid "Timor-Leste"
 msgstr ""
 
 #. Text in echo
-#: includes/widgets/class-wps-deals-latest-products-cart.php:113
-#: includes/widgets/class-wps-deals-lists.php:254
+#: includes/admin/forms/wps-deals-payment-gateways.php:143
+#: includes/widgets/class-wps-deals-latest-products-cart.php:129
+#: includes/widgets/class-wps-deals-lists.php:257
 msgid "Title:"
 msgstr ""
 
@@ -7142,20 +7304,20 @@ msgid "Tonga"
 msgstr ""
 
 #. Text in echo
-#: includes/templates/my-account/recent-orders.php:84
+#: includes/templates/orders/order-complete-details.php:152
+#: includes/templates/orders/order-complete-details.php:353
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:150
-#: includes/templates/orders/order-complete-details.php:285
+#: includes/templates/my-account/recent-orders.php:84
 msgid "Total"
 msgstr ""
 
 #. Text in function
-#: includes/templates/checkout/checkout-header/cart-details.php:197
+#: includes/templates/checkout/checkout-header/cart-details.php:213
 msgid "Total "
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Total Available Deals:"
 msgstr ""
 
@@ -7165,7 +7327,7 @@ msgid "Total Earnings"
 msgstr ""
 
 #. Text in echo
-#: includes/templates/orders/order-complete-details.php:94
+#: includes/templates/orders/order-complete-details.php:96
 msgid "Total Price"
 msgstr ""
 
@@ -7201,9 +7363,9 @@ msgid "Town / City"
 msgstr ""
 
 #. Text in echo
-#: includes/templates/my-account/billing-address.php:49
+#: includes/templates/orders/order-complete-details.php:417
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:349
+#: includes/templates/my-account/billing-address.php:49
 msgid "Town / City :"
 msgstr ""
 
@@ -7277,16 +7439,16 @@ msgstr ""
 msgid "Tuvalu"
 msgstr ""
 
-#. Text in function
-#: includes/class-wps-deals-model.php:1
+#. Text in echo
 #: includes/templates/social-buttons/twitter.php:19
+#: includes/class-wps-deals-model.php:1
 msgid "Tweet"
 msgstr ""
 
 #. Text in echo
 #: includes/templates/checkout/checkout-content/social/twitter.php:20
 #: includes/wps-deals-misc-functions.php:1
-#: includes/admin/forms/wps-deals-general-settings.php:143
+#: includes/admin/forms/wps-deals-general-settings.php:179
 msgid "Twitter"
 msgstr ""
 
@@ -7311,7 +7473,7 @@ msgid "Twitter Settings"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-general-settings.php:162
+#: includes/admin/forms/wps-deals-general-settings.php:198
 msgid "Twitter Username:"
 msgstr ""
 
@@ -7355,6 +7517,11 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
+#. Text in echo
+#: includes/admin/forms/wps-deals-misc-settings.php:130
+msgid "Un-force Secure Checkout:"
+msgstr ""
+
 #. Text in function
 #: includes/wps-deals-countries-states.php:1
 msgid "United Arab Emirates"
@@ -7377,7 +7544,7 @@ msgstr ""
 
 #. Text in echo
 #: includes/admin/class-wps-deals-admin.php:1
-#: includes/wps-deals-template-functions.php:670
+#: includes/wps-deals-template-functions.php:712
 msgid "Unlimited"
 msgstr ""
 
@@ -7403,17 +7570,17 @@ msgstr ""
 
 #. Text in function
 #: includes/admin/forms/wps-deals-edit-order.php:44
-#: includes/admin/forms/wps-deals-edit-order.php:273
+#: includes/admin/forms/wps-deals-edit-order.php:274
 msgid "Update Order"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:186
+#: includes/admin/forms/wps-deals-emails-settings.php:189
 msgid "Update Order Email Body:"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-emails-settings.php:176
+#: includes/admin/forms/wps-deals-emails-settings.php:179
 msgid "Update Order Email Subject:"
 msgstr ""
 
@@ -7423,18 +7590,18 @@ msgid "Update Tag"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Upload Files:"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/social/wps-deals-windowslive-settings.php:89
 #: includes/admin/forms/social/wps-deals-gplus-settings.php:89
 #: includes/meta-boxes/wps-deals-meta-box-functions.php:1
 #: includes/admin/forms/social/wps-deals-yahoo-settings.php:99
-#: includes/admin/forms/social/wps-deals-linkedin-settings.php:79
 #: includes/admin/forms/social/wps-deals-foursquare-settings.php:80
+#: includes/admin/forms/social/wps-deals-windowslive-settings.php:89
 #: includes/admin/forms/social/wps-deals-twiiter-settings.php:80
+#: includes/admin/forms/social/wps-deals-linkedin-settings.php:79
 #: includes/admin/forms/social/wps-deals-facebook-settings.php:100
 msgid "Upload Image"
 msgstr ""
@@ -7450,17 +7617,17 @@ msgid "Upload new files"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Upload the business logo related to this deal. Leave it blank if you don\\'t want to use it."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Upload the deal page image here. This is the image which is being used on the deal\\'s page. This image should have a width of around 400px, depending on your theme and it looks best, if the image has a square format."
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Upload the main image for the deal. This is the image which is being used on the deals overview page. This image should have a width of around 600px, depending on your theme and it looks best, if the image is rectangular. Please just make sure, that all the images you\\'re using for the different deals, do have the same size in width and height."
 msgstr ""
 
@@ -7470,7 +7637,7 @@ msgid "Uploaded files"
 msgstr ""
 
 #. Text in echo
-#: includes/meta-boxes/class-wps-deals-meta-box.php:104
+#: includes/meta-boxes/class-wps-deals-meta-box.php:108
 msgid "Uploads"
 msgstr ""
 
@@ -7490,9 +7657,9 @@ msgid "User Email"
 msgstr ""
 
 #. Text in function
-#: includes/exports/wps-deals-sales-generate-pdf.php:1
-#: includes/templates/checkout/checkout-footer/user-form/registration-form.php:34
 #: includes/templates/checkout/checkout-footer/user-form/login-form.php:26
+#: includes/templates/checkout/checkout-footer/user-form/registration-form.php:34
+#: includes/exports/wps-deals-sales-generate-pdf.php:1
 msgid "User Name"
 msgstr ""
 
@@ -7502,7 +7669,7 @@ msgid "Username"
 msgstr ""
 
 #. Text in echo
-#: includes/social/class-wps-deals-social-public.php:459
+#: includes/social/class-wps-deals-social-public.php:467
 msgid "Username and Password will be sent to your email."
 msgstr ""
 
@@ -7577,7 +7744,7 @@ msgid "Vermont"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:44
+#: includes/admin/forms/wps-deals-about-box.php:41
 msgid "Version:"
 msgstr ""
 
@@ -7612,9 +7779,9 @@ msgstr ""
 msgid "View Deal"
 msgstr ""
 
-#. Text in echo
-#: includes/widgets/wps-deals-dashboard-widgets.php:137
+#. Text in function
 #: includes/admin/forms/wps-deals-sales.php:1
+#: includes/widgets/wps-deals-dashboard-widgets.php:137
 #: includes/templates/my-account/recent-orders.php:65
 #: includes/templates/orders/orders-listing/orders-listing.php:65
 msgid "View Details"
@@ -7666,7 +7833,7 @@ msgid "W.P. Putrajaya"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:27
+#: includes/admin/forms/wps-deals-about-box.php:24
 msgid "WPSocial"
 msgstr ""
 
@@ -7676,14 +7843,14 @@ msgid "WPSocial Deals Pdf Generate"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/wps-deals-about-box.php:56
+#: includes/admin/forms/wps-deals-about-box.php:53
 msgid "WPSocial.com"
 msgstr ""
 
 #. Text in echo
-#: includes/admin/forms/wps-deals-sales.php:493
-#: includes/admin/reports/wps-deals-reports.php:20
+#: includes/admin/forms/wps-deals-sales.php:497
 #: includes/admin/forms/wps-deals-edit-order.php:38
+#: includes/admin/reports/wps-deals-reports.php:20
 msgid "WPSocial.com Logo"
 msgstr ""
 
@@ -7705,6 +7872,11 @@ msgstr ""
 #. Text in function
 #: includes/wps-deals-countries-states.php:1
 msgid "Washington"
+msgstr ""
+
+#. Text in function
+#: deals-engine.php:1
+msgid "We noticed, that you have WooCommerce installed. For that we recommend, that you\\'re using the Deals Extension for WooCommerce available here: %s you can take that one."
 msgstr ""
 
 #. Text in function
@@ -7757,9 +7929,9 @@ msgstr ""
 msgid "While in test mode no live transactions are processed. To fully use the test mode, you must have a sandbox (test) account for the payment gateway you are testing."
 msgstr ""
 
-#. Text in echo
-#: includes/templates/checkout/checkout-content/social/windowslive.php:20
+#. Text in function
 #: includes/wps-deals-misc-functions.php:1
+#: includes/templates/checkout/checkout-content/social/windowslive.php:20
 msgid "Windows Live"
 msgstr ""
 
@@ -7855,15 +8027,15 @@ msgid "Yemen"
 msgstr ""
 
 #. Text in function
-#: includes/meta-boxes/class-wps-deals-meta-box.php:320
+#: includes/meta-boxes/class-wps-deals-meta-box.php:340
 msgid "Yes"
 msgstr ""
 
 #. Text in function
-#: includes/templates/single-deal/single-header/deal-save.php:
 #: includes/templates/home/home-header/header-save.php:21
-#: includes/widgets/class-wps-deals-lists.php:1
 #: includes/templates/home/home-content/deal-save.php:19
+#: includes/widgets/class-wps-deals-lists.php:1
+#: includes/templates/single-deal/single-header/deal-save.php:
 msgid "You Save"
 msgstr ""
 
@@ -7888,7 +8060,12 @@ msgid "You have not set up this type of address yet."
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
+msgid "You must have at least one deal."
+msgstr ""
+
+#. Text in function
+#: includes/class-wps-deals-scripts.php:181
 msgid "You must have at least one file."
 msgstr ""
 
@@ -7954,9 +8131,9 @@ msgid "Zip / Postal Code"
 msgstr ""
 
 #. Text in echo
-#: includes/templates/my-account/billing-address.php:65
+#: includes/templates/orders/order-complete-details.php:433
 #: includes/class-wps-deals-renderer.php:1
-#: includes/templates/orders/order-complete-details.php:365
+#: includes/templates/my-account/billing-address.php:65
 msgid "Zip / Postal Code :"
 msgstr ""
 
@@ -7971,27 +8148,27 @@ msgid "change your password"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "days"
 msgstr ""
 
 #. Text in function
-#: includes/exports/wps-deals-sales-generate-pdf.php:1
 #: includes/exports/wps-deals-exports.php:1
+#: includes/exports/wps-deals-sales-generate-pdf.php:1
 msgid "guest"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "hrs"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "mins"
 msgstr ""
 
 #. Text in function
-#: includes/class-wps-deals-scripts.php:174
+#: includes/class-wps-deals-scripts.php:181
 msgid "secs"
 msgstr ""

@@ -50,7 +50,7 @@ global $wps_deals_payment_log;
 									<td>
 										<?php 
 												foreach ($paymentgateways as $key => $value){ ?>
-													<input type="checkbox" id="wps_deals_options[payment_gateways][<?php echo $key;?>]" name="wps_deals_options[payment_gateways][<?php echo $key;?>]" value="1" <?php if(isset($wps_deals_options['payment_gateways']) && array_key_exists($key,$wps_deals_options['payment_gateways'])) { _e('checked="checked"');} ?>/>
+													<input type="checkbox" id="wps_deals_options[payment_gateways][<?php echo $key;?>]" name="wps_deals_options[payment_gateways][<?php echo $key;?>]" value="1" <?php if(isset($wps_deals_options['payment_gateways']) && array_key_exists($key,$wps_deals_options['payment_gateways'])) { echo 'checked="checked"';} ?>/>
 													<label for="wps_deals_options[payment_gateways][<?php echo $key;?>]"><?php echo $value['admin_label'];?><br /></label>
 										<?php	} ?><br />
 										<span class="description"><?php _e( 'Choose one or more payment gateway(s) you want to use for the checkout.', 'wpsdeals' ); ?></span>

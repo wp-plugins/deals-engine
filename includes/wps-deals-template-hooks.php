@@ -49,13 +49,15 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	add_action( 'wps_deals_home_header_right_bottom', 'wps_deals_home_header_see_deal'	, 15 );
 	
 	//add_action to load home more deal navigation - 5
-	//add_action to load home content active deals - 10
-	//add_action to load home content ending deals - 15
-	//add_action to load home content upcoming deals - 20
+	//add_action to load home more deal orderby - 10
+	//add_action to load home content active deals - 15
+	//add_action to load home content ending deals - 20
+	//add_action to load home content upcoming deals - 25
 	add_action( 'wps_deals_home_more_deals', 'wps_deals_home_navigations', 5 );
-	add_action( 'wps_deals_home_more_deals', 'wps_deals_home_more_deal_active', 10 );
-	add_action( 'wps_deals_home_more_deals', 'wps_deals_home_more_deal_ending', 15 );
-	add_action( 'wps_deals_home_more_deals', 'wps_deals_home_more_deal_upcoming', 20 );
+	add_action( 'wps_deals_home_more_deals', 'wps_deals_home_orderby', 10 );
+	add_action( 'wps_deals_home_more_deals', 'wps_deals_home_more_deal_active', 15 );
+	add_action( 'wps_deals_home_more_deals', 'wps_deals_home_more_deal_ending', 20 );
+	add_action( 'wps_deals_home_more_deals', 'wps_deals_home_more_deal_upcoming', 25 );
 	
 	//add_action to show home price flag with image - 5 
 	//add action to show deal image for home page loop - 10

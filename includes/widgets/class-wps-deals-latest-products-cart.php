@@ -26,16 +26,17 @@ function wps_deals_latest_prodcuts_cart_widget() {
  */
 class Wps_Deals_Latest_Products_Cart_Lists extends WP_Widget {
 
-	var $render;
+	var $render, $cart;
 
 	/**
 	 * Widget setup.
 	 */
 	function Wps_Deals_Latest_Products_Cart_Lists() {
 	
-		global $wps_deals_render;
+		global $wps_deals_render, $wps_deals_cart;
 		
-		$this->render = $wps_deals_render;
+		$this->render	= $wps_deals_render;
+		$this->cart		= $wps_deals_cart;
 		
 		/* Widget settings. */
 		$widget_ops = array( 'classname' => 'wps-deals-latest-products-cart', 'description' => __( 'A social deals widget, which lets you display deals that added to cart by users.', 'wpsdeals' ) );
@@ -54,7 +55,19 @@ class Wps_Deals_Latest_Products_Cart_Lists extends WP_Widget {
 		
 		extract( $args );
 		
+		$hide_empty_cart	= $instance['hide_empty_carrt'];
+		$cartdata			= $this->cart->get();
+		$cartproducts		= $cartdata['products'];
+		
 		$html = '';
+		
+		if( empty( $cartproducts ) && $hide_empty_cart ) {
+			$wrapper_class = 'wps-deals-latest-widget-wrapper wps-deals-latest-widget-hide';
+		} else {
+			$wrapper_class = 'wps-deals-latest-widget-wrapper wps-deals-latest-widget-show';
+		}
+		
+		echo '<div class="'.$wrapper_class.'">';
 		
 		$title = apply_filters( 'widget_title', $instance['title'] );
 		
@@ -71,12 +84,14 @@ class Wps_Deals_Latest_Products_Cart_Lists extends WP_Widget {
 				$html .= '<div class="wps-deals-latest-widget">';
 				
 				$html .= $this->render->wps_deals_cart_widget_content();
-			
+				
 				$html .= '</div><!--.wps-deals-latest-widget-->';
-			
+				
 			echo $html;
 	    	echo $after_widget;
 		}
+		
+		echo '</div>';
 	    
     }
 	
@@ -91,8 +106,9 @@ class Wps_Deals_Latest_Products_Cart_Lists extends WP_Widget {
 		$instance = $new_instance;
 		
 		/* Input fields */
-        $instance['title'] = strip_tags( $new_instance['title'] ); 
-		$instance['limit'] = strip_tags( $new_instance['limit'] ); 
+        $instance['title']				= strip_tags( $new_instance['title'] ); 
+		$instance['limit']				= strip_tags( $new_instance['limit'] ); 
+		$instance['hide_empty_carrt']	= strip_tags( $new_instance['hide_empty_carrt'] );
 		
         return $instance;
 		
@@ -103,7 +119,7 @@ class Wps_Deals_Latest_Products_Cart_Lists extends WP_Widget {
 	 */
 	function form( $instance ) {
 	
-		$defaults = array( 'title' => __('Deals In Your Cart', 'wpsdeals'));
+		$defaults = array( 'title' => __('Shopping Cart', 'wpsdeals'), 'hide_empty_carrt' => '');
 		
         $instance = wp_parse_args( (array) $instance, $defaults );
 		
@@ -112,6 +128,10 @@ class Wps_Deals_Latest_Products_Cart_Lists extends WP_Widget {
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'wpsdeals'); ?></label> 
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $instance['title']; ?>" />
+		</p>
+		<p>
+			<input id="<?php echo $this->get_field_id( 'hide_empty_carrt' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'hide_empty_carrt' ); ?>" value="1" <?php checked( $instance['hide_empty_carrt'], '1', true ); ?> />
+			<label for="<?php echo $this->get_field_id( 'hide_empty_carrt' ); ?>"><?php _e( 'Hide empty cart', 'wpsdeals'); ?></label>
 		</p>
 		<?php /*<p>
 			<label for="<?php echo $this->get_field_id( 'limit' ); ?>"><?php _e( 'Limit:', 'wpsdeals'); ?></label> 

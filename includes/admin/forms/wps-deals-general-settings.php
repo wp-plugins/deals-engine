@@ -131,7 +131,43 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								</th>
 								<td>
 									<input type="text" id="wps_deals_options[deals_per_page]" name="wps_deals_options[deals_per_page]" value="<?php echo $model->wps_deals_escape_attr($wps_deals_options['deals_per_page']);?>" class="small-text"/><br />
-									<span class="description"><?php _e('Enter the number of deals you want to display.','wpsdeals');?></span>
+									<span class="description"><?php _e( 'Enter the number of deals you want to display.', 'wpsdeals' );?></span>
+								</td>
+							</tr>
+							
+							<?php // Add Field for enable sorting on deals home page. ?>
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[enable_deals_orderby]"><?php _e( 'Enable Deals Sorting:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="checkbox" name="wps_deals_options[enable_deals_orderby]" id="wps_deals_options[enable_deals_orderby]" value="1" <?php if ( isset( $wps_deals_options['enable_deals_orderby'] ) ) { checked( '1', $wps_deals_options['enable_deals_orderby'] ); } ?> /><br />
+									<span class="description"><?php _e( 'Check this box if you want to enable a sorting drop down on the Deals home page.', 'wpsdeals' ); ?></span>
+								</td>
+							</tr>
+							
+							<?php // Add Field for default deals sorting order on deals home page. ?>
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[default_deals_orderby]"><?php _e( 'Default Deals Sorting:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<?php 
+										$default_orderby = array(
+																'date-asc'		=> __( 'Sort by date (asc)','wpsdeals' ),
+																'date-desc'		=> __( 'Sort by date (desc)','wpsdeals' ),
+																'price-asc'		=> __( 'Sort by price (asc)','wpsdeals' ),
+																'price-desc'	=> __( 'Sort by price (desc)','wpsdeals' )
+															);
+										$default_orderby = apply_filters( 'wps_deals_orderby_settings_options', $default_orderby ); 
+									?>
+									<select id="wps_deals_options[default_deals_orderby]" name="wps_deals_options[default_deals_orderby]">
+										<option value=""><?php _e('--Select A Order--','wpsdeals');?></option>
+										<?php foreach ( $default_orderby as $orderby_key => $orderby_value ) { ?>
+											<option value="<?php echo $orderby_key;?>" <?php selected( $orderby_key, $wps_deals_options['default_deals_orderby'], true ); ?>><?php echo $orderby_value;?></option>
+										<?php } ?>
+									</select><br />
+									<span class="description"><?php _e('Choose the default sorting for the Deals listing page.','wpsdeals');?></span>
 								</td>
 							</tr>
 							

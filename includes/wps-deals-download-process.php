@@ -20,7 +20,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @since 1.0.0
  */
 
-function wps_deals_process_download(){
+function wps_deals_process_download() {
 	
 	global $wps_deals_model,$current_user;
 	
@@ -38,7 +38,7 @@ function wps_deals_process_download(){
 	
 	if( $args['orderid'] === '' || $args['email'] === '' || $args['file_key'] === '') //check download,email,file key should not blank
 		return false;
-		
+	
 	 extract( $args );
 	
 	//check deal is exist or not
@@ -48,7 +48,7 @@ function wps_deals_process_download(){
 		$error_message = __('<strong>ERROR : </strong>You can not download this file because the deal is no more available.','wpsdeals');
 		wp_die( apply_filters( 'wps_deals_deny_download_message', $error_message ), __('Deal is no more available', 'wpsdeals') );
 	}
-	 
+	
 	$verify = $model->wps_deals_verify_download_link( $dealid, $email, $expire, $file_key, $orderid );
 	
 	// Defaulting this to true for now because the method below doesn't work well
@@ -68,6 +68,7 @@ function wps_deals_process_download(){
 		$user_info = array();
 		$user_info['email'] = $email;
 		if ( is_user_logged_in() ) {
+			
 			global $user_ID;
 			$user_data 			= get_userdata( $user_ID );
 			$user_info['id'] 	= $user_ID;

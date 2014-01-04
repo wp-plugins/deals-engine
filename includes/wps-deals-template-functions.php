@@ -207,6 +207,31 @@ if( !function_exists( 'wps_deals_home_navigations' ) ) {
 	}
 }
 
+if( !function_exists( 'wps_deals_home_orderby' ) ) {
+	/**
+	 * Load Home Page More Deals Navigation Template
+	 * 
+	 * Handles to load home page orderby
+	 * dropdown list
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */	
+	function wps_deals_home_orderby() {
+		
+		global $wps_deals_options, $wps_deals_model;
+		
+		// If enable deals orderby
+		if( isset( $wps_deals_options['enable_deals_orderby'] ) && !empty( $wps_deals_options['enable_deals_orderby'] ) ) {
+			
+			$orderby = isset( $_GET['orderby'] ) ? $_GET['orderby'] : apply_filters( 'wps_deals_default_deals_orderby', $wps_deals_options['default_deals_orderby'] );
+			
+			//home page orderby dropdown template
+			wps_deals_get_template( 'home/home-content/home-orderby.php', array( 'orderby' => $orderby ) );
+		}
+	}
+}
+
 if( !function_exists( 'wps_deals_home_more_deal_active' ) ) {
 	/**
 	 * Load Home Content Active Deals Template
@@ -219,20 +244,24 @@ if( !function_exists( 'wps_deals_home_more_deal_active' ) ) {
 	 */	
 	function wps_deals_home_more_deal_active( $category ) {
 		
-		global $wps_deals_options;
+		global $wps_deals_options, $wps_deals_model;
 		
 		$today	= wps_deals_current_date();
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
+		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
+		
 		//get page limit from plugin settings page
 		$pagelimit = isset($wps_deals_options['deals_per_page']) ? $wps_deals_options['deals_per_page'] : -1;
 		
-		$homeargs = array(  
-							'post_type' 	=> WPS_DEALS_POST_TYPE, 
-							'post_status'	=> 'publish' , 
-							'posts_per_page' => $pagelimit 
+		$_homeargs = array( 
+							'post_type' 		=> WPS_DEALS_POST_TYPE,
+							'post_status'		=> 'publish' ,
+							'posts_per_page'	=> $pagelimit,
 						);
+		
+		$homeargs = array_merge( $_homeargs, $order_args );
 		
 		$activemetaquery = array( 
 										array (
@@ -276,20 +305,24 @@ if( !function_exists( 'wps_deals_home_more_deal_ending' ) ) {
 	 */	
 	function wps_deals_home_more_deal_ending( $category ) {
 		
-		global $wps_deals_options;
+		global $wps_deals_options, $wps_deals_model;
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		$today	= wps_deals_current_date();
-			
+		
 		//get page limit from plugin settings page
 		$pagelimit = isset($wps_deals_options['deals_per_page']) ? $wps_deals_options['deals_per_page'] : -1;
 		
-		$homeargs = array(  
+		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
+		
+		$_homeargs = array(  
 							'post_type' 	=> WPS_DEALS_POST_TYPE, 
 							'post_status'	=> 'publish' , 
 							'posts_per_page' => $pagelimit 
 						);
+		
+		$homeargs = array_merge( $_homeargs, $order_args );
 		
 		//get end deals days from settings page
 		$ending_days = $wps_deals_options['ending_deals_in'];
@@ -338,7 +371,7 @@ if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
 	 */	
 	function wps_deals_home_more_deal_upcoming( $category ) {
 		
-		global $wps_deals_options;
+		global $wps_deals_options, $wps_deals_model;
 		
 		$today	= wps_deals_current_date();
 		
@@ -347,13 +380,16 @@ if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
 		//get page limit from plugin settings page
 		$pagelimit = isset($wps_deals_options['deals_per_page']) ? $wps_deals_options['deals_per_page'] : -1;
 		
-		$homeargs = array(  
+		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
+		
+		$_homeargs = array(  
 							'post_type' 	=> WPS_DEALS_POST_TYPE, 
 							'post_status'	=> 'publish' , 
 							'posts_per_page' => $pagelimit 
 						);
-						
-						
+		
+		$homeargs = array_merge( $_homeargs, $order_args );
+		
 		//get upcoming deals days from settings page
 		$upcoming_days = $wps_deals_options['upcoming_deals_in'];
 		$upcoming_deal_days = date('Y-m-d H:i:s', strtotime('+'.$upcoming_days.' days'));
@@ -2486,7 +2522,7 @@ if( !function_exists( 'wps_deals_social_login_facebook' ) ) {
 
 			//enqueue Facebook scripts
 			wp_enqueue_script( 'facebook' );
-			wp_enqueue_script( 'wps-deals-social-fbinit' );
+			//wp_enqueue_script( 'wps-deals-social-fbinit' );
 
 		}
 		

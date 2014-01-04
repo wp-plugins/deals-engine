@@ -53,6 +53,8 @@ jQuery(document).ready(function($){
 				$('.wps-deals-cart-msg').show();
 				$('.wps-deals-checkout').show();
 				if(result.widgetcontent != undefined && $('.wps-deals-latest-widget').length > 0) { //check widget is activated
+					$('.wps-deals-latest-widget-wrapper').removeClass('wps-deals-latest-widget-hide');
+					$('.wps-deals-latest-widget-wrapper').addClass('wps-deals-latest-widget-show');
 					$('.wps-deals-latest-widget').html(result.widgetcontent);
 				}
 				if(result.redirectstat != '0') {
@@ -893,6 +895,11 @@ jQuery(document).ready(function($){
 		
 	});
 	/********** Country Combo Load State As per Country End************/
+	
+	// Orderby
+	$('select.wps-deals-orderby').change(function(){
+		$(this).closest('form').submit();
+	});
 	
 });
 //return today time

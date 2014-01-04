@@ -550,7 +550,7 @@ $DealsSalesListTable->prepare_items();
         <input type="hidden" name="post_type" value="<?php echo WPS_DEALS_POST_TYPE; ?>" />
 		
         <!-- Search Title -->
-        <?php //$DealsSalesListTable->search_box( __( 'Search' ), 'wpsdeals' ); ?>
+        <?php //$DealsSalesListTable->search_box( __( 'Search', 'wpsdeals' ) ); ?>
         
          <?php 
     		//add something before sales page

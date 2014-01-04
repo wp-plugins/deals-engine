@@ -46,7 +46,7 @@
 	height: 30px !important; 
 	padding: 5px; 
 	display: block; 
-	min-width: 200px; 
+	width: 200px; 
 }
 .wps-deals-meta-field .desc-field { 
 	color: #AAA; 
@@ -289,4 +289,16 @@ table.wps-deals-stat-table tr th {
 }
 #wps_deals_purchase_link_wrapper {
 	display: none;
+}
+#bundle_content {
+	overflow : inherit;
+}
+a.wps-deals-delete-bundel,
+a.wps-deals-delete-fileadvanced {
+	vertical-align: top;
+}
+a.wps-deals-delete-bundel img,
+a.wps-deals-delete-fileadvanced img{
+	margin-left: 5px;
+ 	margin-top: 3px;
 }

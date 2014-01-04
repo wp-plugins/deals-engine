@@ -570,7 +570,7 @@ p.wps-deals-business-title {
 }
 .wps-deals-cart-details table tr.wps-deals-product-details td {
 	padding: 8px 10px 8px 0 !important;
-	vertical-align: middle;
+	vertical-align: top;
 	text-align: left;
 }
 .wps-deals-cart-details table tr.alternate th,
@@ -1279,4 +1279,15 @@ a.wps-deals-edit-address-link {
 .wps-deals-login-wrap .wps-deals-login-submit-btn {
     float: right;
 }
+div.wps-deals-latest-widget-hide {
+	display : none;
+}
+div.wps-deals-latest-widget-show {
+	display : block;
+}
 /* Login Form Css End */
+
+div.wps-deals-ordering {
+	text-align : right;
+	margin : 0 0 5px;
+}

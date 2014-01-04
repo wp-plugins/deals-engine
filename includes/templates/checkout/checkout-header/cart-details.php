@@ -15,7 +15,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 	global $wps_deals_render,$wps_deals_cart,
-			$wps_deals_price,$wps_deals_currency;
+			$wps_deals_price,$wps_deals_currency,$wps_deals_model;
 	
 	$prefix = WPS_DEALS_META_PREFIX;
 	
@@ -129,6 +129,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 							?>
 							<td class="wps-deals-name">
 								<a href="<?php echo get_permalink($item['dealid']);?>" title="<?php echo $dealname;?>"><?php echo $dealname;?></a><br />
+								<?php
+									echo $wps_deals_model->wps_deals_get_bundled_deals_cart( $item['dealid'] );
+								?>
 								<span class="wps-deals-checkout-error"><?php echo $error;?></span>
 							</td>
 							<?php 

@@ -227,6 +227,54 @@ if( !empty( $salesdata ) && !empty( $order_id ) ) {
 								
 								echo apply_filters( 'wps_deals_order_download_files', $downloadfiles, $product['deal_id'], $order_id );
 								
+							} else if( $dealtype == 'bundle' ) { //check deal type is bundle
+								
+								$dealsbundle = '';
+								
+								$dealsbundle .= '<ul class="wps-deals-purchase-receipt-files">';
+								
+								//get ordered deal bundle
+								$orderedbundledeals = $model->wps_deals_get_bundled_deals_list( $product['deal_id'] );
+								
+								if( !empty($orderedbundledeals) ) {
+									
+									foreach ( $orderedbundledeals as $orderedbundledeal ) {
+										
+										if( !empty( $orderedbundledeal ) ) {
+											
+											$dealsbundle .= '<li><strong><a href="'.get_permalink($orderedbundledeal).'" title="">' . get_the_title( $orderedbundledeal ) . '</a></strong>';
+											$dealsbundle .= '<ul>';
+											
+											//check payment status is completed and order download files should not empty
+											if( $payment_status_val == '1' 
+												&& !empty( $orderedfiles[$orderedbundledeal] ) && is_array( $orderedfiles[$orderedbundledeal] ) ) {
+												
+												foreach ( $orderedfiles[$orderedbundledeal] as $key => $file ) {
+													
+													//get file name from deal id and file key
+													$filename = $model->wps_deals_get_download_file_name( $orderedbundledeal, $key );
+													
+													if( !empty( $filename ) ) { // check file name is exist or not
+														
+														//make file display to user
+														$filedisplay = sprintf( __( 'Download File %d : ','wpsdeals' ), ( $key + 1 ) ) . '<a href="'.$file.'" target="_blank">'.$filename.'</a>';
+														
+														$dealsbundle .= '<li>'.$filedisplay.'</li>';
+													}
+													
+												} //end for loop
+												
+											} else {
+												$dealsbundle .= '<li>' . __( 'No downloadable files found.', 'wpsdeals' ) . '</li>';
+											}
+											
+											$dealsbundle .= '</li></ul>';
+										}
+									}
+								}
+								$dealsbundle .= '</ul>';
+								
+								echo apply_filters( 'wps_deals_order_bundles', $dealsbundle, $product['deal_id'], $order_id );
 							} //end if deal type
 						?>
 					</td>

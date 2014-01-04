@@ -80,6 +80,9 @@ class Wps_Deals_Currencies{
 			case 'ZAR' : 
 						return 'R'; 
 						break;
+			case 'IDR' : 
+						return 'Rp'; 
+						break;
 			default:
 						return $val;
  						break;
