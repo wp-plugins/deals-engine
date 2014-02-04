@@ -14,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Public_Pages	{
 	
-	var $model,$scripts,$render,$cart,$currency,$price,$message;
+	public $model,$scripts,$render,$cart,$currency,$price,$message;
 	
 	public function __construct() {
 		
@@ -436,6 +436,12 @@ class Wps_Deals_Public_Pages	{
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 			
+		} elseif ( is_page( wps_deals_get_page_id( 'create_account_page' ) ) ) { //deals create an account page 
+			
+			$file = 'create-account.php';
+			$find[] = $file;
+			$find[] = 'deals-engine/' . $file;
+			
 		} elseif ( is_page( wps_deals_get_page_id( 'change_password' ) ) ) { //deals change password page 
 			
 			$file = 'change-password.php';
@@ -802,6 +808,111 @@ class Wps_Deals_Public_Pages	{
 	}
 	
 	/**
+	 * Register
+	 *
+	 * Handles to register from
+	 * create an account page
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_register() {
+		
+		// Check register button is click
+		if( isset( $_POST['wps_deals_register_submit'] ) && !empty( $_POST['wps_deals_register_submit'] ) ) {
+			
+			$username = $password = $email = '';
+	 		$error = false;
+	 		
+	 		if( isset( $_POST['wps_deals_reg_user_name'] ) && !empty( $_POST['wps_deals_reg_user_name'] ) ) { //check user name
+				$username = $_POST['wps_deals_reg_user_name'];
+	 		} else {
+				$this->message->add( 'register', __( '<span><strong>ERROR : </strong>Please enter username.', 'wpsdeals' ), 'multierror' );
+				$error = true;
+	 		}
+	 		if( isset( $_POST['wps_deals_reg_user_firstname'] ) && !empty( $_POST['wps_deals_reg_user_firstname'] ) ) { //check user first anme
+				$firstname = $_POST['wps_deals_reg_user_firstname'];
+	 		} else {
+				$this->message->add( 'register', __( '<span><strong>ERROR : </strong>Please enter first name.', 'wpsdeals' ), 'multierror' );
+				$error = true;
+	 		}
+	 		if( isset( $_POST['wps_deals_reg_user_lastname'] ) && !empty( $_POST['wps_deals_reg_user_lastname'] ) ) { //check user last name
+				$lastname = $_POST['wps_deals_reg_user_lastname'];
+	 		} else {
+				$this->message->add( 'register', __( '<span><strong>ERROR : </strong>Please enter last name.', 'wpsdeals' ), 'multierror' );
+				$error = true;
+	 		}
+	 		if( isset( $_POST['wps_deals_reg_user_email'] ) && !empty( $_POST['wps_deals_reg_user_email'] ) ) { //check user email
+	 			if( is_email( $_POST['wps_deals_reg_user_email'] ) ) { //check user email is valid
+		 			$email = $_POST['wps_deals_reg_user_email'];
+	 			} else {
+	 				$this->message->add( 'register', __( '<span><strong>ERROR : </strong>Please enter your valid e-mail address.', 'wpsdeals' ), 'multierror' );
+					$error = true;
+	 			}
+	 		} else {
+				$this->message->add( 'register', __( '<span><strong>ERROR : </strong>Please enter your e-mail address.', 'wpsdeals' ), 'multierror' );
+				$error = true;
+	 		}
+	 		if( !( isset( $_POST['wps_deals_reg_user_pass'] ) && !empty( $_POST['wps_deals_reg_user_pass'] ) ) ) { //check user password is empty
+				$this->message->add( 'register', __( '<span><strong>ERROR : </strong>Please enter password.', 'wpsdeals' ), 'multierror' );
+				$error = true;
+	 		}
+	 		if( !( isset( $_POST['wps_deals_reg_user_confirm_pass'] ) && !empty( $_POST['wps_deals_reg_user_confirm_pass'] ) ) ) { //check user confirm password is empty
+				$this->message->add( 'register', __( '<span><strong>ERROR : </strong>Please enter confirm password.', 'wpsdeals' ), 'multierror' );
+				$error = true;
+	 		}
+	 		if( isset( $_POST['wps_deals_reg_user_pass'] ) && !empty( $_POST['wps_deals_reg_user_pass'] )
+	 			&& isset( $_POST['wps_deals_reg_user_confirm_pass'] ) && !empty( $_POST['wps_deals_reg_user_confirm_pass'] ) ) { //check password & confirm password
+	 			if( $_POST['wps_deals_reg_user_pass'] == $_POST['wps_deals_reg_user_confirm_pass'] ) { //check both password are metch
+					
+	 				$password = $_POST['wps_deals_reg_user_pass'];
+	 			} else {
+	 				$this->message->add( 'register', __( '<span><strong>ERROR : </strong>Password and confirm password must be same.', 'wpsdeals' ), 'multierror' );
+					$error = true;
+	 			}
+	 		} else { 
+	 			$error = true;
+	 		}
+		  
+	 		if( !$error ) { // Check username, password, confirm password and email are not empty
+	 			
+				if( username_exists( $username ) ) {
+					
+					$this->message->add( 'register', __( '<span><strong>ERROR : </strong>This username is already registered. Please choose another one.</span>','wpsdeals' ), 'multierror' );
+					
+				} else if( email_exists( $email ) ) {
+					
+					$this->message->add( 'register', __( '<span><strong>ERROR : </strong>This email is already registered, please choose another one.</span>','wpsdeals' ), 'multierror' );
+					
+				} else {
+				
+					$user_id = wp_create_user( $username, $password, $email );	
+					
+					if(!empty($user_id)) {
+						
+						update_user_meta($user_id,'first_name',$firstname);
+						update_user_meta($user_id,'last_name',$lastname);
+						
+						//make user to logged in
+						wp_set_auth_cookie( $user_id, false); 
+						
+						//action will call on user register on create an account page
+						do_action( 'wps_deals_user_register', $user_id );
+						
+						//redirect to lost password page
+						wps_deals_send_on_create_account_page();
+						
+					} else {
+						
+						$this->message->add( 'register', __( '<span><strong>ERROR : </strong>User Registration Failed.','wpsdeals' ), 'multierror' );
+					}
+				}
+				
+	 		}
+		}
+	}
+	
+	/**
 	 * Login
 	 *
 	 * Handles to login from
@@ -980,6 +1091,9 @@ class Wps_Deals_Public_Pages	{
 		
 		//add action to login from my account page
 		add_action( 'init', array( $this, 'wps_deals_login' ) );
+		
+		//add action to register from create an account page
+		add_action( 'init', array( $this, 'wps_deals_register' ) );
 		
 		// add action to set price depentds on sale_price or normal_price
 		add_action( 'wps_deals_scheduled_set_price_meta', array( $this, 'wps_deals_scheduled_set_price_meta' ) );

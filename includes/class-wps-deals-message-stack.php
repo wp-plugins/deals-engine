@@ -13,7 +13,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 */
 class Wps_Deals_Message_Stack {
   
-    var $messageToStack, $messages;
+    public $messageToStack, $messages;
 
 	// class constructor
     function Wps_Deals_Message_Stack() {

@@ -8,8 +8,8 @@
 
 class Wps_Deals_Pdf extends FPDF {
 
-	var $widths;
-	var $aligns;
+	public $widths;
+	public $aligns;
 
 	function Footer() {
 

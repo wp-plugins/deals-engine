@@ -3,10 +3,10 @@
  * Home Loop Template
  * 
  * Handles to Show Order by dropdown
- * Template on home page
+ * Template on deals home page
  * 
  * Override this template by copying it to 
- * yourtheme/deals-engine/home/home-content/more-deals.php
+ * yourtheme/deals-engine/home/home-content/home-orderby.php
  * 
  * @package Social Deals Engine
  * @since 1.0.0
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 <div class="wps-deals-ordering">
 	<form class="wps-deals-ordering-form" method="get" action="">
-		<select name="orderby" class="wps-deals-orderby">
+		<select name="dealsorderby" class="wps-deals-orderby">
 			<?php
 				$catalog_orderby = apply_filters( 'wps_deals_catalog_orderby', array(
 					'menu_order' => __( 'Default sorting', 'wpsdeals' ),
@@ -46,18 +46,18 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		<?php
 			// Keep query string vars intact
 			foreach ( $_GET as $key => $val ) {
-				if ( 'orderby' == $key )
-					continue;
-				
-				if (is_array($val)) {
-					foreach($val as $innerVal) {
+				//check key is dealorderby
+				if ( 'dealsorderby' == $key ) continue;
+				//check if $_GET is array
+				if ( is_array( $val ) ) {
+					//foreach loop for making hidden for form fields when it is array
+					foreach( $val as $innerVal ) {
 						echo '<input type="hidden" name="' . esc_attr( $key ) . '[]" value="' . esc_attr( $innerVal ) . '" />';
-					}
-				
+					} //end foreach loop
 				} else {
 					echo '<input type="hidden" name="' . esc_attr( $key ) . '" value="' . esc_attr( $val ) . '" />';
 				}
-			}
-			?>
+			} //end foreach for $_GET
+		?>
 	</form>
 </div>

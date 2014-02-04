@@ -6,21 +6,21 @@ if ( !defined( 'ABSPATH' ) ) exit;
 class Wps_Deals_Pagination_Public{
 
 		/*Default values*/
-		var $total_pages = -1;//items
-		var $limit = null;
-		var $target = ""; 
-		var $page = 1;
-		var $adjacents = 2;
-		var $showCounter = false;
-		var $className = "pagination";
-		var $parameterName = "page";
-		var $urlF = false;//urlFriendly
+		public $total_pages = -1;//items
+		public $limit = null;
+		public $target = ""; 
+		public $page = 1;
+		public $adjacents = 2;
+		public $showCounter = false;
+		public $className = "pagination";
+		public $parameterName = "page";
+		public $urlF = false;//urlFriendly
 
 		/*Buttons next and previous*/
-		var $nextT = "";
-		var $nextI = "&#187;"; //&#9658;
-		var $prevT = "";
-		var $prevI = "&#171;"; //&#9668;
+		public $nextT = "";
+		public $nextI = "&#187;"; //&#9658;
+		public $prevT = "";
+		public $prevI = "&#171;"; //&#9668;
 	
 		function __construct( $ajaxpagination = 'wps_deals_ajax_pagination' ) {
 			$this->nextT = __("Next",'wpsdeals');
@@ -29,7 +29,7 @@ class Wps_Deals_Pagination_Public{
 		}
 
 		/*****/
-		var $calculate = false;		
+		public $calculate = false;		
 
 		#Total items
 		function items($value){$this->total_pages = (int) $value;}		
@@ -69,7 +69,7 @@ class Wps_Deals_Pagination_Public{
 				$this->urlF=$value;
 			}	
 
-		var $pagination;
+		public $pagination;
 
 		function pagination(){}
 		function show(){

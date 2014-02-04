@@ -26,7 +26,7 @@ function wps_deals_latest_prodcuts_cart_widget() {
  */
 class Wps_Deals_Latest_Products_Cart_Lists extends WP_Widget {
 
-	var $render, $cart;
+	public $render, $cart;
 
 	/**
 	 * Widget setup.

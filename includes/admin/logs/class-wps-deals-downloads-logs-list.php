@@ -14,7 +14,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 }
 class Wps_Deals_Downloads_Logs_List extends WP_List_Table {
 
-	var $logs,$model;
+	public $logs,$model;
 	
 	public $file_search = false;
 	

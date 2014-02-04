@@ -224,7 +224,7 @@ if( !function_exists( 'wps_deals_home_orderby' ) ) {
 		// If enable deals orderby
 		if( isset( $wps_deals_options['enable_deals_orderby'] ) && !empty( $wps_deals_options['enable_deals_orderby'] ) ) {
 			
-			$orderby = isset( $_GET['orderby'] ) ? $_GET['orderby'] : apply_filters( 'wps_deals_default_deals_orderby', $wps_deals_options['default_deals_orderby'] );
+			$orderby = isset( $_GET['dealsorderby'] ) ? $_GET['dealsorderby'] : apply_filters( 'wps_deals_default_deals_orderby', $wps_deals_options['default_deals_orderby'] );
 			
 			//home page orderby dropdown template
 			wps_deals_get_template( 'home/home-content/home-orderby.php', array( 'orderby' => $orderby ) );
@@ -1521,7 +1521,12 @@ if( !function_exists( 'wps_deals_buy_now_button' ) ) {
 		
 		// Check user is not logged in and disable guest checkout from misc settings
 		if( !is_user_logged_in() && !empty( $wps_deals_options['disable_guest_checkout'] ) ) {
-			$payurl = wp_login_url( $dealurl );
+			if( isset( $wps_deals_options['create_account_page'] ) && !empty( $wps_deals_options['create_account_page'] ) ) { // Check create an account page id is not empty
+				$create_account_page_id = wps_deals_get_page_id( 'create_account_page');
+				$payurl = get_permalink( $create_account_page_id );
+			} else {
+				$payurl = wp_login_url( $dealurl );
+			}
 		} else {
 			$payurl = add_query_arg( array( 'dealsaction' => 'buynow', 'dealid' => $post->ID ), $dealurl );	
 		}
@@ -2522,7 +2527,7 @@ if( !function_exists( 'wps_deals_social_login_facebook' ) ) {
 
 			//enqueue Facebook scripts
 			wp_enqueue_script( 'facebook' );
-			//wp_enqueue_script( 'wps-deals-social-fbinit' );
+			wp_enqueue_script( 'wps-deals-social-fbinit' );
 
 		}
 		
@@ -3085,12 +3090,22 @@ if( !function_exists( 'wps_deals_my_account_login_content' ) ) {
 		
 		global $wps_deals_options;
 		
+		$registerlink = '';
+		
 		$lost_password_page = isset( $wps_deals_options['lost_password'] ) && !empty( $wps_deals_options['lost_password'] ) ? $wps_deals_options['lost_password'] : ''; 
 		
 		$lostpasswordlink = get_permalink( $lost_password_page );
 		
+		$users_can_register = get_option( 'users_can_register' );
+		
+		if( $users_can_register == '1' ) { //Check user can register
+			
+			$create_account_page = isset( $wps_deals_options['create_account_page'] ) && !empty( $wps_deals_options['create_account_page'] ) ? $wps_deals_options['create_account_page'] : ''; 
+			
+			$registerlink = get_permalink( $create_account_page );
+		}
 		//load login template
-		wps_deals_get_template( 'my-account/login.php', array( 'lostpasswordlink' => $lostpasswordlink ) );
+		wps_deals_get_template( 'my-account/login.php', array( 'lostpasswordlink' => $lostpasswordlink, 'registerlink' => $registerlink ) );
 	}
 }	
 if( !function_exists( 'wps_deals_display_address' ) ) {
@@ -3153,6 +3168,38 @@ if( !function_exists( 'wps_deals_edit_billing_address' ) ) {
 		
 		//load edit billing addresses template
 		wps_deals_get_template( 'my-account/edit-billing-address.php' );
+	}
+}
+if( !function_exists( 'wps_deals_create_account_content' ) ) {
+	/**
+	 * Create An Account Page
+	 * 
+	 * Handles to show create an account page
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_create_account_content() {
+		
+		global $wps_deals_options;
+		
+		$my_account_page = isset( $wps_deals_options['my_account_page'] ) && !empty( $wps_deals_options['my_account_page'] ) ? $wps_deals_options['my_account_page'] : ''; 
+		
+		$loginlink = get_permalink( $my_account_page );
+		
+		$wps_deals_reg_user_name = isset( $_POST['wps_deals_reg_user_name'] ) ? $_POST['wps_deals_reg_user_name'] : '';
+		$wps_deals_reg_user_firstname = isset( $_POST['wps_deals_reg_user_firstname'] ) ? $_POST['wps_deals_reg_user_firstname'] : '';
+		$wps_deals_reg_user_lastname = isset( $_POST['wps_deals_reg_user_lastname'] ) ? $_POST['wps_deals_reg_user_lastname'] : '';
+		$wps_deals_reg_user_email = isset( $_POST['wps_deals_reg_user_email'] ) ? $_POST['wps_deals_reg_user_email'] : '';
+		
+		//load create an account template
+		wps_deals_get_template( 'my-account/create-account.php', array( 
+																			'loginlink' 					=> $loginlink,
+																			'wps_deals_reg_user_name' 		=> $wps_deals_reg_user_name,
+																			'wps_deals_reg_user_firstname' 	=> $wps_deals_reg_user_firstname,
+																			'wps_deals_reg_user_lastname' 	=> $wps_deals_reg_user_lastname,
+																			'wps_deals_reg_user_email' 		=> $wps_deals_reg_user_email,
+																		 ) );
 	}
 }
 if( !function_exists( 'wps_deals_change_password_content' ) ) {

@@ -14,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Scripts {
 	
-	var $currency;
+	public $currency;
 	
 	public function __construct() {
 		
@@ -236,7 +236,14 @@ class Wps_Deals_Scripts {
 		
 		//countdown timer script
 		wp_register_script( 'wps-deals-countdown-timer-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-countdown.js', array( 'jquery' ), null );
-		
+		//timer localization variables for timer labels
+		wp_localize_script( 'wps-deals-countdown-timer-scripts', 'Wps_Deals_Timer', array(
+																					'days'		=>	__( 'days', 'wpsdeals' ),
+																					'hours'		=>	__( 'hrs', 'wpsdeals' ),
+																					'minutes'	=>	__( 'mins', 'wpsdeals' ),
+																					'seconds'	=>	__( 'secs', 'wpsdeals' ),
+																					'today'		=>	wps_deals_current_date( 'F d, Y H:i:s' ) //date('F d, Y H:i:s', time())
+																				));
 		//do not include this script in footer otherwise timer countdown will disabled
 		wp_register_script( 'wps-deals-front-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-front.js', array( 'jquery' ), null );
 		wp_enqueue_script( 'wps-deals-front-scripts' );
@@ -296,15 +303,6 @@ class Wps_Deals_Scripts {
 																					'loginusername'		=>	__( '<span><strong>ERROR : </strong>Please enter your username.</span>','wpsdeals' ),
 																					'loginpassword'		=>	__( '<span><strong>ERROR : </strong>Please enter your password.</span>','wpsdeals' ),
 																			));
-		
-		//timer localization variables for timer labels
-		wp_localize_script( 'wps-deals-front-scripts', 'Wps_Deals_Timer', array(
-																					'days'		=>	__( 'days', 'wpsdeals' ),
-																					'hours'		=>	__( 'hrs', 'wpsdeals' ),
-																					'minutes'	=>	__( 'mins', 'wpsdeals' ),
-																					'seconds'	=>	__( 'secs', 'wpsdeals' ),
-																					'today'		=>	wps_deals_current_date( 'F d, Y H:i:s' ) //date('F d, Y H:i:s', time())
-																				));
 		
 		if( is_singular() ) { //check current page is not home page
 			
@@ -382,6 +380,12 @@ class Wps_Deals_Scripts {
 																						'wlerrormsg'				=>	__( 'Please enter Windows Live Client ID & Client Secret in settings page.', 'wpsdeals' ),
 																						'socialtwitterloginredirect'=>	$twitterloginurl
 																					) );
+		//if facebook application id & application secret are not empty
+		if( !empty( $wps_deals_options['enable_facebook'] ) && WPS_DEALS_FB_APP_ID != '' && WPS_DEALS_FB_APP_SECRET != '' ) {
+			
+			wp_register_script( 'wps-deals-social-fbinit', WPS_DEALS_SOCIAL_URL . '/js/wps-deals-social-fbinit.js', array( 'jquery' ), null, true );
+			wp_localize_script( 'wps-deals-social-fbinit', 'WpsDealsFbInit', array( 'app_id' => WPS_DEALS_FB_APP_ID ) );
+		}
 		
 	}
 	

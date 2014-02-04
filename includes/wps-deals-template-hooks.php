@@ -288,6 +288,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	//add action to manage billing address
 	add_action( 'wps_deals_manage_billing_address', 'wps_deals_cart_user_billing_details', 10 );
 	
+	//add action to create an acoount page - 5
+	add_action( 'wps_deals_create_account_content', 'wps_deals_create_account_content', 5 );
+	
 	//add action to change password page - 5
 	add_action( 'wps_deals_change_password_content', 'wps_deals_change_password_content', 5 );
 	

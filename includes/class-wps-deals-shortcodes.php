@@ -13,7 +13,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Shortcodes {
 	
-	var $model,$scripts,$render,$cart,$currency,$message,$session;
+	public $model,$scripts,$render,$cart,$currency,$message,$session;
 	
 	function __construct(){
 		
@@ -295,6 +295,31 @@ class Wps_Deals_Shortcodes {
 		return $content;
 	}
 	/**
+	 * Create an Account Page
+	 * 
+	 * Handles to show create an account page for
+	 * deals
+	 * 
+	 * @package Social Deals engine
+	 * @since 1.0.0
+	 **/
+	public function wps_deals_create_account( $atts, $content ) {
+
+		ob_start();
+		//when user is not logged in then show create an account content	
+		if( !is_user_logged_in() ) { //important
+			//do action to show my account page content
+			do_action( 'wps_deals_create_account_content' );
+		} else {
+			//else show log in form
+			//do action to show create an account page content
+			do_action( 'wps_deals_create_account_logout_content' );
+		}
+		$content .= ob_get_clean();
+		
+		return $content;
+	}
+	/**
 	 * Edit Address Page
 	 * 
 	 * Handles to edit my address page for
@@ -403,6 +428,9 @@ class Wps_Deals_Shortcodes {
 		
 		//add shortcode to show my account on the shortcode page
 		add_shortcode( 'wps_deals_my_account', 		array( $this, 'wps_deals_my_account' ) );
+		
+		//add shortcode to show create an account on the shortcode page
+		add_shortcode( 'wps_deals_create_account', 		array( $this, 'wps_deals_create_account' ) );
 		
 		//add shortcode to edit my address on the shortcode page
 		add_shortcode( 'wps_deals_edit_address', 	array( $this, 'wps_deals_edit_address' ) );

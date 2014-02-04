@@ -211,7 +211,7 @@ function wps_deals_paypal_verfication() {
 													'user_id'		=>	'0',
 													'user_name'		=>	'',
 													'user_email'	=>	$user_email,
-													'first_name'	=>	isset( $paypal->ipn_data['first_name'] ) ? $paypal->ipn_data['first_name'] : '',
+													'first_name'	=>	isset( $paypal->ipn_data['first_name'] ) ? $paypal->ipn_data['first_name'] : __( 'Guest', 'wpsdeals' ),
 													'last_name'		=>	isset( $paypal->ipn_data['last_name'] ) ? $paypal->ipn_data['last_name'] : ''
 												);
 				

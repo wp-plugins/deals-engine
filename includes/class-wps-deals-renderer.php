@@ -13,7 +13,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Renderer {
 
-	var $model,$scripts,$currency,$cart,$price,$message;
+	public $model,$scripts,$currency,$cart,$price,$message;
 	
 	public function __construct() {
 		

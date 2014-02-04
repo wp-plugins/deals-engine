@@ -13,7 +13,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Meta_Box {
 	
-	var $model,$scripts,$currency,$price,$logs,$render;
+	public $model,$scripts,$currency,$price,$logs,$render;
 	
 	public function __construct() {		
 	

@@ -673,6 +673,21 @@ function wps_deals_add_fileadvanced( $args, $echo = true ) {
  */
 function wps_deals_add_color( $args, $echo = true ) {
 
+	global $wp_version;
+	
+	//If the WordPress version is greater than or equal to 3.5, then load the new WordPress color picker.
+    if ( $wp_version >= 3.5 ){
+        //Both the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
+        wp_enqueue_script( 'wp-color-picker' );
+        wp_enqueue_style( 'wp-color-picker' );
+    }
+    //If the WordPress version is less than 3.5 load the older farbtasic color picker.
+    else {
+        //As with wp-color-picker the necessary css and javascript have been registered already by WordPress, so all we have to do is load them with their handle.
+        wp_enqueue_script( 'farbtastic' );
+        wp_enqueue_style( 'farbtastic' );
+    }
+    
 	$html = '';
 	
 	$new_field = array( 'type' => 'color', 'name' => __('ColorPicker Field', 'wpsdeals'), 'class' => '' );
@@ -681,19 +696,38 @@ function wps_deals_add_color( $args, $echo = true ) {
 	$meta = wps_deals_meta_value( $field );
 	
 	if ( empty( $meta ) ) {
-		$meta = '#';
+		$meta = '';
 	}
 	  
 	$html .= wps_deals_show_field_begin( $field );
 	
-	if( wp_style_is( 'wp-color-picker', 'registered' ) ) { //iris color picker since 3.5
-		$html .= "<input class='wps-deals-meta-color-iris".( isset( $field['class'] )? " {$field['class']}": "")."' type='text' name='{$field['id']}' id='{$field['id']}' value='{$meta}' size='8' />";  
+	if( $wp_version >= 3.5 ) {
+									
+		$html .= "<input type='text' value='{$meta}' id='{$field['id']}' name='{$field['id']}' class='wps-deals-meta-color-iris ".( isset( $field['class'] )? " {$field['class']}": "")." ' data-default-color='' />";
+		$html .= "<script type='text/javascript'>
+					var inputcolor = jQuery('.wps-deals-meta-color-iris').prev('input').val();
+					jQuery('.wps-deals-meta-color-iris').prev('input').css('background-color',inputcolor);
+					jQuery('.wps-deals-meta-color-iris').click(function(e) {
+						colorPicker = jQuery(this).next('div');
+						input = jQuery(this).prev('input');
+						jQuery.farbtastic(jQuery(colorPicker), function(a) { jQuery(input).val(a).css('background', a); });
+						colorPicker.show();
+						e.preventDefault();
+						jQuery(document).mousedown( function() { jQuery(colorPicker).hide(); });
+					});
+				</script>";
+		
 	} else {
-		$html .= "<input class='wps-deals-meta-color".( isset( $field['class'] )? " {$field['class']}": "")."' type='text' name='{$field['id']}' id='{$field['id']}' value='{$meta}' size='8' />";
-		$html .= "<input type='button' class='wps-deals-meta-color-select button' rel='{$field['id']}' value='" . __( 'Select a color' ,'wpsdeals') . "'/>";
-		$html .= "<div style='display:none' class='wps-deals-meta-color-picker' rel='{$field['id']}'></div>";
+		$html .= "<div style='position:relative;'>
+					<input type='text' value='{$meta}' id='{$field['id']}' name='{$field['id']}' class='{$field['id']}' />
+					<input type='button' class='wps-deals-meta-color-iris ".( isset( $field['class'] )? " {$field['class']}": "")." ' value='".__('Select Color','wpsdeals')."'>
+					<div class='colorpicker' style='z-index:100; position:absolute; display:none;'></div>
+				</div>";
+		$html .= "<script type='text/javascript'>
+					jQuery('.wps-deals-meta-color-iris').wpColorPicker();
+				</script>";
 	}
-
+	
 	$html .= wps_deals_show_field_end( $field );
 	
 	if($echo) {

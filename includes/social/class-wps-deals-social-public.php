@@ -14,8 +14,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Social_Public {
 	
-	var $socialmodel,$model,$cart,$session;
-	var $facebook,$twitter,$linkedin,$yahoo,$foursquare,$windowslive;
+	public $socialmodel,$model,$cart,$session;
+	public $facebook,$twitter,$linkedin,$yahoo,$foursquare,$windowslive;
 	
 	public function __construct() {
 		

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  **/
 class Wps_Deals_Fees {
 	
-	var $session, $currency;
+	public $session, $currency;
 	
 	public function __construct() {
 		

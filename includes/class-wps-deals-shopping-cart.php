@@ -14,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 class Wps_Deals_Shopping_Cart {
 	
-	var $price,$session;
+	public $price,$session;
 	
 	public function __construct() {
 		

@@ -302,6 +302,21 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							
 							<tr>
 								<th scope="row">
+									<label for="wps_deals_options[create_account_page]"><?php _e( 'Create an Account Page:', 'wpsdeals');?></label>
+								</th>
+								<td>	
+									<select id="wps_deals_options[create_account_page]" name="wps_deals_options[create_account_page]">
+										<option value=""><?php _e( '--Select A Page--', 'wpsdeals' );?></option>
+										<?php foreach ($get_pages as $page) { ?>
+												<option value="<?php echo $page->ID;?>" <?php selected( $page->ID, $wps_deals_options['create_account_page'], true );?>><?php _e( $page->post_title );?></option>
+										<?php } ?>
+									</select><br />
+									<span class="description"><?php _e( 'This is the create an account page where buyers can register their account.', 'wpsdeals' ); ?></span>
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
 									<label for="wps_deals_options[edit_adderess]"><?php _e( 'Edit Address Page:', 'wpsdeals');?></label>
 								</th>
 								<td>	

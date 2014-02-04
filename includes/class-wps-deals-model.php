@@ -13,7 +13,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Model {
 	
-	var $logs, $price;
+	public $logs, $price;
 	public function __construct() {
 		
 		global $wps_deals_logs, $wps_deals_price;
@@ -38,6 +38,16 @@ class Wps_Deals_Model {
 		//return only id
 		if(isset($args['fields']) && !empty($args['fields'])) {
 			$dealsargs['fields'] = $args['fields'];
+		}
+		
+		//return by search
+		if(isset($args['s']) && !empty($args['s'])) {
+			$dealsargs['s'] = $args['s'];
+		}
+		
+		//get particulate deal id data
+		if(isset($args['p']) && !empty($args['p'])) {
+			$dealsargs['p']	= $args['p'];
 		}
 		
 		//return based on meta query
@@ -137,6 +147,11 @@ class Wps_Deals_Model {
 		//return only id
 		if(isset($args['fields']) && !empty($args['fields'])) {
 			$salesargs['fields'] = $args['fields'];
+		}
+		
+		//return by search
+		if(isset($args['s']) && !empty($args['s'])) {
+			$salesargs['s'] = $args['s'];
 		}
 		
 		//return based on meta query 
@@ -2473,7 +2488,7 @@ class Wps_Deals_Model {
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		if ( ! $orderby ) {
-			$orderby_value = isset( $_GET['orderby'] ) ? $_GET['orderby'] : apply_filters( 'wps_deals_default_deals_orderby', $wps_deals_options['default_deals_orderby'] );
+			$orderby_value = isset( $_GET['dealsorderby'] ) ? $_GET['dealsorderby'] : apply_filters( 'wps_deals_default_deals_orderby', $wps_deals_options['default_deals_orderby'] );
 			
 			// Get order + orderby args from string
 			$orderby_value	= explode( '-', $orderby_value );

@@ -807,4 +807,42 @@ $.fn.wpsdealscountdown = function(options) {
 /* Initialise the countdown functionality. */
 var plugin = $.wpsdealscountdown = new Countdown(); // Singleton instance
 
+/********** Deals Timer Start *************/
+	
+$( '.wps-deals-end-timer' ).each( function() {
+	
+	var endyear		=	$( this ).attr( 'timer-year' );
+	var endmonth	=	$( this ).attr( 'timer-month' );
+	var endday		=	$( this ).attr( 'timer-day' );
+	var endhour		=	$( this ).attr( 'timer-hours' );
+	var endminute	=	$( this ).attr( 'timer-minute' );
+	var endsecond	=	$( this ).attr( 'timer-second' );
+	var montharray 	= new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+	var futurestring1	=	( montharray[endmonth-1]+" "+endday+", "+endyear+" "+endhour+":"+endminute );
+	var futurestring	=	new Date( Date.parse( futurestring1 ) );
+	
+	var timerlayout = $( this ).html() + '<span class="wps-deals-days">{dnn} {dl}</span> \
+											<span>'+Wps_Deals_Timer.days+'</span> \
+											<span class="wps-deals-hrs">{hnn} {hl}</span> \
+											<span>'+Wps_Deals_Timer.hours+'</span> \
+											<span class="wps-deals-mins">{mnn} {ml}</span> \
+											<span>'+Wps_Deals_Timer.minutes+'</span> \
+											<span class="wps-deals-secs">{snn} {sl}</span>\
+											<span>'+Wps_Deals_Timer.seconds+'</span>';
+	
+	$( this ).wpsdealscountdown( {	until		:	futurestring,
+									format		:	'DHMS',
+									labels		:	['','','','','','','',''], 
+									labels1		:	['','','','','','','',''],
+									layout		:	timerlayout,
+									significant	:	0,
+									serverSync	:	wpsdealstodaytime 
+								} );	
+});
+//return today time
+function wpsdealstodaytime() {
+	return new Date( Wps_Deals_Timer.today ); //this is set on every page load via PHP script
+}
+/********** Deals Timer End *************/
+
 })(jQuery);

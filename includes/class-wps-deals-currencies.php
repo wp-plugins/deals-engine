@@ -14,7 +14,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 class Wps_Deals_Currencies{
 	
-	var $current_currency,$currencies;
+	public $current_currency,$currencies;
 	
 	public function __construct() {
 		

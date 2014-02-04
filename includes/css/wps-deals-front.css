@@ -1231,14 +1231,15 @@ a.wps-deals-edit-address-link {
 .wps-deals-form-table, .wps-deals-form-table td {
 	border: none !important;
 }
-.wps-deals-change-password-error, .wps-deals-lost-password-error, .wps-deals-login-error {
+.wps-deals-change-password-error, .wps-deals-lost-password-error, 
+.wps-deals-login-error, .wps-deals-register-error {
 	display: none;
 }
 .wps-deals-btn {
 	font-weight: bold !important;
 }
 
-/* Login Form Css Start */
+/* Login/Register Form Css Start */
 .wps-deals-login-wrap {
 	margin: auto;
     width: 320px;
@@ -1285,9 +1286,17 @@ div.wps-deals-latest-widget-hide {
 div.wps-deals-latest-widget-show {
 	display : block;
 }
-/* Login Form Css End */
+/* Login/Register Form Css End */
 
 div.wps-deals-ordering {
 	text-align : right;
 	margin : 0 0 5px;
+}
+.wps-deals-register-fields-container {
+	padding: 25px 25px 10px;
+}
+.wps-deals-register-link {
+	float: left;
+	margin-top: 5px;
+	margin-right: 5px;
 }

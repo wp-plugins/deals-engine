@@ -48,7 +48,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									'INR' 	=> __('Indian Rupee', 'wpsdeals'),
 									'TRY' 	=> __('Turkish Lira', 'wpsdeals'),
 									'IDR' 	=> __('Indonesia Rupiah (Rp)', 'wpsdeals'),
-									
+									'AED'	=> __('Dirham - United Arab Emirates', 'wpsdeals')
 						  		 );
 		return $currency_data;
 	}
@@ -345,6 +345,25 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		$sendmyaccounturl = add_query_arg( $queryarg, $sendmyaccount );
 		
 		wp_redirect( apply_filters( 'wps_deals_my_account_page_redirect', $sendmyaccounturl, $queryarg ) );
+		exit;
+	}
+	/**
+	 * Send to Create An Account Page
+	 * 
+	 * Handles to return create an account page url
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_send_on_create_account_page( $queryarg = array() ) {
+		
+		$options = wps_deals_get_settings();
+		
+		$sendcreateaccount = get_permalink($options['create_account_page']);
+	
+		$sendcreateaccounturl = add_query_arg( $queryarg, $sendcreateaccount );
+		
+		wp_redirect( apply_filters( 'wps_deals_create_account_page_redirect', $sendcreateaccounturl, $queryarg ) );
 		exit;
 	}
 	/**

@@ -16,7 +16,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Social_Model {
 	
-	var $model;
+	public $model;
 	
 	public function __construct() {
 

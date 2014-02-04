@@ -410,3 +410,7 @@ table.wps-deals-edit-sale table.status-table th.comments{ width:30%; }
 select.chzn-select {
 	width: 250px;
 }
+.wps-deals-widget-description {
+	font-style: italic !important;
+    padding: 0 !important;
+}

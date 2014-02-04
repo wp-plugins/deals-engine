@@ -704,7 +704,92 @@ jQuery(document).ready(function($){
 			return false;
 		}
 	});
+
+	//registration form submit fron create an account page
+	$( document ).on( 'click', '.wps-deals-register-submit-btn', function() {
+		
+		var error 		= false;
+		var errorstr 	= '';
+		var username 	= $('#wps_deals_reg_user_name').val();
+		var pass		= $('#wps_deals_reg_user_pass').val();
+		var repass 		= $('#wps_deals_reg_user_confirm_pass').val();
+		var firstname	= $('#wps_deals_reg_user_firstname').val();
+		var lastname	= $('#wps_deals_reg_user_lastname').val();
+		var emailerror 	= false;
+		var email 		= $('#wps_deals_reg_user_email').val();
+		var errel		= $('.wps-deals-register-error');
+		var error2		= $('.wps-deals-multierror');
+		var successmsg	= $('.message_stack_success');
 	
+		//hide errors when click on button
+		errel.hide().html('');
+		
+		//hide errors when click on button
+		error2.hide().html('');
+	
+		//hide success message when click on button
+		successmsg.hide().html('');
+			
+		if(username == '') { //check usename is empty
+			error = true;
+			errorstr += Wps_Deals.cart_reg_user_blank;
+			$('#wps_deals_reg_user_name').addClass('error').removeClass('valid');
+		}
+		if(firstname == '') { //check firstname is empty
+			error = true;
+			errorstr += Wps_Deals.cart_firstname_blank;
+			$('#wps_deals_reg_user_firstname').addClass('error').removeClass('valid');
+		}
+		if(lastname == '') { //check lastname is empty
+			error = true;
+			errorstr += Wps_Deals.cart_lastname_blank;
+			$('#wps_deals_reg_user_lastname').addClass('error').removeClass('valid');
+		}
+		
+		//email validation	
+		if(email == '') { //check email
+			error = true;
+			errorstr += Wps_Deals.cart_email_blank;
+			$('#wps_deals_reg_user_email').addClass('error').removeClass('valid');
+		} else {
+			emailerror = wps_deals_valid_email(email);
+			if(emailerror != true) {
+				error = true;
+				errorstr += Wps_Deals.cart_email_invalid;
+				$('#wps_deals_reg_user_email').addClass('error').removeClass('valid');
+			}
+		}
+		if(pass == '') { //check password is empty
+			error = true;
+			errorstr += Wps_Deals.cart_reg_pass_blank;
+			$('#wps_deals_reg_user_pass').addClass('error').removeClass('valid');
+		}
+		if( repass == '' ) { //check confirm password is empty
+			error = true;
+			errorstr += Wps_Deals.cart_reg_conf_pass_blank;
+			$('#wps_deals_reg_user_confirm_pass').addClass('error').removeClass('valid');
+		}
+		if(pass != '' && repass != '' && pass != repass) { //check password and retype password should not empty
+			error = true;
+			errorstr += Wps_Deals.cart_reg_same_pass;
+			$('#wps_deals_reg_user_pass').addClass('error').removeClass('valid');
+			$('#wps_deals_reg_user_confirm_pass').addClass('error').removeClass('valid');
+		}
+		
+		if( error == true ) {
+			
+			errel.html( errorstr );
+			
+			//show error
+			errel.fadeIn();
+		
+			//scroll page to focus on error
+			$('html, body').animate({ scrollTop: errel.offset().top - 50 }, 500);
+			return false;
+		}
+		
+	});
+		
 	//front side cart login & registration form
 	$( document ).on( 'click', '.wps-deals-login-link', function() {
 		$('.wps-deals-reg-wrap').hide();
@@ -825,40 +910,6 @@ jQuery(document).ready(function($){
 		}
 	});
 	
-	/********** Deals Timer Start *************/
-	
-	$( '.wps-deals-end-timer' ).each( function() {
-		
-		var endyear		=	$( this ).attr( 'timer-year' );
-		var endmonth	=	$( this ).attr( 'timer-month' );
-		var endday		=	$( this ).attr( 'timer-day' );
-		var endhour		=	$( this ).attr( 'timer-hours' );
-		var endminute	=	$( this ).attr( 'timer-minute' );
-		var endsecond	=	$( this ).attr( 'timer-second' );
-		var montharray 	= new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
-		var futurestring1	=	( montharray[endmonth-1]+" "+endday+", "+endyear+" "+endhour+":"+endminute );
-		var futurestring	=	new Date( Date.parse( futurestring1 ) );
-		
-		var timerlayout = $( this ).html() + '<span class="wps-deals-days">{dnn} {dl}</span> \
-												<span>'+Wps_Deals_Timer.days+'</span> \
-												<span class="wps-deals-hrs">{hnn} {hl}</span> \
-												<span>'+Wps_Deals_Timer.hours+'</span> \
-												<span class="wps-deals-mins">{mnn} {ml}</span> \
-												<span>'+Wps_Deals_Timer.minutes+'</span> \
-												<span class="wps-deals-secs">{snn} {sl}</span>\
-												<span>'+Wps_Deals_Timer.seconds+'</span>';
-		
-		$( this ).wpsdealscountdown( {	until		:	futurestring,
-										format		:	'DHMS',
-										labels		:	['','','','','','','',''], 
-										labels1		:	['','','','','','','',''],
-										layout		:	timerlayout,
-										significant	:	0,
-										serverSync	:	wpsdealstodaytime 
-									} );	
-	});
-	/********** Deals Timer End *************/
-	
 	/********** Country Combo Load State As per Country Start ************/
 	$( document ).on( 'change', '.wps-deals-country-combo', function() {
 		
@@ -902,10 +953,6 @@ jQuery(document).ready(function($){
 	});
 	
 });
-//return today time
-function wpsdealstodaytime() {
-	return new Date( Wps_Deals_Timer.today ); //this is set on every page load via PHP script
-}
 // validation of email
 function wps_deals_valid_email(emailStr) {
 	var checkTLD=1;

@@ -5,7 +5,7 @@ Contributors: wpsocial, dwaser71
 Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial, widget
 Requires at least: 3.5.0
 Tested up to: 3.8.0
-Stable tag: 1.0.9
+Stable tag: 1.1.0
 License: GNU Version 2 or Any Later Version
 
 Turn your WordPress blog in to a Social Deals site and sell any kind of Deals with this complete Deals management plugin.
@@ -96,6 +96,12 @@ Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com
 6. Single Deal Page
 
 == Changelog ==
+= Version 1.1.0 (2014-02-04) =
+* Added Currency ( Dirham - United Arab Emirates (AED) )
+* Updated code for timer
+* Optimized Code in general
+* Fixed some small bugs
+* Added the option to select a Deal by ID within the widget
 = Version 1.0.9 (2014-01-02) =
 * Added Currency ( Indonesia Rupiah (Rp) )
 * Added option to hide the empty shopping cart widget
