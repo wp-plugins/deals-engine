@@ -301,7 +301,7 @@ table.wps-deals-edit-sale table.status-table th.comments{ width:30%; }
 	width: 800px;
 	padding: 20px 35px;
 	background: none repeat scroll 0 0 #FFFFFF;
-	z-index:102;
+	z-index:9999;
 	overflow: auto;
 	font: 12px "Lucida Grande",Verdana,Arial,sans-serif;
 	box-shadow: 0 4px 30px #000000;
