@@ -182,8 +182,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								</th>
 								<td>
 									<?php 
-											$settings = array();
-											wp_editor($wps_deals_options['terms_content'],'wps_deals_options[terms_content]',$settings);
+											$settings = array( 'textarea_name' => 'wps_deals_options[terms_content]' );
+											wp_editor($wps_deals_options['terms_content'],'wps_deals_options_terms_content',$settings);
 									?><br />
 									<span class="description"><?php _e( 'If Agree to Terms is checked, enter the agreement terms here.', 'wpsdeals' ); ?></span>  
 								</td>

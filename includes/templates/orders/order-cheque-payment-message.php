@@ -1,18 +1,18 @@
 <?php 
 
 /**
- * Template For show cheque payment message content on thank you page
+ * Cheque Payment Message Template
  * 
- * Handles to to show cheque payment message content on thank you page
+ * Override this template by copying it to yourtheme/deals-engine/orders/order-cheque-payment-message.php
  * 
- * Override this template by copying it to 
- * yourtheme/deals-engine/orders/order-cheque-payment-message.php
- * 
- * @package Social Deals Engine
- * @since 1.0.0
+ * @author 		Social Deals Engine
+ * @package 	Deals-Engine/Includes/Templates
+ * @version     1.0.0
  */
+ 
 ?>
-<p>
+
+<p class="deals-cheque-payment-message">
 	<?php 
  		echo $cheque_customer_msg;
  	?>

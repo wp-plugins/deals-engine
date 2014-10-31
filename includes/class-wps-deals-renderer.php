@@ -45,8 +45,10 @@ class Wps_Deals_Renderer {
 	 * @since 1.0.0
 	 */
 	public function wps_deals_empty_cart_message() {
-		return apply_filters('wps_deals_empty_cart_message', '<div class="wps-deals-error">'.__( 'Your cart is empty.', 'wpsdeals' ).'</div>' );
+	
+		return apply_filters( 'wps_deals_empty_cart_message', '<div class="deals-col-12"><div class="deals-message deals-error">' . __( 'Your cart is empty.', 'wpsdeals' ).'</div></div>' );
 	}
+	
 	/**
 	 * Get Order detail popup details
 	 * 
@@ -172,10 +174,10 @@ class Wps_Deals_Renderer {
 									<td><strong>'.__( 'Zip / Postal Code :','wpsdeals').'</strong></td>
 									<td>'.$billingpostcode.'</td>
 								</tr>';
-							
+									
 									//do action to add content after billing postcode
 									do_action( 'wps_deals_order_view_billing_postcode_after', $data['ID'] );
-							
+									
 							echo '<tr>
 									<td><strong>'.__( 'Country :','wpsdeals' ).'</strong></td>
 									<td>'.$billingcountry.'</td>
@@ -240,22 +242,22 @@ class Wps_Deals_Renderer {
 										<td nowrap="nowrap">'.$paypal_data['payment_status'].'</td>
 										<td nowrap="nowrap">'.$this->currency->wps_deals_currency_symbol($payment_currency).' '.$pay_gross.'</td>
 										<td nowrap="nowrap">'.$this->currency->wps_deals_currency_symbol($payment_currency).' '.$pay_fees.'</td>
-										<td nowrap="nowrap">'.$this->currency->wps_deals_currency_symbol($payment_currency).' '.$net_amount.'</td> 																						
+										<td nowrap="nowrap">'.$this->currency->wps_deals_currency_symbol($payment_currency).' '.$net_amount.'</td>
 									</tr>';
 							} else {
-									
+								
 								echo '<tr class="wps-deals-txn-detail">
 												<td colspan="7">'.__('No PayPal Transaction Information Available','wpsdeals').'</td>
 										  </tr>';
 							}
-											
+							
 			echo '		</tbody>
 					</table>
 				</div><!--wps-deals-view-paypal-details-->';
 		}
 		//add some content before payment details
 		do_action('wps_deals_sales_paymentdetails_before_items',$data['ID']);
-								
+		
 		echo '<div class="wps-deals-view-product-details">
 					<div class="wps-deal-bill-title">'.__('Item Ordered','wpsdeals').'</div>
 						<table class="widefat fixed">
@@ -272,18 +274,18 @@ class Wps_Deals_Renderer {
 								</thead>';
 					$alternate = '';
 					
-					foreach ( $data['deals_details'] as $deal ) {	
-																
+					foreach ( $data['deals_details'] as $deal ) {
+						
 						echo '<tr '.$alternate.'>';
-							
+								
 								do_action('wps_deals_sales_order_details_data_before',$data['ID']);
-							
+								
 								echo '<td>'.get_the_title($deal['deal_id']).'</td>
 									
 									<td>'.$deal['deal_quantity'].'</td>
 									
 									<td>'.$deal['display_price'].'</td>
-																									
+									
 									<td>'.$deal['display_total'].'</td>';
 								
 								do_action('wps_deals_sales_order_details_data_after',$data['ID']);	
@@ -295,7 +297,7 @@ class Wps_Deals_Renderer {
 					do_action('wps_deals_sales_popup_order_row_after',$data['ID']);
 					
 					echo '<tr class="alternate">
-											
+							
 							<td colspan="2"></td>
 							
 							<td>'.__('Sub Total','wpsdeals').'</td>
@@ -318,7 +320,7 @@ class Wps_Deals_Renderer {
 								  </tr>';
 							
 						} //end foreach loop
-							
+						
 					} //end if to check there is fees is exist in order or not
 					
 					//do action to add something in backed order popup details after fees row
@@ -342,6 +344,7 @@ class Wps_Deals_Renderer {
 					</div><!--.wps-deals-view-details-wrap-->';
 		return ob_get_clean();
 	}
+	
 	/**
 	 * Cart Widget Content
 	 * 
@@ -358,56 +361,52 @@ class Wps_Deals_Renderer {
 		$cartdata = $this->cart->get();
 		$cartproducts = $cartdata['products'];
 		
+		// get the color scheme from the settings
+		$button_color = isset( $wps_deals_options['deals_btn_color'] ) ? $wps_deals_options['deals_btn_color'] : '';
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		
 		$html = '';
 		
 		if( !empty( $cartproducts ) ) {
 				
-				$html .= '<table class="wps-deals-latest-widget-cart-items table">';
-				$html .= '	<tbody>
-								<tr>';
-				$html = 			apply_filters('wps_deals_latest_widget_head_before',$html);
-				$html .= '			<th class="dealname">'.__('Deal Name','wpsdeals').'</th>
-									<th class="qty">'.__('QTY','wpsdeals').'</th>
-									<th class="price">'.__('Price','wpsdeals').'</th>';
-				$html = 			apply_filters('wps_deals_latest_widget_head_after',$html);
-				$html .= '		</tr>';
+				$html .= '<ul class="wps-deals-latest-widget-cart-items table">';
 				
-				foreach ($cartproducts as $id => $deal) {
+				foreach( $cartproducts as $id => $deal ) {
 					
 					$dealprice = $this->price->wps_deals_get_price( $deal['dealid'] );
+					$dealimage = get_the_post_thumbnail( $deal['dealid'], array( 100,100 ) );
 					
-					$html .= '<tr>';
+					$html .= '<li>';
 					$html = 	apply_filters('wps_deals_latest_widget_data_before',$html);	
-					$html .= '	<td class="dealname"><a href="'.get_permalink($deal['dealid']).'" title="'.get_the_title($deal['dealid']).'" >'.get_the_title($deal['dealid']).'</a></td>
-								<td class="qty">'.$deal['quantity'].'</td>
-								<td class="price">'.$this->price->get_display_price( $dealprice, $deal['dealid'] ).'</td>';
+					$html .= '	<a href="' . get_permalink( $deal['dealid'] ) . '">' . $dealimage . get_the_title( $deal['dealid'] ) . '</a>';
+					$html .= '	<span class="quantity">' . $deal['quantity'] . ' x <span class="amount">' . $this->price->get_display_price( $dealprice, $deal['dealid'] ) . '</span></span>';
 					$html = 	apply_filters('wps_deals_latest_widget_data_before',$html);	
-					$html .= '</tr>';
+					$html .= '</li>';
 					
 				}
 				
-				$html .= '<tr class="total">';
-				$html = 	apply_filters('wps_deals_latest_widget_total_before',$html);	
-				$html .= '	<th colspan="2">'.__('Total','wpsdeals').'</th>
-							<td class="price">'.$this->currency->wps_deals_formatted_value($cartdata['subtotal']).'</td>';
-				$html = 	apply_filters('wps_deals_latest_widget_total_after',$html);
-				$html .= '</tr>';
+				$html .= '</ul>';
 				
-				$html .= '	</tbody>
-						</table>';
+				$html .= '<p class="total">';
+				$html = 	apply_filters( 'wps_deals_latest_widget_total_before', $html );	
+				$html .= '	<strong>' . __( 'Subtotal:', 'wpsdeals' ) . '</strong>';
+				$html .= '	<span class="amount">' . $this->currency->wps_deals_formatted_value( $cartdata['subtotal'] ) . '</span>';
+				$html = 	apply_filters( 'wps_deals_latest_widget_total_after', $html );
+				$html .= '</p>';
 				
 			} else {
 				
 				ob_start();
 				do_action( 'wps_deals_cart_empty' );
-				$html .= ob_get_clean();
-							
+				$html .= ob_get_clean();							
 			}
-						
-			//continue shoping link
+			
+			//Get checkout page ID
+			$payment_checkout_page	= isset( $wps_deals_options['payment_checkout_page'] ) ? $wps_deals_options['payment_checkout_page'] : '';
+			
+			// checkout link
 			$html .= '	<div class="wps-deals-widget-shopping-link">
-							<a href="'.get_permalink($wps_deals_options['deals_main_page']).'" class="wps-deals-widget-cont-shop" title="'.__('Continue Shopping','wpsdeals').'">'.__('Continue Shopping &rarr;','wpsdeals').'</a>
-							<a href="'.get_permalink($wps_deals_options['payment_checkout_page']).'" class="wps-deals-widget-view-cart" title="'.__('View Cart','wpsdeals').'">'.__('Checkout &rarr;','wpsdeals').'</a>
+							<a href="' . get_permalink( $payment_checkout_page ) . '" class="' . $btncolor . ' deals-button btn-small deals-widget-view-cart">' . __( 'Checkout &rarr;', 'wpsdeals' ) . '</a>
 						</div>';
 			return $html;
 	}
@@ -453,7 +452,7 @@ class Wps_Deals_Renderer {
 			'disable_price' => '',
 			'disable_timer' => '',
 		), $atts ) );
-		
+				
 		$html = '';
 		
 		if( !empty( $ids ) ) { // Check ids are not empty
@@ -483,11 +482,11 @@ class Wps_Deals_Renderer {
 								 );
 			
 			$argssrcd = array( 'post_type' => WPS_DEALS_POST_TYPE, 'post__in' => $ids, 'meta_query' => $dealsmetaquery, 'posts_per_page' => '-1' );
-			
+									
 			ob_start();
 			
-				//active deals template
-				wps_deals_get_template( 'home/home-content/more-deals.php', array( 'args' => $argssrcd, 'tab' => '' ) );
+			//active deals template
+			wps_deals_get_template( 'home-deals/more-deals/more-deals.php', array( 'args' => $argssrcd, 'tab' => '', 'options' => array( 'disable_price' => $disable_price, 'disable_timer' => $disable_timer ) ) );
 			
 			$html .= ob_get_clean();
 		

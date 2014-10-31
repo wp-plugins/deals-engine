@@ -49,7 +49,7 @@ class Wps_Deals_Payment_Log {
 		if ( isset( $this->_handles[ $handle ] ) )
 			return true;
 
-		if ( $this->_handles[ $handle ] = @fopen( WPS_DEALS_DIR . '/logs/' . $this->wps_deals_file_name( $handle ), 'a' ) )
+		if ( $this->_handles[ $handle ] = @fopen( WPS_DEALS_LOG_DIR . $this->wps_deals_file_name( $handle ), 'a' ) )
 			return true;
 
 		return false;

@@ -1,130 +1,140 @@
 <?php 
 
 /**
- * Template For Create An Account Page
- * 
- * Handles to return for create an account page content
+ * Create An Account Template
  * 
  * Override this template by copying it to yourtheme/deals-engine/my-account/create-account.php
  *
- * @package Social Deals Engine
- * @since 1.0.0
+ * @author 		Social Deals Engine
+ * @package 	Deals-Engine/Includes/Templates
+ * @version     1.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-	global $wps_deals_message;
+global $wps_deals_message;
 
-	if ( $wps_deals_message->size( 'register' ) > 0 ) {
-		// if we need to display the error message, we will do it here
-		echo '<div class="wps-deals-multierror">';
-		echo 	$wps_deals_message->output( 'register' );
-		echo '</div>';
-	}
+if ( $wps_deals_message->size( 'register' ) > 0 ) {
+	// if we need to display the error message, we will do it here
+	echo '<div class="deals-multierror">';
+	echo 	$wps_deals_message->output( 'register' );
+	echo '</div>';
+}
 	
 ?>
 
-<div class="wps-deals-error wps-deals-register-error"></div>
+<div class="deals-message deals-error deals-register-error"></div>
 
 <form action="" method="post" enctype="multipart/form-data" >
 	
-	<div class="wps-deals-register-wrap row-fluid clearfix">
-		<div class="wps-deals-register-fields-container wps-deals-fields-container">
+	<div class="deals-register-wrapper deals-row deals-clearfix">
+	
+		<div class="deals-fields-container deals-col-12">
 				
 			<?php
-				//do action to add fields before reg form in cart
+				/**
+				 * wps_deals_reg_form_before hook
+				 */
 				do_action( 'wps_deals_reg_form_before' );
 			?>
 			
-			<div class="wps-deals-details row-fluid">
-				<div class="span4">
-					<p><label for="wps_deals_user_name"><?php _e( 'User Name', 'wpsdeals' ); ?></label></p>
-				</div>
-				<div class="span8">
-					<input type="text" id="wps_deals_reg_user_name" name="wps_deals_reg_user_name" class="wps-deals-cart-text wps-deals-required" value="<?php echo $wps_deals_reg_user_name; ?>" />
-				</div>
-			</div><!--wps-deals-details-->
+			<div class="deals-user-details deals-username">
+				<p>
+					<label for="deals_user_name"><?php _e( 'Username', 'wpsdeals' ); ?></label>
+					<input type="text" id="deals_reg_user_name" name="wps_deals_reg_user_name" class="deals-required-field" value="<?php echo $wps_deals_reg_user_name; ?>">
+				</p>
+			</div>
 			
 			<?php
-				//do action to add fields after user name
+				/**
+				 * wps_deals_reg_form_username_after hook
+				 */
 				do_action( 'wps_deals_reg_form_username_after' );
 			?>
 			
-			<div class="wps-deals-details row-fluid">
-				<div class="span4">
-					<p><label for="wps_deals_reg_user_firstname"><?php _e( 'First Name', 'wpsdeals' ); ?></label></p>
-				</div>
-				<div class="span8">
-					<input type="text" id="wps_deals_reg_user_firstname" name="wps_deals_reg_user_firstname" class="wps-deals-cart-text wps-deals-required" value="<?php echo $wps_deals_reg_user_firstname; ?>" />
-				</div>
-			</div><!--wps-deals-details-->
+			<div class="deals-user-details deals-user-fname">
+				<p>
+					<label for="deals_reg_user_firstname"><?php _e( 'First Name', 'wpsdeals' ); ?></label>
+					<input type="text" id="deals_reg_user_firstname" name="wps_deals_reg_user_firstname" class="deals-required-field" value="<?php echo $wps_deals_reg_user_firstname; ?>">
+				</p>
+			</div>
 			
 			<?php
-				//do action to add fields after user first name
+				/**
+				 * wps_deals_reg_form_first_name_after hook
+				 */
 				do_action( 'wps_deals_reg_form_first_name_after' );
 			?>
 			
-			<div class="wps-deals-details row-fluid">
-				<div class="span4">
-					<p><label for="wps_deals_reg_user_lastname"><?php _e( 'Last Name', 'wpsdeals' ); ?></label></p>
-				</div>
-				<div class="span8">
-					<input type="text" id="wps_deals_reg_user_lastname" name="wps_deals_reg_user_lastname" class="wps-deals-cart-text wps-deals-required" value="<?php echo $wps_deals_reg_user_lastname; ?>" />
-				</div>
-			</div><!--wps-deals-details-->
+			<div class="deals-user-details deals-user-lname">
+				<p>
+					<label for="deals_reg_user_lastname"><?php _e( 'Last Name', 'wpsdeals' ); ?></label>
+					<input type="text" id="deals_reg_user_lastname" name="wps_deals_reg_user_lastname" class="deals-required-field" value="<?php echo $wps_deals_reg_user_lastname; ?>">
+				</p>
+			</div>
 			
 			<?php
-				//do action to add fields after user last name
+				/**
+				 * wps_deals_reg_form_last_name_after hook
+				 */
 				do_action( 'wps_deals_reg_form_last_name_after' );
 			?>
 			
-			<div class="wps-deals-details row-fluid">
-				<div class="span4">
-					<p><label for="wps_deals_reg_user_email"><?php _e( 'Email Address', 'wpsdeals' ); ?></label></p>
-				</div>
-				<div class="span8">
-					<input type="text" id="wps_deals_reg_user_email" name="wps_deals_reg_user_email" class="wps-deals-cart-text wps-deals-required" value="<?php echo $wps_deals_reg_user_email; ?>" />
-				</div>
-			</div><!--wps-deals-details-->
+			<div class="deals-user-details deals-user-email">
+				<p>
+					<label for="deals_reg_user_email"><?php _e( 'Email', 'wpsdeals' ); ?></label>
+					<input type="text" id="deals_reg_user_email" name="wps_deals_reg_user_email" class="deals-required-field" value="<?php echo $wps_deals_reg_user_email; ?>">
+				</p>
+			</div>
 			
 			<?php
-				//do action to add fields after user email
+				/**
+				 * wps_deals_reg_form_email_after hook
+				 */
 				do_action( 'wps_deals_reg_form_email_after' );
 			?>
 			
-			<div class="wps-deals-details row-fluid">
-				<div class="span4">
-					<p><label for="wps_deals_reg_user_pass"><?php _e( 'Password', 'wpsdeals' ); ?></label></p>
-				</div>
-				<div class="span8">
-					<input type="password" id="wps_deals_reg_user_pass" name="wps_deals_reg_user_pass" class="wps-deals-cart-text wps-deals-required" />
-				</div>
-			</div><!--wps-deals-details-->
+			<div class="deals-user-details deals-user-pw">
+				<p>
+					<label for="deals_reg_user_pass"><?php _e( 'Password', 'wpsdeals' ); ?></label>
+					<input type="password" id="deals_reg_user_pass" name="wps_deals_reg_user_pass" class="deals-required-field">
+				</p>
+			</div>
 			
 			<?php
-				//do action to add fields after user password
+				/**
+				 * wps_deals_reg_form_pass_after hook
+				 */
 				do_action( 'wps_deals_reg_form_pass_after' );
 			?>
 			
-			<div class="wps-deals-details row-fluid">
-				<div class="span4">
-					<p><label for="wps_deals_reg_user_confirm_pass"><?php _e( 'Confirm Password', 'wpsdeals' ); ?></label></p>
-				</div>
-				<div class="span8">
-					<input type="password" id="wps_deals_reg_user_confirm_pass" name="wps_deals_reg_user_confirm_pass" class="wps-deals-cart-text wps-deals-required" />
-				</div>
-			</div><!--wps-deals-details-->
+			<div class="deals-user-details deals-user-cpw">
+				<p>
+					<label for="deals_reg_user_confirm_pass"><?php _e( 'Confirm Password', 'wpsdeals' ); ?></label>
+					<input type="password" id="deals_reg_user_confirm_pass" name="wps_deals_reg_user_confirm_pass" class="deals-required-field">
+				</p>
+			</div>
 			
 			<?php
-				//do action to add fields after registration form
+				/**
+				 * wps_deals_reg_form_after hook
+				 */
 				do_action( 'wps_deals_reg_form_after' );
 			?>
-		</div><!--.wps-deals-register-fields-container-->
-	</div><!--.wps-deals-register-wrap-->
+		</div>
+		
+	</div>
 	
-	<div class="wps-deals-register-submit-wrapper">
-		<input type="submit" class="wps-deals-register-submit-btn wps-deals-btn" name="wps_deals_register_submit" id="wps_deals_register_submit" value="<?php _e( 'Register', 'wpsdeals' ); ?>">
-		<a href="<?php echo $loginlink; ?>" class="wps-deals-login-link"><?php _e( 'Login', 'wpsdeals' ); ?></a>
-	</div><!--.wps-deals-register-submit-wrapper-->
+	<div class="deals-register-wrapper">
+	
+		<p class="deals-form-submit">
+			<input type="submit" class="button deals-register-button" name="register" id="register" value="<?php _e( 'Register', 'wpsdeals' ); ?>">
+		</p>
+		
+		<p class="deals-login-link">
+			<a href="<?php echo $loginlink; ?>"><?php _e( 'Login', 'wpsdeals' ); ?></a>
+		</p>
+		
+	</div>
 		
 </form>

@@ -88,7 +88,7 @@ global $wps_deals_payment_log;
 									</th>
 									<td>
 										<input type="checkbox" id="wps_deals_options[enable_debug]" name="wps_deals_options[enable_debug]" value="1" <?php if(isset($wps_deals_options['enable_debug'])) { checked('1',$wps_deals_options['enable_debug']); }?>/><br />
-										<span class="description"><?php echo sprintf( __( 'If checked, debug output will be written to log files. Log PayPal events, such as IPN requests, inside <code>deals-engine/logs/%s</code>', 'wpsdeals' ), $wps_deals_payment_log->wps_deals_file_name( 'paypal' ) ); ?></span>
+										<span class="description"><?php echo sprintf( __( 'If checked, debug output will be written to log files. Log PayPal events, such as IPN requests, inside <code>'.WPS_DEALS_LOG_DIR.'%s</code>', 'wpsdeals' ), $wps_deals_payment_log->wps_deals_file_name( 'paypal' ) ); ?></span>
 									</td>
 								</tr>
 								

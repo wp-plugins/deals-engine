@@ -34,29 +34,10 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.row {
-  margin-left: -20px;
-  *zoom: 1;
-}
-.row:before,
-.row:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.row:after {
-  clear: both;
-}
 [class*="span"] {
   float: left;
   min-height: 1px;
   margin-left: 20px;
-}
-.container,
-.navbar-static-top .container,
-.navbar-fixed-top .container,
-.navbar-fixed-bottom .container {
-  width: 940px;
 }
 .span12 {
   width: 940px;
@@ -311,34 +292,6 @@
 [class*="span"].pull-right,
 .row-fluid [class*="span"].pull-right {
   float: right;
-}
-.container {
-  margin-right: auto;
-  margin-left: auto;
-  *zoom: 1;
-}
-.container:before,
-.container:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.container:after {
-  clear: both;
-}
-.container-fluid {
-  padding-right: 20px;
-  padding-left: 20px;
-  *zoom: 1;
-}
-.container-fluid:before,
-.container-fluid:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.container-fluid:after {
-  clear: both;
 }
 .modal-backdrop {
   position: fixed;
@@ -814,9 +767,6 @@ table th[class*="span"],
     margin-left: -20px;
     margin-right: -20px;
   }
-  .container-fluid {
-    padding: 0;
-  }
   .dl-horizontal dt {
     float: none;
     clear: none;
@@ -826,13 +776,9 @@ table th[class*="span"],
   .dl-horizontal dd {
     margin-left: 0;
   }
-  .container {
-    width: auto;
-  }
   .row-fluid {
     width: 100%;
   }
-  .row,
   .thumbnails {
     margin-left: 0;
   }
@@ -952,29 +898,10 @@ table th[class*="span"],
   }
 }
 @media (min-width: 768px) and (max-width: 979px) {
-  .row {
-    margin-left: -20px;
-    *zoom: 1;
-  }
-  .row:before,
-  .row:after {
-    display: table;
-    content: "";
-    line-height: 0;
-  }
-  .row:after {
-    clear: both;
-  }
   [class*="span"] {
     float: left;
     min-height: 1px;
     margin-left: 20px;
-  }
-  .container,
-  .navbar-static-top .container,
-  .navbar-fixed-top .container,
-  .navbar-fixed-bottom .container {
-    width: 724px;
   }
   .span12 {
     width: 724px;
@@ -1292,29 +1219,10 @@ table th[class*="span"],
   }
 }
 @media (min-width: 1200px) {
-  .row {
-    margin-left: -30px;
-    *zoom: 1;
-  }
-  .row:before,
-  .row:after {
-    display: table;
-    content: "";
-    line-height: 0;
-  }
-  .row:after {
-    clear: both;
-  }
   [class*="span"] {
     float: left;
     min-height: 1px;
     margin-left: 30px;
-  }
-  .container,
-  .navbar-static-top .container,
-  .navbar-fixed-top .container,
-  .navbar-fixed-bottom .container {
-    width: 1170px;
   }
   .span12 {
     width: 1170px;

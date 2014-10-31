@@ -248,6 +248,9 @@ class Wps_Deals_Scripts {
 		wp_register_script( 'wps-deals-front-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-front.js', array( 'jquery' ), null );
 		wp_enqueue_script( 'wps-deals-front-scripts' );
 		
+		//Only register front side scripts, enqueue whenever needed
+		wp_register_script( 'wps-deals-front-show-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-front-show.js', array( 'jquery' ), null );
+		
 		wp_register_script( 'twitter-bootstrap', WPS_DEALS_URL . 'includes/js/bootstrap.js', array( 'jquery' ), '2.3.1', true );
 		if( empty( $wps_deals_options['disable_twitter_bootstrap'] ) ) {
 			wp_enqueue_script( 'twitter-bootstrap' );

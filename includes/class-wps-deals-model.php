@@ -502,11 +502,11 @@ class Wps_Deals_Model {
 		$last_name = isset( $userdata['last_name'] ) ? $userdata['last_name'] : '';
 		$fullname = $first_name.' '.$last_name;
 		$user_name = !empty($userdata['user_name']) ? $userdata['user_name'] : '';
-		
+		$from_name = get_bloginfo('name');
 		$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
 		
 		$subject = WPS_DEALS_BUYER_EMAIL_SUBJECT;
-		$headers = 'From: '. $fromemail."\r\n";
+		$headers = "From: " . stripslashes_deep( html_entity_decode( $from_name, ENT_COMPAT, 'UTF-8' ) ) . " <$fromemail>\r\n";
 		$headers .= "Reply-To: ". $fromemail . "\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
 		$headers .= "Content-Type: text/html; charset=utf-8\r\n";

@@ -94,8 +94,8 @@ wp_enqueue_script( 'wps-deals-popup-scripts' );
 									</th>
 									<td>
 										<?php 
-												$settings = array();
-												wp_editor($wps_deals_options['buyer_email_body'],'wps_deals_options[buyer_email_body]',$settings);
+												$settings = array( 'textarea_name' => 'wps_deals_options[buyer_email_body]' );
+												wp_editor($wps_deals_options['buyer_email_body'],'wps_deals_options_buyer_email_body',$settings);
 										?><br />
 										<?php 
 												$buyeremail_desc = 'This is the body of the email that will be sent to the buyer. Do not change the email tags (text within the braces { })<br />
@@ -218,8 +218,8 @@ wp_enqueue_script( 'wps-deals-popup-scripts' );
 									</th>
 									<td>
 										<?php 
-												$settings = array();
-												wp_editor($wps_deals_options['reset_password_email'],'wps_deals_options[reset_password_email]',$settings);
+												$settings = array( 'textarea_name' => 'wps_deals_options[reset_password_email]' );
+												wp_editor($wps_deals_options['reset_password_email'],'wps_deals_options_reset_password_email',$settings);
 										?><br />
 										<?php 
 												$reset_password_desc = 'This is the body of the email that will be sent to the user when user reset the password. Do not change the email tags (text within the braces { })<br />

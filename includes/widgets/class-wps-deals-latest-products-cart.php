@@ -9,37 +9,38 @@ add_action( 'widgets_init', 'wps_deals_latest_prodcuts_cart_widget' );
  * Register the Reviews Widget
  *
  * @package Social Deals Engine
- * @since 1.0.
+ * @since 1.0.0
  */
 function wps_deals_latest_prodcuts_cart_widget() {
-	register_widget( 'Wps_Deals_Latest_Products_Cart_Lists' );
+
+	register_widget( 'SDE_Deals_Widget_Cart' );
 }
 
 /**
- * Wps_Fbre_Reviews Widget Class.
+ * SDE_Deals_Widget_Cart Widget Class.
  *
  * This class handles everything that needs to be handled with the widget:
- * to show latest products added in cart
+ * to display the latest Deals added to the shopping cart
  *
  * @package Social Deals Engine
- * @since 1.0.
+ * @since 1.0.0
  */
-class Wps_Deals_Latest_Products_Cart_Lists extends WP_Widget {
+class SDE_Deals_Widget_Cart extends WP_Widget {
 
 	public $render, $cart;
 
 	/**
 	 * Widget setup.
 	 */
-	function Wps_Deals_Latest_Products_Cart_Lists() {
+	function SDE_Deals_Widget_Cart() {
 	
 		global $wps_deals_render, $wps_deals_cart;
 		
-		$this->render	= $wps_deals_render;
-		$this->cart		= $wps_deals_cart;
+		$this->render = $wps_deals_render;
+		$this->cart = $wps_deals_cart;
 		
 		/* Widget settings. */
-		$widget_ops = array( 'classname' => 'wps-deals-latest-products-cart', 'description' => __( 'A social deals widget, which lets you display deals that added to cart by users.', 'wpsdeals' ) );
+		$widget_ops = array( 'classname' => 'deals-widget-shopping-cart', 'description' => __( 'Display the user\'s Cart in the sidebar.', 'wpsdeals' ) );
 
 		/* Create the widget. */
 		$this->WP_Widget( 'wps-deals-latest-products-cart', __( 'Deals Engine - Cart', 'wpsdeals' ), $widget_ops );
@@ -55,44 +56,47 @@ class Wps_Deals_Latest_Products_Cart_Lists extends WP_Widget {
 		
 		extract( $args );
 		
-		$hide_empty_cart	= $instance['hide_empty_carrt'];
-		$cartdata			= $this->cart->get();
-		$cartproducts		= $cartdata['products'];
+		$hide_empty_cart = $instance['hide_empty_carrt'];
+		$cartdata = $this->cart->get();
+		$cartproducts = $cartdata['products'];
 		
 		$html = '';
 		
 		if( empty( $cartproducts ) && $hide_empty_cart ) {
-			$wrapper_class = 'wps-deals-latest-widget-wrapper wps-deals-latest-widget-hide';
+			$wrapper_class = 'deals-cart-widget deals-hide';
 		} else {
-			$wrapper_class = 'wps-deals-latest-widget-wrapper wps-deals-latest-widget-show';
+			$wrapper_class = 'deals-cart-widget deals-show';
 		}
 		
-		echo '<div class="'.$wrapper_class.'">';
+		echo '<div class="' . $wrapper_class . '">';
 		
 		$title = apply_filters( 'widget_title', $instance['title'] );
 		
 		//limit to show orders
 		//$limit = $instance['limit'];
 		
-		if($post->ID != $wps_deals_options['payment_checkout_page'])  { //if current page is checout page then dont show cart widget
+		if( $post->ID != $wps_deals_options['payment_checkout_page'] )  { 
 		
 			echo $before_widget;
 			
 			if ( $title )
 				echo $before_title . $title . $after_title;
+				
+				$html .= '<div class="deals-row deals-clearfix">';
 			
-				$html .= '<div class="wps-deals-latest-widget">';
+				$html .= '<div id="deals-cart-widget" class="deals-widget deals-col-12">';
 				
 				$html .= $this->render->wps_deals_cart_widget_content();
 				
-				$html .= '</div><!--.wps-deals-latest-widget-->';
+				$html .= '</div>';
+				
+				$html .= '</div>';
 				
 			echo $html;
 	    	echo $after_widget;
 		}
 		
-		echo '</div>';
-	    
+		echo '</div>';	    
     }
 	
 	/**
@@ -102,13 +106,13 @@ class Wps_Deals_Latest_Products_Cart_Lists extends WP_Widget {
 	
         $instance = $old_instance;
 		
-		/* Set the instance to the new instance. */
+		// Set the instance to the new instance
 		$instance = $new_instance;
 		
-		/* Input fields */
-        $instance['title']				= strip_tags( $new_instance['title'] ); 
-		$instance['limit']				= strip_tags( $new_instance['limit'] ); 
-		$instance['hide_empty_carrt']	= strip_tags( $new_instance['hide_empty_carrt'] );
+		// Input fields
+        $instance['title'] = strip_tags( $new_instance['title'] ); 
+		$instance['limit'] = strip_tags( $new_instance['limit'] ); 
+		$instance['hide_empty_carrt'] = isset( $new_instance['hide_empty_carrt'] ) ? $new_instance['hide_empty_carrt'] : '';
 		
         return $instance;
 		
@@ -119,7 +123,7 @@ class Wps_Deals_Latest_Products_Cart_Lists extends WP_Widget {
 	 */
 	function form( $instance ) {
 	
-		$defaults = array( 'title' => __('Shopping Cart', 'wpsdeals'), 'hide_empty_carrt' => '');
+		$defaults = array( 'title' => __( 'Cart', 'wpsdeals' ), 'hide_empty_carrt' => '' );
 		
         $instance = wp_parse_args( (array) $instance, $defaults );
 		

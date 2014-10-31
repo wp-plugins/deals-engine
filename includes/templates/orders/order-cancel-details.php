@@ -1,18 +1,18 @@
 <?php 
 
 /**
- * Template For Order Cancel Details
+ * Order Cancel Details Template
  * 
- * Handles to return order cancel details
+ * Override this template by copying it to yourtheme/deals-engine/orders/order-cancel-details.php
  * 
- * Override this template by copying it to 
- * yourtheme/deals-engine/orders/order-cancel-details.php
- * 
- * @package Social Deals Engine
- * @since 1.0.0
+ * @author 		Social Deals Engine
+ * @package 	Deals-Engine/Includes/Templates
+ * @version     1.0.0
  */
+
 ?>
-<p>
+
+<p class="deals-order-cancelled">
 	<?php 
  		echo apply_filters('wps_deals_cancel_order_message',__('Sorry, your order has been cancelled.','wpsdeals'));
  	?>

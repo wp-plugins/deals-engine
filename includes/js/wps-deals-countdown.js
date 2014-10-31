@@ -809,7 +809,7 @@ var plugin = $.wpsdealscountdown = new Countdown(); // Singleton instance
 
 /********** Deals Timer Start *************/
 	
-$( '.wps-deals-end-timer' ).each( function() {
+$( '.deals-end-timer' ).each( function() {
 	
 	var endyear		=	$( this ).attr( 'timer-year' );
 	var endmonth	=	$( this ).attr( 'timer-month' );
@@ -821,13 +821,13 @@ $( '.wps-deals-end-timer' ).each( function() {
 	var futurestring1	=	( montharray[endmonth-1]+" "+endday+", "+endyear+" "+endhour+":"+endminute );
 	var futurestring	=	new Date( Date.parse( futurestring1 ) );
 	
-	var timerlayout = $( this ).html() + '<span class="wps-deals-days">{dnn} {dl}</span> \
+	var timerlayout = $( this ).html() + '<span class="deals-days">{dnn} {dl}</span> \
 											<span>'+Wps_Deals_Timer.days+'</span> \
-											<span class="wps-deals-hrs">{hnn} {hl}</span> \
+											<span class="deals-hrs">{hnn} {hl}</span> \
 											<span>'+Wps_Deals_Timer.hours+'</span> \
-											<span class="wps-deals-mins">{mnn} {ml}</span> \
+											<span class="deals-mins">{mnn} {ml}</span> \
 											<span>'+Wps_Deals_Timer.minutes+'</span> \
-											<span class="wps-deals-secs">{snn} {sl}</span>\
+											<span class="deals-secs">{snn} {sl}</span>\
 											<span>'+Wps_Deals_Timer.seconds+'</span>';
 	
 	$( this ).wpsdealscountdown( {	until		:	futurestring,
