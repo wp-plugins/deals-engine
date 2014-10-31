@@ -1,48 +1,53 @@
 <?php 
 
 /**
- * Template For My Account Top Content
- * 
- * Handles to return for my account top content content
+ * Billing Address Template
  * 
  * Override this template by copying it to yourtheme/deals-engine/my-account/billing-address.php
  *
- * @package Social Deals Engine
- * @since 1.0.0
+ * @author 		Social Deals Engine
+ * @package 	Deals-Engine/Includes/Templates
+ * @version     1.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 ?>
-<div class="wps-deals-view-bill-details">
+<div class="deals-billing-address">
+
 	<h3>
 		<?php echo $billingtitle; ?>
 		<?php if( !empty( $editlink ) ) { ?>
-			<a href="<?php echo $editlink; ?>" class="wps-deals-edit-address-link"><?php _e( 'Edit','wpsdeals' );?></a>
+			<a href="<?php echo $editlink; ?>" class="deals-edit-address-link"><?php _e( 'Edit','wpsdeals' );?></a>
 		<?php } ?>
 	</h3>
+	
 	<table>
+	
 		<tbody>
 			<?php if( !empty( $billingalldata ) ) { //check billing data ?>
 				<tr>
 					<td><strong><?php _e( 'Address :','wpsdeals' );?></strong></td>
-					<td><?php echo $billingaddress1.'<br />'.
-									$billingaddress2;?>
+					<td><?php echo $billingaddress1 . '<br />' . $billingaddress2; ?>
 					</td>
 				</tr>
 				<?php
-						//do action to add content after billing address
+						/**
+						 * wps_deals_my_account_billing_address_after hook
+						 */
 						do_action( 'wps_deals_my_account_billing_address_after' );
 						
 					if( !empty( $billingcompany ) ) {
 				?>
 				<tr>
 					<td><strong><?php _e( 'Company Name :','wpsdeals' );?></strong></td>
-					<td><?php echo $billingcompany;?></td>
+					<td><?php echo $billingcompany; ?></td>
 				</tr>
 				<?php
 					}
-						//do action to add content after billing company name
+						/**
+						 * wps_deals_my_account_billing_company_after hook
+						 */
 						do_action( 'wps_deals_my_account_billing_company_after' );
 				?>
 				<tr>
@@ -50,7 +55,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					<td><?php echo $billingcity;?></td>
 				</tr>
 				<?php
-						//do action to add content after billing city
+						/**
+						 * wps_deals_my_account_billing_city_after hook
+						 */
 						do_action( 'wps_deals_my_account_billing_city_after' );
 				?>
 				<tr>
@@ -58,7 +65,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					<td><?php echo $billingstate;?></td>
 				</tr>
 				<?php
-						//do action to add content after billing county / state
+						/**
+						 * wps_deals_my_account_billing_county_after hook
+						 */
 						do_action( 'wps_deals_my_account_billing_county_after' );
 				?>
 				<tr>
@@ -66,7 +75,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					<td><?php echo $billingpostcode;?></td>
 				</tr>
 				<?php
-						//do action to add content after billing postcode
+						/**
+						 * wps_deals_my_account_billing_postcode_after hook
+						 */
 						do_action( 'wps_deals_my_account_billing_postcode_after' );
 				?>
 				<tr>
@@ -74,7 +85,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					<td><?php echo $billingcountry;?></td>
 				</tr>
 				<?php
-						//do action to add content after billing country
+						/**
+						 * wps_deals_my_account_billing_country_after hook
+						 */
 						do_action( 'wps_deals_my_account_billing_country_after' );
 						
 					if( !empty( $billingphone ) ) {
@@ -85,10 +98,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 				</tr>
 				<?php
 					}
-						//do action to add content after billing details after
+						/**
+						 * wps_deals_my_account_billing_after hook
+						 */
 						do_action( 'wps_deals_my_account_billing_after' );
 			} else {	
-					//show message when user is not enter any kind of biiling address
+					// show a message when the user did not enter any kind of billing address
 				?>
 				<tr>
 					<td colspan="2"><?php _e( 'You have not set up this type of address yet.', 'wpsdeals' );?></td>
@@ -96,5 +111,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 			<?php } ?>
 				
 		 </tbody>
+		 
 	</table>
-</div><!--.wps-deals-view-bill-details-->
+	
+</div>

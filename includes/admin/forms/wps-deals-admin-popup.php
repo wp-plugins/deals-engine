@@ -52,6 +52,7 @@ global $wps_deals_model;
 									do_action( 'wps_deals_admin_shortcodes_option_after' );
 							?>
 						</select>
+						<input id="wps_deals_shortcodes_hidden" type="hidden" value="" />
 					</td>
 				</tr>
 			</tbody>

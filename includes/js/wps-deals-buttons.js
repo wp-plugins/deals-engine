@@ -162,9 +162,13 @@ jQuery(document).ready(function($) {
 								break;
 				}
 				
+				jQuery( '#wps_deals_shortcodes_hidden' ).val( dealsshortcodestr );
+				
 				//trigger for fire when admin click on insert shortcode button in shortcode popup
 				$('body').trigger('wps-deals-admin-shortcodes-insert', dealsshortcode, $('#wps_deals_shortcodes') );
 			 	
+				dealsshortcodestr	= jQuery( '#wps_deals_shortcodes_hidden' ).val();
+				
 			 	 //send_to_editor(str);
 		        tinymce.get('content').execCommand('mceInsertContent',false, dealsshortcodestr);
 		  		jQuery('.wps-deals-popup-overlay').fadeOut();

@@ -1,38 +1,39 @@
 <?php
-/*
-Plugin Name: Social Deals Engine
-Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
-Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
-Version: 1.1.1
-Author: WPSocial.com
-Author URI: http://wpsocial.com
-
-Social Deals Engine is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
-any later version.
-
-Social Deals Engine is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Social Deals Engine. If not, see <http://www.gnu.org/licenses/>.
-*/ 
+/**
+ * Plugin Name: Social Deals Engine
+ * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
+ * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
+ * Version: 2.0.0
+ * Author: WPSocial.com
+ * Author URI: http://wpsocial.com
+ * 
+ * Social Deals Engine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * any later version.
+ * 
+ * Social Deals Engine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with Social Deals Engine. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
+
 /**
- * Basic plugin definitions 
+ * Basic plugin definitions
  * 
  * @package Social Deals Engine
  * @since 1.0.0
  */
-
 global $wpdb;
+
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '1.1.1' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.0.0' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -111,26 +112,19 @@ if( !defined( 'WPS_DEALS_SOCIAL_LIB_URL' ) ) { //social liberary dir
 }
 /**
  * Load Text Domain
- *
+ * 
  * This gets the plugin ready for translation.
- *
+ * 
  * @package Social Deals Engine
  * @since 1.0.0
  */
-
-function wps_deals_load_textdomain() {
-
-  load_plugin_textdomain( 'wpsdeals', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-
-}
-
-add_action( 'init', 'wps_deals_load_textdomain' ); 
+load_plugin_textdomain( 'wpsdeals', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 /**
  * Admin Warning
- *
+ * 
  * This will output a warning message, if the main plugin isn't activated.
- *
+ * 
  * @package Social Deals Engine
  * @since 1.0.0
  */
@@ -139,32 +133,31 @@ function wps_deals_admin_notice() {
 	//check Woocommerce is activated
 	if( class_exists( 'Woocommerce' ) ) {
 		
-		$woo_link = '<a target="_BLANK" href="http://codecanyon.net/item/social-deals-engine-woocommerce-edition/5599760">http://codecanyon.net/item/social-deals-engine-woocommerce-edition/5599760</a>';
+		$woo_link = '<a target="_BLANK" href="http://wpsocial.com/product/woocommerce-deals-extension/">WPSocial.com</a>';
 		
 		echo '<div class="error">';
-		echo "<p><strong>" . sprintf( __( 'We noticed, that you have WooCommerce installed. For that we recommend, that you\'re using the Deals Extension for WooCommerce available here: %s you can take that one.', 'wpsdeals' ), $woo_link ) . "</strong></p>";
+		echo "<p><strong>" . sprintf( __( 'We noticed, that you have WooCommerce installed. For that we recommend, that you\'re using the Deals Extension for WooCommerce available here: %s .', 'wpsdeals' ), $woo_link ) . "</strong></p>";
 		echo '</div>';
 	}
 }
 add_action( 'admin_notices', 'wps_deals_admin_notice' );
-	
+
 /**
  * Activation Hook
- *
+ * 
  * Register plugin activation hook.
- *
+ * 
  * @package Social Deals Engine
  * @since 1.0.0
  */
 
 register_activation_hook( __FILE__, 'wps_deals_install' );
 
-
 /**
  * Deactivation Hook
- *
+ * 
  * Register plugin deactivation hook.
- *
+ * 
  * @package Social Deals Engine
  * @since 1.0.0
  */
@@ -173,10 +166,10 @@ register_deactivation_hook( __FILE__, 'wps_deals_uninstall');
 
 /**
  * Plugin Setup (On Activation)
- *
+ * 
  * Does the initial setup,
  * stest default values for the plugin options.
- *
+ * 
  * @package Social Deals Engine
  * @since 1.0.0
  */
@@ -214,7 +207,7 @@ function wps_deals_install() {
 								'comment_status' => 'closed'
 							);
 							
-		//create main page for plugin					
+		//create main page for plugin
 		$deals_parent_page_id = wp_insert_post($deals_page);
 		
 		// thank you page creation
@@ -227,7 +220,7 @@ function wps_deals_install() {
 									'post_author' => $user_ID,
 									'comment_status' => 'closed'
 								);
-		//create thank you page						
+		//create thank you page
 		$thank_you_page_id = wp_insert_post($deals_thank_you);
 		
 		// cancel page creation
@@ -240,12 +233,11 @@ function wps_deals_install() {
 									'post_author' => $user_ID,
 									'comment_status' => 'closed'
 								);
-		//create cancel page				
+		//create cancel page
 		$cancel_page_id = wp_insert_post($deals_cancel);
 		
-		// checkout page creation 
+		// checkout page creation
 		$checkout_page = array(
-										
 									'post_type' => 'page',
 									'post_status' => 'publish',
 									'post_parent' => $deals_parent_page_id,
@@ -370,13 +362,13 @@ function wps_deals_install() {
 		// set default settings
 		wps_deals_default_settings();
 		
-		//update plugin version to option 
+		//update plugin version to option
 		update_option( 'wps_deals_set_option', '1.0' );
 		
 		//update countires to database
 		wps_deals_update_countries();
 		
-	} //check deals options empty or not 
+	} //check deals options empty or not
 	
 	// Cron jobs
 	wp_clear_scheduled_hook( 'wps_deals_scheduled_set_price_meta' );
@@ -416,11 +408,11 @@ function wps_deals_install() {
 			$udpopt = true;
 		}
 		
-		if( $udpopt == true ) { // if any of the settings need to be updated 				
+		if( $udpopt == true ) { // if any of the settings need to be updated
 			update_option( 'wps_deals_options', $wps_deals_options );
 		}
 		
-		//update plugin version to option 
+		//update plugin version to option
 		update_option( 'wps_deals_set_option', '1.0.1' );
 		
 	} //check plugin set option value is 1.0
@@ -438,7 +430,7 @@ function wps_deals_install() {
 		}
 		//create my account page & its child pages and move the order details page
 		if( !isset( $wps_deals_options['my_account_page'] ) ) {
-		
+			
 			$deals_myaccount_page = array(
 											'post_type' 	=> 'page',
 											'post_status' 	=> 'publish',
@@ -557,7 +549,7 @@ function wps_deals_install() {
 			$udpopt = true;
 		}
 		
-		if( $udpopt == true ) { // if any of the settings need to be updated 				
+		if( $udpopt == true ) { // if any of the settings need to be updated
 			update_option( 'wps_deals_options', $wps_deals_options );
 		}
 		
@@ -579,11 +571,11 @@ function wps_deals_install() {
 			$udpopt = true;
 		}
 		
-		if( $udpopt == true ) { // if any of the settings need to be updated 				
+		if( $udpopt == true ) { // if any of the settings need to be updated
 			update_option( 'wps_deals_options', $wps_deals_options );
 		}
 		
-		//update plugin version to option 
+		//update plugin version to option
 		update_option( 'wps_deals_set_option', '1.0.3' );
 		
 	} //check plugin set option value is 1.0.2
@@ -608,11 +600,11 @@ function wps_deals_install() {
 			$udpopt = true;
 		}
 		
-		if( $udpopt == true ) { // if any of the settings need to be updated 				
+		if( $udpopt == true ) { // if any of the settings need to be updated
 			update_option( 'wps_deals_options', $wps_deals_options );
 		}
 		
-		//update plugin version to option 
+		//update plugin version to option
 		update_option( 'wps_deals_set_option', '1.0.4' );
 		
 	} //check plugin set option value is 1.0.3
@@ -637,11 +629,11 @@ function wps_deals_install() {
 			$udpopt					= true;
 		}
 		
-		if( $udpopt == true ) { // if any of the settings need to be updated 				
+		if( $udpopt == true ) { // if any of the settings need to be updated
 			update_option( 'wps_deals_options', $wps_deals_options );
 		}
 		
-		//update plugin version to option 
+		//update plugin version to option
 		update_option( 'wps_deals_set_option', '1.0.5' );
 	} //check plugin set option value is 1.0.4
 	
@@ -654,7 +646,7 @@ function wps_deals_install() {
 		
 		//Create an Account page under my account page
 		if( isset( $wps_deals_set_pages['my_account_page'] ) ) {
-		
+			
 			//create an account page creation
 			$create_account_page = array(
 											'post_type'		=>	'page',
@@ -679,11 +671,11 @@ function wps_deals_install() {
 			$wps_deals_options = array_merge( $wps_deals_options, $createaccountpage );
 			$udpopt = true;
 			
-			if( $udpopt == true ) { // if any of the settings need to be updated 				
+			if( $udpopt == true ) { // if any of the settings need to be updated
 				update_option( 'wps_deals_options', $wps_deals_options );
 			}
 			
-			//update plugin version to option 
+			//update plugin version to option
 			update_option( 'wps_deals_set_option', '1.0.6' );
 			
 		} //end if to check my account page
@@ -694,16 +686,71 @@ function wps_deals_install() {
 	
 	if( $wps_deals_set_option == '1.0.6' ) {
 		
-		// future code will be done here
+		$udpopt = false;
+		
+		// check chome deals
+		if( !isset( $wps_deals_options['deals_home'] ) ) {
+			$deals_home = array( 'deals_home' => 'deals-col-6' );
+			$wps_deals_options = array_merge( $wps_deals_options, $deals_home );
+			$udpopt = true;
+		}
+		
+		// check single deal size
+		if( !isset( $wps_deals_options['deals_size_single'] ) ) {
+			$deals_size_single = array( 'deals_size_single' => 'medium' );
+			$wps_deals_options = array_merge( $wps_deals_options, $deals_size_single );
+			$udpopt = true;
+		}
+		
+		// check archive deals size
+		if( !isset( $wps_deals_options['deals_size_archive'] ) ) {
+			$deals_size_archive = array( 'deals_size_archive' => 'medium' );
+			$wps_deals_options = array_merge( $wps_deals_options, $deals_size_archive );
+			$udpopt = true;
+		}
+		
+		// check button color
+		if( !isset( $wps_deals_options['deals_btn_color'] ) ) {
+			$deals_btn_color = array( 'deals_btn_color' => 'blue' );
+			$wps_deals_options = array_merge( $wps_deals_options, $deals_btn_color );
+			$udpopt = true;
+		}
+		
+		// check home columns
+		if( !isset( $wps_deals_options['deals_columns'] ) ) {
+			$deals_columns = array( 'deals_columns' => 'deals-col-6' );
+			$wps_deals_options = array_merge( $wps_deals_options, $deals_columns );
+			$udpopt = true;
+		}
+		
+		// check archive columns
+		if( !isset( $wps_deals_options['deals_columns_archive'] ) ) {
+			$deals_columns_archive = array( 'deals_columns_archive' => 'deals-col-6' );
+			$wps_deals_options = array_merge( $wps_deals_options, $deals_columns_archive );
+			$udpopt = true;
+		}
+		
+		if( $udpopt == true ) { // if any of the settings need to be updated
+			update_option( 'wps_deals_options', $wps_deals_options );
+		}
+		
+		// update plugin version to option
+		update_option( 'wps_deals_set_option', '1.2.0' );
 		
 	} //check plugin set option value is 1.0.6
+	
+	if( $wps_deals_set_option == '1.2.0' ) {
+		
+		// future code here
+		
+	} //check plugin set option value is 1.2.0
 }
 
 /**
  * Plugin Setup (On Deactivation)
- *
+ * 
  * Delete  plugin options.
- *
+ * 
  * @package Social Deals Engine
  * @since 1.0.0
  */
@@ -734,7 +781,6 @@ function wps_deals_uninstall() {
 		//delete country option
 		delete_option('wps_deals_countries');
 		
-		
 		//get all page ID(s) which are created when plugin is activating first time
 		$pages = get_option('wps_deals_set_pages');
 			wp_delete_post( $pages['thank_you_page'],true );//delete thank you page
@@ -748,13 +794,13 @@ function wps_deals_uninstall() {
 			wp_delete_post( $pages['change_password'],true );//delete change password page
 			wp_delete_post( $pages['logout'],true );//delete logout page
 			wp_delete_post( $pages['lost_password'],true );//delete lost password page
-		
+			
 		//delete option which is check the plugin is activation first time
 		delete_option('wps_deals_set_option');
 		
 		//delete option for pages
 		delete_option('wps_deals_set_pages');
-			
+		
 		//delete custom main post data
 		$mainargs = array( 'post_type' => WPS_DEALS_POST_TYPE, 'numberposts' => '-1', 'post_status' => 'any' );
 		$mainpostdata = get_posts( $mainargs );
@@ -772,7 +818,7 @@ function wps_deals_uninstall() {
 		}
 		
 		//delete all categories which are created
-		$catargs = array(	
+		$catargs = array(
 							'type'		 	=> 'post',
 							'child_of'	 	=> '0',
 							'parent'     	=> '',
@@ -784,7 +830,7 @@ function wps_deals_uninstall() {
 							'include'       => '',
 							'number'        => '',
 							'taxonomy'      => WPS_DEALS_POST_TAXONOMY,
-							'pad_counts'    => false 
+							'pad_counts'    => false
 						);
 						
 		$allcategories = get_categories( $catargs );
@@ -805,7 +851,7 @@ function wps_deals_uninstall() {
 							'include'       => '',
 							'number'        => '',
 							'taxonomy'      => WPS_DEALS_POST_TAGS,
-							'pad_counts'    => false 
+							'pad_counts'    => false
 						);
 		$alltags = get_categories( $tagsargs );
 		foreach ( $alltags as $tag ) {
@@ -840,6 +886,8 @@ function wps_deals_uninstall() {
 		foreach ( $alllogcats as $logcat ) {
 			wp_delete_term( $logcat->term_id, WPS_DEALS_LOGS_TAXONOMY );
 		}
+		
+		do_action('wps_deals_delete_options');
 		
 	}
 }
@@ -895,6 +943,12 @@ function wps_deals_default_settings() {
 								'del_all_options'				=>	'',
 								'disable_twitter_bootstrap'		=>	'',
 								'deals_size'					=>	'large',
+								'deals_home'					=>	'rand',
+								'deals_size_archive'			=> 	'medium',
+								'deals_size_single'				=> 	'medium',
+								'deals_btn_color'				=> 	'blue',
+								'deals_columns'					=>	'deals-col-6',
+								'deals_columns_archive'			=>	'deals-col-6',
 								'disable_more_deals'			=>	'',
 								'ending_deals_in'				=>	'5',
 								'upcoming_deals_in'				=>	'5',
@@ -1177,17 +1231,8 @@ require_once( WPS_DEALS_DIR . '/includes/wps-deals-post-types.php' );
 //Pagination Class
 require_once( WPS_DEALS_DIR . '/includes/class-wps-deals-pagination-public.php' ); // front end pagination class
 
-// loads the Templates Functions file
-require_once ( WPS_DEALS_DIR . '/includes/wps-deals-template-functions.php' );
-
 // Loads the download process file
 require_once( WPS_DEALS_DIR . '/includes/wps-deals-download-process.php');
-
-//Register Widget
-require_once( WPS_DEALS_DIR . '/includes/widgets/class-wps-deals-lists.php');
-
-//Register Cart Deals Widget
-require_once( WPS_DEALS_DIR . '/includes/widgets/class-wps-deals-latest-products-cart.php');
 
 //Loads the dashboard widgets file
 require_once( WPS_DEALS_DIR . '/includes/widgets/wps-deals-dashboard-widgets.php');
@@ -1213,9 +1258,29 @@ require_once( WPS_DEALS_GATEWAYS_DIR . '/testmode.php');
 //Social Login File
 require_once( WPS_DEALS_SOCIAL_DIR .'/wps-deals-social.php');
 
-//Load Template Hook File
-require_once( WPS_DEALS_DIR . '/includes/wps-deals-template-hooks.php' );
+//if( !is_admin() ) {
+
+	global $detect_mobile;
+	if( !class_exists( 'Mobile_Detect' ) ) {
+		require_once( WPS_DEALS_DIR . '/includes/class-mobile-detect.php' ); // including the mobile class
+	}
+	$detect_mobile = new Mobile_Detect();
+
+	// deals plugin front end template functions
+	require_once ( WPS_DEALS_DIR . '/includes/wps-deals-template-functions.php' );
+
+	// deals plugin front end template hooks
+	require_once( WPS_DEALS_DIR . '/includes/wps-deals-template-hooks.php' );
+	
+//}
+
+//Register Widget
+require_once( WPS_DEALS_DIR . '/includes/widgets/class-wps-deals-lists.php');
+
+//Register Cart Deals Widget
+require_once( WPS_DEALS_DIR . '/includes/widgets/class-wps-deals-latest-products-cart.php');
 
 //add action to delete log
 add_action( 'delete_post', array( $wps_deals_model,'wps_deals_remove_logs_on_delete' ) );
+
 ?>

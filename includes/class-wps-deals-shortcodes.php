@@ -43,9 +43,11 @@ class Wps_Deals_Shortcodes {
 	public function wps_deals_all($content) {
 		
 		ob_start();
-		//do action to add before home header
-		do_action( 'wps_deals_home_content' );
+		
+		wps_deals_get_template( 'deals-home.php' );
+		
 		$content .= ob_get_clean();
+		
 		return $content;
 	}
 	
@@ -61,7 +63,9 @@ class Wps_Deals_Shortcodes {
 		
 		ob_start();
 		//do action for add checkout page
+		echo '<div class="wps-deals-cart-wrap">';
 		do_action( 'wps_deals_checkout_content' );
+		echo '</div>';
 		$content .= ob_get_clean();
 		return $content;
 	}
@@ -77,11 +81,14 @@ class Wps_Deals_Shortcodes {
 	public function wps_deals_order_complete( $content ) {
 		
 		ob_start();
-		//do action to show orders details which is completed
-		do_action( 'wps_deals_orders_complete_content' );
+		
+		wps_deals_get_template( 'order-complete.php' );
+		
 		$content .= ob_get_clean();
+		
 		return $content;
 	}
+	
 	/**
 	 * Order Cancelled
 	 * 
@@ -93,11 +100,12 @@ class Wps_Deals_Shortcodes {
 	public function wps_deals_order_cancelled( $content ) {
 		
 		ob_start();
-		//do action to show orders details which is cancel
-		do_action( 'wps_deals_orders_cancel_content' );
+		
+		wps_deals_get_template( 'order-cancel.php' );
+		
 		$content .= ob_get_clean();
-		return $content;
-	
+		
+		return $content;	
 	}
 	
 	/**
@@ -111,9 +119,12 @@ class Wps_Deals_Shortcodes {
 	public function wps_deals_orders( $content ) {
 		
 		ob_start();
-		//do action to show order details
-		do_action( 'wps_deals_orders_content' );
-		return $content .= ob_get_clean();
+
+		wps_deals_get_template( 'ordered-deals.php' );
+		
+		$content .= ob_get_clean();
+
+		return $content;
 		
 	}
 	
@@ -132,8 +143,10 @@ class Wps_Deals_Shortcodes {
 		), $atts ) );
 		
 		ob_start();
+		
 		//do action to load home content by category
 		do_action( 'wps_deals_home_content_shortcode', $category );
+		
 		$content .= ob_get_clean();
 		
 		return $content;
@@ -190,8 +203,7 @@ class Wps_Deals_Shortcodes {
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0 
-	 */
-	
+	 */	
 	public function wps_deals_single( $atts, $content ) {
 		
 		global $post, $wps_deals_options;
@@ -231,7 +243,7 @@ class Wps_Deals_Shortcodes {
 						
 							<?php
 								//do action to add deal single content
-								do_action( 'wps_deal_single_content' );
+								do_action( 'wps_deals_single_content' );
 							?>
 							
 						</div><!--.row-fluid-->
@@ -264,11 +276,14 @@ class Wps_Deals_Shortcodes {
 	public function wps_deals_multiple( $atts, $content ) {
 		
 		ob_start();
-		$this->render->wps_deals_multiple_deals( $atts );
-		$content .= ob_get_clean();
-		return $content;
 		
+		$this->render->wps_deals_multiple_deals( $atts );
+		
+		$content .= ob_get_clean();
+		
+		return $content;		
 	}
+	
 	/**
 	 * My Account Page
 	 * 
@@ -281,19 +296,14 @@ class Wps_Deals_Shortcodes {
 	public function wps_deals_my_account( $atts, $content ) {
 
 		ob_start();
-		//when user is logged in then show my account content	
-		if( is_user_logged_in() ) { //important
-			//do action to show my account page content
-			do_action( 'wps_deals_my_account_content' );
-		} else {
-			//else show log in form
-			//do action to show my account page content
-			do_action( 'wps_deals_my_account_login_content' );
-		}
+		
+		wps_deals_get_template( 'my-account.php' );
+		
 		$content .= ob_get_clean();
 		
 		return $content;
 	}
+	
 	/**
 	 * Create an Account Page
 	 * 
@@ -306,19 +316,14 @@ class Wps_Deals_Shortcodes {
 	public function wps_deals_create_account( $atts, $content ) {
 
 		ob_start();
-		//when user is not logged in then show create an account content	
-		if( !is_user_logged_in() ) { //important
-			//do action to show my account page content
-			do_action( 'wps_deals_create_account_content' );
-		} else {
-			//else show log in form
-			//do action to show create an account page content
-			do_action( 'wps_deals_create_account_logout_content' );
-		}
+		
+		wps_deals_get_template( 'create-account.php' );
+		
 		$content .= ob_get_clean();
 		
 		return $content;
 	}
+	
 	/**
 	 * Edit Address Page
 	 * 
@@ -331,19 +336,14 @@ class Wps_Deals_Shortcodes {
 	public function wps_deals_edit_address( $atts, $content ) {
 
 		ob_start();
-		//when user is logged in then show edit address content	
-		if( is_user_logged_in() ) { //important
-			//do action to show edit address page content
-			do_action( 'wps_deals_edit_address_content' );
-		} else {
-			//else show log in form
-			//do action to show edit address page content
-			do_action( 'wps_deals_edit_address_login_content' );
-		}
+		
+		wps_deals_get_template( 'edit-address.php' );
+		
 		$content .= ob_get_clean();
 		
 		return $content;
 	}
+	
 	/**
 	 * Change Password Page
 	 * 
@@ -356,19 +356,14 @@ class Wps_Deals_Shortcodes {
 	public function wps_deals_change_password( $atts, $content ) {
 
 		ob_start();
-		//when user is logged in then show change password content	
-		if( is_user_logged_in() ) { //important
-			//do action to show change password page content
-			do_action( 'wps_deals_change_password_content' );
-		} else {
-			//else show log in form
-			//do action to show change password page content
-			do_action( 'wps_deals_change_password_login_content' );
-		}
+		
+		wps_deals_get_template( 'change-password.php' );
+		
 		$content .= ob_get_clean();
 		
 		return $content;
 	}
+	
 	/**
 	 * Lost Password Page
 	 * 
@@ -381,14 +376,14 @@ class Wps_Deals_Shortcodes {
 	public function wps_deals_lost_password( $atts, $content ) {
 
 		ob_start();
-		
-		//do action to show lost password page content
-		do_action( 'wps_deals_lost_password_content' );
+
+		wps_deals_get_template( 'lost-password.php' );
 		
 		$content .= ob_get_clean();
 		
 		return $content;
 	}
+	
 	/**
 	 * Adding Hooks
 	 *
@@ -400,46 +395,45 @@ class Wps_Deals_Shortcodes {
 	public function add_hooks() {
 		
 		//add shortcode to show list of deals on the page
-		add_shortcode( 'wps_deals', 				array( $this, 'wps_deals_all' ) );
+		add_shortcode( 'wps_deals', array( $this, 'wps_deals_all' ) );
 		
 		//add shortcode for showing shopping cart details
-		add_shortcode( 'wps_deals_checkout', 		array( $this, 'wps_deals_checkout' ) );
+		add_shortcode( 'wps_deals_checkout', array( $this, 'wps_deals_checkout' ) );
 		
 		//add shortcode for order complete
-		add_shortcode( 'wps_deals_order_complete', 	array( $this, 'wps_deals_order_complete' ) );
+		add_shortcode( 'wps_deals_order_complete', array( $this, 'wps_deals_order_complete' ) );
 		
 		//add shortcode for order cancelled
-		add_shortcode( 'wps_deals_order_cancel', 	array( $this, 'wps_deals_order_cancelled' ) );
+		add_shortcode( 'wps_deals_order_cancel', array( $this, 'wps_deals_order_cancelled' ) );
 		 
 		//add shortcode for order details
-		add_shortcode( 'wps_deals_orders', 			array( $this, 'wps_deals_orders' ) );
+		add_shortcode( 'wps_deals_orders', array( $this, 'wps_deals_orders' ) );
 		
 		//add shortcode to show list of deals on the page/post by category
-		add_shortcode( 'wps_deals_by_category', 	array( $this, 'wps_deals_by_category' ) );
+		add_shortcode( 'wps_deals_by_category', array( $this, 'wps_deals_by_category' ) );
 		
 		//add shortcode to show all social login buttons
-		add_shortcode( 'wps_deals_social_login', 	array( $this, 'wps_deals_social_login' ) );
+		add_shortcode( 'wps_deals_social_login', array( $this, 'wps_deals_social_login' ) );
 		
 		//add shortcode to show single deal on the shortcode page
-		add_shortcode( 'wps_deals_by_id', 			array( $this, 'wps_deals_single' ) );
+		add_shortcode( 'wps_deals_by_id', array( $this, 'wps_deals_single' ) );
 		
 		//add shortcode to show multiple deal on the shortcode page
-		add_shortcode( 'wps_deals_by_ids', 			array( $this, 'wps_deals_multiple' ) );
+		add_shortcode( 'wps_deals_by_ids', array( $this, 'wps_deals_multiple' ) );
 		
 		//add shortcode to show my account on the shortcode page
-		add_shortcode( 'wps_deals_my_account', 		array( $this, 'wps_deals_my_account' ) );
+		add_shortcode( 'wps_deals_my_account', array( $this, 'wps_deals_my_account' ) );
 		
 		//add shortcode to show create an account on the shortcode page
-		add_shortcode( 'wps_deals_create_account', 		array( $this, 'wps_deals_create_account' ) );
+		add_shortcode( 'wps_deals_create_account', array( $this, 'wps_deals_create_account' ) );
 		
 		//add shortcode to edit my address on the shortcode page
-		add_shortcode( 'wps_deals_edit_address', 	array( $this, 'wps_deals_edit_address' ) );
+		add_shortcode( 'wps_deals_edit_address', array( $this, 'wps_deals_edit_address' ) );
 		
 		//add shortcode to change password on the shortcode page
 		add_shortcode( 'wps_deals_change_password', array( $this, 'wps_deals_change_password' ) );
 		
 		//add shortcode to lost password on the shortcode page
-		add_shortcode( 'wps_deals_lost_password', array( $this, 'wps_deals_lost_password' ) );
-		
+		add_shortcode( 'wps_deals_lost_password', array( $this, 'wps_deals_lost_password' ) );		
 	}
 }

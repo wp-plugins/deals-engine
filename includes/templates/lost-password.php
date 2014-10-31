@@ -1,67 +1,42 @@
 <?php 
 
 /**
- * Template For Lost Password
- * 
- * Handles to return for lost password page content
+ * Deals Lost Password Template
  * 
  * Override this template by copying it to yourtheme/deals-engine/lost-password.php
  *
- * @package Social Deals Engine
- * @since 1.0.0
+ * @author 		Social Deals Engine
+ * @package 	Deals-Engine/Includes/Templates
+ * @version     2.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-	
-	//get header
-	get_header( 'deals' );
 
-	global $post;
 ?>
 
-	<div class="site-content" id="primary">
-	
-		<div id="content" role="main">
-		
-			<article class="post-<?php echo $post->ID;?> page type-page status-publish hentry" id="post-<?php echo $post->ID;?>">
-			
-				<header class="entry-header">
-					<h1 class="entry-title"><?php echo get_the_title( $post->ID );?></h1>
-				</header> 
+<div class="deals-container deals-clearfix">
 				
-				<div class="entry-content">
-				
-					<?php
-						//do action to show lost password page top
-						do_action( 'wps_deals_lost_password_top' );
-					?>	
-					<div class="row-fluid">
+	<?php
+		/**
+		 * wps_deals_lost_password_top hook
+		 */
+		do_action( 'wps_deals_lost_password_top' );
+	?>	
 						
-					<?php
-						//do action to show lost password page content
-						do_action( 'wps_deals_lost_password_content' );
-					?>
-						
-					</div><!--row-fluid-->
+	<?php
+		/**
+		 * wps_deals_lost_password_content hook
+		 *
+		 * @hooked wps_deals_lost_password_content - 5
+		 */
+		do_action( 'wps_deals_lost_password_content' );
+	?>
 					
-					<?php
-						//do action to show lost password page bottom
-						do_action( 'wps_deals_lost_password_bottom' );
-					?>	
+	<?php
+		/**
+		 * wps_deals_lost_password_bottom hook
+		 */
+		do_action( 'wps_deals_lost_password_bottom' );
+	?>	
 					
-				</div><!--entry-content-->
-				
-			</article>
-						
-		</div><!--#content-->
-		
-	</div><!--site-content-->
-<?php
-
-	//register sidebar with following action
-	do_action( 'wps_deals_sidebar' );
-	
-	//get footer
-	get_footer( 'deals' );
-	
-?>
+</div>

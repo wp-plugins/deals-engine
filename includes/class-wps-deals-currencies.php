@@ -26,7 +26,7 @@ class Wps_Deals_Currencies{
  		$decimal_sep = isset($wps_deals_options['decimal_seperator']) && !empty($wps_deals_options['decimal_seperator']) ? $wps_deals_options['decimal_seperator'] : '.';
  		
  		//get no of decimal places from settings page
- 		$decimal_places = isset( $wps_deals_options['decimal_places'] ) ? $wps_deals_options['decimal_places'] : '2';
+ 		$decimal_places = isset( $wps_deals_options['decimal_places'] ) && !empty($wps_deals_options['decimal_places']) ? $wps_deals_options['decimal_places'] : '2';
  		
  		//get value of thousand seperator from settings page
  		$thousand_sep = isset( $wps_deals_options['thounsands_seperator'] ) ? $wps_deals_options['thounsands_seperator'] : ',';

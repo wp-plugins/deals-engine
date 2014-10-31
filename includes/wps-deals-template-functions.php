@@ -109,70 +109,722 @@ function wps_deals_get_template( $template_name, $args = array(), $template_path
 	do_action( 'wps_deals_after_template_part', $template_name, $template_path, $located, $args );
 }
 
-/************************************ Call Different Templates Functions ***************************/
+
+/* **************************************************************************
+   Global Templates
+   ************************************************************************** */
+   
+if ( ! function_exists( 'wps_deals_output_content_wrapper' ) ) {
+
+	/**
+	 * Loads the start of the page wrapper.
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.0
+	 */
+	function wps_deals_output_content_wrapper() {
+	
+		// get the template
+		wps_deals_get_template( 'global/wrapper-start.php' );
+	}
+}
+
+if ( ! function_exists( 'wps_deals_output_content_wrapper_end' ) ) {
+
+	/**
+	 * Loads the end of the page wrapper.
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.0
+	 */
+	function wps_deals_output_content_wrapper_end() {
+		
+		// get the template
+		wps_deals_get_template( 'global/wrapper-end.php' );
+	}
+}
+
+if( !function_exists( 'wps_deals_breadcrumbs' ) ){
+
+	/**
+	 * Loads the breadcrumb template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.0.0
+	 */
+	function wps_deals_breadcrumbs() {
+		
+		// get the template
+		wps_deals_get_template( 'global/breadcrumb.php' );
+	}	
+}
+
+if ( ! function_exists( 'wps_deals_result_count' ) ) {
+
+	/**
+	 * Output the result count text (Showing x - x of x results).
+	 *
+	 * @access public
+	 * @subpackage	Loop
+	 * @return void
+	 */
+	function wps_deals_result_count() {
+	
+		global $wps_deals_options, $wps_deals_model;
+		
+		// get today's date and time
+		$today = wps_deals_current_date();
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
+		
+		// get the page limit from the plugin settings, so we know how many deals to display
+		$pagelimit = isset( $wps_deals_options['deals_per_page'] ) ? $wps_deals_options['deals_per_page'] : -1;
+		
+		// get the color scheme from the settings
+		$button_color = $wps_deals_options['deals_btn_color'];
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		
+		if( get_query_var( 'paged' ) ) {
+			$paged = get_query_var( 'paged' );
+		} elseif( get_query_var( 'page' ) ) {
+			$paged = get_query_var( 'page' );
+		} else{
+			$paged = 1;
+		}
+		
+		// set the deal home page args
+		$_homeargs = array( 
+							'post_type' => WPS_DEALS_POST_TYPE,
+							'post_status' => 'publish' ,
+							'posts_per_page' => $pagelimit,
+							'paged' => $paged,
+							'cat' => -0
+						);
+		
+		$homeargs = array_merge( $_homeargs, $order_args );
+		
+		// set the active deals query for the home page
+		$activemetaquery = array( 
+									array (
+											'key' => $prefix.'start_date',
+											'value' => $today,
+											'compare' => '<=',
+											'type' => 'STRING'
+											),
+									array (
+											'key' => $prefix.'end_date',
+											'value' => $today,
+											'compare' => '>=',
+											'type' => 'STRING'
+											)
+									);
+		
+		// merge and set the args
+		$activeargs = array_merge( $homeargs, array( 'meta_query' => $activemetaquery ) );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'args' => $activeargs,
+					);
+	
+		wps_deals_get_template( 'global/result-count.php', $args );
+	}
+}
+
+if( !function_exists( 'wps_deals_ordering' ) ) {
+
+	/**
+	 * Loads the order deals by template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */	
+	function wps_deals_ordering() {
+		
+		global $wps_deals_options;
+		
+		// check if we need to display the order by drop down
+		if( isset( $wps_deals_options['enable_deals_orderby'] ) && !empty( $wps_deals_options['enable_deals_orderby'] ) ) {
+			
+			$orderby = isset( $_GET['dealsorderby'] ) ? $_GET['dealsorderby'] : apply_filters( 'wps_deals_default_deals_orderby', $wps_deals_options['default_deals_orderby'] );
+			
+			// set the args, which we will pass to the template
+			$args = array( 
+						'orderby' => $orderby
+					);
+			
+			// get the template
+			wps_deals_get_template( 'global/orderby.php', $args );
+		}
+	}
+}
+
+if( ! function_exists( 'wps_deals_get_sidebar' ) ) {
+
+	/**
+	 * Loads the sidebar template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 **/
+	function wps_deals_get_sidebar() {
+		
+		// get the template
+		wps_deals_get_template( 'global/sidebar.php' );
+	}
+}
+
+
+/* **************************************************************************
+   Helper Functions
+   ************************************************************************** */
+   
+if( ! function_exists( 'wps_deals_is_active' ) ) {
+
+	/**
+	 * wps_deals_show_the_page_title function.
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.0
+	 */
+	function wps_deals_is_active() {
+
+		global $wps_deals_options, $wps_deals_model;
+		
+		// get today's date and time
+		$today = wps_deals_current_date();
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
+		
+		// get the page limit from the plugin settings, so we know how many deals to display
+		$pagelimit = isset( $wps_deals_options['deals_per_page'] ) ? $wps_deals_options['deals_per_page'] : -1;
+		
+		// get the color scheme from the settings
+		$button_color = $wps_deals_options['deals_btn_color'];
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		
+		if( get_query_var( 'paged' ) ) {
+			$paged = get_query_var( 'paged' );
+		} elseif( get_query_var( 'page' ) ) {
+			$paged = get_query_var( 'page' );
+		} else{
+			$paged = 1;
+		}
+		
+		// set the deal home page args
+		$_homeargs = array( 
+							'post_type' => WPS_DEALS_POST_TYPE,
+							'post_status' => 'publish' ,
+							'posts_per_page' => $pagelimit,
+							'paged' => $paged,
+							'cat' => -0
+						);
+		
+		$homeargs = array_merge( $_homeargs, $order_args );
+		
+		// set the active deals query for the home page
+		$activemetaquery = array( 
+									array (
+											'key' => $prefix.'start_date',
+											'value' => $today,
+											'compare' => '<=',
+											'type' => 'STRING'
+											),
+									array (
+											'key' => $prefix.'end_date',
+											'value' => $today,
+											'compare' => '>=',
+											'type' => 'STRING'
+											)
+									);
+		
+		// merge and set the args
+		$activeargs = array_merge( $homeargs, array( 'meta_query' => $activemetaquery ) );
+	
+		// check if the category id is set
+		if( isset( $category ) && !empty( $category ) ) { 
+			$activeargs[WPS_DEALS_POST_TAXONOMY] = $category;
+		}
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'args' => $activeargs,
+						'tab' => 'active',
+						'btncolor' => $btncolor
+					);
+		
+		return $activeargs;
+	}
+}
+   
+if( ! function_exists( 'wps_deals_page_title' ) ) {
+
+	/**
+	 * wps_deals_page_title function.
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.0
+	 */
+	function wps_deals_page_title( $echo = true ) {
+
+		if( is_search() ) {
+			$page_title = sprintf( __( 'Search Results: &ldquo;%s&rdquo;', 'wpsdeals' ), get_search_query() );
+
+			if( get_query_var( 'paged' ) )
+				$page_title .= sprintf( __( '&nbsp;&ndash; Page %s', 'wpsdeals' ), get_query_var( 'paged' ) );
+
+		} elseif( is_tax() ) {
+
+			$page_title = single_term_title( "", false );
+
+		} else {
+
+			$shop_page_id = wps_deals_get_page_id( 'deals_main_page' );
+			$page_title   = get_the_title( $shop_page_id );
+		}
+
+		$page_title = apply_filters( 'wps_deals_page_title', $page_title );
+
+		if ( $echo )
+	    	echo $page_title;
+	    else
+	    	return $page_title;
+	}
+}
+
+if( ! function_exists( 'wps_deals_show_the_page_title' ) ) {
+
+	/**
+	 * wps_deals_show_the_page_title function.
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.0
+	 */
+	function wps_deals_show_the_page_title() {
+
+		global $wps_deals_options;
+		
+		return true;
+	}
+}
+
+add_filter( 'wps_deals_show_page_title', 'wps_deals_show_the_page_title' );
+
+/* **************************************************************************
+   Message Templates
+   ************************************************************************** */
+
+if( !function_exists( 'wps_deals_single_header_message' ) ){
+
+	/**
+	 * Loads the single header message template (added item successfully).
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_header_message() {
+	
+		global $wps_deals_options;
+		
+		//Get payment checkout page
+		$payment_checkout_page	= isset( $wps_deals_options['payment_checkout_page'] ) ? $wps_deals_options['payment_checkout_page'] : '';
+		
+		// get the checkout url 
+		$checkouturl = get_permalink( $payment_checkout_page );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'checkouturl' => $checkouturl,
+					);
+		
+		// get the template
+		wps_deals_get_template( 'notices/success.php', $args );
+	}	
+}
+
+if( !function_exists( 'wps_deals_empty_cart_message' ) ) {
+	
+	/**
+	 * Loads the empty cart message template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_empty_cart_message() {
+		
+		// get the template
+		wps_deals_get_template( 'notices/empty-cart.php' );		
+	}
+}
+
+
+/* **************************************************************************
+   Deals Home Page Templates
+   ************************************************************************** */
 
 if( !function_exists( 'wps_deals_home_header' ) ) {
 	
 	/**
-	 * Load Home Header Template
-	 * 
-	 * Handles to load home page header template
+	 * Loads the header deal template.
+	 *
+	 * This displays the deals at the top of the deals home page
+	 * but only if the displaying on the home page option is set
+	 * to yes within the meta box settings.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */	
 	function wps_deals_home_header() {
+	
+		global $wps_deals_options;
 		
+		// get the todays date and time
 		$today	= wps_deals_current_date();
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
+		// set the meta_query args
 		$home_meta_args = array( 
 								array ( 	
-											'key' => $prefix.'show_on_home',
-											'value' => '1',
-											'compare' => '=',
-											'type' => 'STRING'
+										'key' => $prefix . 'show_on_home',
+										'value' => '1',
+										'compare' => '=',
+										'type' => 'STRING'
 										),
 								array (
-											'key' => $prefix.'start_date',
-											'value' => $today,
-											'compare' => '<=',
-											'type' => 'STRING'
+										'key' => $prefix . 'start_date',
+										'value' => $today,
+										'compare' => '<=',
+										'type' => 'STRING'
 										),
 								array (
-											'key' => $prefix.'end_date',
-											'value' => $today,
-											'compare' => '>=',
-											'type' => 'STRING'
+										'key' => $prefix . 'end_date',
+										'value' => $today,
+										'compare' => '>=',
+										'type' => 'STRING'
 										)
-					 		);
-		$home_deal = array( 
-								'post_type' 		=> WPS_DEALS_POST_TYPE, 
-								'post_status' 		=> 'publish' , 
-								'posts_per_page'	=> 1, 
-								'meta_query' 		=> $home_meta_args,
-								'order'				=> 'DESC',
-								'orderby'			=> 'rand'
-							);
+								);
+								
+		// get the orderby value from the settings
+		$orderby = ( isset( $wps_deals_options['deals_home'] ) && !empty( $wps_deals_options['deals_home'] ) ) ? $wps_deals_options['deals_home'] : 'rand';	
 							
+		// set the query args
+		$home_deal = array( 
+							'post_type' => WPS_DEALS_POST_TYPE, 
+							'post_status' => 'publish' , 
+							'posts_per_page' => 1, 
+							'meta_query' => $home_meta_args,
+							'order' => 'DESC',
+							'orderby' => $orderby
+							);
+				
+		// create the loop	
 		$loop_home = null;
 		$loop_home = new WP_Query();
 		$loop_home->query( $home_deal );
 		
-		//home page header template
-		wps_deals_get_template( 'home/home-header.php', array( 'loop' => $loop_home ));
-		
-	}
-	
+		// set the args, which we will pass to the template
+		$args = array( 
+						'loop' => $loop_home
+					);
+					
+		// get the template
+		wps_deals_get_template( 'home-deals/header.php', $args );	
+	}	
 }
+
+if( !function_exists( 'wps_deals_home_header_left' ) ) {
+
+	/**
+	 * Loads the left header template (Title, Image, Excerpt).
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_home_header_left() {
+	
+		// get the template
+		wps_deals_get_template( '/home-deals/header/left.php' );
+	}
+}
+
+if( !function_exists( 'wps_deals_home_header_right' ) ) {
+
+	/**
+	 * * Loads the right header template (Deal Info).
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_home_header_right() {
+	
+		// get the template
+		wps_deals_get_template( '/home-deals/header/right.php' );
+	}
+}
+
+if( !function_exists( 'wps_deals_home_header_title' ) ) {
+	
+	/**
+	 * Loads the title template (header deal).
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_home_header_title() {
+		
+		global $post;
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'dealtitle' => get_the_title( $post->ID )
+					);
+		
+		// get the template
+		wps_deals_get_template( 'home-deals/header/title.php', $args );		
+	}
+}
+
+if( !function_exists( 'wps_deals_home_header_image' ) ) {
+	
+	/**
+	 * Loads the image template (header deal).
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_home_header_image() {
+	
+		global $post,$wps_deals_price;
+
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		// get the product price
+		$productprice = $wps_deals_price->wps_deals_get_price( $post->ID );
+		
+		// get the image
+		$deal_main_image = get_post_meta( $post->ID, $prefix . 'main_image', true );
+		
+		// image url
+		$image_url = isset( $deal_main_image['src'] ) && !empty( $deal_main_image['src'] ) ? $deal_main_image['src'] : WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg';
+		
+		// set the args for the home deal, which we will pass to the template
+		$args = array( 
+						'dealtitle' => get_the_title( $post->ID ),
+						'dealimgurl' => $image_url,
+						'price' => $wps_deals_price->get_display_price( $productprice, $post->ID ),
+						'dealurl' => get_permalink( $post->ID )
+					);
+		
+		// get the template
+		wps_deals_get_template( '/home-deals/header/image.php' , $args );
+	}
+}
+
+if( !function_exists( 'wps_deals_home_header_excerpt' ) ) {
+	
+	/**
+	 * Loads the content (excerpt) template (header deal).
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_home_header_excerpt() {
+		
+		// get the template
+		wps_deals_get_template( 'home-deals/header/excerpt.php' );		
+	}
+}
+
+if( !function_exists( 'wps_deals_home_header_timer' ) ) {
+
+	/**
+	 * Loads the timer template (header deal).
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */	
+	function wps_deals_home_header_timer() {
+		
+		global $post,$wps_deals_model;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		// get the end date
+		$enddate = get_post_meta( $post->ID, $prefix . 'end_date', true );
+		
+		if( !empty( $enddate ) ) { //check deal end date 
+			
+			$timerargs = array();
+			
+			$enddate = strtotime( $enddate );
+			$timerargs['year'] = date( 'Y', $enddate );
+			$timerargs['month'] = date( 'm', $enddate );
+			$timerargs['day'] = date( 'd', $enddate );
+			$timerargs['hours'] = date( 'H', $enddate );
+			$timerargs['minute'] = date( 'i', $enddate );
+			$timerargs['seconds'] = date( 's', $enddate );	
+
+			// counter timer script
+			wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
+			
+			// get the template
+			wps_deals_get_template( 'home-deals/header/timer.php', $timerargs );
+		}	
+	}
+}
+
+if( !function_exists( 'wps_deals_home_header_discount' ) ) {
+
+	/**
+	 * Loads the discount template (header deal).
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_home_header_discount() {
+		
+		global $post,$wps_deals_price;
+		
+		// get the discount 
+		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'discount' => $discount
+					);
+		
+		// get the template
+		wps_deals_get_template( 'home-deals/header/discount.php', $args );		
+	}
+}
+
+if( !function_exists( 'wps_deals_home_header_value' ) ) {
+	
+	/**
+	 * Loads the value template (header deal).
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_home_header_value() {
+		
+		global $post,$wps_deals_price;
+	
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		// get the normal price
+		$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
+		
+		// get the displaying price
+		$displaynormalprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'normalprice' => $displaynormalprice
+					);
+		
+		// get the template
+		wps_deals_get_template( 'home-deals/header/value.php', $args );		
+	}
+}
+
+if( !function_exists( 'wps_deals_home_header_save' ) ) {
+
+	/**
+	 * Loads the saving template (header deal).
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_home_header_save() {
+		
+		global $post,$wps_deals_price;
+	
+		// get the saving value
+		$yousave = $wps_deals_price->wps_deals_get_savingprice( $post->ID );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'savingprice' => $yousave
+					);
+		
+		// get the template
+		wps_deals_get_template( 'home-deals/header/save.php', $args );		
+	}
+}
+
+if( !function_exists( 'wps_deals_home_header_rating' ) ) {
+
+	/**
+	 * Loads the rating template.
+	 *
+	 * Supports on the social review engine from wpsocial.com
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_home_header_rating() {
+		
+		// check if the social review engine plugin is activated
+		if( class_exists( 'Wps_Fbre_Model' ) ) { 
+	
+			global $wps_fbre_model,$post;
+			
+			// get the average rating
+			$rating = round( $wps_fbre_model->wps_fbre_post_average_ratings( $args = array( 'post_id' => $post->ID ) ) );
+			
+			// set the args, which we will pass to the template
+			$args = array( 
+							'rating' => $rating
+						);
+		
+			// get the template
+			wps_deals_get_template( 'home-deals/header/ratings.php', $args );
+		}
+	}
+}
+
+if( !function_exists( 'wps_deals_home_header_see_deal' ) ) {
+
+	/**
+	 * Loads the deals 'see deal' big button template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */	
+	function wps_deals_home_header_see_deal() {
+	
+		global $post,$wps_deals_options;
+	
+		// get the color scheme from the settings
+		$button_color = $wps_deals_options['deals_btn_color'];
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'dealurl' => get_permalink( $post->ID ),
+						'btncolor' => $btncolor
+					);
+		
+		// get the template
+		wps_deals_get_template( 'buttons/button-big.php', $args );
+	}
+}
+
+
+/* **************************************************************************
+   More Deals Templates (Deals Home Page)
+   ************************************************************************** */
 
 if( !function_exists( 'wps_deals_home_content' ) ) {
 
 	/**
-	 * Load Home Content Template
-	 * 
-	 * Handles to load home page content template
+	 * Loads the more deals content template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -184,60 +836,36 @@ if( !function_exists( 'wps_deals_home_content' ) ) {
 		//check disable more deals is set or not
 		if( empty( $wps_deals_options['disable_more_deals'] ) ) {
 		
-			//home page content template
-			wps_deals_get_template( 'home/home-content.php' , array( 'category' => $category ) );
+			// set the args for the home deal, which we will pass to the template
+			$args = array( 
+							'category'	=> $category
+						);
 		
+			// get the template
+			wps_deals_get_template( 'home-deals/more-deals.php', $args );		
 		} 
 	}
 }
-
+   
 if( !function_exists( 'wps_deals_home_navigations' ) ) {
+
 	/**
-	 * Load Home Page More Deals Navigation Template
-	 * 
-	 * Handles to load home page more deals
-	 * navigation bar
+	 * Loads the deals navigation template (Active, Ending Soon, Upcoming).
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */	
 	function wps_deals_home_navigations() {
-		//home page navigation template
-		wps_deals_get_template( 'home/home-content/home-navigation.php' );
+	
+		// get the template
+		wps_deals_get_template( 'home-deals/more-deals/navigation.php' );
 	}
-}
-
-if( !function_exists( 'wps_deals_home_orderby' ) ) {
-	/**
-	 * Load Home Page More Deals Navigation Template
-	 * 
-	 * Handles to load home page orderby
-	 * dropdown list
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */	
-	function wps_deals_home_orderby() {
-		
-		global $wps_deals_options, $wps_deals_model;
-		
-		// If enable deals orderby
-		if( isset( $wps_deals_options['enable_deals_orderby'] ) && !empty( $wps_deals_options['enable_deals_orderby'] ) ) {
-			
-			$orderby = isset( $_GET['dealsorderby'] ) ? $_GET['dealsorderby'] : apply_filters( 'wps_deals_default_deals_orderby', $wps_deals_options['default_deals_orderby'] );
-			
-			//home page orderby dropdown template
-			wps_deals_get_template( 'home/home-content/home-orderby.php', array( 'orderby' => $orderby ) );
-		}
-	}
-}
+}   
 
 if( !function_exists( 'wps_deals_home_more_deal_active' ) ) {
+
 	/**
-	 * Load Home Content Active Deals Template
-	 * 
-	 * Handles to home page active 
-	 * deals template 
+	 * Loads the more active deals template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -246,59 +874,82 @@ if( !function_exists( 'wps_deals_home_more_deal_active' ) ) {
 		
 		global $wps_deals_options, $wps_deals_model;
 		
-		$today	= wps_deals_current_date();
+		// get today's date and time
+		$today = wps_deals_current_date();
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
 		
-		//get page limit from plugin settings page
-		$pagelimit = isset($wps_deals_options['deals_per_page']) ? $wps_deals_options['deals_per_page'] : -1;
+		// get the page limit from the plugin settings, so we know how many deals to display
+		$pagelimit = isset( $wps_deals_options['deals_per_page'] ) ? $wps_deals_options['deals_per_page'] : -1;
 		
+		// get the color scheme from the settings
+		$button_color = $wps_deals_options['deals_btn_color'];
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		
+		if( get_query_var( 'paged' ) ) {
+			$paged = get_query_var( 'paged' );
+		} elseif( get_query_var( 'page' ) ) {
+			$paged = get_query_var( 'page' );
+		} else{
+			$paged = 1;
+		}
+		
+		// set the deal home page args
 		$_homeargs = array( 
-							'post_type' 		=> WPS_DEALS_POST_TYPE,
-							'post_status'		=> 'publish' ,
-							'posts_per_page'	=> $pagelimit,
+							'post_type' => WPS_DEALS_POST_TYPE,
+							'post_status' => 'publish' ,
+							'posts_per_page' => $pagelimit,
+							'paged' => $paged,
+							'cat' => -0
 						);
 		
 		$homeargs = array_merge( $_homeargs, $order_args );
 		
+		// set the active deals query for the home page
 		$activemetaquery = array( 
-										array (
-													'key' 		=> $prefix.'start_date',
-													'value' 	=> $today,
-													'compare' 	=> '<=',
-													'type' 		=> 'STRING'
-												),
-										array (
-													'key'		=> $prefix.'end_date',
-													'value' 	=> $today,
-													'compare'	=> '>=',
-													'type'		=> 'STRING'
-												)
+									array (
+											'key' => $prefix.'start_date',
+											'value' => $today,
+											'compare' => '<=',
+											'type' => 'STRING'
+											),
+									array (
+											'key' => $prefix.'end_date',
+											'value' => $today,
+											'compare' => '>=',
+											'type' => 'STRING'
+											)
 									);
-									
+		
+		// merge and set the args
 		$activeargs = array_merge( $homeargs, array( 'meta_query' => $activemetaquery ) );
 	
-		if( isset( $category ) && !empty( $category ) ) { //check category id is set or not
+		// check if the category id is set
+		if( isset( $category ) && !empty( $category ) ) { 
 			$activeargs[WPS_DEALS_POST_TAXONOMY] = $category;
 		}
 		
-		//counter timer script
+		// counter timer script
 		wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
 		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'args' => $activeargs,
+						'tab' => 'active',
+						'btncolor' => $btncolor
+					);
+		
 		//active deals template
-		wps_deals_get_template( 'home/home-content/more-deals.php', array( 'args' => $activeargs, 'tab' => 'active' ) );
+		wps_deals_get_template( 'home-deals/more-deals/more-deals.php', $args );
 	}
 }
 
 if( !function_exists( 'wps_deals_home_more_deal_ending' ) ) {
 
 	/**
-	 * Load Home Content Ending Deals Template
-	 * 
-	 * Handles to home page ending 
-	 * deals template 
+	 * Loads the "Ending Soon" content.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -309,62 +960,72 @@ if( !function_exists( 'wps_deals_home_more_deal_ending' ) ) {
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		$today	= wps_deals_current_date();
+		// get today's date and time
+		$today = wps_deals_current_date();
 		
-		//get page limit from plugin settings page
-		$pagelimit = isset($wps_deals_options['deals_per_page']) ? $wps_deals_options['deals_per_page'] : -1;
+		// get the page limit from the plugin settings page
+		$pagelimit = isset( $wps_deals_options['deals_per_page'] ) ? $wps_deals_options['deals_per_page'] : -1;
 		
 		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
 		
+		// set the home page args
 		$_homeargs = array(  
-							'post_type' 	=> WPS_DEALS_POST_TYPE, 
-							'post_status'	=> 'publish' , 
+							'post_type' => WPS_DEALS_POST_TYPE, 
+							'post_status' => 'publish' , 
 							'posts_per_page' => $pagelimit 
 						);
 		
 		$homeargs = array_merge( $_homeargs, $order_args );
 		
-		//get end deals days from settings page
+		// get the ending deals amount in days from the settings page
 		$ending_days = $wps_deals_options['ending_deals_in'];
-		$ending_deals_days = date('Y-m-d H:i:s', strtotime('+'.$ending_days.' days'));
+		$ending_deals_days = date( 'Y-m-d H:i:s', strtotime( '+' . $ending_days . ' days' ) );
 			
+		// set the meta query
 		$endmetaquery = array( 
 								array ( 	
-											'key' => $prefix . 'end_date',
-											'value' => $ending_deals_days,
-											'compare' => '<=',
-											'type' => 'STRING'
+										'key' => $prefix . 'end_date',
+										'value' => $ending_deals_days,
+										'compare' => '<=',
+										'type' => 'STRING'
 										),
 								array ( 	
-											'key' => $prefix . 'start_date',
-											'value' => $today,
-											'compare' => '<=',
-											'type' => 'STRING'
+										'key' => $prefix . 'start_date',
+										'value' => $today,
+										'compare' => '<=',
+										'type' => 'STRING'
 										),
 								array ( 	
-											'key' => $prefix . 'end_date',
-											'value' => $today,
-											'compare' => '>=',
-											'type' => 'STRING'
+										'key' => $prefix . 'end_date',
+										'value' => $today,
+										'compare' => '>=',
+										'type' => 'STRING'
 										)
 						 );
-							 
+					
+		// merge arrays and set the args
 		$argsend = array_merge( $homeargs, array( 'meta_query'	=> $endmetaquery ) );
-						 
+					
+		// check if the category id is set
 		if( isset( $category ) && !empty( $category ) ) { //check category id is set or not
 			$args_end[WPS_DEALS_POST_TAXONOMY] = $category;
 		}
-		//ending deals template
-		wps_deals_get_template( 'home/home-content/more-deals.php', array( 'args' => $argsend, 'tab' => 'ending-soon' ) );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'args' => $argsend,
+						'tab' => 'ending-soon'
+					);
+					
+		// get the template
+		wps_deals_get_template( 'home-deals/more-deals/more-deals.php', $args );
 	}
 }
 
 if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
+
 	/**
-	 * Load Home Content Upcoming Deals Template
-	 * 
-	 * Handles to home page upcoming 
-	 * deals template 
+	 * Loads the "Upcoming" content.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -373,237 +1034,367 @@ if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
 		
 		global $wps_deals_options, $wps_deals_model;
 		
+		// get today's date and time
 		$today	= wps_deals_current_date();
 		
 		$prefix = WPS_DEALS_META_PREFIX;	
 		
-		//get page limit from plugin settings page
-		$pagelimit = isset($wps_deals_options['deals_per_page']) ? $wps_deals_options['deals_per_page'] : -1;
+		// get the page limit from the plugin settings page
+		$pagelimit = isset( $wps_deals_options['deals_per_page'] ) ? $wps_deals_options['deals_per_page'] : -1;
 		
 		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
 		
+		// set the home page args
 		$_homeargs = array(  
-							'post_type' 	=> WPS_DEALS_POST_TYPE, 
-							'post_status'	=> 'publish' , 
+							'post_type' => WPS_DEALS_POST_TYPE, 
+							'post_status' => 'publish' , 
 							'posts_per_page' => $pagelimit 
 						);
 		
 		$homeargs = array_merge( $_homeargs, $order_args );
 		
-		//get upcoming deals days from settings page
+		// get the upcoming deals amount in days from the settings page
 		$upcoming_days = $wps_deals_options['upcoming_deals_in'];
-		$upcoming_deal_days = date('Y-m-d H:i:s', strtotime('+'.$upcoming_days.' days'));
+		$upcoming_deal_days = date( 'Y-m-d H:i:s', strtotime( '+' . $upcoming_days . ' days' ) );
 		
+		// set the meta query args
 		$upcomingmetaquery = array( 
 									array ( 	
-												'key' 		=> $prefix . 'start_date',
-												'value'		=> $upcoming_deal_days,
-												'compare'	=> '<=',
-												'type' 		=> 'STRING'
+											'key' => $prefix . 'start_date',
+											'value' => $upcoming_deal_days,
+											'compare' => '<=',
+											'type' => 'STRING'
 											),
 									array(		
-												'key' 		=> $prefix . 'start_date',
-												'value' 	=> $today,
-												'compare' 	=> '>',
-												'type' 		=> 'STRING'
+											'key' => $prefix . 'start_date',
+											'value' => $today,
+											'compare' => '>',
+											'type' => 'STRING'
 										)
 								 );
 		
+		// merge arrays and set the args
 		$argsupcoming = array_merge( $homeargs, array( 'meta_query' => $upcomingmetaquery ) );
 		
-		if( isset( $category ) && !empty( $category ) ) { //check category id is set or not
+		// check if the category id is set	
+		if( isset( $category ) && !empty( $category ) ) { 
 			$argsupcoming[WPS_DEALS_POST_TAXONOMY] = $category;
 		}
 		
-		//upcoming deals template
-		wps_deals_get_template( 'home/home-content/more-deals.php', array( 'args' => $argsupcoming, 'tab' => 'upcoming-soon' ) );
-
+		// set the args, which we will pass to the template
+		$args = array( 
+						'args' => $argsupcoming,
+						'tab' => 'upcoming-soon'
+					);
+		
+		// get the template
+		wps_deals_get_template( 'home-deals/more-deals/more-deals.php', $args );
 	}
 }
 
-if( !function_exists( 'wps_deals_home_header_content' ) ) {
+if( !function_exists( 'wps_deals_home_more_deals_discount' ) ) {
+
 	/**
-	 * Load Home Page Header Left Content Template
-	 * 
-	 * Handles to load home page header 
-	 * left side content
+	 * Loads the discount value template for the more deals on the deals home page.
+	 *  
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_home_more_deals_discount() {
+		
+		global $post,$wps_deals_price;
+		
+		// get the discount
+		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'discount' => $discount
+					);
+		
+		// get the template
+		wps_deals_get_template( 'home-deals/more-deals/discount.php', $args );
+	}
+}
+
+if( !function_exists( 'wps_deals_home_more_deals_image' ) ) {
+
+	/**
+	 * Loads the image template for the more deals on the deals home page.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
-	 */	
-	function wps_deals_home_header_content() {
+	 */
+	
+	function wps_deals_home_more_deals_image() {
 		
-		global $post,$wps_deals_price;
+		global $post;
 
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		//product price
-		$productprice = $wps_deals_price->wps_deals_get_price($post->ID);
+		// get main deal image
+		$deal_image = $deal_main_image = get_post_meta( $post->ID, $prefix . 'main_image', true );
 		
-		// get the value for the deal main image from the post meta box
-		$deal_main_image = get_post_meta( $post->ID, $prefix . 'main_image', true );
+		// check if an image has been uploaded
+		$dealimg = !empty( $deal_image['src'] ) ? $deal_image['src'] : WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg';
 		
-		//home deal image
-		$image_url = isset( $deal_main_image['src'] ) && !empty( $deal_main_image['src'] ) ? $deal_main_image['src'] : WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg';
-		
+		// set the args, which we will pass to the template
 		$args = array( 
-						'dealtitle'		=>	get_the_title( $post->ID ),
-						'imgurl'		=>	$image_url,
-						'price'			=>	$wps_deals_price->get_display_price( $productprice, $post->ID ),
-						'dealurl'		=>	get_permalink($post->ID),
-						'description'	=>	get_the_excerpt()
+						'dealimg' => $dealimg,
+						'dealurl' => get_permalink( $post->ID ),
+						'dealtitle' => get_the_title( $post->ID )
 					);
 		
-		//home page header deal left content template
-		wps_deals_get_template( 'home/home-header/header-content.php', $args );
+		// get the template
+		wps_deals_get_template( 'home-deals/more-deals/image.php', $args );
 	}
 }
 
-if( !function_exists( 'wps_deals_home_header_timer' ) ) {
+if( !function_exists( 'wps_deals_home_more_deals_timer' ) ) {
+	
 	/**
-	 * Load Home Page End Deal Timer Template
-	 * 
-	 * Handles to load home page end deal timer
+	 * Loads the timer template for the more deals on the deals home page.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
-	 */	
-	function wps_deals_home_header_timer() {
+	 */
+	function wps_deals_home_more_deals_timer() {
 		
-		global $post,$wps_deals_model;
-		
+		global $post;
+	
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		// get the value for the deal end date from the post meta box
-		$enddatemeta = get_post_meta($post->ID,$prefix.'end_date',true);
+		$enddate = get_post_meta( $post->ID, $prefix . 'end_date', true );
 		
-		if( !empty( $enddatemeta ) ) { //check deal end date 
-			
-			$timerargs = array();
-			
-			$enddate = strtotime( $enddatemeta );
-			$timerargs['year']			=	date( 'Y', $enddate );
-			$timerargs['month']			=	date( 'm', $enddate );
-			$timerargs['day']			=	date( 'd', $enddate );
-			$timerargs['hours']			=	date( 'H', $enddate );
-			$timerargs['minute']		=	date( 'i', $enddate );
-			$timerargs['seconds']		=	date( 's', $enddate );
-
-			//counter timer script
+		if( !empty( $enddate ) ) {
+		
+			// counter timer script
 			wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
-			//show home page header timer template
-			wps_deals_get_template( 'home/home-header/header-timer.php', $timerargs );
+		
+			// set the args, which we will pass to the template
+			$args = array( 
+							'year' => date( 'Y', strtotime( $enddate ) ),
+							'month' => date( 'm', strtotime( $enddate ) ),
+							'day' => date( 'd', strtotime( $enddate ) ),
+							'hours' => date( 'H', strtotime( $enddate ) ),
+							'minute' => date( 'i', strtotime( $enddate ) ),
+							'seconds' => date( 's', strtotime( $enddate ) )
+						);
+		
+			// get the template
+			wps_deals_get_template( 'home-deals/more-deals/timer.php', $args );		
 		}
-		
-		
-		
 	}
 }
 
-
-if( !function_exists( 'wps_deals_home_header_discount' ) ) {
-	/**
-	 * Load Home Page Deal Discount Box Template
-	 * 
-	 * Handles to load home page deal discount box template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_home_header_discount() {
-		
-		global $post,$wps_deals_price;
-		
-		//discount 
-		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
-		
-		//show home page header discount templage
-		wps_deals_get_template( 'home/home-header/header-discount.php', array( 'discount' => $discount ) );
-		
-	}
-}
-
-if( !function_exists( 'wps_deals_home_header_dealvalue' ) ) {
+if( !function_exists( 'wps_deals_home_more_deals_title' ) ) {
 	
 	/**
-	 * Load Home Page Deal Value Template
-	 * 
-	 * Handles to load home page deal value
-	 * template
+	 * Loads the deal value template for the more deals on the deals home page.
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_home_more_deals_title() {
+		
+		global $post;
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'dealtitle' => get_the_title( $post->ID ),
+						'deallink' => get_permalink( $post->ID )
+					);
+		
+		// get the template
+		wps_deals_get_template( 'home-deals/more-deals/title.php', $args );
+	}
+}
+
+if( !function_exists( 'wps_deals_home_more_deals_price' ) ) {
+
+	/**
+	 * Loads the price template for the more deals on the deals home page.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_home_header_dealvalue() {
+	function wps_deals_home_more_deals_price() {
 		
 		global $post,$wps_deals_price;
 	
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		// get the value for normal price from the post meta box
-		$normalprice = get_post_meta( $post->ID,$prefix.'normal_price',true );
+		// get the value for the normal price
+		$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
 		
+		// get the normal price
 		$displaynormalprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
 		
-		//show home page header deal value template
-		wps_deals_get_template( 'home/home-header/header-value.php', array( 'normalprice' => $displaynormalprice ) );
+		// get the display price
+		$dealprice = $wps_deals_price->wps_deals_get_price( $post->ID );
+		$displayprice = $wps_deals_price->get_display_price( $dealprice, $post->ID );
 		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'specialprice' => $displayprice,
+						'normalprice' => $displaynormalprice
+					);
+		
+		// get the template
+		wps_deals_get_template( 'home-deals/more-deals/price.php', $args );
 	}
 }
 
-if( !function_exists( 'wps_deals_home_header_dealsave' ) ) {
+if( !function_exists( 'wps_deals_home_more_deals_see_deal' ) ) {
+	
 	/**
-	 * Load Home Page Deal Saving Price Box Template
-	 * 
-	 * Handles to load home page deal saving price
-	 * box template
+	 * Loads the "See Deal" button for more deals on the deals home page.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_home_header_dealsave() {
-		
-		global $post,$wps_deals_price;
 	
-		//saving price
-		$yousave = $wps_deals_price->wps_deals_get_savingprice($post->ID);
+	function wps_deals_home_more_deals_see_deal() {
 		
-		//show home page header saving price box template
-		wps_deals_get_template( 'home/home-header/header-save.php', array( 'savingprice' => $yousave ) );
+		global $post,$wps_deals_options;
 		
+		// get the color scheme from the settings
+		$button_color = $wps_deals_options['deals_btn_color'];
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'dealurl' => get_permalink( $post->ID ),
+						'btncolor' => $btncolor
+					);
+		
+		// get the template
+		wps_deals_get_template( 'buttons/button-small.php', $args );
 	}
 }
 
-if( !function_exists( 'wps_deals_home_header_ratings' ) ) {
+
+/* **************************************************************************
+   Deals Archive Templates
+   ************************************************************************** */
+   
+if( !function_exists( 'wps_deals_archive_deals_content' ) ) {
+
 	/**
-	 * Load Home Page Ratings Template
-	 * 
-	 * Handles to load home page ratings 
-	 * template
+	 * Loads the Deals archive template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
-	 */
-	function wps_deals_home_header_ratings() {
+	 */	
+	function wps_deals_archive_deals_content() {
 		
-		if( class_exists( 'Wps_Fbre_Model' ) ) { // check if the social review engine plugin is activated
-	
-			global $wps_fbre_model,$post;
-			
-			$rating = round( $wps_fbre_model->wps_fbre_post_average_ratings( $args = array( 'post_id' => $post->ID ) ) );
+		global $wps_deals_options, $wps_deals_model, $post;
 		
-			//show home page header ratings template
-			wps_deals_get_template( 'home/home-header/ratings.php', array( 'rating' => $rating ) );
+		// get today's date and time
+		$today = wps_deals_current_date();
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
+		
+		// get the color scheme from the settings
+		$button_color = $wps_deals_options['deals_btn_color'];
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		
+		// get the page limit from the plugin settings, so we know how many deals to display
+		$pagelimit = isset( $wps_deals_options['deals_per_page'] ) ? $wps_deals_options['deals_per_page'] : -1;
+		
+		$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+		
+		// get the taxonomy slug
+		$slug = get_query_var( WPS_DEALS_POST_TAXONOMY );
+		
+		if( !empty( $slug ) ) {
+
+			// set the deal home page args
+			$_homeargs = array( 
+								'post_type' => WPS_DEALS_POST_TYPE,
+								'post_status' => 'publish',
+								'paged' => $paged,
+								'tax_query' => array(
+												array(
+													'taxonomy' => WPS_DEALS_POST_TAXONOMY,
+													'field' => 'slug',
+													'terms' => $slug
+												)
+											)
+								);
+								
+		} else {
+		
+			// set the deal home page args
+			$_homeargs = array( 
+								'post_type' => WPS_DEALS_POST_TYPE,
+								'post_status' => 'publish',
+								'paged' => $paged
+								);
 		}
+		
+		$homeargs = array_merge( $_homeargs, $order_args );
+		
+		// set the active deals query for the home page
+		$activemetaquery = array( 
+									array (
+											'key' => $prefix.'start_date',
+											'value' => $today,
+											'compare' => '<=',
+											'type' => 'STRING'
+											),
+									array (
+											'key' => $prefix.'end_date',
+											'value' => $today,
+											'compare' => '>=',
+											'type' => 'STRING'
+											)
+									);
+		
+		// merge and set the args
+		$activeargs = array_merge( $homeargs, array( 'meta_query' => $activemetaquery ) );
+		
+		// counter timer script
+		wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'args' => $activeargs,
+						'btncolor' => $btncolor
+					);
+		
+		// get the template
+		wps_deals_get_template( 'archive/archive-deals.php', $args );
 	}
 }
 
-if( !function_exists( 'wps_deals_social_facebook' ) ) {
+
+/* **************************************************************************
+   Social Sharing Button Templates
+   ************************************************************************** */
+   
+if( !function_exists( 'wps_deals_social_buttons' ) ) {
+
 	/**
-	 * Load Social Facebook Button Template
+	 * Loads the deals social buttons template.
 	 * 
-	 * Handles to show facebook button
-	 * template
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_social_buttons() {
+		
+		// get the template
+		wps_deals_get_template( 'single-deal/social-buttons/social-buttons.php' );		
+	}
+}
+    
+if( !function_exists( 'wps_deals_social_facebook' ) ) {
+
+	/**
+	 * Loads the social sharing Facebook button.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -612,23 +1403,28 @@ if( !function_exists( 'wps_deals_social_facebook' ) ) {
 		
 		global $post,$wps_deals_options;
 		
-		//check facebook button is enable or not
-		if( isset( $wps_deals_options['social_buttons'] ) && in_array('facebook',$wps_deals_options['social_buttons']))  {
+		// first we need to check if the Facebook button is enabled
+		if( isset( $wps_deals_options['social_buttons'] ) && in_array( 'facebook', $wps_deals_options['social_buttons'] ) ) {
 			
-			//social button facebook template
+			// enqueue the Facebook script
 			wp_enqueue_script( 'facebook' );
-			wps_deals_get_template( 'social-buttons/facebook.php', array( 'dealurl' => get_permalink( $post->ID ), 'dealid' => $post->ID ) );
+			
+			// set the args, which we will pass to the template
+			$args = array( 
+							'dealurl' => get_permalink( $post->ID ),
+							'dealid' => $post->ID
+						);
+						
+			// get the template		
+			wps_deals_get_template( 'single-deal/social-buttons/facebook.php', $args );
 		}
-	}
-	
+	}	
 }
 
 if( !function_exists( 'wps_deals_social_twitter' ) ) {
+
 	/**
-	 * Load Social Twitter Button Template
-	 * 
-	 * Handles to load twitter button
-	 * template
+	 * Loads the social sharing Twitter button.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -637,34 +1433,32 @@ if( !function_exists( 'wps_deals_social_twitter' ) ) {
 		
 		global $post,$wps_deals_options;
 		
-		//check twitter button is enable or not
-		if( isset( $wps_deals_options['social_buttons'] ) && in_array('twitter',$wps_deals_options['social_buttons']))  {
+		// first we need to check if the Twitter button is enabled
+		if( isset( $wps_deals_options['social_buttons'] ) && in_array( 'twitter', $wps_deals_options['social_buttons'] ) ) {
 			
-			$twitteruser = isset($wps_deals_options['tw_user_name']) ? $wps_deals_options['tw_user_name'] : '';
+			$twitteruser = isset( $wps_deals_options['tw_user_name'] ) ? $wps_deals_options['tw_user_name'] : '';
 			
+			// set the args, which we will pass to the template 
 			$args = array( 
-							'dealurl'	=>	get_permalink( $post->ID ), 
-							'dealid'	=>	$post->ID,
-							'dealtitle'	=>	get_the_title( $post->ID ),
-							'twitteruser' => $twitteruser );
+							'dealurl' => get_permalink( $post->ID ), 
+							'dealid' => $post->ID,
+							'dealtitle' => get_the_title( $post->ID ),
+							'twitteruser' => $twitteruser
+						 );
 			
-			//twitter scripts
+			// enqueue the Twitter script
 			wp_enqueue_script( 'twitter' );
-			//social button twitter template
-			wps_deals_get_template( 'social-buttons/twitter.php', $args );
-		}
-	}
-	
-}
 
+			// get the template
+			wps_deals_get_template( 'single-deal/social-buttons/twitter.php', $args );
+		}
+	}	
+}
 
 if( !function_exists( 'wps_deals_social_google' ) ) {
 	
 	/**
-	 * Load Social Google+ Button Template
-	 * 
-	 * Handles to load google+ button
-	 * template
+	 * Loads the social sharing Google Plus button.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -673,348 +1467,166 @@ if( !function_exists( 'wps_deals_social_google' ) ) {
 		
 		global $post,$wps_deals_options;
 		
-		//check google+ button is enable or not
-		if( isset( $wps_deals_options['social_buttons'] ) && in_array('google',$wps_deals_options['social_buttons']))  {
-			
+		// first we need to check if the Google Plus button is enabled
+		if( isset( $wps_deals_options['social_buttons'] ) && in_array( 'google', $wps_deals_options['social_buttons'] ) ) {
+
+			// set the args, which we will pass to the template
 			$args = array( 
-							'dealurl'	=>	get_permalink( $post->ID ), 
-							'dealid'	=>	$post->ID
+							'dealurl' => get_permalink( $post->ID ), 
+							'dealid' => $post->ID
 						);
 
-			//google+ script
-			wp_enqueue_script( 'google' );		
-			//social google+ button template
-			wps_deals_get_template( 'social-buttons/google.php', $args );
+			// enqueue the Google Plus script
+			wp_enqueue_script( 'google' );
 			
-			//call ajax when user will share content to google plus
-		?>	
-			<script type="text/javascript">
-				function wps_deals_gp_share_<?php echo $post->ID;?>( res ){
-					
-					//check user shared deal on google plus or not
-					if( res.type == 'confirm' ) {	
-						var data = { 
-										postid	: '<?php echo $post->ID;?>',
-										action	: 'deals_update_social_media_values',
-										type	: 'gp'
-									};
-				
-						jQuery.post( '<?php echo admin_url( 'admin-ajax.php', ( is_ssl() ? 'https' : 'http' ) );?>', data, function( response ) {
-							if(response != '') {
-								//window.location.reload();
-								wps_deals_reload();
-							}
-						});
-					}
-				}
-			</script>
-			
-		<?php
-		
+			// get the template
+			wps_deals_get_template( 'single-deal/social-buttons/google.php', $args );
 		}
-	}
-	
+	}	
 }
 
-if( !function_exists( 'wps_deals_social_buttons' ) ) {
+
+/* **************************************************************************
+   Single Deal Page Templatess
+   ************************************************************************** */
+
+if( !function_exists( 'wps_deals_single_header_title' ) ){
+
 	/**
-	 * Load Social Buttons Template
-	 * 
-	 * Handles to load social buttons
-	 * template
+	 * Loads the Deal title template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_social_buttons() {
-		
-		//social buttons template
-		wps_deals_get_template( 'social-buttons/social-buttons.php' );
-		
-	}
+	function wps_deals_single_header_title() {
+	
+		// get the template
+		wps_deals_get_template( 'single-deal/title.php' );
+	}	
 }
 
-if( !function_exists( 'wps_deals_home_header_see_deal' ) ) {
-	/**
-	 * Load Big See Deal Button Template
-	 * 
-	 * Handles to load big see deal button
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */	
-	function wps_deals_home_header_see_deal() {
-		
-		//load big see deal button template
-		wps_deals_get_template( 'buttons/deal-button-big.php');
-	}
-}
-
-if( !function_exists( 'wps_deals_home_more_deal_price_flag' ) ) {
-	/**
-	 * Load Price Flag with Price Template
-	 * 
-	 * Handles to load price flag with price
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */	
-	function wps_deals_home_more_deal_price_flag() {
-		
-		global $post,$wps_deals_price;
-		
-		//product price
-		$dealprice = $wps_deals_price->wps_deals_get_price( $post->ID );
-		$displayprice = $wps_deals_price->get_display_price( $dealprice, $post->ID );
-		
-		//price flag with price template
-		wps_deals_get_template( 'home/home-content/price-flag-small.php', array( 'displayprice' => $displayprice ) );
-	}
-}
-
-if( !function_exists( 'wps_deals_home_more_deal_image' ) ) {
-	/**
-	 * Load More Deal Image Template for Home Page
-	 * 
-	 * Handles to load more deal image template
-	 * for home page
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	
-	function wps_deals_home_more_deal_image() {
-		
-		global $post;
-
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		// get the value for the deal main image from the post meta box		
-		$deal_image = $deal_main_image = get_post_meta( $post->ID, $prefix . 'main_image', true );
-		
-		$dealimg = !empty( $deal_image['src'] ) ? $deal_image['src'] : WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg';
-		
-		//more deals deal image template
-		wps_deals_get_template( 'home/home-content/deal-image.php', array( 'dealimg' => $dealimg, 'dealurl'  => get_permalink( $post->ID ), 'dealtitle' => get_the_title($post->ID) ) );
-	}
-}
-
-if( !function_exists( 'wps_deals_home_more_deal_normal_price' ) ) {
-	/**
-	 * Load Normal Priec Template
-	 * 
-	 * Handles to load normal price template
-	 * to show deal normal price
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_home_more_deal_normal_price() {
-		
-		global $post,$wps_deals_price;
-	
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		// get the value for normal price from the post meta box
-		$normalprice = get_post_meta($post->ID,$prefix.'normal_price',true);
-		
-		$displaynormalprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
-		
-		//deal normal price template
-		wps_deals_get_template( 'home/home-content/deal-value.php', array( 'normalprice' => $displaynormalprice ) );
-	}
-}
-
-if( !function_exists( 'wps_deals_home_more_deal_discount' ) ) {
-	/**
-	 * Load Deal Discount Template
-	 * 
-	 * Handles to load deal discount template
-	 * in home page more deals
-	 *  
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_home_more_deal_discount() {
-		
-		global $post,$wps_deals_price;
-		
-		//discount 
-		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
-		
-		//deal discount template
-		wps_deals_get_template( 'home/home-content/deal-discount.php', array( 'discount' => $discount ) );
-	}
-}
-
-if( !function_exists( 'wps_deals_home_more_deal_saving' ) ) {
-	/**
-	 * Load Deal Saving Price Template
-	 * 
-	 * Handles to load deal saving price template
-	 * in home page more deals
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_home_more_deal_saving() {
-		
-		global $post,$wps_deals_price;
-	
-		//saving price
-		$yousave = $wps_deals_price->wps_deals_get_savingprice($post->ID);
-					
-		
-		//show deal image on home page content
-		wps_deals_get_template( 'home/home-content/deal-save.php', array( 'savingprice' => $yousave ) );
-	}
-}
-
-if( !function_exists( 'wps_deals_home_more_deal_footer_time' ) ) {
-	
-	/**
-	 * Load Deal End Timer Template
-	 * 
-	 * Handles to load deal end timer template
-	 * in home page more deals
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_home_more_deal_footer_time() {
-		
-		global $post;
-	
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		//get the value for end date & time of deals from the post meta box
-		$enddate = get_post_meta($post->ID,$prefix.'end_date',true);
-		
-		$args = array( 
-							'year'		=>	date( 'Y', strtotime( $enddate ) ),
-							'month'		=>	date( 'm', strtotime( $enddate ) ),
-							'day'		=>	date( 'd', strtotime( $enddate ) ),
-							'hours'		=>	date( 'H', strtotime( $enddate ) ),
-							'minute'	=>	date( 'i', strtotime( $enddate ) ),
-							'seconds'	=>	date( 's', strtotime( $enddate ) )
-						);
-	
-		//deal timer template
-		wps_deals_get_template( 'home/home-content/timer.php', $args );
-		
-	}
-}
-
-if( !function_exists( 'wps_deals_home_more_deal_footer_see_deal' ) ) {
-	
-	/**
-	 * Load Small See Deal Button Template
-	 * 
-	 * Handles to load small see deal button
-	 * template in home page more deals
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	
-	function wps_deals_home_more_deal_footer_see_deal() {
-		
-		global $post;
-		
-		//show deal image on home page content
-		wps_deals_get_template( 'buttons/deal-button-small.php', array( 'dealurl' => get_permalink($post->ID) ) );
-	}
-}
-/*************************** Single Deals Page Template ******************************/
-/**
- * Single Deals Template Functions
- * 
- * Handles to Show Single Deal
- * page
- * 
- * @package Social Deals Engine
- * @since 1.0.0
- */
-if( !function_exists( 'wps_deals_single_header' ) ){
-
-	/**
-	 * Load Single Deal Header Template
-	 * 
-	 * Handles to load single deal header template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_header() {
-	
-		//counter timer script
-		wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
-		//single deal header template
-		wps_deals_get_template( 'single-deal/single-header.php' );
-	}
-	
-}
-if( !function_exists( 'wps_deals_single_content' ) ){
-
-	/**
-	 * Load Single Deal Content Template
-	 * 
-	 * Handles to load single deal content
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_content() {
-	
-		//single deal content template
-		wps_deals_get_template( 'single-deal/single-content.php' );
-	}
-	
-}
 if( !function_exists( 'wps_deals_single_header_left' ) ){
 
 	/**
-	 * Load Single Deal Header Left Template
-	 * 
-	 * Handles to load single deal header
-	 * left part template
+	 * Loads the left header template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
 	function wps_deals_single_header_left() {
 	
-		//single deal left part template
-		wps_deals_get_template( 'single-deal/single-header/header-left.php' );
-	}
-	
+		// get the template
+		wps_deals_get_template( 'single-deal/left.php' );
+	}	
 }
-if( !function_exists( 'wps_deals_single_description' ) ){
 
+if( !function_exists( 'wps_deals_single_deal_price' ) ) {
+		
 	/**
-	 * Load Single Deal Description template
-	 * 
-	 * Handles to load single deal description
-	 * template
+	 * Loads the price template
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_single_description() {
-	
-		//single deal description template
-		wps_deals_get_template( 'single-deal/single-content/description.php' );
+	function wps_deals_single_deal_price() {
+		
+		global $post,$wps_deals_price;
+			
+		// get the product price
+		$productprice = $wps_deals_price->wps_deals_get_price( $post->ID );
+		
+		// get the displaying price
+		$displayprice = $wps_deals_price->get_display_price( $productprice, $post->ID );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'dealprice' => $displayprice,
+					);
+		
+		// get the template
+		wps_deals_get_template( 'single-deal/price.php', $args );		
 	}
+}
+
+if( !function_exists( 'wps_deals_single_dime_sale' ) ) {
 	
+	/**
+	 * Loads the dime sale template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_dime_sale() {
+		
+		global $post,$wps_deals_model;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		// get the deal type
+		$wps_deal_type = $wps_deals_model->wps_deals_get_deal_type( $post->ID );
+		
+		if( $wps_deal_type != 'affiliate' )	{
+				
+			// get today's date and time
+			$today = wps_deals_current_date();
+			
+			// get the amount of available deals
+			$available = get_post_meta( $post->ID, $prefix . 'avail_total', true );
+			
+			// get the start date & time
+			$startdate = get_post_meta( $post->ID,$prefix.'start_date', true );
+			
+			// get the end date & time
+			$enddate = get_post_meta( $post->ID, $prefix . 'end_date', true );
+			
+			// when deal expired
+			$dealexpired = false;
+		
+			// check if we have some available deals
+			if( $available == '' ) {
+			
+			} elseif ( $available == '0' ) { 
+				$dealexpired = true; 
+			} else {
+			
+			}
+			
+			// get the dime sale ratio
+			$dimsaleratio = get_post_meta( $post->ID, $prefix . 'inc_ratio', true );
+			
+			// get the dime sale price 
+			$dimsaleprice = get_post_meta( $post->ID, $prefix . 'inc_price', true );
+			
+			// get dime sale is activated
+			$dimsaleamt = get_post_meta( $post->ID, $prefix . 'nxt_inc_period', true );
+		
+			$lefttext = '';
+			
+			if( !empty( $dimsaleprice ) && !empty( $dimsaleratio ) ) {
+				// calculate how many copies are left for the same price
+				$leftcopies = ( $dimsaleratio - $dimsaleamt );
+				$lefttext = apply_filters( 'wps_deals_dim_sale_text', sprintf( __( 'Only %1$s left at this price', 'wpsdeals' ), $leftcopies ) ); 
+			}
+			
+			// check if the deal is active and still available
+			if( $enddate >= $today && $startdate <= $today && $dealexpired != true ) {
+			
+				// set the args, which we will pass to the template
+				$args = array( 
+								'lefttext' => $lefttext
+							);
+				
+				// get the template
+				wps_deals_get_template( 'single-deal/dime-sale.php', $args );
+			}
+		}	
+	}	
 }
 
 if( !function_exists( 'wps_deals_single_add_to_cart' ) ) {
 	
 	/**
-	 * Load Single Deal Add to Cart Button Template
+	 * Loads Single Deal Add to Cart Button Template
 	 * 
 	 * Handles to load add to cart button template
 	 * on single deal page
@@ -1051,27 +1663,162 @@ if( !function_exists( 'wps_deals_single_add_to_cart' ) ) {
 			$dealexpired = true;
 		} else {}
 		 
-		//if deal is active and deals is not in upcoming list or not out of stock
+		// check if the deals is still active
 		if( $enddate >= $today && $startdate <= $today && $dealexpired != true ) {
 			
-			//add to cart  buttons template
-			wps_deals_get_template( 'single-deal/single-header/add-to-cart.php' );
+			// get the template
+			wps_deals_get_template( 'single-deal/add-to-cart.php' );
 		}
 	}
 }
 
-if( !function_exists( 'wps_deals_single_dimsale_box' ) ) {
-	
+if( !function_exists( 'wps_deals_single_value' ) ) {
+		
 	/**
-	 * Load Single Deal Dimsale Box Template
-	 * 
-	 * Handles to load single deal dimsale
-	 * box template
+	 * Loads the normal price template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_single_dimsale_box() {
+	function wps_deals_single_value() {
+		
+		global $post,$wps_deals_price;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		// get the normal price
+		$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
+		
+		// get the displaying price
+		$displayprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'price' => $displayprice
+					);
+		
+		// get the template
+		wps_deals_get_template( 'single-deal/value.php', $args );		
+	}
+}
+
+if( !function_exists( 'wps_deals_single_discount' ) ) {
+		
+	/**
+	 * Loads the discount template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_discount() {
+		
+		global $post,$wps_deals_price;
+		
+		// get the discount 
+		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'discount' => $discount
+					);
+		
+		// get the template
+		wps_deals_get_template( 'single-deal/discount.php', $args );		
+	}
+}
+
+if( !function_exists( 'wps_deals_single_save' ) ) {
+		
+	/**
+	 * Loads the deal saving template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_save() {
+		
+		global $post,$wps_deals_price;
+		
+		// get the saving value
+		$yousave = $wps_deals_price->wps_deals_get_savingprice( $post->ID );	
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'savingprice' => $yousave
+					);
+		
+		// get the template
+		wps_deals_get_template( 'single-deal/save.php', $args );		
+	}
+}
+
+if( !function_exists( 'wps_deals_single_deal_timer' ) ) {
+	
+	/**
+	 * Loads timer template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_deal_timer() {
+		
+		global $post,$wps_deals_model;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		// get today's date and time
+		$today = wps_deals_current_date();
+		
+		// get the start date & time
+		$startdate = get_post_meta( $post->ID, $prefix . 'start_date', true );
+		
+		// get the end date & time
+		$enddate = get_post_meta( $post->ID, $prefix . 'end_date', true );
+		
+		// check if the deal is still active
+		if( $enddate >= $today ) { 
+		
+			// enqueue the timer script
+			wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
+			
+			// check that the start or end date ar not empty
+			if( !empty( $startdate ) || !empty( $enddate ) ) { 
+				// check if the start date is in the future
+				if( $startdate >= $today ) {
+					$counterdate = $startdate;
+				} else {
+					$counterdate = $enddate;
+				}
+			}
+			
+			// set the args, which we will pass to the template
+			$args = array( 
+							'startdate' => $startdate, 
+							'enddate' => $enddate,
+							'today' => $today,
+							'year' => date( 'Y', strtotime( $counterdate ) ),
+							'month' => date( 'm', strtotime( $counterdate ) ),
+							'day' => date( 'd', strtotime( $counterdate ) ),
+							'hours' => date( 'H', strtotime( $counterdate ) ),
+							'minute' => date( 'i', strtotime( $counterdate ) ),
+							'seconds' => date( 's', strtotime( $counterdate ) )
+						);
+			
+			// get the template
+			wps_deals_get_template( 'single-deal/timer.php', $args );
+		}		
+	}	
+}
+
+if( !function_exists( 'wps_deals_single_deal_avail_bought' ) ) {
+	
+	/**
+	 * Loads the aviavle & bought template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_deal_avail_bought() {
 		
 		global $post,$wps_deals_model;
 		
@@ -1080,58 +1827,169 @@ if( !function_exists( 'wps_deals_single_dimsale_box' ) ) {
 		// Get deal type
 		$wps_deal_type = $wps_deals_model->wps_deals_get_deal_type( $post->ID );
 		
+		// check if it's not an affiliate deal
 		if( $wps_deal_type != 'affiliate' )	{
 				
-			//today's date time
-			//$today = date('Y-m-d H:i:s');
+			// get today's date and time
 			$today	= wps_deals_current_date();
 			
-			//get the value for available deals from the post meta box
-			$available = get_post_meta($post->ID,$prefix.'avail_total',true);
+			// get the end date & time
+			$enddate = get_post_meta( $post->ID, $prefix . 'end_date', true );
 			
-			//get the value for start date & time of deals from the post meta box
-			$startdate = get_post_meta($post->ID,$prefix.'start_date',true);
+			// get the available_bought value
+			$available_bought = get_post_meta( $post->ID, $prefix . 'available_bought', true );
 			
-			//get the value for end date & time of deals from the post meta box
-			$enddate = get_post_meta($post->ID,$prefix.'end_date',true);
+			// check if the deal is still active
+			if( $enddate >= $today ) { 
 			
-			//when deal expired
-			$dealexpired = false;
-		
-			if ( $available == '' ) {} //check availble  is empty or not
-			elseif ( intval( $available ) == 0 ) { $dealexpired = true; } 
-			else {}
-			
-			//get dimsale ratio
-			$dimsaleratio = get_post_meta( $post->ID, $prefix.'inc_ratio', true );
-			
-			//get dimsale price 
-			$dimsaleprice = get_post_meta( $post->ID, $prefix.'inc_price', true );
-			
-			//get dimsale is activated
-			$dimsaleamt = get_post_meta($post->ID, $prefix.'nxt_inc_period', true);
-		
-			$lefttext = '';
-			
-			if(!empty( $dimsaleprice ) && !empty( $dimsaleratio ) ) {
-				$leftcopies = ( $dimsaleratio - $dimsaleamt );
-				$lefttext = apply_filters( 'wps_deals_dim_sale_text',sprintf( __('Only %1$s left at this price', 'wpsdeals' ), $leftcopies ) ); 
+				// set the args, which we will pass to the template
+				$args = array( 
+								'availablebought' => $available_bought
+							);
+					
+				// get the template
+				wps_deals_get_template( 'single-deal/avail-bought.php', $args );				
 			}
-			//if deal is active and deals is not in upcoming list or not out of stock
-			if( $enddate >= $today && $startdate <= $today && $dealexpired != true ) {
-				
-				//dim sale box template
-				wps_deals_get_template( 'single-deal/single-header/dim-sale.php', array( 'lefttext' => $lefttext ) );
-			}
-		}	
-	}
-	
+		}
+	}	
 }
+
+if( !function_exists( 'wps_deals_single_available' ) ) {
+		
+	/**
+	 * Loads the available box template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_available() {
+		
+		global $post;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		// get the value for the amount of available deals
+		$available = get_post_meta( $post->ID, $prefix . 'avail_total', true );
+		
+		// when deal expired
+		$dealexpired = false;
+		
+		if( $available == '' ) {
+			$available =  __( 'Unlimited', 'wpsdeals' );
+		} elseif( intval( $available ) == 0 ) {
+			$available =  __( 'Deal Sold Out', 'wpsdeals' );
+			$dealexpired = true;
+		}
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'available' => $available
+					);
+		 
+		// get the template
+		wps_deals_get_template( 'single-deal/avail-bought/available.php', $args );		
+	}
+}
+
+if( !function_exists( 'wps_deals_single_bought' ) ) {
+		
+	/**
+	 * Loads the bought box template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_bought() {
+		
+		global $post;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		// get the value for bought deals
+		$boughts = get_post_meta( $post->ID, $prefix . 'boughts', true );
+		
+		$bought = isset( $boughts ) && !empty( $boughts ) ? $boughts : '0';
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'bought' => $bought
+					);
+		
+		// get the template
+		wps_deals_get_template( 'single-deal/avail-bought/bought.php', $args );
+	}
+}
+
+if( !function_exists( 'wps_deals_single_header_right' ) ){
+
+	/**
+	 * Loads the right header template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_header_right() {
+	
+		// get the template
+		wps_deals_get_template( 'single-deal/right.php' );
+	}	
+}
+
+if( !function_exists( 'wps_deals_single_deal_img' ) ) { 
+	
+	/**
+	 * Loads the image template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_deal_img() {
+		
+		global $post;
+		
+		// get the image		
+		$dealimage = get_the_post_thumbnail( $post->ID, 'wpsdeals-single', array( 	
+																					'alt' => trim( strip_tags( $post->post_title ) ), 
+																					'title'	=> trim( strip_tags( $post->post_title ) ) 
+																				) );
+		
+		$imgurl = !empty( $dealimage ) ? $dealimage : '<img src="' . WPS_DEALS_URL . 'includes/images/deals-no-image-big.jpg' . '" alt="' . __( 'Deal Image', 'wpsdeals' ) . '" />';
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'dealimg' => $imgurl
+					);
+					
+		// get the template
+		wps_deals_get_template( 'single-deal/image.php', $args );
+	}
+}
+
+if( !function_exists( 'wps_deals_single_description' ) ){
+
+	/**
+	 * Loads the deal description template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_description() {
+	
+		// get the template
+		wps_deals_get_template( 'single-deal/description.php' );
+	}	
+}
+
+
+
+
+
+
 
 if( !function_exists( 'wps_deals_single_deal_expired' ) ) {
 	
 	/**
-	 * Load Single Deal Expired Template
+	 * Loads Single Deal Expired Template
 	 * 
 	 * Handles to load single deal expired
 	 * template
@@ -1175,137 +2033,21 @@ if( !function_exists( 'wps_deals_single_deal_expired' ) ) {
 		if( $enddate <= $today || $dealexpired == true ) {
 			
 			//deal expired template
-			wps_deals_get_template( 'single-deal/single-header/add-to-cart/expired.php', array( 'expiredtext' => $expiredtext ) );
+			wps_deals_get_template( 'single-deal/add-to-cart/expired.php', array( 'expiredtext' => $expiredtext ) );
 		}
 		
 	}
 	
 }
 
-if( !function_exists( 'wps_deals_single_deal_details' ) ) {
-	
-	/**
-	 * Load Single Deal Details Template 
-	 * 
-	 * Handles to load single deal details
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_deal_details() {
-		
-		//deal details template
-		wps_deals_get_template( 'single-deal/single-header/deal-details.php' );
-		
-	}
-	
-}
 
-if( !function_exists( 'wps_deals_single_deal_timer' ) ) {
-	
-	/**
-	 * Load Single Deal Timer Template
-	 * 
-	 * Handles to load single deal timer 
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_deal_timer() {
-		
-		global $post,$wps_deals_model;
-		
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		//today's date time
-		$today	= wps_deals_current_date();
-		
-		//get the value for start date & time of deals from the post meta box
-		$startdate = get_post_meta($post->ID,$prefix.'start_date',true);
-		
-		//get the value for end date & time of deals from the post meta box
-		$enddate = get_post_meta($post->ID,$prefix.'end_date',true);
-		
-		if( $enddate >= $today ) { //check if the deal is still active
-			
-			if(!empty($enddate) || !empty($startdate)) { //check end date is not empty or startdate is not empty
-				if( $startdate >= $today)  { // check startdate is greater than today 
-					$counterdate = $startdate;
-				} else {
-					$counterdate = $enddate;
-				}
-			}
-			
-			$args = array( 
-							'startdate'	=>	$startdate, 
-							'enddate'	=>	$enddate,
-							'today'		=>	$today,
-							'year'		=>	date( 'Y', strtotime( $counterdate ) ),
-							'month'		=>	date( 'm', strtotime( $counterdate ) ),
-							'day'		=>	date( 'd', strtotime( $counterdate ) ),
-							'hours'		=>	date( 'H', strtotime( $counterdate ) ),
-							'minute'	=>	date( 'i', strtotime( $counterdate ) ),
-							'seconds'	=>	date( 's', strtotime( $counterdate ) )
-						);
-			
-			//deal timer template
-			wps_deals_get_template( 'single-deal/single-header/deal-end-timer.php',  $args );
-		}
-		
-	}
-	
-}
 
-if( !function_exists( 'wps_deals_single_deal_avail_bought' ) ) {
-	
-	/**
-	 * Load Single Deal Available & Bought Box Template
-	 * 
-	 * Handles to load single deal available & bought
-	 * box tempalte
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_deal_avail_bought() {
-		
-		global $post,$wps_deals_model;
-		
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		// Get deal type
-		$wps_deal_type = $wps_deals_model->wps_deals_get_deal_type( $post->ID );
-		if( $wps_deal_type != 'affiliate' )	{ // Check deal type is not affiliate
-				
-			//today's date time
-			$today	= wps_deals_current_date();
-			
-			//get the value for end date & time of deals from the post meta box
-			$enddate = get_post_meta($post->ID,$prefix.'end_date',true);
-			
-			//get the available_bought value from the meta box
-			$available_bought = get_post_meta($post->ID,$prefix.'available_bought',true);
-			
-			if( $enddate >= $today ) { //check if the deal is still active
-					
-				//available and bought box template
-				wps_deals_get_template( 'single-deal/single-header/avail-bought.php', array( 'availablebought' => $available_bought ) );
-				
-			}
-		}
-	}
-	
-}
+
 
 if( !function_exists( 'wps_deals_single_deal_ratings' ) ) { 
 	
 	/**
-	 * Load Single Deal Ratings Template
-	 * 
-	 * Handles to single deal ratings 
-	 * template
+	 * Loads the ratings template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -1319,93 +2061,21 @@ if( !function_exists( 'wps_deals_single_deal_ratings' ) ) {
 			$rating = round( $wps_fbre_model->wps_fbre_post_average_ratings( $args = array( 'post_id' => $post->ID ) ) );
 		
 			//ratings template
-			wps_deals_get_template( 'single-deal/single-header/ratings.php', array( 'rating' => $rating ) );
+			wps_deals_get_template( 'single-deal/ratings.php', array( 'rating' => $rating ) );
 		}
 		
 	}
 }
-if( !function_exists( 'wps_deals_single_deal_img' ) ) { 
-	
-	/**
-	 * Load Single Deal Image Tempalte
-	 * 
-	 * Handles to load single deal image 
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_deal_img() {
-		
-		global $post,$wps_deals_price;
-		
-		//product price
-		$productprice = $wps_deals_price->wps_deals_get_price($post->ID);
-		
-		//get the value for main image of deal from the post meta box		
-		$dealimage = get_the_post_thumbnail( $post->ID, 'wpsdeals-single', array( 	'alt' => __('Deal Image','wpsdeals'), 
-																					'title'	=> trim( strip_tags( $post->post_title ) ) 
-																				) );
-		
-		$imgurl = !empty( $dealimage ) ? $dealimage : '<img src="'.WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg'.'" alt="'.__('Deal Image','wpsdeals').'" />';
-		
-		$dealprice = $wps_deals_price->get_display_price( $productprice, $post->ID );
-					
-		//deal image template
-		wps_deals_get_template( 'single-deal/single-header/deal-image.php', array( 'price' => $dealprice, 'dealimg'	=> $imgurl ) );
-	}
-}
 
-if( !function_exists( 'wps_deals_single_footer' ) ) {
 
-	/**
-	 * Load Single Deal Footer Template
-	 * 
-	 * Handles to load single deal footer
-	 * content template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_footer() {
-		
-		global $post;
-		
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		//get the value for terms and conditions of deals from the post meta box
-		$termsconditions = get_post_meta($post->ID,$prefix.'terms_conditions',true);
-		
-		//get the value for address of deal from the post meta box
-		$address = get_post_meta($post->ID,$prefix.'address',true);
-		
-		//get the value for business URL of deal from the post meta box
-		$business_url = get_post_meta($post->ID,$prefix.'bus_web_url',true);
-		
-		// get the business title from the post meta box
-		$business_title = get_post_meta($post->ID,$prefix.'business_title',true);
-		
-		// get the business logo from the post meta box
-		$business_logo = get_post_meta($post->ID,$prefix.'business_logo',true);
-		
-		// get the business address from the post meta box
-		$business_address = get_post_meta($post->ID,$prefix.'business_address',true);
-		
-		if( !empty( $business_title ) || !empty( $address ) || !empty( $business_logo ) || !empty( $business_address ) || !empty( $business_url ) || !empty( $termsconditions ) ) {
-		
-			//footer content template
-			wps_deals_get_template( 'single-deal/single-footer.php' );
-		}
-	}
-	
-}
+
+   
+
 
 if( !function_exists( 'wps_deals_purchase_link_button' ) ) {
+
 	/**
-	 * Load Purchase Link Button Template
-	 * 
-	 * Handles to load single deal purchase link button
-	 * when purchase link is not empty
+	 * Loads the purchase button template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -1416,37 +2086,45 @@ if( !function_exists( 'wps_deals_purchase_link_button' ) ) {
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		//get the purchase link for affiliate products 
+		// get the purchase link for affiliate products 
 		$purchaselink = get_post_meta($post->ID,$prefix.'purchase_link',true);
 		
-		//product price
+		// get the product price
 		$productprice = $wps_deals_price->wps_deals_get_price( $post->ID );
 		
-		//display price
+		// get the display price
 		$displayprice = $wps_deals_price->get_display_price( $productprice, $post->ID  );
 		
-		//get add to cart button 
-		$addtocart_post = get_post_meta($post->ID,$prefix.'add_to_cart',true);
+		// get the color scheme from the settings
+		$button_color = $wps_deals_options['deals_btn_color'];
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		
+		// get the add to cart button text
+		$addtocart_post = get_post_meta( $post->ID, $prefix . 'add_to_cart', true );
 		if( !empty( $addtocart_post ) ) {
 			$addcartbtntext = $addtocart_post;
 		} else {
-			$addcartbtntext = isset($wps_deals_options['add_to_cart_text']) && !empty($wps_deals_options['add_to_cart_text']) ? $wps_deals_options['add_to_cart_text'] : __('Add to Cart', 'wpsdeals');
+			$addcartbtntext = isset( $wps_deals_options['add_to_cart_text'] ) && !empty( $wps_deals_options['add_to_cart_text'] ) ? $wps_deals_options['add_to_cart_text'] : __( 'Add to Cart', 'wpsdeals' );
 		}
 		
 		if( !empty( $purchaselink ) ) {
+		
+			$args = array( 
+						'addcartbtntext' =>	$addcartbtntext, 
+						'displayprice' => $displayprice, 
+						'purchaselink' => $purchaselink, 
+						'btncolor' => $btncolor
+					);
 					
-			wps_deals_get_template( 'single-deal/single-header/add-to-cart/purchase-link-cart-button.php', array( 'addcartbtntext' => $addcartbtntext, 'displayprice' => $displayprice, 'purchaselink' => $purchaselink ) );
-			
+			wps_deals_get_template( 'single-deal/add-to-cart/purchase-link-cart-button.php', $args );			
 		}
 	}
 }
+
 if( !function_exists( 'wps_deals_add_to_cart_button' ) ) {
 	
 	/**
-	 * Load Single Deal Add to Cart Button Template
-	 * 
-	 * Handles to load single deal add to cart
-	 * button template
+	 * Loads the add to cart button template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -1456,48 +2134,53 @@ if( !function_exists( 'wps_deals_add_to_cart_button' ) ) {
 		global $post,$wps_deals_options,$wps_deals_price,$wps_deals_model;
 		
 		$prefix = WPS_DEALS_META_PREFIX;
-			
-		//product price
+		
+		// get the color scheme from the settings
+		$button_color = isset( $wps_deals_options['deals_btn_color'] ) ? $wps_deals_options['deals_btn_color'] : '';
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		
+		// get the product price
 		$productprice = $wps_deals_price->wps_deals_get_price( $post->ID );
 		
-		//display price
-		$displayprice = $wps_deals_price->get_display_price( $productprice,$post->ID );
+		//get the display price
+		$displayprice = $wps_deals_price->get_display_price( $productprice, $post->ID );
 		
-		//get checkout url 
-		$checkouturl = get_permalink( $wps_deals_options['payment_checkout_page'] );
+		//Get checkout page id
+		$payment_checkout_page	= isset( $wps_deals_options['payment_checkout_page'] ) ? $wps_deals_options['payment_checkout_page'] : '';
 		
-		//get the purchase link for affiliate products 
-		$purchaselink = get_post_meta( $post->ID,$prefix.'purchase_link',true );
+		// get the checkout url 
+		$checkouturl = get_permalink( $payment_checkout_page );
 		
-		//get add to cart button 
-		$addtocart_post = get_post_meta( $post->ID,$prefix.'add_to_cart',true );
+		// get the purchase link for affiliate products 
+		$purchaselink = get_post_meta( $post->ID, $prefix . 'purchase_link', true );
+		
+		// get the add to cart button text
+		$addtocart_post = get_post_meta( $post->ID, $prefix . 'add_to_cart', true );
 		
 		if( !empty( $addtocart_post ) ) {	
 			$addcartbtntext = $addtocart_post;
 		} else { 
-			$addcartbtntext = isset($wps_deals_options['add_to_cart_text']) && !empty($wps_deals_options['add_to_cart_text']) 
-								? $wps_deals_options['add_to_cart_text'] : __('Add to Cart', 'wpsdeals');
+			$addcartbtntext = isset( $wps_deals_options['add_to_cart_text'] ) && !empty($wps_deals_options['add_to_cart_text']) 
+								? $wps_deals_options['add_to_cart_text'] : __( 'Add to Cart', 'wpsdeals' );
 		}
 			
 		$args = array( 
-						'addcartbtntext'	=>	$addcartbtntext, 
-						'displayprice'		=>	$displayprice, 
-						'dealid'			=>	$post->ID, 
-						'checkouturl' 		=>	$checkouturl );
+						'addcartbtntext' =>	$addcartbtntext, 
+						'displayprice' => $displayprice, 
+						'dealid' => $post->ID, 
+						'checkouturl' => $checkouturl ,
+						'btncolor' => $btncolor
+					);
 			
-		//add to cart button template
-		wps_deals_get_template( 'single-deal/single-header/add-to-cart/add-to-cart-button.php', $args );
-		
+		// get the template
+		wps_deals_get_template( 'single-deal/add-to-cart/add-to-cart-button.php', $args );		
 	}
 }
 
 if( !function_exists( 'wps_deals_buy_now_button' ) ) {
 	
 	/**
-	 * Load Single Deal Buy Now Button Template
-	 * 
-	 * Handles to load single deal buy now
-	 * button template
+	 * Loads the buy now button template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -1510,14 +2193,18 @@ if( !function_exists( 'wps_deals_buy_now_button' ) ) {
 		
 		$dealurl = get_permalink( $post->ID );
 			
-		//product price 
+		// get the product price 
 		$productprice = $wps_deals_price->wps_deals_get_price( $post->ID );
 			
-		//display price
+		//get the display price
 		$displayprice = $wps_deals_price->get_display_price( $productprice,$post->ID );
 		
-		//get the buy now test from meta
-		$buynowtext = get_post_meta( $post->ID,$prefix.'buy_now',true );
+		// get the buy now button text
+		$buynowtext = get_post_meta( $post->ID, $prefix .'buy_now', true );
+		
+		// get the color scheme from the settings
+		$button_color = $wps_deals_options['deals_btn_color'];
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
 		
 		// Check user is not logged in and disable guest checkout from misc settings
 		if( !is_user_logged_in() && !empty( $wps_deals_options['disable_guest_checkout'] ) ) {
@@ -1532,308 +2219,81 @@ if( !function_exists( 'wps_deals_buy_now_button' ) ) {
 		}
 		
 		$args = array( 
-						'payurl' 			=>  $payurl, 
-						'displayprice'		=>	$displayprice, 
-						'dealid'			=>	$post->ID, 
-						'buynowtext'		=>	!empty( $buynowtext ) ? $buynowtext : __('Buy Now', 'wpsdeals')
+						'payurl' => $payurl, 
+						'displayprice' => $displayprice, 
+						'dealid' => $post->ID, 
+						'buynowtext' => !empty( $buynowtext ) ? $buynowtext : __( 'Buy Now', 'wpsdeals' ),
+						'btncolor' => $btncolor
 					);
 			
-		//buy now button template
-		wps_deals_get_template( 'single-deal/single-header/buy-now-button.php', $args );
-		
+		// get the template
+		wps_deals_get_template( 'single-deal/buy-now-button.php', $args );		
 	}
 }
 
-if( !function_exists( 'wps_deals_single_normalprice' ) ) {
-		
-	/**
-	 * Load Single Deal Normal Price Template
-	 * 
-	 * Handles to load single deal normal price
-	 * template 
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_normalprice() {
-		
-		global $post,$wps_deals_price;
-		
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		// get the value for normal price from the post meta box
-		$normalprice = get_post_meta($post->ID,$prefix.'normal_price',true);
-		
-		$displayprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
-		
-		//show normal value template
-		wps_deals_get_template( 'single-deal/single-header/deal-value.php', array( 'price' => $displayprice ) );
-		
-	}
-}
 
-if( !function_exists( 'wps_deals_single_discount' ) ) {
-		
-	/**
-	 * Load Single Deal Discount Template
-	 * 
-	 * Handles to load single deal discount
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_discount() {
-		
-		global $post,$wps_deals_price;
-		
-		//discount 
-		$discount = $wps_deals_price->wps_deals_get_discount($post->ID);
-		
-		//show deal discount template
-		wps_deals_get_template( 'single-deal/single-header/deal-discount.php', array( 'discount' => $discount ) );
-		
-	}
-}
-if( !function_exists( 'wps_deals_single_save' ) ) {
-		
-	/**
-	 * Load Single Deal Saving Price Template
-	 * 
-	 * Handles to show single deal saving 
-	 * price template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_save() {
-		
-		global $post,$wps_deals_price;
-		
-		//saving price
-		$yousave = $wps_deals_price->wps_deals_get_savingprice($post->ID);	
-		
-		//show deal saving price template
-		wps_deals_get_template( 'single-deal/single-header/deal-save.php', array( 'savingprice' => $yousave ) );
-		
-	}
-}
-if( !function_exists( 'wps_deals_single_available' ) ) {
-		
-	/**
-	 * Load Single Deal Available Box Template
-	 * 
-	 * Handles to show single deal available box
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_available() {
-		
-		global $post;
-		
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		//get the value for available deals from the post meta box
-		$avail = get_post_meta($post->ID,$prefix.'avail_total',true);
-		
-		//when deal expired
-		$dealexpired = false;
-		
-		if ( $avail == '' ) {
-			$available =  __('Unlimited','wpsdeals');
-		} elseif ( intval( $avail ) == 0 ) {
-			$available =  __('Out of Stock','wpsdeals');
-			$dealexpired = true;
-		} else {
-			$available = $avail;
-		}
-		 
-		//show deal available template
-		wps_deals_get_template( 'single-deal/single-header/avail-bought/available.php', array( 'available' => $available ) );
-		
-	}
-}
-if( !function_exists( 'wps_deals_single_bought' ) ) {
-		
-	/**
-	 * Load Single Deal Bought Box Template
-	 * 
-	 * Handles to load single deal bought box
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_bought() {
-		
-		global $post;
-		
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		//get the value for bought deals from the post meta box
-		$boughts = get_post_meta($post->ID,$prefix.'boughts',true);
-		$boughts = isset($boughts) && !empty($boughts) ? $boughts : '0';
-		
-		//bought box template
-		wps_deals_get_template( 'single-deal/single-header/avail-bought/bought.php', array( 'bought' => $boughts ) );
-	}
-}
+/* **************************************************************************
+   Single Deal Business Info Templates
+   ************************************************************************** */
 
-if( !function_exists( 'wps_deals_single_business_title' ) ) {
+if( !function_exists( 'wps_deals_single_business_info' ) ) {
 		
 	/**
-	 * Load Single Business Title Template
-	 * 
-	 * Handles to single deal business title
-	 * template
+	 * Loads the business info template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_single_business_title() {
+	function wps_deals_single_business_info() {
 		
 		global $post;
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		// get the business title from the post meta box
-		$businesstitle = get_post_meta($post->ID,$prefix.'business_title',true);
-	
-		//business title template
-		if( !empty( $businesstitle ) ) { //check business title is not empty
-			wps_deals_get_template( 'single-deal/single-footer/business-title.php', array( 'businesstitle' => $businesstitle ) );
-		}
-	}
-}
-if( !function_exists( 'wps_deals_single_business_location' ) ) {
+		// get the business title
+		$businesstitle = get_post_meta( $post->ID, $prefix . 'business_title', true );
 		
-	/**
-	 * Load Single Deal Business Location Map Template
-	 * 
-	 * Handles to load single deal business
-	 * location map template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_business_location() {
-		
-		global $post;
-	
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		//show google map
+		// get the google map values
 		$gmapaddress = get_post_meta( $post->ID, $prefix.'address', true );
-		$address = str_replace("'", "&prime;", $gmapaddress);
+		$address = str_replace( "'", "&prime;", $gmapaddress );
 		
-		
-		if( !empty( $address ) ) { //check business title is not empty
+		// check if address is set
+		if( !empty( $address ) ) {
 			
+			// enqueue the needed scripts for the map
 			wp_enqueue_script('wps-deals-google-map');
 			wp_enqueue_script('wps-deals-map-script');
-		
-			//business location map templatte	
-			wps_deals_get_template( 'single-deal/single-footer/business-location-map.php' );
-			
 		}
-	}
-}
-if( !function_exists( 'wps_deals_single_business_logo' ) ) {
 		
-	/**
-	 * Load Single Deal Business Logo Template
-	 * 
-	 * Handles to single deal business logo
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_business_logo() {
+		// get the business logo
+		$business_logo = get_post_meta( $post->ID, $prefix . 'business_logo', true );
 		
-		global $post;
+		// get the business address
+		$business_address = get_post_meta( $post->ID, $prefix . 'business_address', true );
+		
+		// get the the business URL
+		$business_url = get_post_meta( $post->ID, $prefix . 'bus_web_url', true );
 	
-		$prefix = WPS_DEALS_META_PREFIX;
+		// check if the business title is set
+		if( !empty( $businesstitle ) ) { 
 		
-		// get the business logo from the post meta box
-		$business_logo = get_post_meta($post->ID,$prefix.'business_logo',true);
-		
-		
-		if( !empty( $business_logo['src'] ) ) { //check business title is not empty
-			
-			//business logo template
-			wps_deals_get_template( 'single-deal/single-footer/business-logo.php', array( 'imgurl' => $business_logo['src'] ) );
-			
+			// set the args, which we will pass to the template
+			$args = array( 
+							'businesstitle' => $businesstitle,
+							'imgurl' => $business_logo['src'],
+							'address' => $business_address,
+							'businesslink' => $business_url
+						);
+						
+			wps_deals_get_template( 'single-deal/business-info.php', $args );
 		}
 	}
 }
-if( !function_exists( 'wps_deals_single_business_address' ) ) {
-		
-	/**
-	 * Load Single Deal Business Address Template
-	 * 
-	 * Handles to load single deal business address
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_business_address() {
-		
-		global $post;
-	
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		// get the business address from the post meta box
-		$business_address = get_post_meta($post->ID,$prefix.'business_address',true);
-		
-		
-		if( !empty( $business_address ) ) { //check business title is not empty
-			
-			//business address template	
-			wps_deals_get_template( 'single-deal/single-footer/business-address.php', array( 'address' => $business_address ) );
-			
-		}
-	}
-}
-if( !function_exists( 'wps_deals_single_business_link' ) ) {
-		
-	/**
-	 * Load Single Deal Business Link Template 
-	 * 
-	 * Handles to load single deal business
-	 * link template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_single_business_link() {
-		
-		global $post;
-	
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		//get the value for business URL of deal from the post meta box
-		$business_url = get_post_meta($post->ID,$prefix.'bus_web_url',true);
-		
-		
-		if( !empty( $business_url ) ) { //check business title is not empty
-			
-			//business link template	
-			wps_deals_get_template( 'single-deal/single-footer/business-link.php', array( 'businesslink' => $business_url ) );
-			
-		}
-	}
-}
+
 if( !function_exists( 'wps_deals_single_terms_conditions' ) ) {
 		
 	/**
-	 * Load Single Deal Terms & Condition Template
-	 * 
-	 * Handles to load single deal terms & condition
-	 * template
+	 * Loads the Terms & Condition template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -1844,166 +2304,64 @@ if( !function_exists( 'wps_deals_single_terms_conditions' ) ) {
 	
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		//get the value for terms and conditions of deals from the post meta box
-		$termsconditions = get_post_meta($post->ID,$prefix.'terms_conditions',true );
+		// get the value for the terms and conditions
+		$termsconditions = get_post_meta( $post->ID, $prefix . 'terms_conditions', true );
 		
-		if( !empty( $termsconditions ) ) { //check terms and conditions
+		// check terms and conditions
+		if( !empty( $termsconditions ) ) {
 			
-			//terms and conditions template	
-			wps_deals_get_template( 'single-deal/single-footer/terms.php', array( 'termsconditions' => $termsconditions ) );
+			// set the args, which we will pass to the template
+			$args = array( 
+							'termsconditions' => $termsconditions
+						);
 			
+			// get the template
+			wps_deals_get_template( 'single-deal/terms.php', $args );			
 		}
 	}
 }
 
-/*************************** Orders Deals Page Template ******************************/
-
-if( !function_exists( 'wps_deals_order_view_content_before' ) ) {
-
-	/**
-	 * Load Cheque Payment Message Template 
-	 * 
-	 * Handles to show cheque payment message content
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.1
-	 */
-	function wps_deals_order_view_content_before( $order_id ) {
-		
-		global $wps_deals_model, $wps_deals_options;
-		
-		// get the value for the order details from the post meta box
-		$order_details = $wps_deals_model->wps_deals_get_post_meta_ordered( $order_id );
-		
-		$payment_method = isset( $order_details['payment_method'] ) ? $order_details['payment_method'] : '';
-	
-		// Check payment method is cheque payment and not empty customer message from settings
-		if( $payment_method == 'cheque' && isset( $wps_deals_options['cheque_customer_msg'] )
-			 && !empty( $wps_deals_options['cheque_customer_msg'] ) ) {
-		
-			//cheque payment message details template
-			wps_deals_get_template( 'orders/order-cheque-payment-message.php', array( 'cheque_customer_msg' => nl2br( $wps_deals_options['cheque_customer_msg'] ) ) );
-		
-		}
-	}
-}
-if( !function_exists( 'wps_deals_orders_content' ) ) {
-
-	/**
-	 * Load Orders Template 
-	 * 
-	 * Handles to load orders template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_orders_content() {
-		
-		//order details template
-		wps_deals_get_template( 'orders/orders.php' );
-	}
-}
-if( !function_exists( 'wps_deals_orders_listing_content' ) ) {
-
-	/**
-	 * Load Orders Listing Table Template 
-	 * 
-	 * Handles to load orders listing table template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_orders_listing_content( $ordereddeals, $paging ) {
-		
-		//order details template
-		wps_deals_get_template( 'orders/orders-listing/orders-listing.php', array(	'ordereddeals'	=> $ordereddeals, 
-																					'paging'		=> $paging ) );
-	}
-}
-if( !function_exists( 'wps_deals_orders_complete_content' ) ) {
-
-	/**
-	 * Load Orders Complete Template
-	 * 
-	 * Handles to load orders complete 
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_orders_complete_content() {
-		
-		//order complete details template
-		wps_deals_get_template( 'orders/order-complete-details.php' );
-	}
-}
-if( !function_exists( 'wps_deals_orders_cancel_content' ) ) {
-
-	/**
-	 * Load Orders Cancel Template
-	 * 
-	 * Handles to load orders cancel 
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_orders_cancel_content() {
-		
-		//order cancel template
-		wps_deals_get_template( 'orders/order-cancel-details.php' );
-	}
-}
-
-/*************************** Checkout Deals Page Template ******************************/
+/* **************************************************************************
+   Checkout Page Templates
+   ************************************************************************** */
 
 if( !function_exists( 'wps_deals_checkout_header' ) ) {
 	
 	/**
-	 * Load Checkout Header Template
-	 * 
-	 * Handles to load checkout header
-	 * template
+	 * Loads the checkout header template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
 	function wps_deals_checkout_header() {
 		
-		//credit card validator script
+		// enqueue the credit card validator script
 		wp_enqueue_script( 'wps-deals-credit-card-validator-scripts' );
-		//checkout header template
-		wps_deals_get_template( 'checkout/checkout-header.php' );
-	}
-	
+		
+		// get the template
+		wps_deals_get_template( 'checkout/header.php' );
+	}	
 }
 
 if( !function_exists( 'wps_deals_checkout_content' ) ) {
 	
 	/**
-	 * Load Checkout Content Template
-	 * 
-	 * Handles to load checkout content
-	 * template
-	 * 
+	 * Loads the checkout content template.
+	 *
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
 	function wps_deals_checkout_content() {
 		
-		//no payment gateway selected
-		wps_deals_get_template( 'checkout/checkout-content.php' );
-	}
-	
+		// get the template
+		wps_deals_get_template( 'checkout/content.php' );
+	}	
 }
 
 if( !function_exists( 'wps_deals_checkout_footer' ) ) {
 
 	/**
-	 * Load Checkout Footer Template
-	 * 
-	 * Handles to load checkout footer
-	 * template
+	 * Loads the checkout footer template.
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
@@ -2012,14 +2370,16 @@ if( !function_exists( 'wps_deals_checkout_footer' ) ) {
 		
 		$paymentgatway = wps_deals_get_enabled_gateways();
 		
-		if( !empty( $paymentgatway )  ) { //check payment gateways
+		// check if a payment gateway is enabled
+		if( !empty( $paymentgatway )  ) {
 			
-			//checkout footer template
-			wps_deals_get_template( 'checkout/checkout-footer.php' );
+			// get the template
+			wps_deals_get_template( 'checkout/footer.php' );
 			
 		} else {
-			//no payment gateway selected template
-			wps_deals_get_template( 'checkout/checkout-footer/no-payment-gatway.php' );
+		
+			// get the template
+			wps_deals_get_template( 'checkout/footer/no-payment-gatway.php' );
 		}
 	}
 }
@@ -2027,7 +2387,7 @@ if( !function_exists( 'wps_deals_checkout_footer' ) ) {
 if( !function_exists( 'wps_deals_cart_details' ) ) {
 	
 	/**
-	 * Load Checkout Cart Details Template
+	 * Loads Checkout Cart Details Template
 	 * 
 	 * Handles to load checkout cart details
 	 * template
@@ -2038,7 +2398,7 @@ if( !function_exists( 'wps_deals_cart_details' ) ) {
 	function wps_deals_cart_details() {
 		
 		//cart details table template
-		wps_deals_get_template( 'checkout/checkout-header/cart-details.php' );
+		wps_deals_get_template( 'checkout/header/cart-details.php' );
 		
 	}
 }
@@ -2046,7 +2406,7 @@ if( !function_exists( 'wps_deals_cart_details' ) ) {
 if( !function_exists( 'wps_deals_cart_action_buttons' ) ) {
 	
 	/**
-	 * Load Cart Actions Buttons Template
+	 * Loads Cart Actions Buttons Template
 	 * 
 	 * Handles to load cart action buttons
 	 * template
@@ -2057,26 +2417,7 @@ if( !function_exists( 'wps_deals_cart_action_buttons' ) ) {
 	function wps_deals_cart_action_buttons() {
 		
 		//cart actions buttons template
-		wps_deals_get_template( 'checkout/checkout-header/cart-action-buttons.php' );
-		
-	}
-}
-
-if( !function_exists( 'wps_deals_cart_empty_button' ) ) {
-	
-	/**
-	 * Load Cart Empty Button Template
-	 * 
-	 * Handles to load cart empty button
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_cart_empty_button() {
-		
-		//cart empty button template
-		wps_deals_get_template( 'checkout/checkout-header/cart-action-buttons/cart-empty-button.php' );
+		wps_deals_get_template( 'checkout/header/cart-action-buttons.php' );
 		
 	}
 }
@@ -2084,7 +2425,7 @@ if( !function_exists( 'wps_deals_cart_empty_button' ) ) {
 if( !function_exists( 'wps_deals_cart_update_button' ) ) {
 	
 	/**
-	 * Load Cart Update Button Template
+	 * Loads Cart Update Button Template
 	 * 
 	 * Handles to load update cart button
 	 * template
@@ -2095,7 +2436,7 @@ if( !function_exists( 'wps_deals_cart_update_button' ) ) {
 	function wps_deals_cart_update_button() {
 		
 		//cart update button template
-		wps_deals_get_template( 'checkout/checkout-header/cart-action-buttons/cart-update-button.php' );
+		wps_deals_get_template( 'checkout/header/cart-action-buttons/cart-update-button.php' );
 		
 	}
 }
@@ -2103,7 +2444,7 @@ if( !function_exists( 'wps_deals_cart_update_button' ) ) {
 if( !function_exists( 'wps_deals_display_description' ) ) {
 	
 	/**
-	 * Load Cheque Payment Description Template
+	 * Loads Cheque Payment Description Template
 	 * 
 	 * Handles to load cheque payment description
 	 * template
@@ -2132,7 +2473,7 @@ if( !function_exists( 'wps_deals_display_description' ) ) {
 		
 		if( !empty( $cheque_customer_msg ) ) {
 			//cheque description template
-			wps_deals_get_template( 'checkout/checkout-footer/cheque-payment-description.php', array( 	'description' 	=> nl2br( $cheque_customer_msg ),
+			wps_deals_get_template( 'checkout/footer/cheque-payment-description.php', array( 	'description' 	=> nl2br( $cheque_customer_msg ),
 																										'enablebankdesc'=> $enablebankdesc ) );
 		}
 		
@@ -2142,7 +2483,7 @@ if( !function_exists( 'wps_deals_display_description' ) ) {
 if( !function_exists( 'wps_deals_cart_social_login' ) ) {
 	
 	/**
-	 * Load Checkout Social Login Buttons Template
+	 * Loads Checkout Social Login Buttons Template
 	 * 
 	 * Handles to load checkout social login buttons
 	 * template
@@ -2174,7 +2515,7 @@ if( !function_exists( 'wps_deals_cart_social_login' ) ) {
 			$login_redirect_url = isset( $wps_deals_options['login_redirect_url'] ) ? $wps_deals_options['login_redirect_url'] : '';
 			
 			//load social login buttons template
-			wps_deals_get_template( 'checkout/checkout-content/social.php', array( 	'title' 			=> $login_heading,
+			wps_deals_get_template( 'checkout/content/social.php', array( 	'title' 			=> $login_heading,
 																					'login_redirect_url'=> $login_redirect_url
 																					) );
 			
@@ -2187,7 +2528,7 @@ if( !function_exists( 'wps_deals_cart_social_login' ) ) {
 if( !function_exists( 'wps_deals_social_login_shortcode' ) ) {
 	
 	/**
-	 * Load Shortcode Social Login Buttons Template
+	 * Loads Shortcode Social Login Buttons Template
 	 * 
 	 * Handles to load shortcode social login buttons
 	 * template
@@ -2208,7 +2549,7 @@ if( !function_exists( 'wps_deals_social_login_shortcode' ) ) {
 		$login_redirect_url = !empty( $redirect_url ) ? $redirect_url : $login_redirect_url; // check redirect url first from shortcode
 		
 		//load social login buttons template
-		wps_deals_get_template( 'checkout/checkout-content/social.php', array( 	'title' 			=> $login_heading,
+		wps_deals_get_template( 'checkout/content/social.php', array( 	'title' 			=> $login_heading,
 																				'login_redirect_url'=> $login_redirect_url
 																				) );
 		
@@ -2220,7 +2561,7 @@ if( !function_exists( 'wps_deals_social_login_shortcode' ) ) {
 if( !function_exists( 'wps_deals_checkout_payment_gateways' ) ) {
 	
 	/**
-	 * Load Checkout Payment Gateways Template
+	 * Loads Checkout Payment Gateways Template
 	 * 
 	 * Handles to load checkout payment gateway 
 	 * template
@@ -2243,7 +2584,7 @@ if( !function_exists( 'wps_deals_checkout_payment_gateways' ) ) {
 		}
 		
 		//payment gateway template
-		wps_deals_get_template( 'checkout/checkout-footer/payment-gateway.php', array( 'paymentgatway' => $paymentgatway, 'defaultgatway' => $defaultgatway ));
+		wps_deals_get_template( 'checkout/footer/payment-gateway.php', array( 'paymentgatway' => $paymentgatway, 'defaultgatway' => $defaultgatway ));
 		
 	}
 	
@@ -2251,7 +2592,7 @@ if( !function_exists( 'wps_deals_checkout_payment_gateways' ) ) {
 if( !function_exists( 'wps_deals_checkout_user_form' ) ) {
 	
 	/**
-	 * Load Checkout User Register & Login Form Template
+	 * Loads Checkout User Register & Login Form Template
 	 * 
 	 * Handles to load checkout user register & login form
 	 * template
@@ -2266,7 +2607,7 @@ if( !function_exists( 'wps_deals_checkout_user_form' ) ) {
 		if(!is_user_logged_in() && (!empty($wps_deals_options['show_login_register']) || !empty($wps_deals_options['disable_guest_checkout']))) { //check user is not logged in and show login and register option is selected from backend
 			
 			//load user form template
-			wps_deals_get_template( 'checkout/checkout-footer/user-form.php' );
+			wps_deals_get_template( 'checkout/footer/user-form.php' );
 					
 		}
 	}
@@ -2275,7 +2616,7 @@ if( !function_exists( 'wps_deals_checkout_user_form' ) ) {
 if( !function_exists( 'wps_deals_cart_user_reg_form' ) ) {
 	
 	/**
-	 * Load Cart User Register Form Template
+	 * Loads Cart User Register Form Template
 	 * 
 	 * Handles to load user register form
 	 * on single deal page
@@ -2286,7 +2627,7 @@ if( !function_exists( 'wps_deals_cart_user_reg_form' ) ) {
 	function wps_deals_cart_user_reg_form() {
 
 		//registration form template
-		wps_deals_get_template( 'checkout/checkout-footer/user-form/registration-form.php' );
+		wps_deals_get_template( 'checkout/footer/user-form/registration-form.php' );
 		
 	}
 	
@@ -2295,7 +2636,7 @@ if( !function_exists( 'wps_deals_cart_user_reg_form' ) ) {
 if( !function_exists( 'wps_deals_cart_user_login_form' ) ) {
 	
 	/**
-	 * Load Cart User Login Form Template
+	 * Loads Cart User Login Form Template
 	 * 
 	 * Handles to load user login form
 	 * template
@@ -2306,7 +2647,7 @@ if( !function_exists( 'wps_deals_cart_user_login_form' ) ) {
 	function wps_deals_cart_user_login_form() {
 
 		//login form template
-		wps_deals_get_template( 'checkout/checkout-footer/user-form/login-form.php' );
+		wps_deals_get_template( 'checkout/footer/user-form/login-form.php' );
 		
 	}
 	
@@ -2315,7 +2656,7 @@ if( !function_exists( 'wps_deals_cart_user_login_form' ) ) {
 if( !function_exists( 'wps_deals_cart_user_personal_details' ) ) {
 	
 	/**
-	 * Load Cart User Personal Details Template
+	 * Loads Cart User Personal Details Template
 	 * 
 	 * Handles to load user personal details
 	 * template
@@ -2326,14 +2667,14 @@ if( !function_exists( 'wps_deals_cart_user_personal_details' ) ) {
 	function wps_deals_cart_user_personal_details() {
 		
 		//personal details template
-		wps_deals_get_template( 'checkout/checkout-footer/personal-details.php' );
+		wps_deals_get_template( 'checkout/footer/personal-details.php' );
 		
 	}
 }
 if( !function_exists( 'wps_deals_cart_user_billing_details' ) ) {
 	
 	/**
-	 * Load Cart User Billing Details Template
+	 * Loads Cart User Billing Details Template
 	 * 
 	 * Handles to load user billing details
 	 * template
@@ -2389,7 +2730,7 @@ if( !function_exists( 'wps_deals_cart_user_billing_details' ) ) {
 								);
 			
 			//billing details template
-			wps_deals_get_template( 'checkout/checkout-footer/billing-details.php', $billingargs );
+			wps_deals_get_template( 'checkout/footer/billing-details.php', $billingargs );
 			
 		} //end if to check enable billing or not
 	}
@@ -2397,7 +2738,7 @@ if( !function_exists( 'wps_deals_cart_user_billing_details' ) ) {
 if( !function_exists( 'wps_deals_cart_agree_terms' ) ) {
 	
 	/**
-	 * Load Cart Agree Terms & Conditions Template
+	 * Loads Cart Agree Terms & Conditions Template
 	 * 
 	 * Handles to load agree terms & conditions
 	 * template
@@ -2419,14 +2760,14 @@ if( !function_exists( 'wps_deals_cart_agree_terms' ) ) {
 			 			 );
 			 			 
 			//terms and conditions template
-			wps_deals_get_template( 'checkout/checkout-footer/terms.php', $args );
+			wps_deals_get_template( 'checkout/footer/terms.php', $args );
 		}
 	}
 }
 if( !function_exists( 'wps_deals_checkout_order_total_button' ) ) {
 	
 	/**
-	 * Load Checkout Order Total & Place Your Order Button  Template
+	 * Loads Checkout Order Total & Place Your Order Button  Template
 	 * 
 	 * Handles to load checkout order total & 
 	 * place your order button template
@@ -2437,34 +2778,17 @@ if( !function_exists( 'wps_deals_checkout_order_total_button' ) ) {
 	function wps_deals_checkout_order_total_button() {
 		
 		//cart button and total template
-		wps_deals_get_template( 'checkout/checkout-footer/order-total-button.php' );
+		wps_deals_get_template( 'checkout/footer/order-total-button.php' );
 		
 	}
 }
 
-if( !function_exists( 'wps_deals_empty_cart_message' ) ) {
-	
-	/**
-	 * Load Cart Empty Message Template
-	 * 
-	 * Handles to load cart empty message
-	 * template
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 */
-	function wps_deals_empty_cart_message() {
-		
-		//cart empty template
-		wps_deals_get_template( 'checkout/checkout-header/cart-empty.php' );
-		
-	}
-}
+
 
 if( !function_exists( 'wps_deals_cart_order_total_footer' ) ) {
 	
 	/**
-	 * Load Cart Order Total In Footer Template
+	 * Loads Cart Order Total In Footer Template
 	 * 
 	 * Handles to load cart order total in footer
 	 * template
@@ -2475,7 +2799,7 @@ if( !function_exists( 'wps_deals_cart_order_total_footer' ) ) {
 	function wps_deals_cart_order_total_footer() {
 		
 		//cart order total template
-		wps_deals_get_template( 'checkout/checkout-footer/order-total-button/order-total.php' );
+		wps_deals_get_template( 'checkout/footer/order-total-button/order-total.php' );
 		
 	}
 }
@@ -2484,7 +2808,7 @@ if( !function_exists( 'wps_deals_cart_order_total_footer' ) ) {
 if( !function_exists( 'wps_deals_cart_place_order_button_footer' ) ) {
 	
 	/**
-	 * Load Cart Place Your Order Button Template
+	 * Loads Cart Place Your Order Button Template
 	 * 
 	 * Handles to load cart place 
 	 * your order button in footer template
@@ -2495,7 +2819,7 @@ if( !function_exists( 'wps_deals_cart_place_order_button_footer' ) ) {
 	function wps_deals_cart_place_order_button_footer() {
 		
 		//cart place your order button template
-		wps_deals_get_template( 'checkout/checkout-footer/order-total-button/place-your-order-button.php' );
+		wps_deals_get_template( 'checkout/footer/order-total-button/place-your-order-button.php' );
 		
 	}
 }
@@ -2503,7 +2827,7 @@ if( !function_exists( 'wps_deals_cart_place_order_button_footer' ) ) {
 if( !function_exists( 'wps_deals_social_login_facebook' ) ) {
 	
 	/**
-	 * Load Checkout Social Login Facebook Template
+	 * Loads Checkout Social Login Facebook Template
 	 * 
 	 * Handles to load checkout social login 
 	 * facebook button template
@@ -2523,7 +2847,7 @@ if( !function_exists( 'wps_deals_social_login_facebook' ) ) {
 						? $wps_deals_options['fb_icon_url'] : WPS_DEALS_SOCIAL_URL.'/images/facebook.png';
 				
 			//load facebook button template
-			wps_deals_get_template( 'checkout/checkout-content/social/facebook.php', array( 'fbiconurl' => $fbimgurl ) );
+			wps_deals_get_template( 'checkout/content/social/facebook.php', array( 'fbiconurl' => $fbimgurl ) );
 
 			//enqueue Facebook scripts
 			wp_enqueue_script( 'facebook' );
@@ -2537,7 +2861,7 @@ if( !function_exists( 'wps_deals_social_login_facebook' ) ) {
 if( !function_exists( 'wps_deals_social_login_twitter' ) ) {
 	
 	/**
-	 * Load Checkout Social Login Twitter Template
+	 * Loads Checkout Social Login Twitter Template
 	 * 
 	 * Handles to load social login 
 	 * twitter button template
@@ -2559,7 +2883,7 @@ if( !function_exists( 'wps_deals_social_login_twitter' ) ) {
 						? $wps_deals_options['tw_icon_url'] : WPS_DEALS_SOCIAL_URL.'/images/twitter.png';
 			
 			//load twitter button template
-			wps_deals_get_template( 'checkout/checkout-content/social/twitter.php', array( 'twiconurl' => $twimgurl ) );
+			wps_deals_get_template( 'checkout/content/social/twitter.php', array( 'twiconurl' => $twimgurl ) );
 			
 			if ( WPS_DEALS_TW_CONSUMER_KEY != '' && WPS_DEALS_TW_CONSUMER_SECRET != '' ) {
 				
@@ -2576,7 +2900,7 @@ if( !function_exists( 'wps_deals_social_login_twitter' ) ) {
 if( !function_exists( 'wps_deals_social_login_googleplus' ) ) {
 	
 	/**
-	 * Load Checkout Social Login Google+ Template
+	 * Loads Checkout Social Login Google+ Template
 	 * 
 	 * Handles to load social login google+ button
 	 * template
@@ -2598,7 +2922,7 @@ if( !function_exists( 'wps_deals_social_login_googleplus' ) ) {
 						? $wps_deals_options['gplus_icon_url'] : WPS_DEALS_SOCIAL_URL.'/images/google_plus.png';
 			
 			//load googleplus button template
-			wps_deals_get_template( 'checkout/checkout-content/social/googleplus.php', array( 'gpiconurl' => $gpimgurl ) );
+			wps_deals_get_template( 'checkout/content/social/googleplus.php', array( 'gpiconurl' => $gpimgurl ) );
 			
 			if( WPS_DEALS_GP_CLIENT_ID != '' && WPS_DEALS_GP_CLIENT_SECRET != '' ) {
 				
@@ -2613,7 +2937,7 @@ if( !function_exists( 'wps_deals_social_login_googleplus' ) ) {
 if( !function_exists( 'wps_deals_social_login_linkedin' ) ) {
 	
 	/**
-	 * Load Checkout Social Login LinkedIn Template
+	 * Loads Checkout Social Login LinkedIn Template
 	 * 
 	 * Handles to load social login 
 	 * linkedin button template
@@ -2634,7 +2958,7 @@ if( !function_exists( 'wps_deals_social_login_linkedin' ) ) {
 			$liimgurl = isset( $wps_deals_options['li_icon_url'] ) && !empty( $wps_deals_options['li_icon_url'] ) 
 						? $wps_deals_options['li_icon_url'] : WPS_DEALS_SOCIAL_URL.'/images/linkedin.png';
 			//load linkedin button template
-			wps_deals_get_template( 'checkout/checkout-content/social/linkedin.php', array( 'liiconurl' => $liimgurl ) );
+			wps_deals_get_template( 'checkout/content/social/linkedin.php', array( 'liiconurl' => $liimgurl ) );
 			
 			if( WPS_DEALS_LI_APP_ID != '' && WPS_DEALS_LI_APP_SECRET != '' ) {
 				
@@ -2649,7 +2973,7 @@ if( !function_exists( 'wps_deals_social_login_linkedin' ) ) {
 if( !function_exists( 'wps_deals_social_login_yahoo' ) ) {
 	
 	/**
-	 * Load Checkout Social Login Yahoo Template
+	 * Loads Checkout Social Login Yahoo Template
 	 * 
 	 * Handles to load social login 
 	 * yahoo button template
@@ -2671,7 +2995,7 @@ if( !function_exists( 'wps_deals_social_login_yahoo' ) ) {
 						? $wps_deals_options['yh_icon_url'] : WPS_DEALS_SOCIAL_URL.'/images/yahoo.png';
 			
 			//load yahoo button template
-			wps_deals_get_template( 'checkout/checkout-content/social/yahoo.php', array( 'yhiconurl' => $yhimgurl ) );
+			wps_deals_get_template( 'checkout/content/social/yahoo.php', array( 'yhiconurl' => $yhimgurl ) );
 			
 			if( WPS_DEALS_YH_CONSUMER_KEY != '' && WPS_DEALS_YH_CONSUMER_SECRET != '' && WPS_DEALS_YH_APP_ID != '' ) {
 				
@@ -2686,7 +3010,7 @@ if( !function_exists( 'wps_deals_social_login_yahoo' ) ) {
 if( !function_exists( 'wps_deals_social_login_foursquare' ) ) {
 	
 	/**
-	 * Load Checkout Social Login Yahoo Template
+	 * Loads Checkout Social Login Yahoo Template
 	 * 
 	 * Handles to load social login 
 	 * foursquare button template
@@ -2708,7 +3032,7 @@ if( !function_exists( 'wps_deals_social_login_foursquare' ) ) {
 						? $wps_deals_options['fs_icon_url'] : WPS_DEALS_SOCIAL_URL.'/images/foursquare.png';
 			
 			//load foursquare button template
-			wps_deals_get_template( 'checkout/checkout-content/social/foursquare.php', array( 'fsiconurl' => $fsimgurl ) );
+			wps_deals_get_template( 'checkout/content/social/foursquare.php', array( 'fsiconurl' => $fsimgurl ) );
 			
 			if( WPS_DEALS_FS_CLIENT_ID != '' && WPS_DEALS_FS_CLIENT_SECRET != '' ) {
 				
@@ -2722,7 +3046,7 @@ if( !function_exists( 'wps_deals_social_login_foursquare' ) ) {
 if( !function_exists( 'wps_deals_social_login_windowslive' ) ) {
 	
 	/**
-	 * Load Checkout Social Login Windows Live Template
+	 * Loads Checkout Social Login Windows Live Template
 	 * 
 	 * Handles to load checkout social login 
 	 * facebook button template
@@ -2746,7 +3070,7 @@ if( !function_exists( 'wps_deals_social_login_windowslive' ) ) {
 						? $wps_deals_options['wl_icon_url'] : WPS_DEALS_SOCIAL_URL.'/images/windowslive.png';
 				
 			//load windowslive button template
-			wps_deals_get_template( 'checkout/checkout-content/social/windowslive.php', array( 'wliconurl' => $wlimgurl ) );
+			wps_deals_get_template( 'checkout/content/social/windowslive.php', array( 'wliconurl' => $wlimgurl ) );
 
 			if( WPS_DEALS_WL_CLIENT_ID != '' && WPS_DEALS_WL_CLIENT_SECRET != '' ) {
 				
@@ -2804,6 +3128,106 @@ if( !function_exists( 'wps_deals_localize_map_script' ) ) {
 																		  	) );
 	}
 }
+
+/*************************** Orders Deals Page Template ******************************/
+
+if( !function_exists( 'wps_deals_order_view_content_before' ) ) {
+
+	/**
+	 * Loads Cheque Payment Message Template 
+	 * 
+	 * Handles to show cheque payment message content
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.1
+	 */
+	function wps_deals_order_view_content_before( $order_id ) {
+		
+		global $wps_deals_model, $wps_deals_options;
+		
+		// get the value for the order details from the post meta box
+		$order_details = $wps_deals_model->wps_deals_get_post_meta_ordered( $order_id );
+		
+		$payment_method = isset( $order_details['payment_method'] ) ? $order_details['payment_method'] : '';
+	
+		// Check payment method is cheque payment and not empty customer message from settings
+		if( $payment_method == 'cheque' && isset( $wps_deals_options['cheque_customer_msg'] )
+			 && !empty( $wps_deals_options['cheque_customer_msg'] ) ) {
+		
+			//cheque payment message details template
+			wps_deals_get_template( 'orders/order-cheque-payment-message.php', array( 'cheque_customer_msg' => nl2br( $wps_deals_options['cheque_customer_msg'] ) ) );
+		
+		}
+	}
+}
+if( !function_exists( 'wps_deals_orders_content' ) ) {
+
+	/**
+	 * Loads Orders Template 
+	 * 
+	 * Handles to load orders template
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_orders_content() {
+		
+		//order details template
+		wps_deals_get_template( 'orders/orders.php' );
+	}
+}
+if( !function_exists( 'wps_deals_orders_listing_content' ) ) {
+
+	/**
+	 * Loads Orders Listing Table Template 
+	 * 
+	 * Handles to load orders listing table template
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_orders_listing_content( $ordereddeals, $paging ) {
+		
+		//order details template
+		wps_deals_get_template( 'orders/orders-listing/orders-listing.php', array(	'ordereddeals'	=> $ordereddeals, 
+																					'paging'		=> $paging ) );
+	}
+}
+if( !function_exists( 'wps_deals_orders_complete_content' ) ) {
+
+	/**
+	 * Loads Orders Complete Template
+	 * 
+	 * Handles to load orders complete 
+	 * template
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_orders_complete_content() {
+		
+		//order complete details template
+		wps_deals_get_template( 'orders/order-complete-details.php' );
+	}
+}
+if( !function_exists( 'wps_deals_orders_cancel_content' ) ) {
+
+	/**
+	 * Loads Orders Cancel Template
+	 * 
+	 * Handles to load orders cancel 
+	 * template
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_orders_cancel_content() {
+		
+		//order cancel template
+		wps_deals_get_template( 'orders/order-cancel-details.php' );
+	}
+}
+
 /*************************** My Account Page Template ******************************/
 /**
  * My Account Template Functions
@@ -3155,6 +3579,7 @@ if( !function_exists( 'wps_deals_edit_address_content' ) ) {
 		}
 	}
 }
+
 if( !function_exists( 'wps_deals_edit_billing_address' ) ) {
 	/**
 	 * Edit Billing Address
@@ -3170,6 +3595,7 @@ if( !function_exists( 'wps_deals_edit_billing_address' ) ) {
 		wps_deals_get_template( 'my-account/edit-billing-address.php' );
 	}
 }
+
 if( !function_exists( 'wps_deals_create_account_content' ) ) {
 	/**
 	 * Create An Account Page
@@ -3202,6 +3628,7 @@ if( !function_exists( 'wps_deals_create_account_content' ) ) {
 																		 ) );
 	}
 }
+
 if( !function_exists( 'wps_deals_change_password_content' ) ) {
 	/**
 	 * Change Address Page
@@ -3217,6 +3644,7 @@ if( !function_exists( 'wps_deals_change_password_content' ) ) {
 		wps_deals_get_template( 'my-account/change-password.php' );
 	}
 }
+
 if( !function_exists( 'wps_deals_lost_password_content' ) ) {
 	/**
 	 * Lost Address Page
@@ -3281,22 +3709,6 @@ if( !function_exists( 'wps_deals_lost_password_content' ) ) {
 			//load lost password template
 			wps_deals_get_template( 'my-account/lost-password.php' );
 		}
-	}
-}
-if ( ! function_exists( 'wps_deals_get_sidebar' ) ) {
-
-	/**
-	 * Sidebar Template
-	 * 
-	 * Handles to show sidebar tempate
-	 * 
-	 * @package Social Deals Engine
-	 * @since 1.0.0
-	 **/
-	function wps_deals_get_sidebar() {
-		
-		//load sidebar template
-		wps_deals_get_template( 'sidebar/sidebar.php' );
 	}
 }
 

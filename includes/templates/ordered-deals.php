@@ -1,69 +1,42 @@
 <?php
 
 /**
- * Ordered Deals Data
- * 
- * Handles to show ordered deals data
+ * Order History Template
  * 
  * Override this template by copying it to yourtheme/deals-engine/ordered-deals.php
  *
- * @package Social Deals Engine
- * @since 1.0.0
+ * @author 		Social Deals Engine
+ * @package 	Deals-Engine/Includes/Templates
+ * @version     2.0.0
  */
-
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-	//get header
-	get_header( 'deals' );
-
-	global $post;
 ?>
-	<div class="site-content" id="primary">
-	
-		<div id="content" role="main">
-		
-			<article class="post-<?php echo $post->ID;?> page type-page status-publish hentry" id="post-<?php echo $post->ID;?>">
-			
-				<header class="entry-header">
-					<h1 class="entry-title"><?php echo get_the_title( $post->ID );?></h1>
-				</header> 
-				
-				<div class="entry-content">
-				
-					<?php
-						//do action to show order details
-						do_action( 'wps_deals_orders_top' );
-					?>
-				
-					<div class="row-fluid">	
-				
-						<?php
-							//do action to show order details
-							do_action( 'wps_deals_orders_content' );
-						?>
-						
-					</div><!--row-fluid-->
-					
-					<?php
-						//do action to show order details
-						do_action( 'wps_deals_orders_bottom' );
-					?>
-					
-				</div><!--.entry-content-->
-				
-			</article>
-			
-		</div><!--#content-->
-		
-	</div><!--site-content-->
-	
-<?php
 
-	//register sidebar with following action
-	do_action( 'wps_deals_sidebar' );
-	
-	//get footer
-	get_footer( 'deals' );
-	
-?>	
+<div class="deals-container deals-clearfix">
+				
+	<?php
+		/**
+		 * wps_deals_orders_top hook
+		 */
+		do_action( 'wps_deals_orders_top' );
+	?>
+				
+	<?php
+		/**
+		 * wps_deals_orders_content hook
+		 *
+		 * @hooked wps_deals_orders_content - 5
+		 */
+		do_action( 'wps_deals_orders_content' );
+	?>
+					
+	<?php
+		/**
+		 * wps_deals_orders_bottom hook
+		 */
+		do_action( 'wps_deals_orders_bottom' );
+	?>
+					
+</div>
