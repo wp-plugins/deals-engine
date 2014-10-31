@@ -49,12 +49,14 @@ function wps_deals_register_deal_post_type() {
 							'query_var' 		=> true,
 							'rewrite' 			=> array( 'slug' => WPS_DEALS_POST_TYPE_SLUG),
 							'capability_type' 	=> WPS_DEALS_POST_TYPE, //'post',
-							'has_archive' 		=> true, 
-							'hierarchical' 		=> false,
+							'has_archive' 		=> true,
 							'supports' 			=> apply_filters('wps_deals_post_type_supports', array( 'title', 'editor', 'thumbnail', 'excerpt' )),
 							'menu_icon'			=> WPS_DEALS_URL . 'includes/images/wps-icon.png'
 						);
-						
+	
+	//Add filter to modify deals register post type arguments
+	$deals_args	= apply_filters( 'wps_deals_register_post_type_deals', $deals_args );
+	
 	//register deals post type
 	register_post_type( WPS_DEALS_POST_TYPE, $deals_args );
 	
@@ -91,17 +93,15 @@ function wps_deals_register_sales_post_types() {
 	$sales_args = array(
 						    'labels' 				=> $sales_labels,
 						    'public' 				=> false,
-						    'publicly_queryable'	=> true,
-						    'show_ui' 				=> false, 
-						    'show_in_menu' 			=> false, 
+						    'publicly_queryable'	=> true, 
 						    'query_var' 			=> true,
 						    'rewrite' 				=> false,
 						    'capability_type' 		=> WPS_DEALS_POST_TYPE, //'post',
-						    'has_archive' 			=> true, 
-						    'hierarchical' 			=> false,
-						    'menu_position' 		=> null,
 						    'supports' 				=> array( 'title' )
 					 	); 
+	
+	//Add filter to modify sales register post type arguments
+	$sales_args	= apply_filters( 'wps_deals_register_post_type_slaes', $sales_args );
 	
 	//register deals sales post type
 	register_post_type( WPS_DEALS_SALES_POST_TYPE, $sales_args );
@@ -236,7 +236,7 @@ function wps_deals_register_taxonomies() {
 					'show_ui' 			=> true,
 					'show_admin_column' => true,
 					'query_var' 		=> true,
-					'rewrite' 			=> false,//array('with_front' => false, 'hierarchical' => false )
+					'rewrite' 			=> array( 'slug' => 'deal-category' ),
 					'capabilities'		=> array(
 									            	'manage_terms' 		=> 'manage_'.WPS_DEALS_POST_TYPE.'_terms',
 													'edit_terms' 		=> 'edit_'.WPS_DEALS_POST_TYPE.'_terms',

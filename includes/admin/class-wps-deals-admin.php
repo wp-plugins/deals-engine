@@ -168,7 +168,7 @@ class Wps_Deals_AdminPages {
 		$input['cheque_customer_msg'] 	= $this->model->wps_deals_escape_slashes_deep( $input['cheque_customer_msg'] );
 		$input['from_email'] 			= $this->model->wps_deals_escape_slashes_deep( $input['from_email'], true );
 		$input['buyer_email_subject'] 	= $this->model->wps_deals_escape_slashes_deep( $input['buyer_email_subject'] );
-		$input['buyer_email_body'] 		= $this->model->wps_deals_escape_slashes_deep( $input['buyer_email_body'] );
+		$input['buyer_email_body'] 		= $this->model->wps_deals_escape_slashes_deep( $input['buyer_email_body'], true );
 		$input['notif_email_address'] 	= $this->model->wps_deals_escape_slashes_deep( $input['notif_email_address'] );
 		$input['seller_email_subject'] 	= $this->model->wps_deals_escape_slashes_deep( $input['seller_email_subject'] );
 		$input['seller_email_body'] 	= $this->model->wps_deals_escape_slashes_deep( $input['seller_email_body'] );
@@ -180,7 +180,7 @@ class Wps_Deals_AdminPages {
 		$input['link_expiration'] 		= $this->model->wps_deals_escape_slashes_deep( $input['link_expiration'] );
 		$input['per_page'] 				= $this->model->wps_deals_escape_slashes_deep( $input['per_page'] );
 		$input['terms_label'] 			= $this->model->wps_deals_escape_slashes_deep( $input['terms_label'] );
-		$input['terms_content'] 		= $this->model->wps_deals_escape_slashes_deep( $input['terms_content'] );
+		$input['terms_content'] 		= $this->model->wps_deals_escape_slashes_deep( $input['terms_content'], true );
 		
 		//social settings
 		//facebook settings
@@ -967,6 +967,27 @@ class Wps_Deals_AdminPages {
 	}
 	
 	/**
+	 * Add rating links to the admin footer
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.0
+	 */
+	function wps_deals_admin_footer_rate_us( $footer_text ) {
+		global $typenow;
+	
+		if ( $typenow == WPS_DEALS_POST_TYPE ) {
+			$rate_text = sprintf( __( 'Thank you for using <a href="%1$s" target="_blank">Social Deals Engine</a>! Please <a href="%2$s" target="_blank">rate us</a> on <a href="%2$s" target="_blank">WordPress.org</a>', 'wpsdeals' ),
+				'http://wpsocial.com/deals-engine/',
+				'https://wordpress.org/support/view/plugin-reviews/deals-engine'
+			);
+	
+			return str_replace( '</span>', '', $footer_text ) . ' | ' . $rate_text . '</span>';
+		} else {
+			return $footer_text;
+		}
+	}
+	
+	/**
 	 * Adding Hooks
 	 *
 	 * @package Social Deals Engine
@@ -1028,6 +1049,8 @@ class Wps_Deals_AdminPages {
 		//add image size for deals engine
 		add_image_size( 'wpsdeals-single', 400, 400, true );
 		
+		//add footer for deals engine
+		add_filter( 'admin_footer_text', array( $this, 'wps_deals_admin_footer_rate_us' ) );
 	}
 }
 ?>

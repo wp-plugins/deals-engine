@@ -92,17 +92,16 @@ class Wps_Deals_Public_Pages	{
 	 */
 	public function wps_deals_update_to_cart_product(){
 		
-		$quntity = trim($_POST['qtystr'],',');
-		$resultdata = array();
+		$quntity	= trim( $_POST['qtystr'],',' );
+		$resultdata	= array();
 		//if(isset($quntity) && !empty($quntity)) {
-			
-		$qtyarr = explode(',',$quntity);
-		$args = array('quantity'	=>	$qtyarr);
 		
-		$result = $this->cart->update($args);
+		$qtyarr		= array_map('intval', explode( ',', $quntity ) );
+		$args		= array( 'quantity'	=> $qtyarr );
 		
+		$result		= $this->cart->update($args);
 		
-		$cartdata = $this->cart->getproduct();
+		$cartdata	= $this->cart->getproduct();
 		
 		//do action for change cart via ajax
 		do_action( 'wps_deals_cart_ajax' );
@@ -112,7 +111,7 @@ class Wps_Deals_Public_Pages	{
 			$this->cart->cartempty();
 		} else {
 			$cart = $this->cart->get();
-			$resultdata['message'] = __('Cart Updated Successfully.','wpsdeals');
+			$resultdata['message'] = '<span>' . __( 'Cart Updated Successfully.', 'wpsdeals' ) . '</span>';
 			$resultdata['success'] = '1';
 			$carttotal = $this->currency->wps_deals_formatted_value($cart['total']);
 			$resultdata['total'] = apply_filters( 'wps_deals_checkout_total_html', $carttotal, $cart );
@@ -151,7 +150,7 @@ class Wps_Deals_Public_Pages	{
 			//do action for change cart via ajax
 			do_action( 'wps_deals_cart_ajax' );
 		   
-			$resultdata['message'] = __('Product removed from cart successfully.','wpsdeals');
+			$resultdata['message'] = '<span> ' . __( 'Item removed from cart successfully.', 'wpsdeals' ) . '</span>';
 			
 			//get cart details
 			ob_start();
@@ -170,7 +169,7 @@ class Wps_Deals_Public_Pages	{
 			}
 			
 		} else {
-			$resultdata['message'] = __('Error while removing product from cart.','wpsdeals');
+			$resultdata['message'] = '<span>' . __( 'Error while removing item from cart.', 'wpsdeals' ) . '</span>';
 		}
 		echo json_encode($resultdata);
 		exit();
@@ -396,67 +395,13 @@ class Wps_Deals_Public_Pages	{
 		
 		if ( is_single() && get_post_type() == WPS_DEALS_POST_TYPE ) {
 
-			$file 	= 'single-deal.php';
+			$file 	= 'deals-single.php';
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 
-		} else if ( is_post_type_archive( WPS_DEALS_POST_TYPE ) || is_page( wps_deals_get_page_id( 'deals_main_page' ) ) ) { //check it is deals shop page
-
-			$file 	= 'home-deals.php';
-			$find[] = $file;
-			$find[] = 'deals-engine/' . $file;
-
-		} elseif ( is_page( wps_deals_get_page_id( 'ordered_page' ) ) ) { //check it is ordered deals page
+		} elseif ( is_post_type_archive( WPS_DEALS_POST_TYPE ) || is_tax( WPS_DEALS_POST_TAXONOMY ) ) {
 			
-			$file 	= 'ordered-deals.php';
-			$find[] = $file;
-			$find[] = 'deals-engine/' . $file;
-			
-		} elseif ( is_page( wps_deals_get_page_id( 'payment_thankyou_page' ) ) ) { //order complete page
-			
-			$file 	= 'order-complete.php';
-			$find[] = $file;
-			$find[] = 'deals-engine/' . $file;
-			
-		} elseif ( is_page( wps_deals_get_page_id( 'payment_cancel_page' ) ) ) { //order cancel page
-			
-			$file 	= 'order-cancel.php';
-			$find[] = $file;
-			$find[] = 'deals-engine/' . $file;
-			
-		} elseif ( is_page( wps_deals_get_page_id( 'payment_checkout_page' ) ) ) { //order cancel page
-			
-			$file 	= 'checkout-deals.php';
-			$find[] = $file;
-			$find[] = 'deals-engine/' . $file;
-			
-		} elseif ( is_page( wps_deals_get_page_id( 'my_account_page' ) ) ) { //deals my account page
-			
-			$file 	= 'my-account.php';
-			$find[] = $file;
-			$find[] = 'deals-engine/' . $file;
-			
-		} elseif ( is_page( wps_deals_get_page_id( 'create_account_page' ) ) ) { //deals create an account page 
-			
-			$file = 'create-account.php';
-			$find[] = $file;
-			$find[] = 'deals-engine/' . $file;
-			
-		} elseif ( is_page( wps_deals_get_page_id( 'change_password' ) ) ) { //deals change password page 
-			
-			$file = 'change-password.php';
-			$find[] = $file;
-			$find[] = 'deals-engine/' . $file;
-			
-		} elseif ( is_page( wps_deals_get_page_id( 'edit_adderess' ) ) ) { //deals edit address page
-			
-			$file 	= 'edit-address.php';
-			$find[] = $file;
-			$find[] = 'deals-engine/' . $file;
-			
-		} elseif ( is_page( wps_deals_get_page_id( 'lost_password' ) ) ) { //deals lost password page
-			
-			$file 	= 'lost-password.php';
+			$file 	= 'deals-archive.php';
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 			
@@ -558,7 +503,7 @@ class Wps_Deals_Public_Pages	{
 		//check states not empty
 		if( !empty( $states ) &&  is_array( $states ) ) {
 			
-			$statefield = '<select name="'.$statename.'" id="'.$stateid.'" class="wps-deals-cart-select wps-deals-required billing-country wps-deals-state-combo">';
+			$statefield = '<select name="'.$statename.'" id="'.$stateid.'" class="deals-cart-select wps-deals-required billing-country wps-deals-state-combo">';
 			$statefield .= '<option value="">'.__( 'Select State / County&hellip;', 'wpsdeals' ).'</option>';
 			foreach ( $states as $statekey => $state ) {
 				$statefield .= '<option value="'.$statekey.'">'.$state.'</option>';

@@ -1,29 +1,32 @@
 <?php 
 
 /**
- * Template For My Account Recent Orders
- * 
- * Handles to return for my account page recent orders
+ * Recent Orders Template
  * 
  * Override this template by copying it to yourtheme/deals-engine/my-account/recent-orders.php
  *
- * @package Social Deals Engine
- * @since 1.0.0
+ * @author 		Social Deals Engine
+ * @package 	Deals-Engine/Includes/Templates
+ * @version     1.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-	global $wps_deals_options;
+global $wps_deals_options;
 
 ?>
-<div class="wps-deals-recent-ordered-deals">
+
+<div class="deals-recent-orders deals-clearfix">
+
 	<h3><?php _e( 'Recent Orders', 'wpsdeals' );?></h3>
 	
-	<table id="wps-deals-my-account-recent-deals" class="wps-deals-ordered-table">
+	<table id="deals-my-account-recent-orders" class="deals-orders-table">
 		<thead>
-				<tr class="wps-deals-ordered-row-head">
+				<tr class="deals-orders-row-head">
 					<?php 
-						//do action to add header before in my account page head
+						/**
+						 * wps_deals_my_account_recent_header_foot_before hook
+						 */
 						do_action( 'wps_deals_my_account_recent_header_foot_before' );
 					?>
 					<th><?php _e( 'Order ID', 'wpsdeals' );?></th>
@@ -32,7 +35,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					<th><?php _e( 'Total', 'wpsdeals' );?></th>
 					<th><?php _e( 'Details', 'wpsdeals' );?></th>
 					<?php 
-						//do action to add header after in my account page head
+						/**
+						 * wps_deals_my_account_recent_header_foot_after hook
+						 */
 						do_action( 'wps_deals_my_account_recent_header_foot_after' );
 					?>
 				</tr>
@@ -49,9 +54,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 				$countlabel = $order['deal_count'] > 1 ? 'deals' : 'deal';
 			
 		?>
-				<tr class="wps-deals-ordered-row-body">
+				<tr class="deals-orders-row-body">
 					<?php 
-						//do action to add details before
+						/**
+						 * wps_deals_my_account_recent_details_before hook
+						 */
 						do_action( 'wps_deals_my_account_recent_details_before', $order['order_id'] );
 					?>
 					<td><?php echo $order['order_id']?></td>
@@ -59,12 +66,16 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					<td><?php echo $order['payment_status'];?></td>
 					<td><?php printf( __( '%s for %s %s', 'wpsdeals' ), $order['order_total'], $order['deal_count'], $countlabel );?></td>
 					<?php
-						//do action to add details after total column
+						/**
+						 * wps_deals_my_account_recent_details_total_after hook
+						 */
 						do_action( 'wps_deals_my_account_recent_details_total_after', $order['order_id'] );
 					?>
 					<td><a href="<?php echo $order_query;?>"><?php _e( 'View Details', 'wpsdeals');?></a></td>
 					<?php
-						//do action to add details after
+						/**
+						 * wps_deals_my_account_recent_details_after hook
+						 */
 						do_action( 'wps_deals_my_account_recent_details_after', $order['order_id'] );
 					?>
 				</tr>
@@ -73,9 +84,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		?>
 		</tbody>
 		<tfoot>
-				<tr class="wps-deals-ordered-row-foot">
+				<tr class="deals-orders-row-foot">
 					<?php 
-						//do action to add header before in my account page head
+						/**
+						 * wps_deals_my_account_recent_header_foot_before hook
+						 */
 						do_action( 'wps_deals_my_account_recent_header_foot_before' );
 					?>
 					<th><?php _e( 'Order ID', 'wpsdeals' );?></th>
@@ -84,10 +97,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					<th><?php _e( 'Total', 'wpsdeals' );?></th>
 					<th><?php _e( 'Details', 'wpsdeals' );?></th>
 					<?php 
-						//do action to add header after in my account page head
+						/**
+						 * wps_deals_my_account_recent_header_foot_after hook
+						 */
 						do_action( 'wps_deals_my_account_recent_header_foot_after' );
 					?>
 				</tr>
 		</tfoot>
 	</table>
-</div><!--.wps-deals-recent-purchased-deals-->
+</div>

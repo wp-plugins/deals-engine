@@ -301,7 +301,7 @@ table.wps-deals-edit-sale table.status-table th.comments{ width:30%; }
 	width: 800px;
 	padding: 20px 35px;
 	background: none repeat scroll 0 0 #FFFFFF;
-	z-index:9999;
+	z-index:1002;
 	overflow: auto;
 	font: 12px "Lucida Grande",Verdana,Arial,sans-serif;
 	box-shadow: 0 4px 30px #000000;
@@ -319,7 +319,7 @@ table.wps-deals-edit-sale table.status-table th.comments{ width:30%; }
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 1001;
 }
 .wps-deals-header-title {
     float: left;

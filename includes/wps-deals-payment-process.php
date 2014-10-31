@@ -99,13 +99,12 @@ add_action( 'init', 'wps_deals_payment_process');
  *
  * @return unknown
  */
-
-function wps_deals_order_data_validate(){
+function wps_deals_order_data_validate() {
 	
 	global $wps_deals_cart,$wps_deals_message;
 	
 	$prefix = WPS_DEALS_META_PREFIX;
-		
+	
 	$cart = $wps_deals_cart;
 	
 	$message = $wps_deals_message;
@@ -118,39 +117,44 @@ function wps_deals_order_data_validate(){
 	
 	//get today's date & time
 	$today = wps_deals_current_date();
-		
+	
 	//validation code
 	//checking is there error occuered before proceed for storing data in data base
-	foreach ($cartproducts as $dealid => $dealdata) {
-
-		//get the data by deal id
-		$getdeal = get_post( $dealid );
-		
-		//get the value for available deals from post meta
-		$available = get_post_meta($dealid,$prefix.'avail_total',true);
-		
-		//get the value for start date
-		$startdate = get_post_meta($dealid,$prefix.'start_date',true);
-		
-		//get the value for end date
-		$enddate = get_post_meta($dealid,$prefix.'end_date',true);
-		
-		if($startdate <= $today && $enddate >= $today) { //check deal start date and end date not greater then today
-		
-			if($available < 1 && $available != '') {
+	if( !empty( $cartproducts ) ) {
+		foreach( $cartproducts as $dealid => $dealdata ) {
+			
+			//get the data by deal id
+			$getdeal = get_post( $dealid );
+			
+			//get the value for available deals from post meta
+			$available = get_post_meta($dealid,$prefix.'avail_total',true);
+			
+			//get the value for start date
+			$startdate = get_post_meta($dealid,$prefix.'start_date',true);
+			
+			//get the value for end date
+			$enddate = get_post_meta($dealid,$prefix.'end_date',true);
+			
+			if($startdate <= $today && $enddate >= $today) { //check deal start date and end date not greater then today
+				
+				if($available < 1 && $available != '') {
+					$error = true;
+				} else if ($dealdata['quantity'] > $available && $available != '') { //check use entered copy is not more then stock
+					$error = true;
+				}
+				
+			} else if ($startdate > $today) { //check deal is not started yet
 				$error = true;
-			} else if ($dealdata['quantity'] > $available && $available != '') { //check use entered copy is not more then stock
+			} else if ($enddate < $today) { //check deal is ended or not \
 				$error = true;
 			}
-			
-		} else if ($startdate > $today) { //check deal is not started yet
-			$error = true;
-		} else if ($enddate < $today) { //check deal is ended or not \
-			$error = true;
-		} 
-	}	
+		}
+	} else {
+		
+		$error	= true;
+	}
 	 
-	 if($error) {// if error set
+	 if( $error ) {// if error set
 	 	
 	 	//if there is any error occured then show error
 		$errormsg = __('<strong>ERROR : </strong>Please see errors below.</span>','wpsdeals');

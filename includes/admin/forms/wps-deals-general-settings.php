@@ -83,7 +83,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							
 							<tr>
 								<th scope="row">
-									<label for="wps_deals_options[deals_size]"><?php _e( 'Size:', 'wpsdeals');?></label>
+									<label for="wps_deals_options[deals_size]"><?php _e( 'Home Page Size:', 'wpsdeals');?></label>
 								</th>
 								<td>
 									<select id="wps_deals_options[deals_size]" name="wps_deals_options[deals_size]">
@@ -91,17 +91,104 @@ if ( !defined( 'ABSPATH' ) ) exit;
 										<option value="medium" <?php selected('medium',$wps_deals_options['deals_size'],true);?>><?php _e('Medium','wpsdeals');?></option>
 										<option value="large" <?php selected('large',$wps_deals_options['deals_size'],true);?>><?php _e('Large','wpsdeals');?></option>
 									</select><br />
-									<span class="description"><?php _e( 'Choose the size for the deals. This will then use different sizes for the fonts so that they fit in to your theme.', 'wpsdeals' ); ?></span>
+									<span class="description"><?php _e( 'Choose the size for the Deals home/overview page. This will then use different sizes for the fonts and spacing so that they fit in to your theme.', 'wpsdeals' ); ?></span>
 								</td>
 							</tr>
 							
 							<tr>
 								<th scope="row">
-									<label for="wps_deals_options[disable_more_deals]"><?php _e('Disable More Deals:', 'wpsdeals');?></label>
+									<label for="wps_deals_options[deals_home]"><?php _e( 'Home Deals:', 'wpsdeals');?></label>
+								</th>
+								<td>
+									<select id="wps_deals_options[deals_home]" name="wps_deals_options[deals_home]">
+										<option value="rand" <?php selected( 'rand', $wps_deals_options['deals_home'], true ); ?>><?php _e( 'Random', 'wpsdeals' ); ?></option>		
+										<option value="date" <?php selected( 'date', $wps_deals_options['deals_home'], true ); ?>><?php _e( 'Latest', 'wpsdeals' ); ?></option>
+									</select><br />
+									<span class="description"><?php _e( 'Choose how you want to display the top placed Deal on the Deals home/overview page. Random means, it will randomly display one Deal which is set to display on the home page. Latest means, it will only disaplay the latest Deal.', 'wpsdeals' ); ?></span>
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[deals_size_single]"><?php _e( 'Deals Page Size:', 'wpsdeals');?></label>
+								</th>
+								<td>
+									<select id="wps_deals_options[deals_size_single]" name="wps_deals_options[deals_size_single]">
+										<option value="small" <?php selected( 'small', $wps_deals_options['deals_size_single'],  true );?>><?php _e( 'Small', 'wpsdeals' );?></option>		
+										<option value="medium" <?php selected( 'medium', $wps_deals_options['deals_size_single'], true );?>><?php _e( 'Medium', 'wpsdeals' );?></option>
+										<option value="large" <?php selected( 'large', $wps_deals_options['deals_size_single'], true );?>><?php _e( 'Large', 'wpsdeals' );?></option>
+									</select><br />
+									<span class="description"><?php _e( 'Choose the size for the Deals page. This will then use different sizes for the fonts and spacing.', 'wpsdeals' ); ?></span>
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[deals_size_archive]"><?php _e( 'Deals Archive Size:', 'wpsdeals');?></label>
+								</th>
+								<td>
+									<select id="wps_deals_options[deals_size_archive]" name="wps_deals_options[deals_size_archive]">
+										<option value="small" <?php selected('small',$wps_deals_options['deals_size_archive'],true);?>><?php _e('Small','wpsdeals');?></option>		
+										<option value="medium" <?php selected('medium',$wps_deals_options['deals_size_archive'],true);?>><?php _e('Medium','wpsdeals');?></option>
+										<option value="large" <?php selected('large',$wps_deals_options['deals_size_archive'],true);?>><?php _e('Large','wpsdeals');?></option>
+									</select><br />
+									<span class="description"><?php _e( 'Choose the size for the Deals archive pages. This will then use different sizes for the fonts and spacing so that they fit in to your theme.', 'wpsdeals' ); ?></span>
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[deals_btn_color]"><?php _e( 'Button Color:', 'wpsdeals');?></label>
+								</th>
+								<td>
+									<select id="wps_deals_options[deals_btn_color]" name="wps_deals_options[deals_btn_color]">
+										<option value="red" <?php selected( 'red', $wps_deals_options['deals_btn_color'],  true );?>><?php _e( 'Red', 'wpsdeals' );?></option>		
+										<option value="green" <?php selected( 'green', $wps_deals_options['deals_btn_color'], true );?>><?php _e( 'Green', 'wpsdeals' );?></option>
+										<option value="darkgreen" <?php selected( 'darkgreen', $wps_deals_options['deals_btn_color'], true );?>><?php _e( 'Dark Green', 'wpsdeals' );?></option>
+										<option value="blue" <?php selected( 'blue', $wps_deals_options['deals_btn_color'],  true );?>><?php _e( 'Blue', 'wpsdeals' );?></option>		
+										<option value="darkblue" <?php selected( 'darkblue', $wps_deals_options['deals_btn_color'], true );?>><?php _e( 'Dark Blue', 'wpsdeals' );?></option>
+										<option value="orange" <?php selected( 'orange', $wps_deals_options['deals_btn_color'], true );?>><?php _e( 'Orange', 'wpsdeals' );?></option>
+										<option value="gray" <?php selected( 'gray', $wps_deals_options['deals_btn_color'], true );?>><?php _e( 'Gray', 'wpsdeals' );?></option>
+									</select><br />
+									<span class="description"><?php _e( 'Choose a color scheme you want to use for the buttons.', 'wpsdeals' ); ?></span>
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[deals_columns]"><?php _e( 'Colums Deals Home:', 'wpsdeals');?></label>
+								</th>
+								<td>
+									<select id="wps_deals_options[deals_columns]" name="wps_deals_options[deals_columns]">
+										<option value="deals-col-6" <?php selected( 'deals-col-6', $wps_deals_options['deals_columns'],  true );?>><?php _e( '2 Columns', 'wpsdeals' );?></option>		
+										<option value="deals-col-4" <?php selected( 'deals-col-4', $wps_deals_options['deals_columns'], true );?>><?php _e( '3 Columns', 'wpsdeals' );?></option>
+										<option value="deals-col-3" <?php selected( 'deals-col-3', $wps_deals_options['deals_columns'], true );?>><?php _e( '4 Columns', 'wpsdeals' );?></option>
+									</select><br />
+									<span class="description"><?php _e( 'Choose the amount of columns you want to display for the more Deals on the Deals home page.', 'wpsdeals' ); ?></span>
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[deals_columns_archive]"><?php _e( 'Colums Deals Archive:', 'wpsdeals');?></label>
+								</th>
+								<td>
+									<select id="wps_deals_options[deals_columns_archive]" name="wps_deals_options[deals_columns_archive]">
+										<option value="deals-col-6" <?php selected( 'deals-col-6', $wps_deals_options['deals_columns_archive'],  true );?>><?php _e( '2 Columns', 'wpsdeals' );?></option>		
+										<option value="deals-col-4" <?php selected( 'deals-col-4', $wps_deals_options['deals_columns_archive'], true );?>><?php _e( '3 Columns', 'wpsdeals' );?></option>
+										<option value="deals-col-3" <?php selected( 'deals-col-3', $wps_deals_options['deals_columns_archive'], true );?>><?php _e( '4 Columns', 'wpsdeals' );?></option>
+									</select><br />
+									<span class="description"><?php _e( 'Choose the amount of columns you want to display on the Deals archive pages.', 'wpsdeals' ); ?></span>
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[disable_more_deals]"><?php _e( 'Disable More Deals:', 'wpsdeals' );?></label>
 								</th>
 								<td>
 									<input type="checkbox" id="wps_deals_options[disable_more_deals]" name="wps_deals_options[disable_more_deals]" value="1" <?php if(isset($wps_deals_options['disable_more_deals'])) { checked('1',$wps_deals_options['disable_more_deals']); }?>/><br />
-									<span class="description"><?php _e( 'Check this box, if you don\'t want to display the Active, Ending Soon and Upcomming Deals on your deals page.', 'wpsdeals' ); ?></span>
+									<span class="description"><?php _e( 'Check this box, if you don\'t want to display the Active, Ending Soon and Upcomming Deals on your Deals page.', 'wpsdeals' ); ?></span>
 								</td>
 							</tr>
 							
@@ -111,7 +198,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								</th>
 								<td>
 									<input type="text" id="wps_deals_options[ending_deals_in]" name="wps_deals_options[ending_deals_in]" value="<?php echo $model->wps_deals_escape_attr($wps_deals_options['ending_deals_in']);?>" class="small-text"/><br />
-									<span class="description"><?php _e('Enter a number of days here. If you enter 2 as example, then all deals which will end within 2 days will be displayed within the "Ending Soon" tab.','wpsdeals');?></span>
+									<span class="description"><?php _e('Enter a number of days here. If you enter 2 as example, then all Deals which will end within 2 days will be displayed within the "Ending Soon" tab.','wpsdeals');?></span>
 								</td>
 							</tr>
 							
@@ -121,7 +208,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								</th>
 								<td>
 									<input type="text" id="wps_deals_options[upcoming_deals_in]" name="wps_deals_options[upcoming_deals_in]" value="<?php echo $model->wps_deals_escape_attr($wps_deals_options['upcoming_deals_in']);?>" class="small-text"/><br />
-									<span class="description"><?php _e('Enter a number of days here. If you enter 2 as example, then all deals which will start within 2 days will be displayed within the "Upcoming Deals" tab.','wpsdeals');?></span>
+									<span class="description"><?php _e('Enter a number of days here. If you enter 2 as example, then all Deals which will start within 2 days will be displayed within the "Upcoming Deals" tab.','wpsdeals');?></span>
 								</td>
 							</tr>
 							
@@ -131,7 +218,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								</th>
 								<td>
 									<input type="text" id="wps_deals_options[deals_per_page]" name="wps_deals_options[deals_per_page]" value="<?php echo $model->wps_deals_escape_attr($wps_deals_options['deals_per_page']);?>" class="small-text"/><br />
-									<span class="description"><?php _e( 'Enter the number of deals you want to display.', 'wpsdeals' );?></span>
+									<span class="description"><?php _e( 'Enter the number of Deals you want to display.', 'wpsdeals' );?></span>
 								</td>
 							</tr>
 							
@@ -221,7 +308,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 												<option value="<?php echo $page->ID;?>" <?php selected( $page->ID, $wps_deals_options['deals_main_page'], true ); ?>><?php _e( $page->post_title );?></option>
 										<?php } ?>
 									</select><br />
-									<span class="description"><?php _e( 'This is the Deals Overview / Home Page whcih does show all deals you enabled to show on the Homepage.', 'wpsdeals' ); ?></span>
+									<span class="description"><?php _e( 'This is the Deals Overview / Home Page whcih does show all Deals you enabled to show on the Homepage.', 'wpsdeals' ); ?></span>
 								</td>
 							</tr>
 							
