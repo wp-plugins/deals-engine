@@ -42,6 +42,8 @@ class Wps_Deals_Shortcodes {
 	
 	public function wps_deals_all($content) {
 		
+		wp_enqueue_script( 'wps-deals-front-show-scripts' );
+		
 		ob_start();
 		
 		wps_deals_get_template( 'deals-home.php' );

@@ -110,6 +110,11 @@ if( !defined( 'WPS_DEALS_SOCIAL_LIB_DIR' ) ) { //social liberary dir
 if( !defined( 'WPS_DEALS_SOCIAL_LIB_URL' ) ) { //social liberary dir
 	define( 'WPS_DEALS_SOCIAL_LIB_URL', WPS_DEALS_URL . 'includes/social/libraries' );
 }
+
+if ( ! defined( 'WPS_DEALS_LOG_DIR' ) ) {
+	define( 'WPS_DEALS_LOG_DIR', ABSPATH . 'sde-logs/' );
+}
+
 /**
  * Load Text Domain
  * 
@@ -739,6 +744,9 @@ function wps_deals_install() {
 		
 	} //check plugin set option value is 1.0.6
 	
+	//Change Log file Dir and create directory on activation
+	wps_deals_create_files();
+	
 	if( $wps_deals_set_option == '1.2.0' ) {
 		
 		// future code here
@@ -889,6 +897,39 @@ function wps_deals_uninstall() {
 		
 		do_action('wps_deals_delete_options');
 		
+	}
+}
+
+/**
+ * Create Files/Directories
+ * 
+ * Handle to create files/directories on activation
+ * 
+ * @package  @package Social Deals Engine
+ * @since 1.0.0
+ */
+function wps_deals_create_files() {
+	
+	$files = array(
+		array(
+			'base' 		=> WPS_DEALS_LOG_DIR,
+			'file' 		=> '.htaccess',
+			'content' 	=> 'deny from all'
+		),
+		array(
+			'base' 		=> WPS_DEALS_LOG_DIR,
+			'file' 		=> 'index.html',
+			'content' 	=> ''
+		)
+	);
+	
+	foreach ( $files as $file ) {
+		if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
+			if ( $file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' ) ) {
+				fwrite( $file_handle, $file['content'] );
+				fclose( $file_handle );
+			}
+		}
 	}
 }
 

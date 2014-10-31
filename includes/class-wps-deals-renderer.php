@@ -452,7 +452,7 @@ class Wps_Deals_Renderer {
 			'disable_price' => '',
 			'disable_timer' => '',
 		), $atts ) );
-		
+				
 		$html = '';
 		
 		if( !empty( $ids ) ) { // Check ids are not empty
@@ -482,11 +482,11 @@ class Wps_Deals_Renderer {
 								 );
 			
 			$argssrcd = array( 'post_type' => WPS_DEALS_POST_TYPE, 'post__in' => $ids, 'meta_query' => $dealsmetaquery, 'posts_per_page' => '-1' );
-			
+									
 			ob_start();
 			
 			//active deals template
-			wps_deals_get_template( 'home-deals/more-deals/more-deals.php', array( 'args' => $argssrcd, 'tab' => '' ) );
+			wps_deals_get_template( 'home-deals/more-deals/more-deals.php', array( 'args' => $argssrcd, 'tab' => '', 'options' => array( 'disable_price' => $disable_price, 'disable_timer' => $disable_timer ) ) );
 			
 			$html .= ob_get_clean();
 		

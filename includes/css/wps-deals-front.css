@@ -465,7 +465,7 @@ a.deals-button:visited {
 	margin-top: 25px;
 }
 .deals-list {
-	display: none;
+	/*display: none;*/
 }
 
 /* Nav */

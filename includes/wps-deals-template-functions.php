@@ -531,7 +531,7 @@ if( !function_exists( 'wps_deals_home_header' ) ) {
 		$args = array( 
 						'loop' => $loop_home
 					);
-					
+		
 		// get the template
 		wps_deals_get_template( 'home-deals/header.php', $args );	
 	}	
@@ -1158,32 +1158,38 @@ if( !function_exists( 'wps_deals_home_more_deals_timer' ) ) {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_home_more_deals_timer() {
+	function wps_deals_home_more_deals_timer( $options = array() ) {
 		
 		global $post;
 	
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		// get the value for the deal end date from the post meta box
-		$enddate = get_post_meta( $post->ID, $prefix . 'end_date', true );
+		$disable_timer	= ( isset( $options['disable_timer'] ) && $options['disable_timer'] == 'true' ) ? true : false;
 		
-		if( !empty( $enddate ) ) {
+		if( !$disable_timer ) {
+			
+			// get the value for the deal end date from the post meta box
+			$enddate = get_post_meta( $post->ID, $prefix . 'end_date', true );
+			
+			if( !empty( $enddate ) ) {
+			
+				// counter timer script
+				wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
+			
+				// set the args, which we will pass to the template
+				$args = array( 
+								'year' => date( 'Y', strtotime( $enddate ) ),
+								'month' => date( 'm', strtotime( $enddate ) ),
+								'day' => date( 'd', strtotime( $enddate ) ),
+								'hours' => date( 'H', strtotime( $enddate ) ),
+								'minute' => date( 'i', strtotime( $enddate ) ),
+								'seconds' => date( 's', strtotime( $enddate ) )
+							);
+			
+				// get the template
+				wps_deals_get_template( 'home-deals/more-deals/timer.php', $args );		
+			}
 		
-			// counter timer script
-			wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
-		
-			// set the args, which we will pass to the template
-			$args = array( 
-							'year' => date( 'Y', strtotime( $enddate ) ),
-							'month' => date( 'm', strtotime( $enddate ) ),
-							'day' => date( 'd', strtotime( $enddate ) ),
-							'hours' => date( 'H', strtotime( $enddate ) ),
-							'minute' => date( 'i', strtotime( $enddate ) ),
-							'seconds' => date( 's', strtotime( $enddate ) )
-						);
-		
-			// get the template
-			wps_deals_get_template( 'home-deals/more-deals/timer.php', $args );		
 		}
 	}
 }
@@ -1219,30 +1225,36 @@ if( !function_exists( 'wps_deals_home_more_deals_price' ) ) {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_home_more_deals_price() {
+	function wps_deals_home_more_deals_price( $options = array() ) {
 		
 		global $post,$wps_deals_price;
 	
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		// get the value for the normal price
-		$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
+		$disable_price	= ( isset( $options['disable_price'] ) && $options['disable_price'] == 'true' ) ? true : false;
 		
-		// get the normal price
-		$displaynormalprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
+		if( !$disable_price ) {		
 		
-		// get the display price
-		$dealprice = $wps_deals_price->wps_deals_get_price( $post->ID );
-		$displayprice = $wps_deals_price->get_display_price( $dealprice, $post->ID );
+			// get the value for the normal price
+			$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
+			
+			// get the normal price
+			$displaynormalprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
+			
+			// get the display price
+			$dealprice = $wps_deals_price->wps_deals_get_price( $post->ID );
+			$displayprice = $wps_deals_price->get_display_price( $dealprice, $post->ID );
+			
+			// set the args, which we will pass to the template
+			$args = array( 
+							'specialprice' => $displayprice,
+							'normalprice' => $displaynormalprice
+						);
+			
+			// get the template
+			wps_deals_get_template( 'home-deals/more-deals/price.php', $args );
 		
-		// set the args, which we will pass to the template
-		$args = array( 
-						'specialprice' => $displayprice,
-						'normalprice' => $displaynormalprice
-					);
-		
-		// get the template
-		wps_deals_get_template( 'home-deals/more-deals/price.php', $args );
+		}
 	}
 }
 
