@@ -645,7 +645,7 @@ class SDE_Breadcrumb_Trail {
 		if ( false !== $post_type_object->rewrite ) {
 
 			/* If 'with_front' is true, add $wp_rewrite->front to the trail. */
-			if ( $post_type_object->rewrite['with_front'] )
+			if ( isset($post_type_object->rewrite['with_front']) && $post_type_object->rewrite['with_front'] )
 				$this->do_rewrite_front_items();
 
 			/* If there's a rewrite slug, check for parents. */

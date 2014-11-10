@@ -5,7 +5,7 @@ Contributors: wpsocial, dwaser71
 Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial, widget
 Requires at least: 3.5.0
 Tested up to: 3.8.0
-Stable tag: 1.1.0
+Stable tag: 2.0.1
 License: GNU Version 2 or Any Later Version
 
 Turn your WordPress blog in to a Social Deals site and sell any kind of Deals with this complete Deals management plugin.
@@ -96,7 +96,14 @@ Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com
 6. Single Deal Page
 
 == Changelog ==
-= Version 2.0 (2014-10-31) =
+= Version 2.0.1 (2014-11-10) =
+* Bug Fix - Foursquare - Foursquare Versioning Compatibility. Please * see here: https://developer.foursquare.com/overview/versioning.
+* Bug fix for Yahoo social login.
+* Bug fix for user login and user registration form.
+* Make Home deals paging mobile responsive.
+* Changed Logic of "Disable More Deals" so it will display the active * delas but only remove upcoming and ending soon deals.
+
+= Version 2.0.0 (2014-10-31) =
 * Deals general setting add new fields
 * Home Page Size
 * Home Deals
@@ -105,7 +112,6 @@ Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com
 * Button Color
 * Colums Deals Home
 * Colums Deals Archive
-
 = Version 1.1.0 (2014-02-04) =
 * Added Currency ( Dirham - United Arab Emirates (AED) )
 * Updated code for timer

@@ -169,15 +169,16 @@ class Wps_Deals_Lists extends WP_Widget {
 				// beginning of the single widget content
 		        $html .= '<div class="deals-more-content">';
 		        
-		        // discount box			
-				$html .=' 	<div class="deals-more-discount-box">	
-								<p class="deals-more-discount">
-									<span>
-										-&nbsp;' . $discount . '
-									</span>
-								</p>									
-							</div>';
-									
+		        if(!empty($discount) && $discount != '0%') {
+			        // discount box			
+					$html .=' 	<div class="deals-more-discount-box">	
+									<p class="deals-more-discount">
+										<span>
+											-&nbsp;' . $discount . '
+										</span>
+									</p>									
+								</div>';
+		        }
 				// deal image					
 				$html .='	<div class="deals-more-content-img">
 								<a href="' . get_permalink( $post->ID ) . '" title="' . strip_tags( get_the_title( $post->ID ) ) . '" >
@@ -214,29 +215,32 @@ class Wps_Deals_Lists extends WP_Widget {
 								' . get_the_title( $post->ID ) . '						
 							</h3>';		
 
-				// deal price
-				$html .= '	<div class="deals-more-price-box">
-								<p class="deals-more-price">
-									<del>
-										' . $this->price->get_display_price( $normalprice, $post->ID ) . '
-									</del>	
-								</p>
-								<p class="deals-more-price-special">
-									<span>
-										' . $productprice . '
-									</span>
-								</p>									
-							</div>';
+				if ( !empty($normalprice) || !empty($price) ) {
 
-				// view deal button
-				$html .= '	<div class="' . $btncolor . ' deals-button btn-small">
-								<a href="' . get_permalink( $post->ID ) . '">	
-									' . __( 'See Deal', 'wpsd' ) . '	
-								</a>																		
-							</div>'; 
+					// deal price
+					$html .= '	<div class="deals-more-price-box">
+									<p class="deals-more-price">
+										<del>
+											' . $this->price->get_display_price( $normalprice, $post->ID ) . '
+										</del>	
+									</p>
+									<p class="deals-more-price-special">
+										<span>
+											' . $productprice . '
+										</span>
+									</p>									
+								</div>';
 								
+					// view deal button
+					$html .= '	<div class="' . $btncolor . ' deals-button btn-small">
+									<a href="' . get_permalink( $post->ID ) . '">	
+										' . __( 'See Deal', 'wpsd' ) . '	
+									</a>																		
+								</div>'; 
+				}				
+					
 				$html .= '</div>'; // deals-more-content
-			
+				
 			endwhile;
 			
 			$html .= '</div>'; // deals-widget-content

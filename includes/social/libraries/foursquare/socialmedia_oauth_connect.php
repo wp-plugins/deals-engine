@@ -107,7 +107,7 @@ if( !class_exists( 'socialmedia_oauth_connect') ) {
 	   			$atoken = $getatoken->access_token->token;
 	   		}
 		  	
-	  		$profile_url = $this->userProfileUrl."".$atoken;
+	  		$profile_url = $this->userProfileUrl."".$atoken.'&v='.date('Ymd', time());
 	  			
 			return $this->curl_request($profile_url,"GET",$atoken);
 	

@@ -157,12 +157,19 @@ class Wps_Deals_Social_Public {
 			//check yahoo user data is not empty
 			if( !empty( $yh_userdata ) ) {
 				
-				$email = '';
-				if( isset( $yh_userdata->emails ) && !empty( $yh_userdata->emails) && is_array( $yh_userdata->emails )) {
-					foreach ($yh_userdata->emails as $key => $value) {
+				$email		= '';
+				$last_email	= '';
+				
+				if( isset( $yh_userdata->emails ) && !empty( $yh_userdata->emails ) && is_array( $yh_userdata->emails ) ) {
+					foreach ( $yh_userdata->emails as $key => $value ) {
+						$last_email	= isset( $value->handle ) ? $value->handle : '';
 						if( isset($value->primary) && $value->primary ) {
-							$email = $value->handle;
+							$email	= $value->handle;
 						}
+					}
+					
+					if( empty( $email ) ) {
+						$email	= $last_email;
 					}
 				}
 				

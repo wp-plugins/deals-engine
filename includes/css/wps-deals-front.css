@@ -507,6 +507,11 @@ a.deals-button:visited {
 	text-decoration: none;
 	outline: 0;
 }
+@media (max-width: 900px) {
+	.deals-navdeal span {
+		font-size: 14px;
+	}
+}
 @media (max-width: 480px) {
 	.deals-navdeal span {
 		font-size: 0.750em;
@@ -1488,10 +1493,10 @@ p.business-address {
 }
 @media (max-width: 480px) {
 	.deals-pagination ul {
-		height: 41px;
+		min-height: 41px;
 		padding: 0;
 		overflow: auto;
-		white-space: nowrap;
+		white-space: normal;
 		border-radius: 6px;
 	}
 }
@@ -1613,3 +1618,42 @@ color: #ff0000;
 }
 
 /** CSS for all credit card end **/
+
+
+/** CSS for Social Login Start **/
+
+.deals-social-container{
+	border: 1px solid #E6E6E6;
+    border-radius: 6px 6px 6px 6px;
+    margin: 10px 0 20px;
+    padding: 10px;
+}
+.deals-social-header a {
+	font-weight:bold;
+	text-decoration:none;
+	outline:0 !important;
+}
+.deals-social-wrap{
+	margin-top:10px !important;
+}
+.deals-social-wrap img,
+.deals-social-loader img{
+	border-radius:none !important;
+	box-shadow:none !important;
+}
+.deals-social-loader {
+	display:none;
+}
+.deals-social-container a {
+	text-decoration: none;
+}
+
+/** CSS for Social Login End **/
+
+/** CSS for Sold by vendor Start **/
+
+.wps-deals-product-div {
+	clear: both !important;
+}
+
+/** CSS for Sold by vendor End **/

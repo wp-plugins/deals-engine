@@ -1,10 +1,10 @@
 jQuery(document).ready( function($) {
 	
 	// login with facebook
-	$( document ).on( 'click', 'a.wps-deals-social-login-facebook', function() {
+	$( document ).on( 'click', 'a.deals-social-login-facebook', function() {
 	
 		var object = $(this);
-		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
+		var errorel = $(this).parents('.deals-social-container').find('.deals-social-error');
 		
 		errorel.hide();
 		errorel.html('');
@@ -26,10 +26,10 @@ jQuery(document).ready( function($) {
 	});	
 	
 	// login with google+
-	$( document ).on( 'click', 'a.wps-deals-social-login-gplus', function() {
+	$( document ).on( 'click', 'a.deals-social-login-gplus', function() {
 	
 		var object = $(this);
-		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
+		var errorel = $(this).parents('.deals-social-container').find('.deals-social-error');
 		
 		errorel.hide();
 		errorel.html('');
@@ -62,9 +62,9 @@ jQuery(document).ready( function($) {
 	});
 		
 	// login with twitter
-	$( document ).on( 'click', 'a.wps-deals-social-login-twitter', function() {
+	$( document ).on( 'click', 'a.deals-social-login-twitter', function() {
 	
-		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
+		var errorel = $(this).parents('.deals-social-container').find('.deals-social-error');
 		
 		errorel.hide();
 		errorel.html('');
@@ -97,10 +97,10 @@ jQuery(document).ready( function($) {
 	});
 	
 	// login with linkedin
-	$( document ).on( 'click', 'a.wps-deals-social-login-linkedin', function() {
+	$( document ).on( 'click', 'a.deals-social-login-linkedin', function() {
 	
 		var object = $(this);
-		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
+		var errorel = $(this).parents('.deals-social-container').find('.deals-social-error');
 		
 		errorel.hide();
 		errorel.html('');
@@ -131,10 +131,10 @@ jQuery(document).ready( function($) {
 	});
 	
 	// login with yahoo
-	$( document ).on( 'click', 'a.wps-deals-social-login-yahoo', function() {
+	$( document ).on( 'click', 'a.deals-social-login-yahoo', function() {
 	
 		var object = $(this);
-		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
+		var errorel = $(this).parents('.deals-social-container').find('.deals-social-error');
 		
 		errorel.hide();
 		errorel.html('');
@@ -156,7 +156,7 @@ jQuery(document).ready( function($) {
 				try {
 					if ( yhLogin.location.hostname == window.location.hostname) { //if login domain host name and window location hostname is equal then it will go ahead
 						clearInterval(yTimer);
-						yhLogin.close();
+						//yhLogin.close();
 						wps_deals_social_connect( 'yahoo', object );
 					}
 				} catch (e) {}
@@ -165,10 +165,10 @@ jQuery(document).ready( function($) {
 	});
 	
 	// login with foursquare
-	$( document ).on( 'click', 'a.wps-deals-social-login-foursquare', function() {
+	$( document ).on( 'click', 'a.deals-social-login-foursquare', function() {
 	
 		var object = $(this);
-		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
+		var errorel = $(this).parents('.deals-social-container').find('.deals-social-error');
 		
 		errorel.hide();
 		errorel.html('');
@@ -199,10 +199,10 @@ jQuery(document).ready( function($) {
 	});
 	
 	// login with windowslive
-	$( document ).on( 'click', 'a.wps-deals-social-login-windowslive', function() {
+	$( document ).on( 'click', 'a.deals-social-login-windowslive', function() {
 	
 		var object = $(this);
-		var errorel = $(this).parents('.wps-deals-social-container').find('.wps-deals-social-error');
+		var errorel = $(this).parents('.deals-social-container').find('.deals-social-error');
 		
 		errorel.hide();
 		errorel.html('');
@@ -242,16 +242,16 @@ function wps_deals_social_connect( type, object ) {
 				};
 				
 	//show loader
-	jQuery('.wps-deals-social-loader').show();
-	jQuery('.wps-deals-social-wrap').hide();
+	jQuery('.deals-social-loader').show();
+	jQuery('.deals-social-wrap').hide();
 	
 	jQuery.post( WpsDealsSocial.ajaxurl,data,function(response){
 		//alert( response );
 		// hide loader
-		jQuery('.wps-deals-social-loader').hide();
-		jQuery('.wps-deals-social-wrap').show();
+		jQuery('.deals-social-loader').hide();
+		jQuery('.deals-social-wrap').show();
 		
-		var redirect_url = object.parents('.wps-deals-social-container').find('.wps-deals-login-redirect-url').val();
+		var redirect_url = object.parents('.deals-social-container').find('.deals-login-redirect-url').val();
 		
 		if( response != '' ) {
 			

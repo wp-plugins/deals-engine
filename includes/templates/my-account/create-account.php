@@ -128,7 +128,7 @@ if ( $wps_deals_message->size( 'register' ) > 0 ) {
 	<div class="deals-register-wrapper">
 	
 		<p class="deals-form-submit">
-			<input type="submit" class="button deals-register-button" name="register" id="register" value="<?php _e( 'Register', 'wpsdeals' ); ?>">
+			<input type="submit" class="button deals-register-button" name="wps_deals_register_submit" id="wps_deals_register_submit" value="<?php _e( 'Register', 'wpsdeals' ); ?>">
 		</p>
 		
 		<p class="deals-login-link">

@@ -693,13 +693,17 @@ if( !function_exists( 'wps_deals_home_header_discount' ) ) {
 		// get the discount 
 		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
 		
-		// set the args, which we will pass to the template
-		$args = array( 
-						'discount' => $discount
-					);
+		if(!empty($discount) && $discount != '0%') {
+			
+			// set the args, which we will pass to the template
+			$args = array( 
+							'discount' => $discount
+						);
+			
+			// get the template
+			wps_deals_get_template( 'home-deals/header/discount.php', $args );		
 		
-		// get the template
-		wps_deals_get_template( 'home-deals/header/discount.php', $args );		
+		}
 	}
 }
 
@@ -723,13 +727,16 @@ if( !function_exists( 'wps_deals_home_header_value' ) ) {
 		// get the displaying price
 		$displaynormalprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
 		
-		// set the args, which we will pass to the template
-		$args = array( 
-						'normalprice' => $displaynormalprice
-					);
-		
-		// get the template
-		wps_deals_get_template( 'home-deals/header/value.php', $args );		
+		if (!empty($normalprice)) {
+			
+			// set the args, which we will pass to the template
+			$args = array( 
+							'normalprice' => $displaynormalprice
+						);
+			
+			// get the template
+			wps_deals_get_template( 'home-deals/header/value.php', $args );		
+		}
 	}
 }
 
@@ -748,13 +755,20 @@ if( !function_exists( 'wps_deals_home_header_save' ) ) {
 		// get the saving value
 		$yousave = $wps_deals_price->wps_deals_get_savingprice( $post->ID );
 		
-		// set the args, which we will pass to the template
-		$args = array( 
-						'savingprice' => $yousave
-					);
+		// get the discount 
+		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
 		
-		// get the template
-		wps_deals_get_template( 'home-deals/header/save.php', $args );		
+		if(!empty($discount) && $discount != '0%') {
+		
+			// set the args, which we will pass to the template
+			$args = array( 
+							'savingprice' => $yousave
+						);
+			
+			// get the template
+			wps_deals_get_template( 'home-deals/header/save.php', $args );		
+		
+		}
 	}
 }
 
@@ -799,20 +813,41 @@ if( !function_exists( 'wps_deals_home_header_see_deal' ) ) {
 	 */	
 	function wps_deals_home_header_see_deal() {
 	
-		global $post,$wps_deals_options;
+		global $post,$wps_deals_options,$wps_deals_price;
 	
 		// get the color scheme from the settings
 		$button_color = $wps_deals_options['deals_btn_color'];
 		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
 		
-		// set the args, which we will pass to the template
-		$args = array( 
-						'dealurl' => get_permalink( $post->ID ),
-						'btncolor' => $btncolor
-					);
+		$prefix = WPS_DEALS_META_PREFIX;
 		
-		// get the template
-		wps_deals_get_template( 'buttons/button-big.php', $args );
+		$disable_price	= ( isset( $options['disable_price'] ) && $options['disable_price'] == 'true' ) ? true : false;
+		
+		if( !$disable_price ) {		
+		
+			// get the value for the normal price
+			$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
+			
+			// get the normal price
+			$displaynormalprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
+			
+			// get the display price
+			$dealprice = $wps_deals_price->wps_deals_get_price( $post->ID );
+			
+			$displayprice = $wps_deals_price->get_display_price( $dealprice, $post->ID );
+			
+			if ( !empty($normalprice) || !empty($dealprice) ) {
+				
+				// set the args, which we will pass to the template
+				$args = array( 
+								'dealurl' => get_permalink( $post->ID ),
+								'btncolor' => $btncolor
+							);
+				
+				// get the template
+				wps_deals_get_template( 'buttons/button-big.php', $args );
+			}
+		}
 	}
 }
 
@@ -830,20 +865,14 @@ if( !function_exists( 'wps_deals_home_content' ) ) {
 	 * @since 1.0.0
 	 */
 	function wps_deals_home_content( $category = '' ) {
-		
-		global $wps_deals_options;
-		
-		//check disable more deals is set or not
-		if( empty( $wps_deals_options['disable_more_deals'] ) ) {
-		
-			// set the args for the home deal, which we will pass to the template
-			$args = array( 
-							'category'	=> $category
-						);
-		
-			// get the template
-			wps_deals_get_template( 'home-deals/more-deals.php', $args );		
-		} 
+						
+		// set the args for the home deal, which we will pass to the template
+		$args = array( 
+						'category'	=> $category
+					);
+	
+		// get the template
+		wps_deals_get_template( 'home-deals/more-deals.php', $args );			
 	}
 }
    
@@ -857,8 +886,14 @@ if( !function_exists( 'wps_deals_home_navigations' ) ) {
 	 */	
 	function wps_deals_home_navigations() {
 	
-		// get the template
-		wps_deals_get_template( 'home-deals/more-deals/navigation.php' );
+		global $wps_deals_options;
+		
+		//check disable more deals is set or not
+		if( empty( $wps_deals_options['disable_more_deals'] ) ) {
+				
+			// get the template
+			wps_deals_get_template( 'home-deals/more-deals/navigation.php' );
+		}
 	}
 }   
 
@@ -1107,13 +1142,15 @@ if( !function_exists( 'wps_deals_home_more_deals_discount' ) ) {
 		// get the discount
 		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
 		
-		// set the args, which we will pass to the template
-		$args = array( 
-						'discount' => $discount
-					);
-		
-		// get the template
-		wps_deals_get_template( 'home-deals/more-deals/discount.php', $args );
+		if(!empty($discount) && $discount != '0%') {
+			// set the args, which we will pass to the template
+			$args = array( 
+							'discount' => $discount
+						);
+			
+			// get the template
+			wps_deals_get_template( 'home-deals/more-deals/discount.php', $args );
+		}
 	}
 }
 
@@ -1243,17 +1280,20 @@ if( !function_exists( 'wps_deals_home_more_deals_price' ) ) {
 			
 			// get the display price
 			$dealprice = $wps_deals_price->wps_deals_get_price( $post->ID );
+			
 			$displayprice = $wps_deals_price->get_display_price( $dealprice, $post->ID );
 			
-			// set the args, which we will pass to the template
-			$args = array( 
-							'specialprice' => $displayprice,
-							'normalprice' => $displaynormalprice
-						);
-			
-			// get the template
-			wps_deals_get_template( 'home-deals/more-deals/price.php', $args );
-		
+			if ( !empty($normalprice) || !empty($dealprice) ) {
+				
+				// set the args, which we will pass to the template
+				$args = array( 
+								'specialprice' => $displayprice,
+								'normalprice' => $displaynormalprice
+							);
+				
+				// get the template
+				wps_deals_get_template( 'home-deals/more-deals/price.php', $args );
+			}
 		}
 	}
 }
@@ -1269,20 +1309,41 @@ if( !function_exists( 'wps_deals_home_more_deals_see_deal' ) ) {
 	
 	function wps_deals_home_more_deals_see_deal() {
 		
-		global $post,$wps_deals_options;
+		global $post,$wps_deals_options,$wps_deals_price;
 		
 		// get the color scheme from the settings
 		$button_color = $wps_deals_options['deals_btn_color'];
 		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
 		
-		// set the args, which we will pass to the template
-		$args = array( 
-						'dealurl' => get_permalink( $post->ID ),
-						'btncolor' => $btncolor
-					);
+		$prefix = WPS_DEALS_META_PREFIX;
 		
-		// get the template
-		wps_deals_get_template( 'buttons/button-small.php', $args );
+		$disable_price	= ( isset( $options['disable_price'] ) && $options['disable_price'] == 'true' ) ? true : false;
+		
+		if( !$disable_price ) {		
+		
+			// get the value for the normal price
+			$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
+			
+			// get the normal price
+			$displaynormalprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
+			
+			// get the display price
+			$dealprice = $wps_deals_price->wps_deals_get_price( $post->ID );
+			
+			$displayprice = $wps_deals_price->get_display_price( $dealprice, $post->ID );
+			
+			if ( !empty($normalprice) || !empty($dealprice) ) {
+				
+				// set the args, which we will pass to the template
+				$args = array( 
+								'dealurl' => get_permalink( $post->ID ),
+								'btncolor' => $btncolor
+							);
+				
+				// get the template
+				wps_deals_get_template( 'buttons/button-small.php', $args );
+			}
+		}		
 	}
 }
 
@@ -1547,16 +1608,19 @@ if( !function_exists( 'wps_deals_single_deal_price' ) ) {
 		// get the product price
 		$productprice = $wps_deals_price->wps_deals_get_price( $post->ID );
 		
-		// get the displaying price
-		$displayprice = $wps_deals_price->get_display_price( $productprice, $post->ID );
+		if (!empty($productprice)) {
 		
-		// set the args, which we will pass to the template
-		$args = array( 
-						'dealprice' => $displayprice,
-					);
-		
-		// get the template
-		wps_deals_get_template( 'single-deal/price.php', $args );		
+			// get the displaying price
+			$displayprice = $wps_deals_price->get_display_price( $productprice, $post->ID );
+			
+			// set the args, which we will pass to the template
+			$args = array( 
+							'dealprice' => $displayprice,
+						);
+			
+			// get the template
+			wps_deals_get_template( 'single-deal/price.php', $args );		
+		}
 	}
 }
 
@@ -1648,38 +1712,44 @@ if( !function_exists( 'wps_deals_single_add_to_cart' ) ) {
 	 */
 	function wps_deals_single_add_to_cart() {
 		
-		global $post;
+		global $post,$wps_deals_price;
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		//today's date time
-		//$today = date('Y-m-d H:i:s');
-		$today	= wps_deals_current_date();
+		// get the product price
+		$productprice = $wps_deals_price->wps_deals_get_price( $post->ID );
 		
-		//get the value for available deals from the post meta box
-		$available = get_post_meta($post->ID,$prefix.'avail_total',true);
-		
-		//get the value for start date & time of deals from the post meta box
-		$startdate = get_post_meta($post->ID,$prefix.'start_date',true);
-		
-		//get the value for end date & time of deals from the post meta box
-		$enddate = get_post_meta($post->ID,$prefix.'end_date',true);
-		
-		//when deal expired
-		$dealexpired = false;
-	
-		if ( $available == '' ) {
-			//$availdeals =  __('Unlimited','wpsdeals');
-		} else if ( intval( $available ) == 0 ) {
-			//$availdeals =  __('Out of Stock','wpsdeals');
-			$dealexpired = true;
-		} else {}
-		 
-		// check if the deals is still active
-		if( $enddate >= $today && $startdate <= $today && $dealexpired != true ) {
+		if (!empty($productprice)) {
+				
+			//today's date time
+			//$today = date('Y-m-d H:i:s');
+			$today	= wps_deals_current_date();
 			
-			// get the template
-			wps_deals_get_template( 'single-deal/add-to-cart.php' );
+			//get the value for available deals from the post meta box
+			$available = get_post_meta($post->ID,$prefix.'avail_total',true);
+			
+			//get the value for start date & time of deals from the post meta box
+			$startdate = get_post_meta($post->ID,$prefix.'start_date',true);
+			
+			//get the value for end date & time of deals from the post meta box
+			$enddate = get_post_meta($post->ID,$prefix.'end_date',true);
+			
+			//when deal expired
+			$dealexpired = false;
+		
+			if ( $available == '' ) {
+				//$availdeals =  __('Unlimited','wpsdeals');
+			} else if ( intval( $available ) == 0 ) {
+				//$availdeals =  __('Out of Stock','wpsdeals');
+				$dealexpired = true;
+			} else {}
+			 
+			// check if the deals is still active
+			if( $enddate >= $today && $startdate <= $today && $dealexpired != true ) {
+				
+				// get the template
+				wps_deals_get_template( 'single-deal/add-to-cart.php' );
+			}
 		}
 	}
 }
@@ -1701,16 +1771,23 @@ if( !function_exists( 'wps_deals_single_value' ) ) {
 		// get the normal price
 		$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
 		
-		// get the displaying price
-		$displayprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
+		if(!empty($normalprice)) {		
 		
-		// set the args, which we will pass to the template
-		$args = array( 
-						'price' => $displayprice
-					);
-		
-		// get the template
-		wps_deals_get_template( 'single-deal/value.php', $args );		
+			// get the displaying price
+			$displayprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
+			
+			if ($displayprice) {
+				
+				// set the args, which we will pass to the template
+				$args = array( 
+								'price' => $displayprice
+							);
+				
+				// get the template
+				wps_deals_get_template( 'single-deal/value.php', $args );
+			
+			}
+		}
 	}
 }
 
@@ -1729,13 +1806,16 @@ if( !function_exists( 'wps_deals_single_discount' ) ) {
 		// get the discount 
 		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
 		
-		// set the args, which we will pass to the template
-		$args = array( 
-						'discount' => $discount
-					);
+		if(!empty($discount) && $discount != '0%') {
 		
-		// get the template
-		wps_deals_get_template( 'single-deal/discount.php', $args );		
+			// set the args, which we will pass to the template
+			$args = array( 
+							'discount' => $discount
+						);
+			
+			// get the template
+			wps_deals_get_template( 'single-deal/discount.php', $args );		
+		}
 	}
 }
 
@@ -1754,13 +1834,18 @@ if( !function_exists( 'wps_deals_single_save' ) ) {
 		// get the saving value
 		$yousave = $wps_deals_price->wps_deals_get_savingprice( $post->ID );	
 		
-		// set the args, which we will pass to the template
-		$args = array( 
-						'savingprice' => $yousave
-					);
+		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
 		
-		// get the template
-		wps_deals_get_template( 'single-deal/save.php', $args );		
+		if(!empty($discount) && $discount != '0%') {
+		
+			// set the args, which we will pass to the template
+			$args = array( 
+							'savingprice' => $yousave
+						);
+			
+			// get the template
+			wps_deals_get_template( 'single-deal/save.php', $args );			
+		}	
 	}
 }
 

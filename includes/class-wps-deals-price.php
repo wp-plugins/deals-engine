@@ -82,7 +82,7 @@ class Wps_Deals_Price{
 		$normalprice = get_post_meta( $dealid, $prefix.'normal_price', true );
 		$saleprice = $this->wps_deals_get_price( $dealid );//get_post_meta($dealid,$prefix.'sale_price',true);
 		
-		if( $normalprice !== '' && $saleprice !== '' ) {
+		if( !empty( $normalprice ) && !empty( $saleprice ) ) {
 			$save_price = ( $normalprice - $saleprice );
 			$save_percent = ( $save_price * 100 ) / $normalprice;
 			$save_percent = round( $save_percent );

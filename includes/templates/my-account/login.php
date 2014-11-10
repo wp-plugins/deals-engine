@@ -48,7 +48,7 @@ global $wps_deals_message;
 		<?php } ?>
 		
 		<p class="deals-form-submit">
-			<input type="submit" class="button deals-login-submit-btn" name="login" id="login" value="<?php _e( 'Login', 'wpsdeals' ); ?>">
+			<input type="submit" class="button deals-login-submit-btn" name="wps_deals_login_submit" id="wps_deals_login_submit" value="<?php _e( 'Login', 'wpsdeals' ); ?>">
 			<label for="deals_remember">
 				<input type="checkbox" name="wps_deals_remember" id="deals_remember" value="1"><?php _e( 'Remember me', 'wpsdeals' ); ?>
 			</label>

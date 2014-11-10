@@ -188,7 +188,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								</th>
 								<td>
 									<input type="checkbox" id="wps_deals_options[disable_more_deals]" name="wps_deals_options[disable_more_deals]" value="1" <?php if(isset($wps_deals_options['disable_more_deals'])) { checked('1',$wps_deals_options['disable_more_deals']); }?>/><br />
-									<span class="description"><?php _e( 'Check this box, if you don\'t want to display the Active, Ending Soon and Upcomming Deals on your Deals page.', 'wpsdeals' ); ?></span>
+									<span class="description"><?php _e( 'Check this box, if you don\'t want to display the Ending Soon and Upcomming Deals on your Deals page.', 'wpsdeals' ); ?></span>
 								</td>
 							</tr>
 							
