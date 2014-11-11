@@ -16,7 +16,7 @@ global $current_user,$wps_deals_model,$wps_deals_currency,$wps_deals_options,$wp
 
 ?>
 
-<div class="deals-container deals-orders">
+<div class="deals-container deals-sales deals-orders">
 
 <?php				
 	if ( is_user_logged_in() ) { //check user is logged in or not

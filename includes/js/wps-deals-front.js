@@ -764,7 +764,7 @@ jQuery(document).ready(function($){
 	$( document ).on( 'click', '.deals-login-link', function() {
 		$('.deals-registration-wrapper').hide();
 		$('.deals-guest-details').hide();
-		$('.deals-login-form-wrap').show();
+		$('.deals-login-form-wrapper').show();
 		$('.deals-cart-user-error').html('');
 		$('.deals-cart-user-error').hide();
 		$('.deals-checkout-btn').removeClass('deals-reg-button-submit').addClass('deals-login-button-submit');

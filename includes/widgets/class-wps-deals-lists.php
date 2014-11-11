@@ -215,7 +215,7 @@ class Wps_Deals_Lists extends WP_Widget {
 								' . get_the_title( $post->ID ) . '						
 							</h3>';		
 
-				if ( !empty($normalprice) || !empty($price) ) {
+				if ( $normalprice !== '' || $price !== '' ) {
 
 					// deal price
 					$html .= '	<div class="deals-more-price-box">

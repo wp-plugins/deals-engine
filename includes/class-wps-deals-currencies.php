@@ -102,7 +102,7 @@ class Wps_Deals_Currencies{
 	public function wps_deals_formatted_value( $price, $currency='',$discount='') { //,$filterflag=true
 		
 		global $wpdb;
-		
+			
 		$decimal_places = $this->currencies['cr_decimal_places']; 	//decimal places
 		$decimal_sep 	= $this->currencies['cr_decimal_sep']; 		//decimal seperator
 		$thousand_sep 	= $this->currencies['cr_thousands_sep']; 	//thousand seperator
@@ -142,8 +142,8 @@ class Wps_Deals_Currencies{
 			//append minus sign before price
 			$price = '-' . $price;
 		}
-
-		return $price;
+		
+		return $price; 
 	}
 }
 ?>

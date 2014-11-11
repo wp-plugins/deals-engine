@@ -77,18 +77,23 @@ function wps_deals_payment_process() {
 			$_POST['user_name'] = 'guest';
 		}
 		
-		$gateway = $_POST['wps_deals_payment_gateways'];
+		$gateway = isset( $_POST['wps_deals_payment_gateways'] ) ? $_POST['wps_deals_payment_gateways'] : '';
+		
+		//Pst data
+		$post_data	= $_POST;
 		
 		// Allow themes and plugins to hook before the gateway
-		do_action( 'wps_deals_checkout_before_gateway', $_POST, $cartdata );
+		do_action( 'wps_deals_checkout_before_gateway', $post_data, $cartdata );
 		
-		if ( $cartdata['total'] <= '0') {  //if cart total is empty call test mode
+		if ( $cartdata['total'] <= '0' ) {  //if cart total is empty call test mode
 			
-			$gateway = 'testmode';
+			$gateway									= 'testmode';
+			$post_data['wps_deals_payment_gateways']	= 'testmode';
+			//$post_data['wps_deals_payment_gateways']	= 'free';
 		}
 		
 		// Send info to the gateway for payment processing
-		wps_deals_send_to_gateway( $gateway, $cartdata, $_POST );
+		wps_deals_send_to_gateway( $gateway, $cartdata, $post_data );
 		exit;
 	}
 }
@@ -221,9 +226,15 @@ function wps_deals_valid_user_data() {
  */
 function wps_deals_valid_gateway() {
 	
-	global $wps_deals_message;
+	global $wps_deals_message, $wps_deals_cart;
 	
 	$message = $wps_deals_message;
+	
+	//Get cart
+	$cart			= $wps_deals_cart;
+	
+	//Get cart total
+	$cart_total		= $cart->show_total();
 	
 	if ( !empty( $_POST['wps_deals_payment_gateways'] ) ) {
 
@@ -236,6 +247,10 @@ function wps_deals_valid_gateway() {
 			return false;
 		}
 
+	} else if( $cart_total <= 0 ) {
+		
+		return true;
+		
 	} else {
 		$message->add_session( 'cartuser', __('<span><strong>ERROR : </strong>No payment gateway selected.</span>','wpsdeals'),'multierror');
 		return false;

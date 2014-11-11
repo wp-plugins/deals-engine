@@ -40,11 +40,11 @@ function wps_deals_process_testmode( $cartdetails, $postdata ) {
 										'user_name' => $postdata['user_name'],
 										'user_email' => $postdata['wps_deals_cart_user_email'],
 									  );
-	$purchasedata['post_data'] = $postdata;
-	$purchasedata['cartdata'] = $cartdetails;
-	$purchasedata['payment_status'] = '1';
+	$purchasedata['post_data']		= $postdata;
+	$purchasedata['cartdata']		= $cartdetails;
+	$purchasedata['payment_status']	= '1';
 	
-	$salesid = wps_deals_insert_payment_data($purchasedata);
+	$salesid = wps_deals_insert_payment_data( $purchasedata );
 	
 	//check sales id id not empty
 	if( !empty( $salesid ) ) {

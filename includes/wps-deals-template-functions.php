@@ -727,7 +727,7 @@ if( !function_exists( 'wps_deals_home_header_value' ) ) {
 		// get the displaying price
 		$displaynormalprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
 		
-		if (!empty($normalprice)) {
+		if ( $normalprice !== '' ) {
 			
 			// set the args, which we will pass to the template
 			$args = array( 
@@ -836,7 +836,7 @@ if( !function_exists( 'wps_deals_home_header_see_deal' ) ) {
 			
 			$displayprice = $wps_deals_price->get_display_price( $dealprice, $post->ID );
 			
-			if ( !empty($normalprice) || !empty($dealprice) ) {
+			if ( $normalprice !== '' || $dealprice !== '' ) {
 				
 				// set the args, which we will pass to the template
 				$args = array( 
@@ -1283,7 +1283,7 @@ if( !function_exists( 'wps_deals_home_more_deals_price' ) ) {
 			
 			$displayprice = $wps_deals_price->get_display_price( $dealprice, $post->ID );
 			
-			if ( !empty($normalprice) || !empty($dealprice) ) {
+			if ( $normalprice !== '' || $dealprice !== '' ) {
 				
 				// set the args, which we will pass to the template
 				$args = array( 
@@ -1332,7 +1332,7 @@ if( !function_exists( 'wps_deals_home_more_deals_see_deal' ) ) {
 			
 			$displayprice = $wps_deals_price->get_display_price( $dealprice, $post->ID );
 			
-			if ( !empty($normalprice) || !empty($dealprice) ) {
+			if ( $normalprice !== '' || $dealprice !== '' ) {
 				
 				// set the args, which we will pass to the template
 				$args = array( 
@@ -1608,7 +1608,8 @@ if( !function_exists( 'wps_deals_single_deal_price' ) ) {
 		// get the product price
 		$productprice = $wps_deals_price->wps_deals_get_price( $post->ID );
 		
-		if (!empty($productprice)) {
+		//if (!empty($productprice)) {		
+		if ($productprice !== '' ) {
 		
 			// get the displaying price
 			$displayprice = $wps_deals_price->get_display_price( $productprice, $post->ID );
@@ -1719,7 +1720,7 @@ if( !function_exists( 'wps_deals_single_add_to_cart' ) ) {
 		// get the product price
 		$productprice = $wps_deals_price->wps_deals_get_price( $post->ID );
 		
-		if (!empty($productprice)) {
+		if ($productprice !== '' ) {
 				
 			//today's date time
 			//$today = date('Y-m-d H:i:s');
@@ -1771,7 +1772,7 @@ if( !function_exists( 'wps_deals_single_value' ) ) {
 		// get the normal price
 		$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
 		
-		if(!empty($normalprice)) {		
+		if( $normalprice !== '' ) {		
 		
 			// get the displaying price
 			$displayprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
@@ -2668,21 +2669,29 @@ if( !function_exists( 'wps_deals_checkout_payment_gateways' ) ) {
 	 */
 	function wps_deals_checkout_payment_gateways() {
 		
-		global $wps_deals_options;
+		global $wps_deals_options, $wps_deals_cart;
 		
-		$paymentgatway = wps_deals_get_enabled_gateways();
+		//Get cart
+		$cart			= $wps_deals_cart;
 		
-		//check default gateway is set or not and it is enabled or not
-		if( isset( $wps_deals_options['default_payment_gateway'] ) 
-			&& array_key_exists( $wps_deals_options['default_payment_gateway'], $paymentgatway ) ) {
-			$defaultgatway = $wps_deals_options['default_payment_gateway'];
-		} else {
-			$defaultgatway = 'paypal';
+		//Get cart total
+		$cart_total		= $cart->show_total();
+		
+		if( $cart_total > 0 ) {
+			
+			$paymentgatway	= wps_deals_get_enabled_gateways();
+			
+			//check default gateway is set or not and it is enabled or not
+			if( isset( $wps_deals_options['default_payment_gateway'] ) 
+				&& array_key_exists( $wps_deals_options['default_payment_gateway'], $paymentgatway ) ) {
+				$defaultgatway = $wps_deals_options['default_payment_gateway'];
+			} else {
+				$defaultgatway = 'paypal';
+			}
+			
+			//payment gateway template
+			wps_deals_get_template( 'checkout/footer/payment-gateway.php', array( 'paymentgatway' => $paymentgatway, 'defaultgatway' => $defaultgatway ));
 		}
-		
-		//payment gateway template
-		wps_deals_get_template( 'checkout/footer/payment-gateway.php', array( 'paymentgatway' => $paymentgatway, 'defaultgatway' => $defaultgatway ));
-		
 	}
 	
 }

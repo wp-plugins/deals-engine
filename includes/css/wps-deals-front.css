@@ -577,6 +577,14 @@ a.deals-button:visited {
 		top: -18px;
 		left: -28px;
 	}
+	.deals-col-4 .deals-more-content .deals-more-discount-box p {
+		font-size: 18px !important; 
+		top: -21px;
+		left: -30px;		
+	}
+	.deals-col-4 .deals-more-content .deals-more-discount-box {
+		border-width: 30px;	
+	}
 }
 .deals-more-content .deals-more-content-img a img.attachment-deals-more {
 	max-height: 260px;
@@ -598,13 +606,14 @@ a.deals-button:visited {
 }
 @media (min-width: 481px) {
 	.deals-timer-home-list {
-		font-size: 18px;
+		/*font-size: 18px;*/
 	}
 	.deals-col-4 .deals-timer-home-list {
 		font-size: 14px;
 		line-height: 16px;
 		padding-top: 5px;
-	}
+		height: 70px;
+	}	
 	.deals-col-4 .deals-timer-home-list .timer-icon {
 		background: url("../images/deal-timer-small.png") no-repeat 0 2px;
 		padding: 0 10px 20px 0;
@@ -618,6 +627,7 @@ a.deals-button:visited {
 		line-height: 20px !important;
 		margin-left: -5px;
 		overflow: hidden;
+		height: 50px;
 	}
 	.deals-home.medium .deals-col-3 .deals-timer-home-list .timer-icon,
 	.deals-archive.medium .deals-col-3 .deals-timer-home-list .timer-icon,
@@ -626,7 +636,7 @@ a.deals-button:visited {
 	.deals-col-3 .deals-timer-home-list .timer-icon {
 		background: none;
 		padding: 0;
-	}
+	}	
 }
 .deals-more-content img {
 	max-width: 100%;
@@ -1657,3 +1667,32 @@ color: #ff0000;
 }
 
 /** CSS for Sold by vendor End **/
+
+/** CSS for Registration Form on checkout page Start **/
+
+.deals-login-form-wrapper {
+	display: none;
+}
+
+/** CSS for Registration Form on checkout page End **/
+
+
+.deals-tablenav-pages a, .deals-tablenav-pages span {    
+    padding: 0 5px;
+}
+
+/** CSS for Responsive Deals Start **/
+@media screen and (min-width: 481px) and (max-width: 899px) { 
+
+	.deals-col-4 .deals-timer-home-list {
+		font-size: 13px;
+		height: 88px;
+	}
+	
+	.deals-col-6 .deals-timer-home-list {
+		font-size: 13px;
+		height: 55px;
+		line-height: 13px;
+	}
+}
+/** CSS for Responsive Deals End **/
