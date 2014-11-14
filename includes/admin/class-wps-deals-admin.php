@@ -643,7 +643,7 @@ class Wps_Deals_AdminPages {
 		
 		 add_meta_box(
 			            'wps_deals_stats_meta',
-			            __( 'Deals Stats', 'wpsdeals' ),
+			            __( 'Deal Stats', 'wpsdeals' ),
 			            array($this, 'wps_deals_stats_metabox_details'),
 			            WPS_DEALS_POST_TYPE,
 			            'side','high'

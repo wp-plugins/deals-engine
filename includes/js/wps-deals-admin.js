@@ -369,4 +369,28 @@ jQuery(document).ready(function($) {
 			unforcerow.hide();
 		}
 	});
+	
+	// Show Error if Deal price is greater then Normal price
+	$( document ).on( 'blur', '#_wps_deals_sale_price[type=text]', function() {				
+		$('.wps-error-tip').fadeOut('100', function(){ $(this).remove(); } );		
+	});	
+	
+	$("body").click(function(){
+		$('.wps-error-tip').fadeOut('100', function(){ $(this).remove(); } );
+	});	
+	
+	$( document ).on( 'keyup focus change', '#_wps_deals_sale_price[type=text]', function(){		
+		var deal_price_field = $(this);
+		var normal_price_field = $('#_wps_deals_normal_price');
+		
+		var normal_price = parseFloat(normal_price_field.val());
+		var deal_price = parseFloat(deal_price_field.val());
+		
+		if(deal_price >= normal_price) {
+			deal_price_field.val( normal_price_field.val() );						
+			$(this).after( '<div class="wps-error-tip">' + WpsDealsSettings.deal_price_less_than_normal_price_error + '</div>' );								
+		} else {
+			$('.wps-error-tip').fadeOut('100', function(){ $(this).remove(); } );
+		}			
+	});
 });

@@ -845,7 +845,8 @@ class Wps_Deals_Public_Pages	{
 						do_action( 'wps_deals_user_register', $user_id );
 						
 						//redirect to lost password page
-						wps_deals_send_on_create_account_page();
+						//wps_deals_send_on_create_account_page();
+						wps_deals_send_on_my_account_page();
 						
 					} else {
 						

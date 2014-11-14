@@ -414,3 +414,38 @@ select.chzn-select {
 	font-style: italic !important;
     padding: 0 !important;
 }
+/***************** CSS for Error Tip Start******************/
+.wps-error-tip {
+	font-size:11px;
+	color:#fff;
+	padding:.5em;
+	background:#464646;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	-webkit-box-shadow:1px 1px 3px rgba(0,0,0,.1);
+	-moz-box-shadow:1px 1px 3px rgba(0,0,0,.1);
+	box-shadow:1px 1px 3px rgba(0,0,0,.1);
+	text-align:center;max-width:150px;
+}
+.wps-error-tip { 
+	background:#d82223;
+	max-width:20em;
+	white-space:normal;
+	position:absolute;
+	margin:1em 1px 0;
+	z-index:9999999;
+}
+.wps-error-tip:after {
+	content:"";
+	display:block;
+	border:8px solid #d82223;
+	border-right-color:transparent;
+	border-left-color:transparent;
+	border-top-color:transparent;
+	position:absolute;
+	top:-3px;
+	left:50%;
+	margin:-1em 0 0 -3px;
+}
+/***************** CSS for Error Tip Ends******************/

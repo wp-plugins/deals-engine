@@ -462,7 +462,8 @@ a.deals-button:visited {
 	More Deals on Home Page
    ************************************************************************** */
 .deals-more .deals-wprapper {
-	margin-top: 25px;
+	margin-top		: 15px;
+	margin-bottom	: 15px;
 }
 .deals-list {
 	/*display: none;*/
@@ -1696,3 +1697,7 @@ color: #ff0000;
 	}
 }
 /** CSS for Responsive Deals End **/
+/** CSS for Empty cart message **/
+.empty-cart-msg {
+    display: block;
+}

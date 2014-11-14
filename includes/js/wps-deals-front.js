@@ -1,5 +1,34 @@
 jQuery(document).ready(function($){	
 	
+	jQuery('.deals-navdeal').removeClass('deals-nav1').removeClass('deals-nav2');	
+	jQuery('div.deals-ending-soon').hide();
+	jQuery('div.deals-upcoming-soon').hide();
+	jQuery('div.deals-list:first').show();
+	
+	jQuery( '.deals-navdeal' ).on('click','.deals-active',function(){
+		jQuery('.deals-navdeal span').removeClass('active');
+		jQuery(this).addClass('active');
+		jQuery('.deals-navdeal').removeClass('deals-nav1').removeClass('deals-nav2');
+		jQuery(this).parent().parent().children('div.deals-list').hide();
+		jQuery('.deals-active').show();
+	});
+	jQuery( '.deals-navdeal' ).on('click','.deals-ending-soon',function(){
+		jQuery('.deals-navdeal span').removeClass('active');
+		jQuery(this).addClass('active');
+		jQuery('.deals-navdeal').addClass('deals-nav1');
+		jQuery('.deals-navdeal').removeClass('deals-nav2');
+		jQuery(this).parent().parent().children('div.deals-list').hide();
+		jQuery('.deals-ending-soon').show();
+	});
+	jQuery( '.deals-navdeal' ).on('click','.deals-upcoming-soon',function(){
+		jQuery('.deals-navdeal span').removeClass('active');
+		jQuery(this).addClass('active');
+		jQuery('.deals-navdeal').addClass('deals-nav2');
+		jQuery('.deals-navdeal').removeClass('deals-nav1');
+		jQuery(this).parent().parent().children('div.deals-list').hide();
+		jQuery('.deals-upcoming-soon').show();
+	});
+	
 	//add to cart button click
 	$( document ).on( 'click', '.deals-add-to-cart-button', function() {
 		
@@ -75,7 +104,7 @@ jQuery(document).ready(function($){
 				message.html( result.message );
 				
 				if( result.empty == '1' ) {
-					$('.wps-deals-cart-wrap').html( cartdetails );
+					$('.wps-deals-cart-wrap').html( cartdetails );					
 				} else {
 					
 					details.html( cartdetails );	
@@ -185,7 +214,7 @@ jQuery(document).ready(function($){
 	});
 	
 	//checkout validation
-	$( document ).on( 'click', '.deals-checkout-btn', function() {
+	$( document ).on( 'click', '.deals-checkout-button', function() {
 		
 		if(!$(this).hasClass('deals-login-button-submit') 
 			&& !$(this).hasClass('deals-reg-button-submit')) {
@@ -325,7 +354,7 @@ jQuery(document).ready(function($){
 			//scroll page to focus on error
 			$('html, body').animate({ scrollTop: errel.offset().top - 50 }, 500);
 			return false;
-		} else {
+		} else { 
 			
 			var data = {
 							action		:	'deals_user_login',
@@ -763,21 +792,21 @@ jQuery(document).ready(function($){
 	//front side cart login & registration form
 	$( document ).on( 'click', '.deals-login-link', function() {
 		$('.deals-registration-wrapper').hide();
-		$('.deals-guest-details').hide();
+		//$('.deals-guest-details').hide();
 		$('.deals-login-form-wrapper').show();
 		$('.deals-cart-user-error').html('');
 		$('.deals-cart-user-error').hide();
-		$('.deals-checkout-btn').removeClass('deals-reg-button-submit').addClass('deals-login-button-submit');
+		$('.deals-checkout-button').removeClass('deals-reg-button-submit').addClass('deals-login-button-submit');
 		
 	});
 	//front side cart login & registration form
 	$( document ).on( 'click', '.deals-class-reg-link', function() {
 		$('.deals-registration-wrapper').show();
-		$('.deals-guest-details').show();
+		//$('.deals-guest-details').show();
 		$('.deals-login-form-wrapper').hide();
 		$('.deals-cart-user-error').html('');
 		$('.deals-cart-user-error').hide();
-		$('.deals-checkout-btn').removeClass('deals-login-button-submit').addClass('deals-reg-button-submit');
+		$('.deals-checkout-button').removeClass('deals-login-button-submit').addClass('deals-reg-button-submit');
 	});
 	
 	//Update Social Count for Facebook to Database

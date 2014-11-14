@@ -70,7 +70,8 @@ class Wps_Deals_Scripts {
 																					'paypalapi'			=>	$paypalapi,
 																					'paypalapierror'	=>	__( 'Please Enter Paypal API User Name,Password and Signature in settings page to proceed refund.', 'wpsdeals' ),
 																					'testemailsuccess'	=>	__( 'Test email has been sent successfully.', 'wpsdeals' ),
-																					'testemailerror'	=>	__( 'Test email could not sent.', 'wpsdeals' )
+																					'testemailerror'	=>	__( 'Test email could not sent.', 'wpsdeals' ),
+																					'deal_price_less_than_normal_price_error'  => __( 'Please enter a value less than the regular price.', 'wpsdeals' )
 																				));
 		wp_enqueue_media();
 		
@@ -247,9 +248,6 @@ class Wps_Deals_Scripts {
 		//do not include this script in footer otherwise timer countdown will disabled
 		wp_register_script( 'wps-deals-front-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-front.js', array( 'jquery' ), null );
 		wp_enqueue_script( 'wps-deals-front-scripts' );
-		
-		//Only register front side scripts, enqueue whenever needed
-		wp_register_script( 'wps-deals-front-show-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-front-show.js', array( 'jquery' ), null );
 		
 		wp_register_script( 'twitter-bootstrap', WPS_DEALS_URL . 'includes/js/bootstrap.js', array( 'jquery' ), '2.3.1', true );
 		if( empty( $wps_deals_options['disable_twitter_bootstrap'] ) ) {

@@ -174,7 +174,7 @@ class Wps_Deals_Lists extends WP_Widget {
 					$html .=' 	<div class="deals-more-discount-box">	
 									<p class="deals-more-discount">
 										<span>
-											-&nbsp;' . $discount . '
+											 -&nbsp;' . $discount . '
 										</span>
 									</p>									
 								</div>';

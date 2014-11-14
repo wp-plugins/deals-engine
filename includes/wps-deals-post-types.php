@@ -50,7 +50,7 @@ function wps_deals_register_deal_post_type() {
 							'rewrite' 			=> array( 'slug' => WPS_DEALS_POST_TYPE_SLUG),
 							'capability_type' 	=> WPS_DEALS_POST_TYPE, //'post',
 							'has_archive' 		=> true,
-							'supports' 			=> apply_filters('wps_deals_post_type_supports', array( 'title', 'editor', 'thumbnail', 'excerpt' )),
+							'supports' 			=> apply_filters('wps_deals_post_type_supports', array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments' )),
 							'menu_icon'			=> WPS_DEALS_URL . 'includes/images/wps-icon.png'
 						);
 	
@@ -166,6 +166,49 @@ function wps_deals_icon() {
 add_action( 'admin_head', 'wps_deals_icon' );
 
 /**
+ * Get Default Labels
+ *
+ * @package Social Deals Engine
+ * @since 1.0.0
+ * @return array $defaults Default labels
+ */
+function wps_get_default_labels() {
+	$defaults = array(
+	   'singular' => __( 'Deal', 'edd' ),
+	   'plural' => __( 'Deals', 'edd')
+	);
+	return apply_filters( 'wps_default_deals_name', $defaults );
+}
+
+/**
+ * Get Singular Label
+ *
+ * @package Social Deals Engine
+ * @since 1.0.0
+ * 
+ * @param bool $lowercase
+ * @return string $defaults['singular'] Singular label
+ */
+function wps_get_label_singular( $lowercase = false ) {
+	$defaults = wps_get_default_labels();
+	return ($lowercase) ? strtolower( $defaults['singular'] ) : $defaults['singular'];
+}
+
+/**
+ * Get Plural Label
+ *
+ * @package Social Deals Engine
+ * @since 1.0.0
+ * 
+ * @param bool $lowercase
+ * @return string $defaults['plural'] Plural label
+ */
+function wps_get_label_plural( $lowercase = false ) {
+	$defaults = wps_get_default_labels();
+	return ( $lowercase ) ? strtolower( $defaults['plural'] ) : $defaults['plural'];
+}
+
+/**
  * Setup Deals Post Type's Taxonomy
  *
  * Registers taxonomies for custom post types
@@ -178,7 +221,7 @@ function wps_deals_register_taxonomies() {
 	
   //register taxonomy tags for deals
 	 $taglabels = array(
-						    'name' => _x( 'Tags', 'taxonomy general name','wpsdeals' ),
+						    'name' => sprintf( _x( '%s Tags', 'taxonomy general name','wpsdeals' ), wps_get_label_singular() ),
 						    'singular_name' => _x( 'Tag', 'taxonomy singular name' ,'wpsdeals'),
 						    'search_items' =>  __( 'Search Tags','wpsdeals' ),
 						    'popular_items' => __( 'Popular Tags','wpsdeals' ),
@@ -217,7 +260,7 @@ function wps_deals_register_taxonomies() {
 	
 	// Add new taxonomy, make it hierarchical (like categories)
 	$labels = array(
-				    'name' 				=>	_x( 'Categories', 'taxonomy general name', 'wpsdeals'),
+				    'name' 				=>	sprintf( _x( ' %s Categories', 'taxonomy general name', 'wpsdeals'), wps_get_label_singular() ),
 				    'singular_name' 	=>	_x( 'Category', 'taxonomy singular name','wpsdeals' ),
 				    'search_items'		=>	__( 'Search Categories','wpsdeals' ),
 				    'all_items'			=>	__( 'All Categories','wpsdeals' ),

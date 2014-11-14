@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	
 	<p class="deals-more-discount">
 		<span>
-			-&nbsp;<?php echo $discount; ?>
+			 -&nbsp;<?php echo $discount; ?>
 		</span>
 	</p>
 	

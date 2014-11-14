@@ -35,6 +35,8 @@ get_header( 'deals' );
 
 			<?php wps_deals_get_template( 'content-single-deal.php' ); ?>
 
+			<?php comments_template( '', true ); ?>
+			
 		<?php endwhile; // end of the loop. ?>
 		
 	<?php endif; ?>

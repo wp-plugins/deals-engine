@@ -3630,7 +3630,7 @@ if( !function_exists( 'wps_deals_my_account_login_content' ) ) {
 		
 		if( $users_can_register == '1' ) { //Check user can register
 			
-			$create_account_page = isset( $wps_deals_options['create_account_page'] ) && !empty( $wps_deals_options['create_account_page'] ) ? $wps_deals_options['create_account_page'] : ''; 
+			$create_account_page = isset( $wps_deals_options['my_account_page'] ) && !empty( $wps_deals_options['my_account_page'] ) ? $wps_deals_options['my_account_page'] : ''; 
 			
 			$registerlink = get_permalink( $create_account_page );
 		}

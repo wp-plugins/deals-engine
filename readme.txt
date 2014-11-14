@@ -4,8 +4,8 @@ Plugin URI: http://wpsocial.com/deals-engine/
 Contributors: wpsocial, dwaser71
 Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial, widget
 Requires at least: 3.5.0
-Tested up to: 3.8.0
-Stable tag: 2.0.2
+Tested up to: 4.0
+Stable tag: 2.0.3
 License: GNU Version 2 or Any Later Version
 
 Turn your WordPress blog in to a Social Deals site and sell any kind of Deals with this complete Deals management plugin.
@@ -96,8 +96,12 @@ Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com
 6. Single Deal Page
 
 == Changelog ==
+= Version 2.0.3 (2014-11-14) =
+* Added validation for deal price should always be less than normal price.
+* Fixed a bug for registered user redirection on wrong page.
+* Added support to add comments for Deals post type.
 = Version 2.0.2 (2014-11-11) =
-*Added support to buy free deals.
+* Added support to buy free deals.
 = Version 2.0.1 (2014-11-10) =
 * Bug Fix - Foursquare - Foursquare Versioning Compatibility. Please see here: https://developer.foursquare.com/overview/versioning.
 * Bug fix for Yahoo social login.
