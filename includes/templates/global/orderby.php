@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 ?>
 
-<div class="deals-ordering deals-col-6">
+<div class="deals-ordering deals-col-12">
 
 	<form class="deals-ordering-form deals-right" method="get" action="">
 	

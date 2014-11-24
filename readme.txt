@@ -5,7 +5,7 @@ Contributors: wpsocial, dwaser71
 Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial, widget
 Requires at least: 3.5.0
 Tested up to: 4.0
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GNU Version 2 or Any Later Version
 
 Turn your WordPress blog in to a Social Deals site and sell any kind of Deals with this complete Deals management plugin.
@@ -96,6 +96,10 @@ Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com
 6. Single Deal Page
 
 == Changelog ==
+= Version 2.0.4 (2014-11-24) =
+* Fixed a bug for paging in "Ending soon" and "Upcomming Deals" tab.
+* Added sort by price and date options in "Home Deals" and "Deals By category" shortcodes.
+* Added option for "Enable add to cart Button" on bottom of each deals page.
 = Version 2.0.3 (2014-11-14) =
 * Added validation for deal price should always be less than normal price.
 * Fixed a bug for registered user redirection on wrong page.

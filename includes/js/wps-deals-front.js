@@ -1,6 +1,6 @@
 jQuery(document).ready(function($){	
-	
-	jQuery('.deals-navdeal').removeClass('deals-nav1').removeClass('deals-nav2');	
+			
+	/*jQuery('.deals-navdeal').removeClass('deals-nav1').removeClass('deals-nav2');	
 	jQuery('div.deals-ending-soon').hide();
 	jQuery('div.deals-upcoming-soon').hide();
 	jQuery('div.deals-list:first').show();
@@ -27,7 +27,7 @@ jQuery(document).ready(function($){
 		jQuery('.deals-navdeal').removeClass('deals-nav1');
 		jQuery(this).parent().parent().children('div.deals-list').hide();
 		jQuery('.deals-upcoming-soon').show();
-	});
+	});*/
 	
 	//add to cart button click
 	$( document ).on( 'click', '.deals-add-to-cart-button', function() {

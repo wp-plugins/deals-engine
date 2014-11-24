@@ -891,8 +891,25 @@ if( !function_exists( 'wps_deals_home_navigations' ) ) {
 		//check disable more deals is set or not
 		if( empty( $wps_deals_options['disable_more_deals'] ) ) {
 				
+			// get tab parameter and asign class according
+			$get_tab_param = isset($_GET['tab']) ? $_GET['tab'] : '';	
+			if($get_tab_param == "active" || $get_tab_param == '') {
+				$activetab = "active";
+			} else if($get_tab_param == "ending-soon") {
+				$activetab = "ending-soon";
+			}  else if($get_tab_param == "upcoming-soon") {
+				$activetab = "upcoming-soon";
+			} else {
+				$activetab = 'not-active';
+			}
+			
+			// set the args, which we will pass to the template
+			$args = array( 						
+							'activetab' => $activetab
+						);				
+					
 			// get the template
-			wps_deals_get_template( 'home-deals/more-deals/navigation.php' );
+			wps_deals_get_template( 'home-deals/more-deals/navigation.php' , $args);
 		}
 	}
 }   
@@ -969,11 +986,20 @@ if( !function_exists( 'wps_deals_home_more_deal_active' ) ) {
 		// counter timer script
 		wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
 		
+		// get tab parameter and asign class according		
+		$get_tab_param = isset($_GET['tab']) ? $_GET['tab'] : '';			
+		if($get_tab_param == "active" || $get_tab_param == '') {
+			$activetab = "active";
+		} else{
+			$activetab = 'not-active';
+		}
+		
 		// set the args, which we will pass to the template
 		$args = array( 
 						'args' => $activeargs,
 						'tab' => 'active',
-						'btncolor' => $btncolor
+						'btncolor' => $btncolor,
+						'activetab' => $activetab
 					);
 		
 		//active deals template
@@ -1046,10 +1072,19 @@ if( !function_exists( 'wps_deals_home_more_deal_ending' ) ) {
 			$args_end[WPS_DEALS_POST_TAXONOMY] = $category;
 		}
 		
+		// get tab parameter and asign class according	
+		$get_tab_param = isset($_GET['tab']) ? $_GET['tab'] : '';		
+		if( $get_tab_param == "ending-soon") {
+			$activetab = "ending-soon";
+		} else{
+			$activetab = 'not-active';
+		}
+		
 		// set the args, which we will pass to the template
 		$args = array( 
 						'args' => $argsend,
-						'tab' => 'ending-soon'
+						'tab' => 'ending-soon',
+						'activetab' => $activetab
 					);
 					
 		// get the template
@@ -1116,10 +1151,19 @@ if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
 			$argsupcoming[WPS_DEALS_POST_TAXONOMY] = $category;
 		}
 		
+		// get tab parameter and asign class according		
+		$get_tab_param = isset($_GET['tab']) ? $_GET['tab'] : '';	
+		if( $get_tab_param == "upcoming-soon") {
+			$activetab = "upcoming-soon";
+		} else{
+			$activetab = 'not-active';
+		}
+		
 		// set the args, which we will pass to the template
 		$args = array( 
 						'args' => $argsupcoming,
-						'tab' => 'upcoming-soon'
+						'tab' => 'upcoming-soon',
+						'activetab' => $activetab
 					);
 		
 		// get the template

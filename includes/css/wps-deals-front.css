@@ -1701,3 +1701,23 @@ color: #ff0000;
 .empty-cart-msg {
     display: block;
 }
+
+/** CSS for display active deals start **/
+
+.deals-list.active {
+    display: block;
+}
+.deals-list.not-active {
+    display: none;
+}
+
+/** CSS for display active deals end **/
+
+/* CSS for bottom add to cart button */
+.wps-bottom-add-to-cart-button {
+	width: 100%;
+}
+.wps-bottom-add-to-cart-button-inner {
+	margin: 0 auto;
+	width: 60%;
+}

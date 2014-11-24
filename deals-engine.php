@@ -3,7 +3,7 @@
  * Plugin Name: Social Deals Engine
  * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
  * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
- * Version: 2.0.3
+ * Version: 2.0.4
  * Author: WPSocial.com
  * Author URI: http://wpsocial.com
  * 
@@ -33,7 +33,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '2.0.3' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.0.4' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -549,7 +549,7 @@ function wps_deals_install() {
 		
 		//check reset password email body is set in options or not
 		if( !isset( $wps_deals_options['reset_password_email'] ) ) {
-			$email_sbody = array( 'reset_password_email'=> __('Someone requested that the password be reset for the following account:'."\n\n".'Username: {user_name}'."\n\n".'If this was a mistake, just ignore this email and nothing will happen.'."\n\n".'To reset your password, visit the following address:'."\n\n".'{reset_link}','wpsdeals') );
+			$email_sbody = array( 'reset_password_email'=> sprintf( __('Someone requested that the password be reset for the following account:'."\n\n".'Username: {%s}'."\n\n".'If this was a mistake, just ignore this email and nothing will happen.'."\n\n".'To reset your password, visit the following address:'."\n\n".'{%s}','wpsdeals'), 'user_name', 'reset_link' ));
 			$wps_deals_options = array_merge( $wps_deals_options, $email_sbody );
 			$udpopt = true;
 		}
@@ -1001,13 +1001,13 @@ function wps_deals_default_settings() {
 								'enable_debug'					=>	'',
 								'from_email'					=>	get_option( 'blogname' ) . ' <' . get_option( 'admin_email' ) . '>',
 								'buyer_email_subject'			=>	__('Purchase Receipt','wpsdeals'),
-								'buyer_email_body'				=>	__('Dear {first_name}'."\n\n".'Thank you for your purchase. Please click on the link(s) below to download your files.'."\n\n".'Product Details : {product_details}'."\n\n".'Total: {total}'."\n\n".'Thank you','wpsdeals'),
+								'buyer_email_body'				=>	sprintf( __('Dear {%s}'."\n\n".'Thank you for your purchase. Please click on the link(s) below to download your files.'."\n\n".'Product Details : {%s}'."\n\n".'Total: {%s}'."\n\n".'Thank you','wpsdeals'), 'first_name', 'product_details', 'total' ),
 								'notif_email_address'			=>	get_option('admin_email'),
 								'disable_seller_notif'			=>	'',
 								'seller_email_subject'			=>	__('New deal purchase','wpsdeals'),
-								'seller_email_body'				=>	__('Hello'."\n\n".'A deals purchase has been made.'."\n\n".'Deals sold:{product_details}'."\n\n".'Purchased by: {username}'."\n\n".'Total: {total}'."\n\n".'Payment Method: {payment_method}'."\n\n".'Thank you','wpsdeals'),
+								'seller_email_body'				=>	sprintf( __('Hello'."\n\n".'A deals purchase has been made.'."\n\n".'Deals sold: {%s}'."\n\n".'Purchased by: {%s}'."\n\n".'Total: {%s}'."\n\n".'Payment Method: {%s}'."\n\n".'Thank you','wpsdeals'), 'product_details', 'username', 'total', 'payment_method' ),
 								'reset_password_email_subject'	=>	__('Reset Password','wpsdeals'),
-								'reset_password_email'			=>	__('Someone requested that the password be reset for the following account:'."\n\n".'Username: {user_name}'."\n\n".'If this was a mistake, just ignore this email and nothing will happen.'."\n\n".'To reset your password, visit the following address:'."\n\n".'{reset_link}','wpsdeals'),
+								'reset_password_email'			=>	sprintf( __('Someone requested that the password be reset for the following account:'."\n\n".'Username: {%s}'."\n\n".'If this was a mistake, just ignore this email and nothing will happen.'."\n\n".'To reset your password, visit the following address:'."\n\n".'{%s}','wpsdeals'), 'user_name', 'reset_link' ),
 								'currency'						=>	'USD',
 								'payment_thankyou_page'			=> $thank_you,
 								'payment_cancel_page'			=> $cancel,
@@ -1035,7 +1035,7 @@ function wps_deals_default_settings() {
 								'terms_label'					=> '',
 								'terms_content'					=> '',
 								'update_order_email_subject'	=> __( 'Order Update','wpsdeals' ),
-								'update_order_email'			=> __( 'Order ID : {order_id}'."\n\n".'Order Date :{order_date}'."\n\n".'Your order has been updated to the following status.'."\n\n".'New status: {status}' ,'wpsdeals' ),
+								'update_order_email'			=> sprintf( __( 'Order ID : {%s}'."\n\n".'Order Date : {%s}'."\n\n".'Your order has been updated to the following status.'."\n\n".'New status: {%s}' ,'wpsdeals' ), 'order_id', 'order_date', 'status' ),
 								'tw_user_name'					=> '',
 								'custom_css'					=> '',
 								'paypal_api_user'				=> '',

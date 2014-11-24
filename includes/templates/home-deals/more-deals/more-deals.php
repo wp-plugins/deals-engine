@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	
 ?>	
 
-<div class="deals-list deals-<?php echo $tab;?> deals-row">	
+<div class="deals-list deals-<?php echo $tab;?> deals-row <?php echo $activetab; ?>">	
 
 <?php	
 	$i = 0;

@@ -233,6 +233,16 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								</td>
 							</tr>
 							
+							<?php // Add Field for enable add to cart button at bottom. ?>
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options['enable_bottom_button']"><?php _e( 'Enable add to cart Button:', 'wpsdeals' ); ?></label>
+								</th>
+								<td><input type="checkbox" id="wps_deals_options[enable_bottom_button]" name="wps_deals_options[enable_bottom_button]" value="1" <?php if(isset($wps_deals_options['enable_bottom_button'])) { checked('1',$wps_deals_options['enable_bottom_button']); }?>/><br />
+									<span class="description"><?php _e( 'Check this box, if you want to display add to cart on bottom of each deals page.', 'wpsdeals' );?></span>
+								</td>
+							</tr>
+							
 							<?php // Add Field for default deals sorting order on deals home page. ?>
 							<tr>
 								<th scope="row">
