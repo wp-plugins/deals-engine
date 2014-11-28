@@ -245,7 +245,7 @@ function wps_deals_register_taxonomies() {
 						    'show_admin_column' 	=> true,
 						    'update_count_callback' => '_update_post_term_count',
 						    'query_var' 			=> true,
-						    'rewrite' 				=> array( 'slug' => WPS_DEALS_POST_TAGS ),
+						    'rewrite' 				=> array( 'slug' => WPS_DEALS_POST_TAGS, 'with_front' => false ),
 						    'capabilities'			=> array(
 												            	'manage_terms' 		=> 'manage_'.WPS_DEALS_POST_TYPE.'_terms',
 																'edit_terms' 		=> 'edit_'.WPS_DEALS_POST_TYPE.'_terms',
@@ -279,7 +279,7 @@ function wps_deals_register_taxonomies() {
 					'show_ui' 			=> true,
 					'show_admin_column' => true,
 					'query_var' 		=> true,
-					'rewrite' 			=> array( 'slug' => 'deal-category' ),
+					'rewrite' 			=> array( 'slug' => 'deal-category', 'with_front' => false ),
 					'capabilities'		=> array(
 									            	'manage_terms' 		=> 'manage_'.WPS_DEALS_POST_TYPE.'_terms',
 													'edit_terms' 		=> 'edit_'.WPS_DEALS_POST_TYPE.'_terms',

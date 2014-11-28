@@ -233,11 +233,18 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	add_action( 'wps_deals_single_content', 'wps_deals_single_business_info', 20 );
 	add_action( 'wps_deals_single_content', 'wps_deals_single_terms_conditions', 30 );
 	
+	/**
+	 * Single Deal Footer Content
+	 * 
+	 * @see wps_deals_single_footer_add_to_cart()
+	 */
+	add_action( 'wps_deals_single_footer_content', 'wps_deals_single_footer_add_to_cart', 5 );
+	add_action( 'wps_deals_single_footer_add_to_cart', 'wps_deals_single_add_to_cart', 5 );
 	
 	/* **************************************************************************
 	   Deals Checkout Page Hooks
 	   ************************************************************************** */
-
+	
 	/**
 	 * Checkout Content
 	 *

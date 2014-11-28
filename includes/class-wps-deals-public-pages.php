@@ -399,7 +399,7 @@ class Wps_Deals_Public_Pages	{
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 
-		} elseif ( is_post_type_archive( WPS_DEALS_POST_TYPE ) || is_tax( WPS_DEALS_POST_TAXONOMY ) ) {
+		} elseif ( is_post_type_archive( WPS_DEALS_POST_TYPE ) || is_tax( WPS_DEALS_POST_TAXONOMY ) || is_tax( WPS_DEALS_POST_TAGS ) ) {
 			
 			$file 	= 'deals-archive.php';
 			$find[] = $file;

@@ -74,20 +74,16 @@ $deal_size = isset( $wps_deals_options['deals_size_single'] ) ? $wps_deals_optio
 				do_action( 'wps_deals_single_content' );
 			?>
 			<?php
+				
 				/**
-				 * Display add to cart button at bottom if Enable bottom button is enabled
-				 * from settings
-				 * 
-				 * @hooked wps_deals_single_add_to_cart
+				 * wps_deals_single_content hook
+				 *
+				 * @hooked wps_deals_single_description - 10
+				 * @hooked wps_deals_single_business_info - 20
+				 * @hooked wps_deals_single_terms_conditions - 30
 				 */
-				if(isset($wps_deals_options['enable_bottom_button']) && !empty($wps_deals_options['enable_bottom_button']) && 
-				$wps_deals_options['enable_bottom_button'] == "1") {
-					echo '<div class="wps-bottom-add-to-cart-button deals-row">'.
-							'<div class="wps-bottom-add-to-cart-button-inner">';
-								do_action( 'wps_deals_single_add_to_cart' ); 
-					echo    '</div>'.
-						'</div>';	
-				} 
+				do_action( 'wps_deals_single_footer_content' );
+				
 			?>
 			
 		</div>

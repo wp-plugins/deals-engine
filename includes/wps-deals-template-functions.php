@@ -194,14 +194,54 @@ if ( ! function_exists( 'wps_deals_result_count' ) ) {
 			$paged = 1;
 		}
 		
-		// set the deal home page args
-		$_homeargs = array( 
-							'post_type' => WPS_DEALS_POST_TYPE,
-							'post_status' => 'publish' ,
-							'posts_per_page' => $pagelimit,
-							'paged' => $paged,
-							'cat' => -0
-						);
+		// get the taxonomy slug
+		$slug = get_query_var( WPS_DEALS_POST_TAXONOMY );
+		$tags_slug = get_query_var( WPS_DEALS_POST_TAGS );		
+		
+		if( !empty( $slug ) ) {
+
+			// set the deal home page args
+			$_homeargs = array( 
+								'post_type' => WPS_DEALS_POST_TYPE,
+								'post_status' => 'publish',
+								'paged' => $paged,
+								'posts_per_page' => $pagelimit,
+								'tax_query' => array(
+												array(
+													'taxonomy' => WPS_DEALS_POST_TAXONOMY,
+													'field' => 'slug',
+													'terms' => $slug
+												)
+											)
+								);
+								
+		} else if(!empty( $tags_slug )) {
+			// set the deal home page args
+			$_homeargs = array( 
+								'post_type' => WPS_DEALS_POST_TYPE,
+								'post_status' => 'publish',
+								'posts_per_page' => $pagelimit,
+								'paged' => $paged,
+								'tax_query' => array(
+												array(
+													'taxonomy' => WPS_DEALS_POST_TAGS,
+													'field' => 'slug',
+													'terms' => $tags_slug
+												)
+											)
+								);
+			
+		} else {
+		
+			// set the deal home page args
+			$_homeargs = array( 
+								'post_type' => WPS_DEALS_POST_TYPE,
+								'post_status' => 'publish' ,
+								'posts_per_page' => $pagelimit,
+								'paged' => $paged,
+								'cat' => -0
+							);
+		}				
 		
 		$homeargs = array_merge( $_homeargs, $order_args );
 		
@@ -1029,11 +1069,21 @@ if( !function_exists( 'wps_deals_home_more_deal_ending' ) ) {
 		
 		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
 		
+		if( get_query_var( 'paged' ) ) {
+			$paged = get_query_var( 'paged' );
+		} elseif( get_query_var( 'page' ) ) {
+			$paged = get_query_var( 'page' );
+		} else{
+			$paged = 1;
+		}
+		
 		// set the home page args
 		$_homeargs = array(  
 							'post_type' => WPS_DEALS_POST_TYPE, 
 							'post_status' => 'publish' , 
-							'posts_per_page' => $pagelimit 
+							'posts_per_page' => $pagelimit,
+							'paged' => $paged,
+							'cat' => -0 
 						);
 		
 		$homeargs = array_merge( $_homeargs, $order_args );
@@ -1114,11 +1164,21 @@ if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
 		
 		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
 		
+		if( get_query_var( 'paged' ) ) {
+			$paged = get_query_var( 'paged' );
+		} elseif( get_query_var( 'page' ) ) {
+			$paged = get_query_var( 'page' );
+		} else{
+			$paged = 1;
+		}
+		
 		// set the home page args
 		$_homeargs = array(  
 							'post_type' => WPS_DEALS_POST_TYPE, 
 							'post_status' => 'publish' , 
-							'posts_per_page' => $pagelimit 
+							'posts_per_page' => $pagelimit,
+							'paged' => $paged,
+							'cat' => -0  
 						);
 		
 		$homeargs = array_merge( $_homeargs, $order_args );
@@ -1426,6 +1486,7 @@ if( !function_exists( 'wps_deals_archive_deals_content' ) ) {
 		
 		// get the taxonomy slug
 		$slug = get_query_var( WPS_DEALS_POST_TAXONOMY );
+		$tags_slug = get_query_var( WPS_DEALS_POST_TAGS );		
 		
 		if( !empty( $slug ) ) {
 
@@ -1443,6 +1504,21 @@ if( !function_exists( 'wps_deals_archive_deals_content' ) ) {
 											)
 								);
 								
+		} else if(!empty( $tags_slug )) {
+			// set the deal home page args
+			$_homeargs = array( 
+								'post_type' => WPS_DEALS_POST_TYPE,
+								'post_status' => 'publish',
+								'paged' => $paged,
+								'tax_query' => array(
+												array(
+													'taxonomy' => WPS_DEALS_POST_TAGS,
+													'field' => 'slug',
+													'terms' => $tags_slug
+												)
+											)
+								);
+			
 		} else {
 		
 			// set the deal home page args
@@ -2430,6 +2506,27 @@ if( !function_exists( 'wps_deals_single_business_info' ) ) {
 			wps_deals_get_template( 'single-deal/business-info.php', $args );
 		}
 	}
+}
+
+if( !function_exists( 'wps_deals_single_footer_add_to_cart' ) ) {
+	
+	/**
+	 * Loads footer add to cart button
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_single_footer_add_to_cart() {
+		
+		global $wps_deals_options;
+		
+		if( !empty($wps_deals_options['enable_bottom_button']) && $wps_deals_options['enable_bottom_button'] == '1' ) {
+			
+			// get the template
+			wps_deals_get_template( 'single-deal/footer.php' );
+		}
+	}
+	
 }
 
 if( !function_exists( 'wps_deals_single_terms_conditions' ) ) {
