@@ -643,6 +643,7 @@ a.deals-button:visited {
 	max-width: 100%;
 }
 .deals-more-content h3.deals-more-title {
+	clear: both;
 	padding: 0.5em;
 	margin: 0 0 0.650em 0;
 	font-weight: normal;
@@ -1720,4 +1721,16 @@ color: #ff0000;
 .wps-bottom-add-to-cart-button-inner {
 	margin: 0 auto;
 	width: 60%;
+}
+
+/* CSS new added */
+.deals-col-12 > h1{
+		font-size:1.57rem;
+		font-weight:normal;
+		line-height:1.2;
+		margin-bottom:1.71429rem;
+}
+
+.post-15.wpsdeals.type-wpsdeals{
+line-height:1.71429;
 }

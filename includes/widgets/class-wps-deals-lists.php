@@ -229,15 +229,15 @@ class Wps_Deals_Lists extends WP_Widget {
 											' . $productprice . '
 										</span>
 									</p>									
-								</div>';
-								
-					// view deal button
-					$html .= '	<div class="' . $btncolor . ' deals-button btn-small">
-									<a href="' . get_permalink( $post->ID ) . '">	
-										' . __( 'See Deal', 'wpsd' ) . '	
-									</a>																		
-								</div>'; 
-				}				
+								</div>';													
+				}
+
+				// view deal button
+				$html .= '	<div class="' . $btncolor . ' deals-button btn-small">
+								<a href="' . get_permalink( $post->ID ) . '">	
+									' . __( 'See Deal', 'wpsd' ) . '	
+								</a>																		
+							</div>'; 			
 					
 				$html .= '</div>'; // deals-more-content
 				

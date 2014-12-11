@@ -14,9 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 ?>
 
-<header class="deals-col-12 entry-header">
+<header class="deals-col-12 ">
 				
-	<h1 itemprop="name" class="entry-title">
+	<h1 itemprop="name" class="">
 		<?php echo the_title();?>
 	</h1>
 	

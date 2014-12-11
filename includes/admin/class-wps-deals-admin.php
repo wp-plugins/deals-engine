@@ -988,6 +988,17 @@ class Wps_Deals_AdminPages {
 	}
 	
 	/**
+	 * Theme Support Admin Notice
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.0.6
+	 */
+	public function wps_deals_reset_admin_notices() {
+		
+		update_option( 'wpsdeals_admin_notices', array( 'theme_support' ) );
+	}
+	
+	/**
 	 * Adding Hooks
 	 *
 	 * @package Social Deals Engine
@@ -1051,6 +1062,10 @@ class Wps_Deals_AdminPages {
 		
 		//add footer for deals engine
 		add_filter( 'admin_footer_text', array( $this, 'wps_deals_admin_footer_rate_us' ) );
+		
+		//Reset admin notices for theme support
+		add_action( 'wpsdeals_updated', array( $this, 'wps_deals_reset_admin_notices' ) );
+		add_action( 'switch_theme', array( $this, 'wps_deals_reset_admin_notices' ) );
 	}
 }
 ?>

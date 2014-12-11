@@ -227,19 +227,24 @@ class Wps_Deals_Renderer {
 							// get the value for the order ipn data from the post meta box
 							$paypal_data = $data['ipndata'];
 							
-							if(!empty($paypal_data)) {
+							if( !empty( $paypal_data ) ) {
 								
-								$pay_gross = number_format($paypal_data['mc_gross'],2);
-								$pay_fees = number_format($paypal_data['mc_fee'],2);
-								$net_amount = number_format(($pay_gross - $pay_fees),2);
-								$payment_date = $this->model->wps_deals_get_date_format($paypal_data['payment_date']);
-								$payment_currency = $paypal_data['mc_currency'];
+								$pay_gross			= !empty( $paypal_data['mc_gross'] ) ? number_format( $paypal_data['mc_gross'], 2 ) : '0';
+								$pay_fees			= !empty( $paypal_data['mc_fee'] ) ? number_format( $paypal_data['mc_fee'], 2 ) : '0';
+								$net_amount			= number_format( ( $pay_gross - $pay_fees), 2 );
+								$payment_date		= $this->model->wps_deals_get_date_format( $paypal_data['payment_date'] );
+								$payment_currency	= isset( $paypal_data['mc_currency'] ) ? $paypal_data['mc_currency'] : '';
+								
+								$first_name			= isset( $paypal_data['first_name'] ) ? $paypal_data['first_name'] : '';
+								$last_name			= isset( $paypal_data['last_name'] ) ? $paypal_data['last_name'] : '';
+								$payer_email		= isset( $paypal_data['payer_email'] ) ? $paypal_data['payer_email'] : '';
+								$payment_status		= isset( $paypal_data['payment_status'] ) ? $paypal_data['payment_status'] : '';
 								
 								echo '<tr class="wps-deals-txn-detail">
 										<td nowrap="nowrap">'.$payment_date.'</td>
-										<td nowrap="nowrap">'.$paypal_data['first_name'].' '.$paypal_data['last_name'].'</td>
-										<td nowrap="nowrap">'.$paypal_data['payer_email'].'</td>
-										<td nowrap="nowrap">'.$paypal_data['payment_status'].'</td>
+										<td nowrap="nowrap">'.$first_name.' '.$last_name.'</td>
+										<td nowrap="nowrap">'.$payer_email.'</td>
+										<td nowrap="nowrap">'.$payment_status.'</td>
 										<td nowrap="nowrap">'.$this->currency->wps_deals_currency_symbol($payment_currency).' '.$pay_gross.'</td>
 										<td nowrap="nowrap">'.$this->currency->wps_deals_currency_symbol($payment_currency).' '.$pay_fees.'</td>
 										<td nowrap="nowrap">'.$this->currency->wps_deals_currency_symbol($payment_currency).' '.$net_amount.'</td>
@@ -255,6 +260,7 @@ class Wps_Deals_Renderer {
 					</table>
 				</div><!--wps-deals-view-paypal-details-->';
 		}
+		
 		//add some content before payment details
 		do_action('wps_deals_sales_paymentdetails_before_items',$data['ID']);
 		

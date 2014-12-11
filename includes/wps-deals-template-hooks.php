@@ -26,6 +26,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	add_action( 'wps_deals_before_main_content', 'wps_deals_breadcrumbs', 20 );
 	add_action( 'wps_deals_after_main_content', 'wps_deals_output_content_wrapper_end', 30 );
 	
+	//breadcrumbs values for the page related to theme
+	add_action( 'wps_deals_theme_before_main_content', 'wps_deals_breadcrumbs', 20 );
+	
 	/**
 	 * Deals Ordering
 	 *

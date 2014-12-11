@@ -1423,30 +1423,16 @@ if( !function_exists( 'wps_deals_home_more_deals_see_deal' ) ) {
 		
 		$disable_price	= ( isset( $options['disable_price'] ) && $options['disable_price'] == 'true' ) ? true : false;
 		
-		if( !$disable_price ) {		
-		
-			// get the value for the normal price
-			$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
-			
-			// get the normal price
-			$displaynormalprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
-			
-			// get the display price
-			$dealprice = $wps_deals_price->wps_deals_get_price( $post->ID );
-			
-			$displayprice = $wps_deals_price->get_display_price( $dealprice, $post->ID );
-			
-			if ( $normalprice !== '' || $dealprice !== '' ) {
+		if( !$disable_price ) {						
 				
-				// set the args, which we will pass to the template
-				$args = array( 
-								'dealurl' => get_permalink( $post->ID ),
-								'btncolor' => $btncolor
-							);
-				
-				// get the template
-				wps_deals_get_template( 'buttons/button-small.php', $args );
-			}
+			// set the args, which we will pass to the template
+			$args = array( 
+							'dealurl' => get_permalink( $post->ID ),
+							'btncolor' => $btncolor
+						);
+			
+			// get the template
+			wps_deals_get_template( 'buttons/button-small.php', $args );
 		}		
 	}
 }
@@ -1835,43 +1821,37 @@ if( !function_exists( 'wps_deals_single_add_to_cart' ) ) {
 		
 		global $post,$wps_deals_price;
 		
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		// get the product price
-		$productprice = $wps_deals_price->wps_deals_get_price( $post->ID );
-		
-		if ($productprice !== '' ) {
+		$prefix = WPS_DEALS_META_PREFIX;			
 				
-			//today's date time
-			//$today = date('Y-m-d H:i:s');
-			$today	= wps_deals_current_date();
-			
-			//get the value for available deals from the post meta box
-			$available = get_post_meta($post->ID,$prefix.'avail_total',true);
-			
-			//get the value for start date & time of deals from the post meta box
-			$startdate = get_post_meta($post->ID,$prefix.'start_date',true);
-			
-			//get the value for end date & time of deals from the post meta box
-			$enddate = get_post_meta($post->ID,$prefix.'end_date',true);
-			
-			//when deal expired
-			$dealexpired = false;
+		//today's date time
+		//$today = date('Y-m-d H:i:s');
+		$today	= wps_deals_current_date();
 		
-			if ( $available == '' ) {
-				//$availdeals =  __('Unlimited','wpsdeals');
-			} else if ( intval( $available ) == 0 ) {
-				//$availdeals =  __('Out of Stock','wpsdeals');
-				$dealexpired = true;
-			} else {}
-			 
-			// check if the deals is still active
-			if( $enddate >= $today && $startdate <= $today && $dealexpired != true ) {
-				
-				// get the template
-				wps_deals_get_template( 'single-deal/add-to-cart.php' );
-			}
-		}
+		//get the value for available deals from the post meta box
+		$available = get_post_meta($post->ID,$prefix.'avail_total',true);
+		
+		//get the value for start date & time of deals from the post meta box
+		$startdate = get_post_meta($post->ID,$prefix.'start_date',true);
+		
+		//get the value for end date & time of deals from the post meta box
+		$enddate = get_post_meta($post->ID,$prefix.'end_date',true);
+		
+		//when deal expired
+		$dealexpired = false;
+	
+		if ( $available == '' ) {
+			//$availdeals =  __('Unlimited','wpsdeals');
+		} else if ( intval( $available ) == 0 ) {
+			//$availdeals =  __('Out of Stock','wpsdeals');
+			$dealexpired = true;
+		} else {}
+		 
+		// check if the deals is still active
+		if( $enddate >= $today && $startdate <= $today && $dealexpired != true ) {
+			
+			// get the template
+			wps_deals_get_template( 'single-deal/add-to-cart.php' );
+		}		
 	}
 }
 
@@ -3955,6 +3935,61 @@ if( !function_exists( 'wps_deals_lost_password_content' ) ) {
 		} else {
 			//load lost password template
 			wps_deals_get_template( 'my-account/lost-password.php' );
+		}
+	}
+	
+	if( !function_exists( 'delas_content' ) ) {
+		
+		/**
+		 * Output Deals content.
+		 * 
+		 * This function is only used in the optional 'deals-engine.php' template
+		 * which people can add to their themes to add basic deals support
+		 * without hooks or modifying core templates.
+		 * 
+		 * @package Social Deals Engine
+		 * @since 2.0.6
+		 **/
+		function delas_content() {
+			
+			global $wps_deals_options;
+			
+			// get deal size
+			$deal_size = $wps_deals_options['deals_size_archive'];
+			
+			if ( is_single() && get_post_type() == WPS_DEALS_POST_TYPE ) {
+				
+				//do_action( 'wps_deals_before_main_content' );
+				do_action( 'wps_deals_theme_before_main_content' );
+				
+				if ( have_posts() ) {
+					
+					while ( have_posts() ) {
+						
+						the_post();
+						wps_deals_get_template( 'content-single-deal.php' );
+						comments_template( '', true );
+						
+					}
+				}
+				
+				//do_action( 'wps_deals_after_main_content' );
+			} elseif ( is_post_type_archive( WPS_DEALS_POST_TYPE ) || is_tax( WPS_DEALS_POST_TAXONOMY ) || is_tax( WPS_DEALS_POST_TAGS ) ) {
+				
+				if( apply_filters( 'wps_deals_show_page_title', true ) ) {
+					echo '<h1 class="page-title">'. wps_deals_page_title().'</h1>';
+				}
+				
+				echo '<div class="deals-archive '. $deal_size.' deals-row">';
+				
+				do_action( 'wps_deals_theme_before_main_content' );
+				
+				do_action( 'wps_deals_archive_description' );
+					
+				do_action( 'wps_deals_archive_deals' );
+					
+				echo '</div>';
+			}
 		}
 	}
 }

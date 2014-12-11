@@ -42,7 +42,7 @@ $deal_size = isset( $wps_deals_options['deals_size_single'] ) ? $wps_deals_optio
 		do_action( 'wps_deals_before_single_deal_content' );
 	?>
 
-	<div class="summary entry-summary <?php echo $deal_size; ?>">
+	<div class=" <?php echo $deal_size; ?>">
 	
 		<div class="deals-container deals-clearfix">
 		

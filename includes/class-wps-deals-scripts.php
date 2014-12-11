@@ -564,7 +564,50 @@ class Wps_Deals_Scripts {
 	
 		echo '<div id="fb-root"></div>';
 	}
-
+	
+	/**
+	 * Add admin notice to deals plugin
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.0.6
+	 */
+	public function wps_deals_add_notices() {
+		
+		global $wps_deals_options;
+		
+		//Get notices field
+		$notices = get_option( 'wpsdeals_admin_notices', array() );
+		
+		if ( ! empty( $_GET['hide_sde_theme_support_notice'] ) ) {//hide notice is true
+			$notices = array_diff( $notices, array( 'theme_support' ) );
+			update_option( 'wpsdeals_admin_notices', $notices );
+		}
+		
+		//Get notices field
+		$notices	= get_option( 'wpsdeals_admin_notices', array() );
+		
+		if ( in_array( 'theme_support', $notices ) && ! current_theme_supports( 'wpsdeals' ) ) {
+			
+			$template = get_option( 'template' );
+			
+			if ( ! in_array( $template, wps_deals_get_core_supported_themes() ) ) {
+				wp_enqueue_style( 'wps-deals-activation', WPS_DEALS_URL . 'includes/css/wps-deals-activation.css' );
+				add_action( 'admin_notices', array( $this, 'wps_deals_theme_check_notice' ) );
+			}
+		}
+	}
+	
+	/**
+	 * Add Theme Support Admin Notice
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.0.6
+	 */
+	public function wps_deals_theme_check_notice() {
+		
+		include_once( WPS_DEALS_ADMIN . '/forms/html-notice-theme-support.php' );
+	}
+	
 	/**
 	 * Adding Hooks
 	 *
@@ -603,6 +646,9 @@ class Wps_Deals_Scripts {
 		
 		 //add facebook root div
 		add_action( 'wp_footer', array( $this, 'wps_deals_fb_root' ) );
+		
+		//Add notices for deals plugin
+		add_action( 'admin_print_styles', array( $this, 'wps_deals_add_notices' ) );
 	}
 }
 ?>

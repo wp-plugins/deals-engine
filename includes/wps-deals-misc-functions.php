@@ -930,4 +930,22 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	
 		return apply_filters( 'wps_deals_get_order_fees', $fees );
 	}
+	
+	/**
+	 * Deals Core Supported Themes
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.0.6
+	 */
+	function wps_deals_get_core_supported_themes() {
+		
+		return apply_filters( 'wps_deals_get_core_supported_themes', array( 
+																		'twentyfourteen',
+																		'twentythirteen',
+																		'twentytwelve',
+																		'twentyeleven',
+																		'twentyten'
+																	)
+															);
+	}
 ?>
