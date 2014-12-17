@@ -154,8 +154,13 @@ if( !function_exists( 'wps_deals_breadcrumbs' ) ){
 	 */
 	function wps_deals_breadcrumbs() {
 		
-		// get the template
-		wps_deals_get_template( 'global/breadcrumb.php' );
+		global $wps_deals_options;
+		
+		// if enable breadcrumb is checked
+		if(isset($wps_deals_options['enable_breadcrumb']) && !empty($wps_deals_options['enable_breadcrumb']) && $wps_deals_options['enable_breadcrumb'] == '1') {
+			// get the template
+			wps_deals_get_template( 'global/breadcrumb.php' );	
+		}		
 	}	
 }
 
@@ -3938,7 +3943,7 @@ if( !function_exists( 'wps_deals_lost_password_content' ) ) {
 		}
 	}
 	
-	if( !function_exists( 'delas_content' ) ) {
+	if( !function_exists( 'deals_content' ) ) {
 		
 		/**
 		 * Output Deals content.
@@ -3950,7 +3955,7 @@ if( !function_exists( 'wps_deals_lost_password_content' ) ) {
 		 * @package Social Deals Engine
 		 * @since 2.0.6
 		 **/
-		function delas_content() {
+		function deals_content() {
 			
 			global $wps_deals_options;
 			

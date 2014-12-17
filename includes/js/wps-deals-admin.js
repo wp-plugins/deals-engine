@@ -393,4 +393,18 @@ jQuery(document).ready(function($) {
 			$('.wps-error-tip').fadeOut('100', function(){ $(this).remove(); } );
 		}			
 	});
+	
+	// numeric validation
+	$( document ).on( 'keyup change', '#_wps_deals_sale_price[type=text], #_wps_deals_normal_price[type=text]', function(){		
+		var value    = $(this).val();
+		var regex    = new RegExp( "[^\-0-9\%.\\" + WpsDealsSettings.decimal_seperator + "]+", "gi" );
+		var newvalue = value.replace( regex, '' );
+		
+		if ( value !== newvalue ) {
+			$(this).val( newvalue );
+			$(this).after( '<div class="wps-error-tip">' + WpsDealsSettings.deal_price_numeric_error + '</div>' );									
+		} else {
+			$('.wps-error-tip').fadeOut('100', function(){ $(this).remove(); } );
+		}	
+	});
 });

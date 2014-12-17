@@ -236,10 +236,20 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							<?php // Add Field for enable add to cart button at bottom. ?>
 							<tr>
 								<th scope="row">
-									<label for="wps_deals_options['enable_bottom_button']"><?php _e( 'Enable add to cart Button:', 'wpsdeals' ); ?></label>
+									<label for="wps_deals_options[enable_bottom_button]"><?php _e( 'Enable add to cart Button:', 'wpsdeals' ); ?></label>
 								</th>
 								<td><input type="checkbox" id="wps_deals_options[enable_bottom_button]" name="wps_deals_options[enable_bottom_button]" value="1" <?php if(isset($wps_deals_options['enable_bottom_button'])) { checked('1',$wps_deals_options['enable_bottom_button']); }?>/><br />
 									<span class="description"><?php _e( 'Check this box, if you want to display add to cart on bottom of each deals page.', 'wpsdeals' );?></span>
+								</td>
+							</tr>
+							
+							<?php // Add field for enable breadcrumb. ?>
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[enable_breadcrumb]"><?php _e( 'Enable Breadcrumb:', 'wpsdeals' ); ?></label>
+								</th>
+								<td><input type="checkbox" id="wps_deals_options[enable_breadcrumb]" name="wps_deals_options[enable_breadcrumb]" value="1" <?php if(isset($wps_deals_options['enable_breadcrumb'])) { checked('1',$wps_deals_options['enable_breadcrumb']); }?>/><br />
+									<span class="description"><?php _e( 'Check this box, if you want to display breadcrumb.', 'wpsdeals' );?></span>
 								</td>
 							</tr>
 							
@@ -469,6 +479,21 @@ if ( !defined( 'ABSPATH' ) ) exit;
 										<?php } ?>
 									</select><br />
 									<span class="description"><?php _e( 'This is the lost password page where buyers can get their account password.<br />Shortcode required on this page: [wps_deals_lost_password]', 'wpsdeals' ); ?></span>
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[shop_page]"><?php _e( 'Deals Shop Page:', 'wpsdeals');?></label>
+								</th>
+								<td>	
+									<select id="wps_deals_options[shop_page]" name="wps_deals_options[shop_page]">
+										<option value=""><?php _e( '--Select A Page--', 'wpsdeals' );?></option>
+										<?php foreach ($get_pages as $page) { ?>
+												<option value="<?php echo $page->ID;?>" <?php selected( $page->ID, $wps_deals_options['shop_page'], true );?>><?php _e( $page->post_title );?></option>
+										<?php } ?>
+									</select><br />
+									<span class="description"><?php _e( 'This is the deals shop page where buyers can see all deals.', 'wpsdeals' ); ?></span>
 								</td>
 							</tr>
 							<?php

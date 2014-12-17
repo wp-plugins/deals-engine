@@ -442,6 +442,14 @@ class Wps_Deals_Public_Pages	{
 			wp_redirect( str_replace( '&amp;', '&', wp_logout_url( get_permalink( $wps_deals_options['my_account_page'] ) ) ) );
 			exit;
 		}
+		
+		// shop page then redirect to deals page
+		elseif ( is_page( wps_deals_get_page_id( 'shop_page' ) ) ) {
+			
+			wp_redirect( str_replace( '&amp;', '&', get_post_type_archive_link( 'wpsdeals' )) );
+			exit;
+		}
+		
 		// Force SSL
 		//check unforce SSL is set & not empty then redirect to http URL to https URL
 		elseif ( isset( $wps_deals_options['force_ssl_checkout'] ) && !empty( $wps_deals_options['force_ssl_checkout'] ) && ! is_ssl() ) {

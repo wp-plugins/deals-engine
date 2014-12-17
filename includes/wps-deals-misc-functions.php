@@ -29,7 +29,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									'CZK' 	=> __('Czech Koruna', 'wpsdeals'),
 									'DKK'	=> __('Danish Krone', 'wpsdeals'),
 									'HKD' 	=> __('Hong Kong Dollar (&#36;)', 'wpsdeals'),
-									'HUF' 	=> __('Hungarian Forint', 'wpsdeals'),
+									'HUF' 	=> __('Hungarian Forint (Ft)', 'wpsdeals'),
 									'RIAL' 	=> __('Iranian Rial', 'wpsdeals'),
 									'ILS' 	=> __('Israeli Shekel', 'wpsdeals'),
 									'JPY' 	=> __('Japanese Yen (&yen;)', 'wpsdeals'),

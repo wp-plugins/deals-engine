@@ -26,7 +26,7 @@ class Wps_Deals_Currencies{
  		$decimal_sep = isset($wps_deals_options['decimal_seperator']) && !empty($wps_deals_options['decimal_seperator']) ? $wps_deals_options['decimal_seperator'] : '.';
  		
  		//get no of decimal places from settings page
- 		$decimal_places = isset( $wps_deals_options['decimal_places'] ) && !empty($wps_deals_options['decimal_places']) ? $wps_deals_options['decimal_places'] : '2';
+ 		$decimal_places = isset( $wps_deals_options['decimal_places'] ) ? $wps_deals_options['decimal_places'] : '2';
  		
  		//get value of thousand seperator from settings page
  		$thousand_sep = isset( $wps_deals_options['thounsands_seperator'] ) ? $wps_deals_options['thounsands_seperator'] : ',';
@@ -83,6 +83,9 @@ class Wps_Deals_Currencies{
 			case 'IDR' : 
 						return 'Rp'; 
 						break;
+			case 'HUF' :
+						return 'Ft';
+						break;			
 			default:
 						return $val;
  						break;
@@ -125,6 +128,10 @@ class Wps_Deals_Currencies{
 		}
 		
 		//$price = !empty($filterflag) ? apply_filters('wps_deals_product_price',$price) : $price;
+		
+		// check price is intiger or not, if not then convert it to integer
+		// for taking care Notice: A non well formed numeric 
+		$price = intval($price);		
 		
 		$value = number_format($price,$decimal_places,$decimal_sep,$thousand_sep);
  		

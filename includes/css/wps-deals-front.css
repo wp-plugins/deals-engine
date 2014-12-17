@@ -1021,6 +1021,7 @@ div.product #sde.deals-single .deals-add-to-cart form.cart {
 #sde.deals-single .deals-timing.deals-timer-single,
 #sde.deals-single p {
 	font-size: 16px;
+	line-height: 1.71429;
 }
 .deals-value-single,
 .deals-discount-single,
@@ -1717,6 +1718,7 @@ color: #ff0000;
 /* CSS for bottom add to cart button */
 .wps-bottom-add-to-cart-button {
 	width: 100%;
+ 	padding-top: 10px;
 }
 .wps-bottom-add-to-cart-button-inner {
 	margin: 0 auto;

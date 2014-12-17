@@ -48,7 +48,7 @@ class Wps_Deals_Scripts {
 	 */
 	public function wps_deals_admin_scripts() {
 		
-		global $wp_version;
+		global $wp_version, $wps_deals_options;
 		
 		wp_register_script( 'wps-deals-chosen-scripts', WPS_DEALS_URL . 'includes/js/chosen/chosen.jquery.js', array( 'jquery' ), null, true );
 		wp_enqueue_script( 'wps-deals-chosen-scripts' );
@@ -71,7 +71,9 @@ class Wps_Deals_Scripts {
 																					'paypalapierror'	=>	__( 'Please Enter Paypal API User Name,Password and Signature in settings page to proceed refund.', 'wpsdeals' ),
 																					'testemailsuccess'	=>	__( 'Test email has been sent successfully.', 'wpsdeals' ),
 																					'testemailerror'	=>	__( 'Test email could not sent.', 'wpsdeals' ),
-																					'deal_price_less_than_normal_price_error'  => __( 'Please enter a value less than the regular price.', 'wpsdeals' )
+																					'deal_price_less_than_normal_price_error'  => __( 'Please enter a value less than the regular price.', 'wpsdeals' ),
+																					'decimal_seperator' => $wps_deals_options['decimal_seperator'],
+																					'deal_price_numeric_error' => __( 'Please enter in monetory decimal(.) format without thousand separators and currency symbols.', 'wpsdeals' ),
 																				));
 		wp_enqueue_media();
 		

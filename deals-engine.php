@@ -3,7 +3,7 @@
  * Plugin Name: Social Deals Engine
  * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
  * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
- * Version: 2.0.6
+ * Version: 2.0.7
  * Author: WPSocial.com
  * Author URI: http://wpsocial.com
  * 
@@ -33,7 +33,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '2.0.6' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.0.7' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -747,11 +747,63 @@ function wps_deals_install() {
 	//Change Log file Dir and create directory on activation
 	wps_deals_create_files();
 	
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+	
 	if( $wps_deals_set_option == '1.2.0' ) {
+		
+		// create shop page
+		if( !isset( $wps_deals_options['shop_page'] ) ) {
+			// home shop creation
+			$deals_shop_page = array(
+										'post_type' 		=> 'page',
+										'post_status' 		=> 'publish',													
+										'post_title' 		=> __('Deals Shop','wpsdeals'),										
+										'post_author' 		=> $user_ID,
+										'menu_order' 		=> 0,
+										'comment_status' 	=> 'closed'
+									);
+			// create shop page
+			$deals_shop_page_id = wp_insert_post($deals_shop_page);			
+			
+			// get set pages option data
+			$wps_deals_set_pages = get_option( 'wps_deals_set_pages' );
+			
+			// store shop page to already created page
+			$wps_deals_set_pages['shop_page'] = $deals_shop_page_id;
+			
+			// update set pages option data
+			update_option( 'wps_deals_set_pages', $wps_deals_set_pages );
+			
+			$shoppage = array( 
+									'shop_page'	=>	$deals_shop_page_id									
+								);
+								
+			// set page to options
+			$wps_deals_options = array_merge( $wps_deals_options, $shoppage );
+			$udpopt = true;	
+		}
+		
+		//check enable breadcrumb is set in options or not
+		if( !isset( $wps_deals_options['enable_breadcrumb'] ) ) {
+			$breadcrumb = array( 'enable_breadcrumb' => '1' );
+			$wps_deals_options = array_merge( $wps_deals_options, $breadcrumb );
+			$udpopt = true;
+		}
+
+		if( $udpopt == true ) { // if any of the settings need to be updated
+			update_option( 'wps_deals_options', $wps_deals_options );
+		}	
+				
+		// update plugin version to option
+		update_option( 'wps_deals_set_option', '1.2.1' );
+		
+	} //check plugin set option value is 1.2.0
+	
+	if( $wps_deals_set_option == '1.2.1' ) {
 		
 		// future code here
 		
-	} //check plugin set option value is 1.2.0
+	} //check plugin set option value is 1.2.1
 	
 	//Action for theme supports
 	do_action( 'wpsdeals_updated' );
@@ -806,6 +858,7 @@ function wps_deals_uninstall() {
 			wp_delete_post( $pages['change_password'],true );//delete change password page
 			wp_delete_post( $pages['logout'],true );//delete logout page
 			wp_delete_post( $pages['lost_password'],true );//delete lost password page
+			wp_delete_post( $pages['shop_page'],true );//delete home page
 			
 		//delete option which is check the plugin is activation first time
 		delete_option('wps_deals_set_option');
@@ -982,6 +1035,8 @@ function wps_deals_default_settings() {
 		if( isset( $pages['logout'] ) ) { $logoutpage = $pages['logout'];	}
 		//check edit address page is created then set to default
 		if( isset( $pages['lost_password'] ) ) { $lostpasspage = $pages['lost_password']; }
+		//check home page is created then set to default
+		if( isset( $pages['shop_page'] ) ) { $shoppage = $pages['shop_page']; }
 	}
 	
 	$wps_deals_options = array(
@@ -1024,6 +1079,7 @@ function wps_deals_default_settings() {
 								'change_password'				=> $changepasspage,
 								'logout'						=> $logoutpage,
 								'lost_password'					=> $lostpasspage,
+								'shop_page'						=> $shoppage,
 								'show_login_register'			=> '',
 								'disable_guest_checkout'		=> '',
 								'currency_position'				=> 'before',
