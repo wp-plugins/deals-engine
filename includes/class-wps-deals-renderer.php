@@ -388,7 +388,6 @@ class Wps_Deals_Renderer {
 					$html .= '	<span class="quantity">' . $deal['quantity'] . ' x <span class="amount">' . $this->price->get_display_price( $dealprice, $deal['dealid'] ) . '</span></span>';
 					$html = 	apply_filters('wps_deals_latest_widget_data_before',$html);	
 					$html .= '</li>';
-					
 				}
 				
 				$html .= '</ul>';

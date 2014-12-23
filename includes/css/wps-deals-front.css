@@ -603,7 +603,7 @@ a.deals-button:visited {
 .deals-timer-home-list .timer-icon {
 	display: inline-block;
 	background: url("../images/deal-timer-big.png") no-repeat 3px 4px;
-	padding: 0 17px 20px 0;
+	padding: 0 20px 20px 0;	
 }
 @media (min-width: 481px) {
 	.deals-timer-home-list {
@@ -1727,12 +1727,33 @@ color: #ff0000;
 
 /* CSS new added */
 .deals-col-12 > h1{
-		font-size:1.57rem;
-		font-weight:normal;
-		line-height:1.2;
-		margin-bottom:1.71429rem;
+	font-size:1.57rem;
+	font-weight:normal;
+	line-height:1.2;
+	margin-bottom:1.71429rem;
+}
+.post-15.wpsdeals.type-wpsdeals{
+	line-height:1.71429;
 }
 
-.post-15.wpsdeals.type-wpsdeals{
-line-height:1.71429;
+/* CSS fot cart message view cart button */
+.deals-checkout .deals-message {
+	display:table;
+	width: 100%;
+ }
+
+ /* CSS for business logo image */
+.deals-business-logo-single > img {
+	max-width:100%;
+}
+	
+@media only screen  and (max-width: 640px) { 
+	/* CSS for sorting select box */
+	.deals-ordering-form.deals-right {
+  		margin-top:10px ;
+	}
+	/* CSS for bottom add to cart button */
+	.wps-bottom-add-to-cart-button .deals-product-btn {
+		width: 100%;
+	}		
 }

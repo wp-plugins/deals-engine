@@ -68,7 +68,7 @@ $model = $wps_deals_model;
 			
 			<?php
 				//order view page url
-				$order_query = get_permalink( $wps_deals_options['payment_thankyou_page'] );
+				$order_query = wps_deals_checkout_thank_you_url();				
 				$order_query = add_query_arg( array('order_id' => $order['ID'] ), $order_query );
 			?>
 			

@@ -2334,7 +2334,7 @@ if( !function_exists( 'wps_deals_add_to_cart_button' ) ) {
 	 */
 	function wps_deals_add_to_cart_button() {
 		
-		global $post,$wps_deals_options,$wps_deals_price,$wps_deals_model;
+		global $post,$wps_deals_options,$wps_deals_price,$wps_deals_model,$wps_deals_cart;
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
@@ -2366,13 +2366,17 @@ if( !function_exists( 'wps_deals_add_to_cart_button' ) ) {
 			$addcartbtntext = isset( $wps_deals_options['add_to_cart_text'] ) && !empty($wps_deals_options['add_to_cart_text']) 
 								? $wps_deals_options['add_to_cart_text'] : __( 'Add to Cart', 'wpsdeals' );
 		}
+		
+		//get the current product is in cart or not
+		$incart = $wps_deals_cart->item_in_cart($post->ID);				
 			
 		$args = array( 
 						'addcartbtntext' =>	$addcartbtntext, 
 						'displayprice' => $displayprice, 
 						'dealid' => $post->ID, 
 						'checkouturl' => $checkouturl ,
-						'btncolor' => $btncolor
+						'btncolor' => $btncolor,						
+						'incart' => $incart
 					);
 			
 		// get the template
@@ -2659,8 +2663,15 @@ if( !function_exists( 'wps_deals_cart_update_button' ) ) {
 	 */
 	function wps_deals_cart_update_button() {
 		
-		//cart update button template
-		wps_deals_get_template( 'checkout/header/cart-action-buttons/cart-update-button.php' );
+		global $wps_deals_options;
+		
+		// check item quantities is set, if yes then no need to display update cart button
+		if(isset($wps_deals_options['item_quantities']) && !empty($wps_deals_options['item_quantities']) && $wps_deals_options['item_quantities'] == '1') {
+			return;
+		} else {
+			//cart update button template
+			wps_deals_get_template( 'checkout/header/cart-action-buttons/cart-update-button.php' );
+		}
 		
 	}
 }
@@ -3504,11 +3515,10 @@ if( !function_exists( 'wps_deals_my_account_top_content' ) ) {
 	 **/
 	function wps_deals_my_account_top_content() {
 		
-		global $current_user, $wps_deals_options;
+		global $current_user, $wps_deals_options;	
 		
-		$change_password_page = isset( $wps_deals_options['change_password'] ) && !empty( $wps_deals_options['change_password'] ) ? $wps_deals_options['change_password'] : ''; 
-		
-		$changepasswordlink = get_permalink( $change_password_page );
+		//get change password page url
+		$changepasswordlink = wps_deals_change_password_url();
 		
 		//load my account page top content template
 		wps_deals_get_template( 'my-account/top-content.php', array( 'username' => $current_user->display_name, 'changepasswordlink' => $changepasswordlink ) );
@@ -3624,9 +3634,12 @@ if( !function_exists( 'wps_deals_my_account_recent_orders' ) ) {
 				$orderdata[$key]['deal_count']		=	count( $orderdetails['deals_details'] );
 								
 			} //orders loop end
+								
+			//get view orders page url
+			$vieworderspagelink = wps_deals_view_orders_url();
 			
 			//load my account page recent orders template
-			wps_deals_get_template( 'my-account/recent-orders.php', array( 'orderdata' => $orderdata )  );
+			wps_deals_get_template( 'my-account/recent-orders.php', array( 'orderdata' => $orderdata , 'vieworderspagelink' => $vieworderspagelink)  );
 		}
 		
 	}
@@ -3746,19 +3759,17 @@ if( !function_exists( 'wps_deals_my_account_login_content' ) ) {
 		
 		global $wps_deals_options;
 		
-		$registerlink = '';
+		$registerlink = '';		
 		
-		$lost_password_page = isset( $wps_deals_options['lost_password'] ) && !empty( $wps_deals_options['lost_password'] ) ? $wps_deals_options['lost_password'] : ''; 
-		
-		$lostpasswordlink = get_permalink( $lost_password_page );
+		//get lost password page url
+		$lostpasswordlink =  wps_deals_lost_password_url();
 		
 		$users_can_register = get_option( 'users_can_register' );
 		
-		if( $users_can_register == '1' ) { //Check user can register
+		if( $users_can_register == '1' ) { //Check user can register			
 			
-			$create_account_page = isset( $wps_deals_options['my_account_page'] ) && !empty( $wps_deals_options['my_account_page'] ) ? $wps_deals_options['my_account_page'] : ''; 
-			
-			$registerlink = get_permalink( $create_account_page );
+			//get create an account page url
+			$registerlink = wps_deals_create_account_url();
 		}
 		//load login template
 		wps_deals_get_template( 'my-account/login.php', array( 'lostpasswordlink' => $lostpasswordlink, 'registerlink' => $registerlink ) );
@@ -3779,11 +3790,11 @@ if( !function_exists( 'wps_deals_display_address' ) ) {
 		
 		$address_key = isset( $billingargs['billingkey'] ) ? $billingargs['billingkey'] : '';
 		
-		$editlink = '';
-		//Check Edit Address Page is not empty from general setting
-		if( isset( $wps_deals_options['edit_adderess'] ) && !empty( $wps_deals_options['edit_adderess'] ) ) {
-			$editlink = add_query_arg( array( 'wps_deals_address' => $address_key ), get_permalink( $wps_deals_options['edit_adderess'] ) );
-		}
+		//get edit address page url
+		$editlinkurl = wps_deals_edit_address_url();		
+		
+		$editlink = add_query_arg( array( 'wps_deals_address' => $address_key ), $editlinkurl );
+		
 		$billingargs['editlink'] = $editlink;
 		
 		//load billing addresses template

@@ -27,7 +27,6 @@ class Wps_Deals_Shortcodes {
 		$this->currency = $wps_deals_currency;
 		$this->message	= $wps_deals_message;
 		$this->session	= $wps_deals_session;
-		
 	}
 	
 	/**
@@ -61,11 +60,34 @@ class Wps_Deals_Shortcodes {
 	 */
 	public function wps_deals_checkout($content) {
 		
+		global $wp;
+		
 		ob_start();
-		//do action for add checkout page
-		echo '<div class="wps-deals-cart-wrap">';
-		do_action( 'wps_deals_checkout_content' );
-		echo '</div>';
+		
+		//if query vars is social deals thankyou page
+		if(isset($wp->query_vars['social-deals-thank-you-page'])) {
+			
+			//load thank you page
+			wps_deals_get_template( 'order-complete.php' );
+			
+		} 
+		
+		//if query vars is social deals cancel page
+		else if(isset($wp->query_vars['social-deals-cancel-page'])) {
+			
+			//load cancel page
+			wps_deals_get_template( 'order-cancel.php' );
+			
+		}
+		
+		else { // social deals checkout page
+			
+			//do action for add checkout page
+			echo '<div class="wps-deals-cart-wrap">';
+			do_action( 'wps_deals_checkout_content' );
+			echo '</div>';	
+		}
+		
 		$content .= ob_get_clean();
 		return $content;
 	}
@@ -295,9 +317,63 @@ class Wps_Deals_Shortcodes {
 	 **/
 	public function wps_deals_my_account( $atts, $content ) {
 
+		global $wp;				
+		 
 		ob_start();
 		
-		wps_deals_get_template( 'my-account.php' );
+		if ( ! is_user_logged_in() ) { //if user is not logged in
+			
+			//if query vars is lost password
+			if( isset($wp->query_vars['lost-password']) ) {
+			
+				//load lost password page
+				wps_deals_get_template( 'lost-password.php' );
+				
+			}
+			
+			//if query var is create an account
+			else if( isset($wp->query_vars['create-an-account']) ) {
+				
+				//load create an account page
+				wps_deals_get_template( 'create-account.php' );	
+			} 
+						
+			else {
+
+				wps_deals_get_template( 'my-account.php' );
+
+			}
+			
+		} else { //if user is logged in
+			
+			// if query vars is change password
+			if( isset($wp->query_vars['change-password']) ) {
+				
+				//load change password page
+				wps_deals_get_template( 'change-password.php' );
+								
+			} 
+					
+			//if query vars is edit address
+			else if( isset($wp->query_vars['edit-address']) ) {
+				
+				//load edit address page
+				wps_deals_get_template( 'edit-address.php' );
+			}
+
+			//if query vars is view orders
+			else if( isset($wp->query_vars['view-orders']) ) {
+				
+				//load ordered deals page
+				wps_deals_get_template( 'ordered-deals.php' );
+			}		
+			
+			else {
+				
+				//load my account page
+				wps_deals_get_template( 'my-account.php' );	
+			}
+		}		
 		
 		$content .= ob_get_clean();
 		
@@ -400,14 +476,15 @@ class Wps_Deals_Shortcodes {
 		//add shortcode for showing shopping cart details
 		add_shortcode( 'wps_deals_checkout', array( $this, 'wps_deals_checkout' ) );
 		
+		// Commented because now we have removed pages and shortcodes
 		//add shortcode for order complete
-		add_shortcode( 'wps_deals_order_complete', array( $this, 'wps_deals_order_complete' ) );
+		//add_shortcode( 'wps_deals_order_complete', array( $this, 'wps_deals_order_complete' ) );
 		
 		//add shortcode for order cancelled
-		add_shortcode( 'wps_deals_order_cancel', array( $this, 'wps_deals_order_cancelled' ) );
-		 
+		//add_shortcode( 'wps_deals_order_cancel', array( $this, 'wps_deals_order_cancelled' ) );
+		 		
 		//add shortcode for order details
-		add_shortcode( 'wps_deals_orders', array( $this, 'wps_deals_orders' ) );
+		//add_shortcode( 'wps_deals_orders', array( $this, 'wps_deals_orders' ) );
 		
 		//add shortcode to show list of deals on the page/post by category
 		add_shortcode( 'wps_deals_by_category', array( $this, 'wps_deals_by_category' ) );
@@ -424,7 +501,8 @@ class Wps_Deals_Shortcodes {
 		//add shortcode to show my account on the shortcode page
 		add_shortcode( 'wps_deals_my_account', array( $this, 'wps_deals_my_account' ) );
 		
-		//add shortcode to show create an account on the shortcode page
+		// Commented because now we have removed pages and shortcodes
+		/*//add shortcode to show create an account on the shortcode page
 		add_shortcode( 'wps_deals_create_account', array( $this, 'wps_deals_create_account' ) );
 		
 		//add shortcode to edit my address on the shortcode page
@@ -434,6 +512,6 @@ class Wps_Deals_Shortcodes {
 		add_shortcode( 'wps_deals_change_password', array( $this, 'wps_deals_change_password' ) );
 		
 		//add shortcode to lost password on the shortcode page
-		add_shortcode( 'wps_deals_lost_password', array( $this, 'wps_deals_lost_password' ) );		
+		add_shortcode( 'wps_deals_lost_password', array( $this, 'wps_deals_lost_password' ) );	*/	
 	}
 }

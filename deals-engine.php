@@ -3,7 +3,7 @@
  * Plugin Name: Social Deals Engine
  * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
  * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
- * Version: 2.0.7
+ * Version: 2.1.0
  * Author: WPSocial.com
  * Author URI: http://wpsocial.com
  * 
@@ -33,7 +33,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '2.0.7' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.1.0' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -181,11 +181,15 @@ register_deactivation_hook( __FILE__, 'wps_deals_uninstall');
 
 function wps_deals_install() {
 	
-	global $wpdb,$user_ID;
+	global $wpdb, $user_ID, $wps_deals_query;
 	
 	//register custom post type
 	wps_deals_register_deal_post_type();
 	wps_deals_register_sales_post_types();
+		
+	//add endpoints to query vars
+	//Need to call before flush rewrite rules
+	$wps_deals_query->add_endpoints();
 	
 	//IMP Call of Function
 	//Need to call when custom post type is being used in plugin
@@ -245,10 +249,11 @@ function wps_deals_install() {
 		$checkout_page = array(
 									'post_type' => 'page',
 									'post_status' => 'publish',
-									'post_parent' => $deals_parent_page_id,
+									/*'post_parent' => $deals_parent_page_id,*/
 									'post_title' => __('Social Deals Checkout','wpsdeals'),
 									'post_content' => '[wps_deals_checkout][/wps_deals_checkout]',
 									'post_author' => $user_ID,
+									'menu_order' 	=> 0,
 									'comment_status' => 'closed'
 								);
 		$checkout_page_id = wp_insert_post($checkout_page);
@@ -751,6 +756,8 @@ function wps_deals_install() {
 	
 	if( $wps_deals_set_option == '1.2.0' ) {
 		
+		$udpopt = false;
+		
 		// create shop page
 		if( !isset( $wps_deals_options['shop_page'] ) ) {
 			// home shop creation
@@ -799,11 +806,56 @@ function wps_deals_install() {
 		
 	} //check plugin set option value is 1.2.0
 	
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+	
 	if( $wps_deals_set_option == '1.2.1' ) {
 		
-		// future code here
+		$udpopt = false;
+						
+		// check item quantities is set in options or not
+		if( !isset( $wps_deals_options['item_quantities'] ) ) {
+			$item_quantities = array( 'item_quantities' => '' );
+			$wps_deals_options = array_merge( $wps_deals_options, $item_quantities );
+			$udpopt = true;
+		}
+		
+		if( $udpopt == true ) { // if any of the settings need to be updated
+			update_option( 'wps_deals_options', $wps_deals_options );
+		}
+		
+		// update plugin version to option
+		update_option( 'wps_deals_set_option', '1.2.2' );
 		
 	} //check plugin set option value is 1.2.1
+	
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+ 
+	if( $wps_deals_set_option == '1.2.2' ) {    
+	
+		//get values for created pages
+		$pages = get_option('wps_deals_set_pages');   
+	  
+		if( !empty($pages['checkout_page']) ) {
+			$chekout_page = array(
+					'ID'			=> $pages['checkout_page'],
+					'post_parent'	=> 0,
+					'menu_order' 	=> 0
+		); 
+	   
+		//Update the checkout page
+		wp_update_post( $chekout_page );
+	}  
+	  
+	// update plugin version to option
+	update_option( 'wps_deals_set_option', '1.2.3' ); 
+	  
+	} //check plugin set option value is 1.2.2
+	 
+	if( $wps_deals_set_option == '1.2.3' ) {
+	  
+		// future code here
+	  
+	} //check plugin set option value is 1.2.3
 	
 	//Action for theme supports
 	do_action( 'wpsdeals_updated' );
@@ -1225,7 +1277,7 @@ global	$wps_deals_session,$wps_deals_fees,
 		$wps_deals_price,$wps_deals_codes,$wps_deals_message,
 		$wps_deals_options,$wps_deals_logs,$wps_deals_shortcode,
 		$wps_deals_public,$wps_deals_admin,$wps_deals_metabox,
-		$wps_deals_payment_log;
+		$wps_deals_payment_log, $wps_deals_query;
 
 /**
  * Includes Files
@@ -1236,6 +1288,11 @@ global	$wps_deals_session,$wps_deals_fees,
  * @since 1.0.0
  * 
  **/
+// loads Query class
+include( 'includes/class-wps-deals-query.php' );  // The main query class
+$wps_deals_query = new Wps_Deals_Query();
+$wps_deals_query->add_hooks();
+
 // loads the Misc Functions file
 require_once ( WPS_DEALS_DIR . '/includes/wps-deals-countries-states.php' );
 

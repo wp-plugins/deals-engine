@@ -14,7 +14,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-global $wps_deals_render,$wps_deals_cart,$wps_deals_price,$wps_deals_currency,$wps_deals_model;
+global $wps_deals_render,$wps_deals_cart,$wps_deals_price,$wps_deals_currency,$wps_deals_model,$wps_deals_options;
 	
 $prefix = WPS_DEALS_META_PREFIX;
 	
@@ -160,7 +160,12 @@ $cartdetails = $cart->get();
 								do_action( 'wps_deals_cart_table_deal_name_after', $item['dealid'] );
 							?>
 							<td class="deals-quantity">
-								<input type="text" class="deals-cart-item-qty-value" item-id="<?php echo $item['dealid'];?>" value="<?php echo $quantity;?>" size="1"/>
+								<?php if(isset($wps_deals_options['item_quantities']) && !empty($wps_deals_options['item_quantities']) && $wps_deals_options['item_quantities'] == '1') { ?>
+										<input type="hidden" class="deals-cart-item-qty-value" item-id="<?php echo $item['dealid'];?>" value="<?php echo $quantity;?>" size="1"/>																		
+										<span><?php echo $quantity;?></span>
+								<?php } else { ?>
+										<input type="text" class="deals-cart-item-qty-value" item-id="<?php echo $item['dealid'];?>" value="<?php echo $quantity;?>" size="1"/>										
+								<?php } ?>								
 							</td>
 							<?php 
 								/**

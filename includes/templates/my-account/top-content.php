@@ -18,7 +18,15 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 <p class="deals-account-top deals-clearfix">
 
 	<?php
-		printf(	__( 'Hello <strong>%s</strong>, from your account dashboard you can view your recent orders, manage your billing address and %s.', 'wpsdeals' ), $username, $changepasswordlinkhtml );
+		printf(
+			__( 'Hello <strong>%1$s</strong> (not %1$s? <a href="%2$s">Sign out</a>).', 'wpsdeals' ) . ' ',
+			$username,
+			wp_logout_url( get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) )
+		);
+	
+		printf( __( 'From your account dashboard you can view your recent orders, manage your shipping and billing addresses and %s.', 'wpsdeals' ),
+			$changepasswordlinkhtml
+		);
 	?>
 	
 </p>

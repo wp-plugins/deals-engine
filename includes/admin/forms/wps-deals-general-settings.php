@@ -345,52 +345,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									</select><br />
 									<span class="description"><?php _e( 'This is the checkout page where buyers will complete their purchases.<br />Shortcode required on this page: [wps_deals_checkout]', 'wpsdeals' ); ?></span>
 								</td>
-							</tr>
-							
-							<tr>
-								<th scope="row">
-									<label for="wps_deals_options[payment_thankyou_page]"><?php _e( 'Thank You Page:', 'wpsdeals' );?></label>
-								</th>
-								<td>
-									<select id="wps_deals_options[payment_thankyou_page]" name="wps_deals_options[payment_thankyou_page]">
-										<option value=""><?php _e('--Select A Page--','wpsdeals');?></option>
-										<?php foreach ( $get_pages as $page ) { ?>
-												<option value="<?php echo $page->ID;?>" <?php selected( $page->ID, $wps_deals_options['payment_thankyou_page'], true );?>><?php _e( $page->post_title );?></option>
-										<?php } ?>
-									</select><br />
-									<span class="description"><?php _e( 'This is the page buyers are sent to after completing their purchases.<br />Shortcode required on this page: [wps_deals_order_complete]', 'wpsdeals' ); ?></span>
-								</td>
-							</tr>
-							
-							<tr>
-								<th scope="row">
-									<label for="wps_deals_options[payment_cancel_page]"><?php _e( 'Cancel Page:', 'wpsdeals' );?></label>
-								</th>
-								<td>
-									<select id="wps_deals_options[payment_cancel_page]" name="wps_deals_options[payment_cancel_page]">
-										<option value=""><?php _e('--Select A Page--','wpsdeals');?></option>
-										<?php foreach ( $get_pages as $page ) { ?>
-												<option value="<?php echo $page->ID;?>" <?php selected( $page->ID, $wps_deals_options['payment_cancel_page'], true );?>><?php _e( $page->post_title );?></option>
-										<?php } ?>
-									</select><br />
-									<span class="description"><?php _e( 'This is the page buyers are sent to, if their transaction has been cancelled or failed.<br />Shortcode required on this page: [wps_deals_order_cancel]', 'wpsdeals' ); ?></span>
-								</td>
-							</tr>
-							
-							<tr>
-								<th scope="row">
-									<label for="wps_deals_options[ordered_page]"><?php _e( 'Order History Page:', 'wpsdeals' );?></label>
-								</th>
-								<td>
-									<select id="wps_deals_options[ordered_page]" name="wps_deals_options[ordered_page]">
-										<option value=""><?php _e('--Select A Page--','wpsdeals');?></option>
-										<?php foreach ($get_pages as $page) { ?>
-												<option value="<?php echo $page->ID;?>" <?php selected( $page->ID, $wps_deals_options['ordered_page'], true );?>><?php _e( $page->post_title );?></option>
-										<?php } ?>
-									</select><br />
-									<span class="description"><?php _e( 'This is the order history page where buyers will see all details for their purchases.<br />Shortcode required on this page: [wps_deals_orders]', 'wpsdeals' ); ?></span>
-								</td>
-							</tr>
+							</tr>														
 							
 							<tr>
 								<th scope="row">
@@ -405,82 +360,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									</select><br />
 									<span class="description"><?php _e( 'This is the my account page where buyers will see all details for their account.<br />Shortcode required on this page: [wps_deals_my_account]', 'wpsdeals' ); ?></span>
 								</td>
-							</tr>
-							
-							<tr>
-								<th scope="row">
-									<label for="wps_deals_options[create_account_page]"><?php _e( 'Create an Account Page:', 'wpsdeals');?></label>
-								</th>
-								<td>	
-									<select id="wps_deals_options[create_account_page]" name="wps_deals_options[create_account_page]">
-										<option value=""><?php _e( '--Select A Page--', 'wpsdeals' );?></option>
-										<?php foreach ($get_pages as $page) { ?>
-												<option value="<?php echo $page->ID;?>" <?php selected( $page->ID, $wps_deals_options['create_account_page'], true );?>><?php _e( $page->post_title );?></option>
-										<?php } ?>
-									</select><br />
-									<span class="description"><?php _e( 'This is the create an account page where buyers can register their account.<br />Shortcode required on this page: [wps_deals_create_account]', 'wpsdeals' ); ?></span>
-								</td>
-							</tr>
-							
-							<tr>
-								<th scope="row">
-									<label for="wps_deals_options[edit_adderess]"><?php _e( 'Edit Address Page:', 'wpsdeals');?></label>
-								</th>
-								<td>	
-									<select id="wps_deals_options[edit_adderess]" name="wps_deals_options[edit_adderess]">
-										<option value=""><?php _e( '--Select A Page--', 'wpsdeals' );?></option>
-										<?php foreach ($get_pages as $page) { ?>
-												<option value="<?php echo $page->ID;?>" <?php selected( $page->ID, $wps_deals_options['edit_adderess'], true );?>><?php _e( $page->post_title );?></option>
-										<?php } ?>
-									</select><br />
-									<span class="description"><?php _e( 'This is the edit address page where buyers can change their addresses for their account.<br />Shortcode required on this page: [wps_deals_edit_address]', 'wpsdeals' ); ?></span>
-								</td>
-							</tr>
-							
-							<tr>
-								<th scope="row">
-									<label for="wps_deals_options[change_password]"><?php _e( 'Change Password Page:', 'wpsdeals');?></label>
-								</th>
-								<td>	
-									<select id="wps_deals_options[change_password]" name="wps_deals_options[change_password]">
-										<option value=""><?php _e( '--Select A Page--', 'wpsdeals' );?></option>
-										<?php foreach ($get_pages as $page) { ?>
-												<option value="<?php echo $page->ID;?>" <?php selected( $page->ID, $wps_deals_options['change_password'], true );?>><?php _e( $page->post_title );?></option>
-										<?php } ?>
-									</select><br />
-									<span class="description"><?php _e( 'This is the change password page where buyers can change their account password.<br />Shortcode required on this page: [wps_deals_change_password]', 'wpsdeals' ); ?></span>
-								</td>
-							</tr>
-							
-							<tr>
-								<th scope="row">
-									<label for="wps_deals_options[logout]"><?php _e( 'Logout Page:', 'wpsdeals');?></label>
-								</th>
-								<td>	
-									<select id="wps_deals_options[logout]" name="wps_deals_options[logout]">
-										<option value=""><?php _e( '--Select A Page--', 'wpsdeals' );?></option>
-										<?php foreach ($get_pages as $page) { ?>
-												<option value="<?php echo $page->ID;?>" <?php selected( $page->ID, $wps_deals_options['logout'], true );?>><?php _e( $page->post_title );?></option>
-										<?php } ?>
-									</select><br />
-									<span class="description"><?php _e( 'This is the logout page where buyers can logout.', 'wpsdeals' ); ?></span>
-								</td>
-							</tr>
-							
-							<tr>
-								<th scope="row">
-									<label for="wps_deals_options[lost_password]"><?php _e( 'Lost Password Page:', 'wpsdeals');?></label>
-								</th>
-								<td>	
-									<select id="wps_deals_options[lost_password]" name="wps_deals_options[lost_password]">
-										<option value=""><?php _e( '--Select A Page--', 'wpsdeals' );?></option>
-										<?php foreach ($get_pages as $page) { ?>
-												<option value="<?php echo $page->ID;?>" <?php selected( $page->ID, $wps_deals_options['lost_password'], true );?>><?php _e( $page->post_title );?></option>
-										<?php } ?>
-									</select><br />
-									<span class="description"><?php _e( 'This is the lost password page where buyers can get their account password.<br />Shortcode required on this page: [wps_deals_lost_password]', 'wpsdeals' ); ?></span>
-								</td>
-							</tr>
+							</tr>														
 							
 							<tr>
 								<th scope="row">

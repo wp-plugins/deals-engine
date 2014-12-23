@@ -18,7 +18,7 @@ global $wps_deals_options;
 
 <div class="deals-recent-orders deals-clearfix">
 
-	<h3><?php _e( 'Recent Orders', 'wpsdeals' );?></h3>
+	<h3><?php _e( 'Recent Orders', 'wpsdeals' );?> (<a href="<?php echo $vieworderspagelink; ?>"><?php _e('View all Orders'); ?></a>)</h3>
 	
 	<table id="deals-my-account-recent-orders" class="deals-orders-table">
 		<thead>
@@ -46,8 +46,8 @@ global $wps_deals_options;
 		<?php
 			foreach ( $orderdata as $key => $order ) {
 				
-				//order view page url
-				$order_query = get_permalink( $wps_deals_options['payment_thankyou_page'] );
+				//order view page url				
+				$order_query = wps_deals_checkout_thank_you_url();
 				$order_query = add_query_arg( array('order_id' => $order['order_id'] ), $order_query );
 				
 				//counter label for purchased deals

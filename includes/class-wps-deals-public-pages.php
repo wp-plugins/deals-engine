@@ -57,13 +57,27 @@ class Wps_Deals_Public_Pages	{
 		
 		//get the current product is in cart or not
 		$incart = $this->cart->item_in_cart($dealid);
-			
+		
+		// check item quantities is set
+		if(isset($wps_deals_options['item_quantities']) && !empty($wps_deals_options['item_quantities']) && $wps_deals_options['item_quantities'] == '1') {
+			if($incart) { // if product already added then no need to add again
+				$result = true;
+			} else { // add product to cart
+				$cartdata = array(	
+								'dealid'	=>	$dealid,
+								'quantity'	=>	$quntity
+						 );
+						
+				$result = $this->cart->add($cartdata);
+			}
+		} else { // add product to cart
 			$cartdata = array(	
-									'dealid'	=>	$dealid,
-									'quantity'	=>	$quntity
-							 );
-							
-			$result = $this->cart->add($cartdata);
+								'dealid'	=>	$dealid,
+								'quantity'	=>	$quntity
+						 );
+						
+			$result = $this->cart->add($cartdata);	
+		}					
 			
 		//product added
 		if($result == true) {

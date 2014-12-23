@@ -277,7 +277,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		$options = wps_deals_get_settings();
 		
-		$sendsuccess = get_permalink( $options['payment_thankyou_page'] );
+		//get url of thank you page
+		$sendsuccess = wps_deals_checkout_thank_you_url();
 		
 		//check user is logged in or not if user is not logged in then unset order_id
 		if( !is_user_logged_in() && isset( $queryarg['order_id'] ) ) {
@@ -298,11 +299,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_send_on_cancel_page( $queryarg = array() ) {
+	function wps_deals_send_on_cancel_page( $queryarg = array() ) {				
 		
-		$options = wps_deals_get_settings();
-		
-		$sendcancel = get_permalink( $options['payment_cancel_page'] );
+		//get url of cancel page
+		$sendcancel = wps_deals_checkout_cancel_url();
 	
 		$sendcancelurl = add_query_arg( $queryarg, $sendcancel );
 		
@@ -735,6 +735,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	function wps_deals_get_page_id( $page ) {
 		
 		$wps_deals_options = wps_deals_get_settings();
+		
 		$pageid = !empty( $page ) && isset( $wps_deals_options[$page] ) && !empty( $wps_deals_options[$page] ) ? $wps_deals_options[$page] : '-1';
 		
 		return $pageid;
@@ -948,4 +949,130 @@ if ( !defined( 'ABSPATH' ) ) exit;
 																	)
 															);
 	}
+		
+	/**
+	 * Get endpoint URL
+	 *
+	 * Gets the URL for an endpoint, which varies depending on permalink settings.
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.7
+	 * @return string
+	 */
+	function wps_deals_get_endpoint_url( $endpoint, $permalink = '' ) {
+		if ( ! $permalink )
+			$permalink = get_permalink();
+			
+		if ( get_option( 'permalink_structure' ) ) { // if premalink structure is available
+			if ( strstr( $permalink, '?' ) ) {
+				$query_string = '?' . parse_url( $permalink, PHP_URL_QUERY );
+				$permalink    = current( explode( '?', $permalink ) );
+			} else {
+				$query_string = '';
+			}
+			$url = trailingslashit( $permalink ) . $endpoint . '/' . $query_string;
+		} else {
+			$url = add_query_arg( $endpoint, $permalink );
+		}
+			
+		return apply_filters( 'wps_deals_get_endpoint_url', $url);
+	}
+	
+	/**
+	 * Get the link to create ana account page
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.7
+	 * @return string
+	 */
+	function wps_deals_create_account_url() {				
+		
+		$create_account_url = wps_deals_get_endpoint_url( 'create-an-account', get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
+				
+		return apply_filters( 'wps_deals_create_account_url', $create_account_url );
+	}
+	
+	/**
+	 * Get the link to the change password page
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.7
+	 * @return string
+	 */
+	function wps_deals_change_password_url() {
+		
+		$change_password_url = wps_deals_get_endpoint_url( 'change-password', get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
+		
+		return apply_filters( 'wps_deals_change_password_url', $change_password_url);
+	}
+	
+	/**
+	 * Get the link to view orders page
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.7
+	 * @return string
+	 */
+	function wps_deals_view_orders_url() {
+		
+		$view_orders_url = wps_deals_get_endpoint_url( 'view-orders', get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
+		
+		return apply_filters( 'wps_deals_view_orders_url', $view_orders_url);
+	}
+	
+	/**
+	 * Get the link to lost password page
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.7
+	 * @return string
+	 */
+	function wps_deals_lost_password_url() {
+		
+		$lost_password_url = wps_deals_get_endpoint_url( 'lost-password', get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
+		
+		return apply_filters( 'wps_deals_lost_password_url', $lost_password_url);
+	}
+	
+	/**
+	 * Get the link to edit address page
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.7
+	 * @return string
+	 */
+	function wps_deals_edit_address_url() {
+		
+		$edit_address_url = wps_deals_get_endpoint_url( 'edit-address', get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
+		
+		return apply_filters( 'wps_deals_edit_address_url', $edit_address_url);
+	}
+	
+	/**
+	 * Get the link to Social deals checkout thank you page
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.7
+	 * @return string
+	 */
+	function wps_deals_checkout_thank_you_url() {		
+		
+		$checkout_thank_you_url = wps_deals_get_endpoint_url( 'social-deals-thank-you-page', get_permalink( wps_deals_get_page_id( 'payment_checkout_page' ) ) );
+				
+		return apply_filters( 'wps_deals_checkout_thank_you_url', $checkout_thank_you_url);
+	}
+	
+	/**
+	 * Get the link to Social deals checkout cancel page
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.0.7
+	 * @return string
+	 */
+	function wps_deals_checkout_cancel_url() {		
+		
+		$checkout_cancel_url = wps_deals_get_endpoint_url( 'social-deals-cancel-page', get_permalink( wps_deals_get_page_id( 'payment_checkout_page' ) ) );
+				
+		return apply_filters( 'wps_deals_checkout_cancel_url', $checkout_cancel_url);
+	}	
 ?>

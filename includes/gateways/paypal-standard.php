@@ -52,8 +52,10 @@ function wps_deals_process_payment_paypal( $cartdetails, $postdata ) {
 	
 	$salesid = wps_deals_insert_payment_data($purchasedata);
 	
-	$cancelurl = isset($wps_deals_options['payment_cancel_page']) ? get_permalink($wps_deals_options['payment_cancel_page']) : '';
-	$thankyouurl = isset($wps_deals_options['payment_thankyou_page']) ? get_permalink($wps_deals_options['payment_thankyou_page']) : '';
+	$cancelurl = wps_deals_checkout_cancel_url();
+	$thankyouurl = wps_deals_checkout_thank_you_url();	
+	//$cancelurl = isset($wps_deals_options['payment_cancel_page']) ? get_permalink($wps_deals_options['payment_cancel_page']) : '';
+	//$thankyouurl = isset($wps_deals_options['payment_thankyou_page']) ? get_permalink($wps_deals_options['payment_thankyou_page']) : '';
 	
 	$cancelurl = add_query_arg( array( 'wps_deals_cancel_order' => '1', 'order_id' => $salesid ), $cancelurl );
 	

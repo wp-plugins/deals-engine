@@ -145,6 +145,16 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								</td>
 							</tr>
 							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[item_quantities]"><?php _e( 'Disable Item Quantities:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="checkbox" id="wps_deals_options[item_quantities]" name="wps_deals_options[item_quantities]" value="1" <?php if(isset($wps_deals_options['item_quantities'])) { checked('1',$wps_deals_options['item_quantities']); }?>/><br />
+									<span class="description"><?php _e(' Disable item quantities to be changed at checkout.','wpsdeals');?></span>
+								</td>
+							</tr>
+							
 							<?php 
 									//add some settings before agreement settings
 									do_action('wps_deals_add_misc_settings_agreement_before');
