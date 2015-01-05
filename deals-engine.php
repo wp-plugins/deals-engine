@@ -3,7 +3,7 @@
  * Plugin Name: Social Deals Engine
  * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
  * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
- * Version: 2.1.0
+ * Version: 2.1.1
  * Author: WPSocial.com
  * Author URI: http://wpsocial.com
  * 
@@ -33,7 +33,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '2.1.0' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.1.1' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -181,7 +181,7 @@ register_deactivation_hook( __FILE__, 'wps_deals_uninstall');
 
 function wps_deals_install() {
 	
-	global $wpdb, $user_ID, $wps_deals_query;
+	global $wpdb, $user_ID, $wps_deals_query, $wps_deals_options;
 	
 	//register custom post type
 	wps_deals_register_deal_post_type();
@@ -217,33 +217,7 @@ function wps_deals_install() {
 							);
 							
 		//create main page for plugin
-		$deals_parent_page_id = wp_insert_post($deals_page);
-		
-		// thank you page creation
-		$deals_thank_you = array(
-									'post_type' => 'page',
-									'post_status' => 'publish',
-									'post_parent' => $deals_parent_page_id,
-									'post_title' => __('Social Deals Thank You Page','wpsdeals'),
-									'post_content' => '[wps_deals_order_complete][/wps_deals_order_complete]',
-									'post_author' => $user_ID,
-									'comment_status' => 'closed'
-								);
-		//create thank you page
-		$thank_you_page_id = wp_insert_post($deals_thank_you);
-		
-		// cancel page creation
-		$deals_cancel = array(
-									'post_type' => 'page',
-									'post_status' => 'publish',
-									'post_parent' => $deals_parent_page_id,
-									'post_title' => __('Social Deals Cancel Page','wpsdeals'),
-									'post_content' => '[wps_deals_order_cancel][/wps_deals_order_cancel]',
-									'post_author' => $user_ID,
-									'comment_status' => 'closed'
-								);
-		//create cancel page
-		$cancel_page_id = wp_insert_post($deals_cancel);
+		$deals_parent_page_id = wp_insert_post($deals_page);								
 		
 		// checkout page creation
 		$checkout_page = array(
@@ -269,108 +243,17 @@ function wps_deals_install() {
 											'comment_status' => 'closed'
 										);
 		//create my account page
-		$myaccount_page_id = wp_insert_post( $deals_myaccount_page );
-		
-		//create an account page creation
-		$create_account_page = array(
-										'post_type'		=>	'page',
-										'post_status'	=>	'publish',
-										'post_parent'	=>	$myaccount_page_id,
-										'post_title'	=>	__('Create an Account','wpsdeals'),
-										'post_content'	=>	'[wps_deals_create_account][/wps_deals_create_account]',
-										'post_author'	=>	$user_ID,
-										'comment_status'=>	'closed'
-									);
-		$create_account_id  = wp_insert_post( $create_account_page );
-		
-		//order details page creation
-		$order_details_page = array(
-										'post_type'		=>	'page',
-										'post_status'	=>	'publish',
-										'post_parent'	=>	$myaccount_page_id,
-										'post_title'	=>	__('View Orders','wpsdeals'),
-										'post_content'	=>	'[wps_deals_orders][/wps_deals_orders]',
-										'post_author'	=>	$user_ID,
-										'comment_status'=>	'closed'
-									);
-		$order_details_id  = wp_insert_post( $order_details_page );
-		
-		//create change password page
-		$deals_edit_address_args = array(
-										'post_type' 	=> 'page',
-										'post_status' 	=> 'publish',
-										'post_parent'	=>	$myaccount_page_id,
-										'post_title' 	=> __( 'Edit Address','wpsdeals' ),
-										'post_content' 	=> '[wps_deals_edit_address][/wps_deals_edit_address]',
-										'post_author' 	=> $user_ID,
-										'menu_order' 	=> 0,
-										'comment_status' => 'closed'
-									);
-							
-		//create edit addresses
-		$edit_address_id = wp_insert_post( $deals_edit_address_args );
-		
-		//create change password page
-		$deals_change_pass_args = array(
-										'post_type' 	=> 'page',
-										'post_status' 	=> 'publish',
-										'post_parent'	=>	$myaccount_page_id,
-										'post_title' 	=> __( 'Change Password','wpsdeals' ),
-										'post_content' 	=> '[wps_deals_change_password][/wps_deals_change_password]',
-										'post_author' 	=> $user_ID,
-										'menu_order' 	=> 0,
-										'comment_status' => 'closed'
-									);
-							
-		//create change password page
-		$change_password_id = wp_insert_post( $deals_change_pass_args );
-		
-		//create logout page
-		$deals_logout_args = array(
-										'post_type' 	=> 'page',
-										'post_status' 	=> 'publish',
-										'post_parent'	=>	$myaccount_page_id,
-										'post_title' 	=> __( 'Logout','wpsdeals' ),
-										'post_content' 	=> '',
-										'post_author' 	=> $user_ID,
-										'menu_order' 	=> 0,
-										'comment_status' => 'closed'
-									);
-							
-		//create logout page
-		$logout_id = wp_insert_post( $deals_logout_args );
-		
-		//create lost password page
-		$deals_lost_pass_args = array(
-										'post_type' 	=> 'page',
-										'post_status' 	=> 'publish',
-										'post_parent'	=>	$myaccount_page_id,
-										'post_title' 	=> __( 'Lost Password','wpsdeals' ),
-										'post_content' 	=> '[wps_deals_lost_password][/wps_deals_lost_password]',
-										'post_author' 	=> $user_ID,
-										'menu_order' 	=> 0,
-										'comment_status' => 'closed'
-									);
-		//create lost password page
-		$lost_pass_page_id = wp_insert_post( $deals_lost_pass_args );
+		$myaccount_page_id = wp_insert_post( $deals_myaccount_page );				
 		
 		// this option contains all page ID(s) to just pass it to wps_deals_default_settings function
 		update_option( 'wps_deals_set_pages', array(
-														'main_page'				=> 	$deals_parent_page_id,
-														'thank_you_page'		=>	$thank_you_page_id,
-														'cancel_page'			=>	$cancel_page_id,
-														'checkout_page'			=>	$checkout_page_id,
-														'order_details'			=>	$order_details_id,
-														'my_account_page'		=>	$myaccount_page_id,
-														'create_account_page'	=>	$create_account_id,
-														'edit_adderess'			=>	$edit_address_id,
-														'change_password'		=>	$change_password_id,
-														'logout'				=>	$logout_id,
-														'lost_password'			=>	$lost_pass_page_id
+														'main_page'				=> 	$deals_parent_page_id,														
+														'checkout_page'			=>	$checkout_page_id,														
+														'my_account_page'		=>	$myaccount_page_id														
 													));
 									
 		// set default settings
-		wps_deals_default_settings();
+		wps_deals_default_settings();				
 		
 		//update plugin version to option
 		update_option( 'wps_deals_set_option', '1.0' );
@@ -379,6 +262,8 @@ function wps_deals_install() {
 		wps_deals_update_countries();
 		
 	} //check deals options empty or not
+	
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
 	
 	// Cron jobs
 	wp_clear_scheduled_hook( 'wps_deals_scheduled_set_price_meta' );
@@ -450,95 +335,21 @@ function wps_deals_install() {
 											'menu_order' 	=> 0,
 											'comment_status' => 'closed'
 										);
-								
+			
 			//create my account page
 			$myaccount_page_id = wp_insert_post( $deals_myaccount_page );
-			
-			//create edit addresses page
-			$deals_edit_address_args = array(
-											'post_type' 	=> 'page',
-											'post_status' 	=> 'publish',
-											'post_parent'	=>	$myaccount_page_id,
-											'post_title' 	=> __( 'Edit Address','wpsdeals' ),
-											'post_content' 	=> '[wps_deals_edit_address][/wps_deals_edit_address]',
-											'post_author' 	=> $user_ID,
-											'menu_order' 	=> 0,
-											'comment_status' => 'closed'
-										);
-			//create edit addresses
-			$edit_address_id = wp_insert_post( $deals_edit_address_args );
-			
-			//create change password page
-			$deals_change_pass_args = array(
-											'post_type' 	=> 'page',
-											'post_status' 	=> 'publish',
-											'post_parent'	=>	$myaccount_page_id,
-											'post_title' 	=> __( 'Change Password','wpsdeals' ),
-											'post_content' 	=> '[wps_deals_change_password][/wps_deals_change_password]',
-											'post_author' 	=> $user_ID,
-											'menu_order' 	=> 0,
-											'comment_status' => 'closed'
-										);
-								
-			//create change password page
-			$change_password_id = wp_insert_post( $deals_change_pass_args );
-			
-			//create logout page
-			$deals_logout_args = array(
-											'post_type' 	=> 'page',
-											'post_status' 	=> 'publish',
-											'post_parent'	=>	$myaccount_page_id,
-											'post_title' 	=> __( 'Logout','wpsdeals' ),
-											'post_content' 	=> '',
-											'post_author' 	=> $user_ID,
-											'menu_order' 	=> 0,
-											'comment_status' => 'closed'
-										);
-								
-			//create logout page
-			$logout_id = wp_insert_post( $deals_logout_args );
-			
-			//create lost password page
-			$deals_lost_pass_args = array(
-											'post_type' 	=> 'page',
-											'post_status' 	=> 'publish',
-											'post_parent'	=>	$myaccount_page_id,
-											'post_title' 	=> __( 'Lost Password','wpsdeals' ),
-											'post_content' 	=> '[wps_deals_lost_password][/wps_deals_lost_password]',
-											'post_author' 	=> $user_ID,
-											'menu_order' 	=> 0,
-											'comment_status' => 'closed'
-										);
-			//create lost password page
-			$lost_pass_page_id = wp_insert_post( $deals_lost_pass_args );
 			
 			//get set pages option data
 			$wps_deals_set_pages = get_option( 'wps_deals_set_pages' );
 			
 			//store my account page to already created page
 			$wps_deals_set_pages['my_account_page'] = $myaccount_page_id;
-			$wps_deals_set_pages['edit_adderess'] 	= $edit_address_id;
-			$wps_deals_set_pages['change_password'] = $change_password_id;
-			$wps_deals_set_pages['logout'] 			= $logout_id;
-			$wps_deals_set_pages['lost_password'] 	= $lost_pass_page_id;
 			
 			//update new pages data
 			update_option( 'wps_deals_set_pages', $wps_deals_set_pages );
 			
-			//update order details page to child of my account page
-			wp_update_post( array( 
-									'ID' => $wps_deals_set_pages['order_details'],
-									'post_parent' => $myaccount_page_id,
-									'post_name' => 'view-orders',
-									'post_title' => __( 'View Orders', 'wpsdeals' )
-								) );
-			
 			$myaccountpage = array( 
-									'my_account_page'	=>	$myaccount_page_id,
-									'edit_adderess'		=>	$edit_address_id,
-									'change_password'	=>	$change_password_id,
-									'logout'			=>	$logout_id,
-									'lost_password'		=>	$lost_pass_page_id
+									'my_account_page'	=>	$myaccount_page_id
 								);
 			$wps_deals_options = array_merge( $wps_deals_options, $myaccountpage );
 			$udpopt = true;
@@ -563,7 +374,7 @@ function wps_deals_install() {
 			update_option( 'wps_deals_options', $wps_deals_options );
 		}
 		
-		//update plugin version to option 
+		//update plugin version to option
 		update_option( 'wps_deals_set_option', '1.0.2' );
 		
 	} //check plugin set option value is 1.0.1
@@ -651,44 +462,8 @@ function wps_deals_install() {
 	
 	if( $wps_deals_set_option == '1.0.5' ) {
 		
-		//get set pages option data
-		$wps_deals_set_pages = get_option( 'wps_deals_set_pages' );
-		
-		//Create an Account page under my account page
-		if( isset( $wps_deals_set_pages['my_account_page'] ) ) {
-			
-			//create an account page creation
-			$create_account_page = array(
-											'post_type'		=>	'page',
-											'post_status'	=>	'publish',
-											'post_parent'	=>	$wps_deals_set_pages['my_account_page'],
-											'post_title'	=>	__('Create an Account','wpsdeals'),
-											'post_content'	=>	'[wps_deals_create_account][/wps_deals_create_account]',
-											'post_author'	=>	$user_ID,
-											'comment_status'=>	'closed'
-										);
-			$create_account_id  = wp_insert_post( $create_account_page );
-			
-			//store create an account page to already created page
-			$wps_deals_set_pages['create_account_page'] = $create_account_id;
-			
-			//update new pages data
-			update_option( 'wps_deals_set_pages', $wps_deals_set_pages );
-			
-			$createaccountpage = array( 
-										'create_account_page'	=>	$create_account_id
-									);
-			$wps_deals_options = array_merge( $wps_deals_options, $createaccountpage );
-			$udpopt = true;
-			
-			if( $udpopt == true ) { // if any of the settings need to be updated
-				update_option( 'wps_deals_options', $wps_deals_options );
-			}
-			
-			//update plugin version to option
-			update_option( 'wps_deals_set_option', '1.0.6' );
-			
-		} //end if to check my account page
+		//update plugin version to option
+		update_option( 'wps_deals_set_option', '1.0.6' );
 		
 	} //check plugin set option value is 1.0.5
 	
@@ -759,18 +534,18 @@ function wps_deals_install() {
 		$udpopt = false;
 		
 		// create shop page
-		if( !isset( $wps_deals_options['shop_page'] ) ) {
+		if( empty( $wps_deals_options['shop_page'] ) ) {
 			// home shop creation
 			$deals_shop_page = array(
 										'post_type' 		=> 'page',
-										'post_status' 		=> 'publish',													
-										'post_title' 		=> __('Deals Shop','wpsdeals'),										
+										'post_status' 		=> 'publish',
+										'post_title' 		=> __('Deals Shop','wpsdeals'),
 										'post_author' 		=> $user_ID,
 										'menu_order' 		=> 0,
 										'comment_status' 	=> 'closed'
 									);
 			// create shop page
-			$deals_shop_page_id = wp_insert_post($deals_shop_page);			
+			$deals_shop_page_id = wp_insert_post($deals_shop_page);
 			
 			// get set pages option data
 			$wps_deals_set_pages = get_option( 'wps_deals_set_pages' );
@@ -837,17 +612,17 @@ function wps_deals_install() {
 	  
 		if( !empty($pages['checkout_page']) ) {
 			$chekout_page = array(
-					'ID'			=> $pages['checkout_page'],
-					'post_parent'	=> 0,
-					'menu_order' 	=> 0
-		); 
+								'ID'			=> $pages['checkout_page'],
+								'post_parent'	=> 0,
+								'menu_order' 	=> 0
+							); 
 	   
-		//Update the checkout page
-		wp_update_post( $chekout_page );
-	}  
+			//Update the checkout page
+			wp_update_post( $chekout_page );
+		}  
 	  
-	// update plugin version to option
-	update_option( 'wps_deals_set_option', '1.2.3' ); 
+		// update plugin version to option
+		update_option( 'wps_deals_set_option', '1.2.3' ); 
 	  
 	} //check plugin set option value is 1.2.2
 	 
@@ -899,17 +674,9 @@ function wps_deals_uninstall() {
 		
 		//get all page ID(s) which are created when plugin is activating first time
 		$pages = get_option('wps_deals_set_pages');
-			wp_delete_post( $pages['thank_you_page'],true );//delete thank you page
-			wp_delete_post( $pages['cancel_page'],true );//delete cancel page
 			wp_delete_post( $pages['checkout_page'],true );//delete order page
 			wp_delete_post( $pages['main_page'],true );//delete main page
-			wp_delete_post( $pages['order_details'],true );//delete order details page
 			wp_delete_post( $pages['my_account_page'],true );//delete my account page
-			wp_delete_post( $pages['create_account_page'],true );//delete create an account page
-			wp_delete_post( $pages['edit_adderess'],true );//delete edit address page
-			wp_delete_post( $pages['change_password'],true );//delete change password page
-			wp_delete_post( $pages['logout'],true );//delete logout page
-			wp_delete_post( $pages['lost_password'],true );//delete lost password page
 			wp_delete_post( $pages['shop_page'],true );//delete home page
 			
 		//delete option which is check the plugin is activation first time
@@ -1060,33 +827,17 @@ function wps_deals_default_settings() {
 	$pages = get_option('wps_deals_set_pages');
 	
 	//default for all created pages
-	$mainpage = $thank_you = $cancel = $checkout = $orderedpage = $myaccountpage = $createaccountpage = $editaddresspage = $changepasspage = $logoutpage = $lostpasspage = '';
+	$mainpage = $checkout = $myaccountpage = $shoppage = '';
 	
 	//check pages are created or not
 	if( !empty( $pages ) ) {
-		
-		//check if thank you page is created then set to default
-		if ( isset( $pages['thank_you_page'] ) ) { $thank_you = $pages['thank_you_page'];}
-		//check if cancel page is created then set to default
-		if ( isset( $pages['cancel_page'] ) ) {	$cancel = $pages['cancel_page']; }
+				
 		//check if checkout page is created then set to default
 		if ( isset( $pages['checkout_page'] ) ) { $checkout = $pages['checkout_page']; }
 		//check if checkout page is created then set to default
 		if( isset( $pages['main_page'] ) ) { $mainpage = $pages['main_page']; }
-		//check order details page is create then set to default
-		if( isset( $pages['order_details'] ) ) { $orderedpage = $pages['order_details']; }
 		//check my account page is created then set to default
-		if( isset( $pages['my_account_page'] ) ) { $myaccountpage = $pages['my_account_page']; }
-		//check create an account page is created then set to default
-		if( isset( $pages['create_account_page'] ) ) { $createaccountpage = $pages['create_account_page']; }
-		//check edit address page is created then set to default
-		if( isset( $pages['edit_adderess'] ) ) { $editaddresspage = $pages['edit_adderess']; }
-		//check change password page is created then set to default
-		if( isset( $pages['change_password'] ) ) { $changepasspage = $pages['change_password'];	}
-		//check logout page is created then set to default
-		if( isset( $pages['logout'] ) ) { $logoutpage = $pages['logout'];	}
-		//check edit address page is created then set to default
-		if( isset( $pages['lost_password'] ) ) { $lostpasspage = $pages['lost_password']; }
+		if( isset( $pages['my_account_page'] ) ) { $myaccountpage = $pages['my_account_page']; }		
 		//check home page is created then set to default
 		if( isset( $pages['shop_page'] ) ) { $shoppage = $pages['shop_page']; }
 	}
@@ -1119,18 +870,10 @@ function wps_deals_default_settings() {
 								'seller_email_body'				=>	sprintf( __('Hello'."\n\n".'A deals purchase has been made.'."\n\n".'Deals sold: {%s}'."\n\n".'Purchased by: {%s}'."\n\n".'Total: {%s}'."\n\n".'Payment Method: {%s}'."\n\n".'Thank you','wpsdeals'), 'product_details', 'username', 'total', 'payment_method' ),
 								'reset_password_email_subject'	=>	__('Reset Password','wpsdeals'),
 								'reset_password_email'			=>	sprintf( __('Someone requested that the password be reset for the following account:'."\n\n".'Username: {%s}'."\n\n".'If this was a mistake, just ignore this email and nothing will happen.'."\n\n".'To reset your password, visit the following address:'."\n\n".'{%s}','wpsdeals'), 'user_name', 'reset_link' ),
-								'currency'						=>	'USD',
-								'payment_thankyou_page'			=> $thank_you,
-								'payment_cancel_page'			=> $cancel,
+								'currency'						=>	'USD',								
 								'payment_checkout_page'			=> $checkout,
 								'deals_main_page'				=> $mainpage,
-								'ordered_page'					=> $orderedpage,
 								'my_account_page'				=> $myaccountpage,
-								'create_account_page'			=> $createaccountpage,
-								'edit_adderess'					=> $editaddresspage,
-								'change_password'				=> $changepasspage,
-								'logout'						=> $logoutpage,
-								'lost_password'					=> $lostpasspage,
 								'shop_page'						=> $shoppage,
 								'show_login_register'			=> '',
 								'disable_guest_checkout'		=> '',

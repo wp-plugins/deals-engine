@@ -940,7 +940,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 */
 	function wps_deals_get_core_supported_themes() {
 		
-		return apply_filters( 'wps_deals_get_core_supported_themes', array( 
+		return apply_filters( 'wps_deals_get_core_supported_themes', array(
+																		'twentyfifteen', 
 																		'twentyfourteen',
 																		'twentythirteen',
 																		'twentytwelve',
@@ -1074,5 +1075,23 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		$checkout_cancel_url = wps_deals_get_endpoint_url( 'social-deals-cancel-page', get_permalink( wps_deals_get_page_id( 'payment_checkout_page' ) ) );
 				
 		return apply_filters( 'wps_deals_checkout_cancel_url', $checkout_cancel_url);
-	}	
+	}
+
+	/**
+	 * Fix active class in wp_list_pages for deals shop page.
+	 *	 
+	 * @package Social Deals Engine
+	 * @since 2.1.0
+	 * @param string $pages
+	 * @return string
+	 */
+	function wps_deals_list_pages( $pages ) {	          		
+		
+		$shop_page = 'page-item-' . wps_deals_get_page_id('shop_page'); // find shop_page_id through deals options
+
+		if (is_page( wps_deals_get_page_id( 'shop_page' ) ) || is_post_type_archive( WPS_DEALS_POST_TYPE ))
+			$pages = str_replace($shop_page, $shop_page . ' current_page_item', $pages); // add current_page_item class to shop page    	
+		return $pages;
+	}
+	add_filter( 'wp_list_pages', 'wps_deals_list_pages' );
 ?>

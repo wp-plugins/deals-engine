@@ -1074,6 +1074,10 @@ if( !function_exists( 'wps_deals_home_more_deal_ending' ) ) {
 		
 		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
 		
+		// get the color scheme from the settings
+		$button_color = $wps_deals_options['deals_btn_color'];
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		
 		if( get_query_var( 'paged' ) ) {
 			$paged = get_query_var( 'paged' );
 		} elseif( get_query_var( 'page' ) ) {
@@ -1139,6 +1143,7 @@ if( !function_exists( 'wps_deals_home_more_deal_ending' ) ) {
 		$args = array( 
 						'args' => $argsend,
 						'tab' => 'ending-soon',
+						'btncolor' => $btncolor,
 						'activetab' => $activetab
 					);
 					
@@ -1168,6 +1173,10 @@ if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
 		$pagelimit = isset( $wps_deals_options['deals_per_page'] ) ? $wps_deals_options['deals_per_page'] : -1;
 		
 		$order_args = $wps_deals_model->wps_deals_get_deals_ordering_args();
+		
+		// get the color scheme from the settings
+		$button_color = $wps_deals_options['deals_btn_color'];
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
 		
 		if( get_query_var( 'paged' ) ) {
 			$paged = get_query_var( 'paged' );
@@ -1228,6 +1237,7 @@ if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
 		$args = array( 
 						'args' => $argsupcoming,
 						'tab' => 'upcoming-soon',
+						'btncolor' => $btncolor,
 						'activetab' => $activetab
 					);
 		
@@ -1552,6 +1562,30 @@ if( !function_exists( 'wps_deals_archive_deals_content' ) ) {
 		
 		// get the template
 		wps_deals_get_template( 'archive/archive-deals.php', $args );
+	}
+}
+
+if ( ! function_exists( 'wps_deals_archive_description_content' ) ) {
+
+	/**
+	 * Show a shop page description on deals archives
+	 *
+	 * @access public	 
+	 * @package Social Deals Engine
+	 * @subpackage	Archives
+	 * @since 2.1.0
+	 * @return void
+	 */
+	function wps_deals_archive_description_content() {
+		if ( is_post_type_archive( WPS_DEALS_POST_TYPE ) && get_query_var( 'paged' ) == 0 ) {
+			$shop_page   = get_post( wps_deals_get_page_id( 'shop_page' ) );
+			if ( $shop_page ) {
+				$description = do_shortcode( $shop_page->post_content );
+				if ( $description ) {
+					echo '<div class="page-description deals-col-12">' . $description . '</div>';
+				}
+			}
+		}
 	}
 }
 

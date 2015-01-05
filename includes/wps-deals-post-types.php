@@ -45,7 +45,7 @@ function wps_deals_register_deal_post_type() {
 							'public' 			=> true,
 							'publicly_queryable'=> true,
 							'show_ui' 			=> true,
-							'map_meta_cap'      => true, 
+							'map_meta_cap'      => true,
 							'show_in_menu' 		=> true, 
 							'query_var' 		=> true,
 							'rewrite' 			=> array( 'slug' => WPS_DEALS_POST_TYPE_SLUG),

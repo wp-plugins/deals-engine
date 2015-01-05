@@ -142,6 +142,13 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	 * @see wps_deals_archive_deals_content()
 	 */
 	add_action( 'wps_deals_archive_deals', 'wps_deals_archive_deals_content', 10 );
+	
+	/**
+	 * Archive descriptions
+	 *	 
+	 * @see wps_deals_archive_description_content()
+	 */	
+	add_action( 'wps_deals_archive_description', 'wps_deals_archive_description_content', 10 );
 		
 	
 	/* **************************************************************************

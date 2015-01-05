@@ -1757,3 +1757,27 @@ color: #ff0000;
 		width: 100%;
 	}		
 }
+
+/* CSS for recent order, view all order, deals checkout, purchased deals, billing address, view billing address Start */
+.deals-container  #deals-my-account-recent-orders, 
+.deals-container .deals-ordered-table,
+.deals-container #deals-purchase-receipt,
+.deals-container #deals-purchase-receipt-products,
+.deals-container .deals-billing-address table,
+.deals-container .deals-view-billing-details table {
+	border-bottom: 1px solid #ededed;    
+    font-size: 0.857143rem;
+    line-height: 2;
+    margin: 0 0 1.71429rem;
+    width: 100%;
+}
+.deals-container  #deals-my-account-recent-orders td, 
+.deals-container .deals-ordered-table td,
+.deals-container #deals-purchase-receipt td,
+.deals-container #deals-purchase-receipt-products td,
+.deals-container .deals-billing-address table td,
+.deals-container .deals-view-billing-details table {
+	border-top: 1px solid #ededed;
+	padding: 6px 10px 6px 0;
+}
+/* CSS for recent order, view all order, deals checkout, purchased deals, billing address, view billing address End */
