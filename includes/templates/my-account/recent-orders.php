@@ -18,7 +18,7 @@ global $wps_deals_options;
 
 <div class="deals-recent-orders deals-clearfix">
 
-	<h3><?php _e( 'Recent Orders', 'wpsdeals' );?> (<a href="<?php echo $vieworderspagelink; ?>"><?php _e('View all Orders'); ?></a>)</h3>
+	<h3><?php _e( 'Recent Orders', 'wpsdeals' );?> (<a href="<?php echo $vieworderspagelink; ?>"><?php _e( 'View all Orders', 'wpsdeals' ); ?></a>)</h3>
 	
 	<table id="deals-my-account-recent-orders" class="deals-orders-table">
 		<thead>

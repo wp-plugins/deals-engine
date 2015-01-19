@@ -168,23 +168,23 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								do_action('wps_deals_edit_order_before',$orderid); 
 						?>
 						<tr>
-							<th><?php _e( 'Order ID : ' ,'wpsdeals');?></th>
+							<th><?php _e( 'Order ID :' ,'wpsdeals');?></th>
 							<td><?php echo $orderid;?>
 								<input type="hidden" name="wps-deals-edit-order-id" id="wps-deals-edit-order-id" value="<?php echo $orderid;?>" /></td>
 						</tr>
 					
 						<tr>
-							<th><?php _e( 'Buyer\'s Email : ' ,'wpsdeals');?></th>
+							<th><?php _e( 'Buyer\'s Email :' ,'wpsdeals');?></th>
 							<td><input type="text" name="wps-deals-edit-order-email" id="wps-deals-edit-order-email" value="<?php echo $useremail;?>" class="large-text" /></td>
 						</tr>
 					
 						<tr>
-							<th><?php _e( 'Buyer\'s User ID : ' ,'wpsdeals');?></th>
+							<th><?php _e( 'Buyer\'s User ID :' ,'wpsdeals');?></th>
 							<td><?php echo $userid;?></td>
 						</tr>
 					
 						<tr>
-							<th><?php _e( 'Deals Purchased : ' ,'wpsdeals');?></th>
+							<th><?php _e( 'Deals Purchased :' ,'wpsdeals');?></th>
 							<td>
 							
 						<?php foreach ($orderdata['deals_details'] as $key => $deal) { ?>
@@ -237,11 +237,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 										</tr>
 							<?php } ?>
 						<tr>
-							<th><?php _e( 'Payment Note : ' ,'wpsdeals');?></th>
+							<th><?php _e( 'Payment Note :' ,'wpsdeals');?></th>
 							<td><textarea name="wps-deals-edit-order-payment-note" id="wps-deals-edit-order-payment-note" rows="5" class="large-text"></textarea></td>
 						</tr>
 						<tr>
-							<th><?php _e( 'Payment Status : ' ,'wpsdeals');?></th>
+							<th><?php _e( 'Payment Status :' ,'wpsdeals');?></th>
 							<td>
 								<select name="wps-deals-edit-order-payment-status" id="wps-deals-edit-order-payment-status">
 							<?php 

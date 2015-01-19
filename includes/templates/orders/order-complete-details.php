@@ -239,7 +239,7 @@ if( !empty( $salesdata ) && !empty( $order_id ) ) {
 										if( !empty( $filename ) ) { // check file name is exist or not
 											
 											//make file display to user
-											$filedisplay = sprintf( __( 'Download File %d : ','wpsdeals' ), ( $key + 1 ) ) . '<a href="'.$file.'" target="_blank">'.$filename.'</a>';
+											$filedisplay = sprintf( __( 'Download File %d :','wpsdeals' ), ( $key + 1 ) ) . '<a href="'.$file.'" target="_blank">'.$filename.'</a>';
 											
 											$downloadfiles .= '<li>'.$filedisplay.'</li>';
 										}
@@ -284,7 +284,7 @@ if( !empty( $salesdata ) && !empty( $order_id ) ) {
 													if( !empty( $filename ) ) { // check file name is exist or not
 														
 														//make file display to user
-														$filedisplay = sprintf( __( 'Download File %d : ','wpsdeals' ), ( $key + 1 ) ) . '<a href="'.$file.'" target="_blank">'.$filename.'</a>';
+														$filedisplay = sprintf( __( 'Download File %d :','wpsdeals' ), ( $key + 1 ) ) . '<a href="'.$file.'" target="_blank">'.$filename.'</a>';
 														
 														$dealsbundle .= '<li>'.$filedisplay.'</li>';
 													}

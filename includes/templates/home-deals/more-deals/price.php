@@ -23,9 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	</p>
 	
 	<p class="deals-more-price-special">
-		<span>
-			<?php echo $specialprice; ?>
-		</span>
+		<span><?php echo $specialprice; ?></span>
 	</p>
 	
 </div>

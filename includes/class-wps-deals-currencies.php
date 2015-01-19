@@ -129,9 +129,10 @@ class Wps_Deals_Currencies{
 		
 		//$price = !empty($filterflag) ? apply_filters('wps_deals_product_price',$price) : $price;
 		
-		// check price is intiger or not, if not then convert it to integer
+		// check price is intiger or not, if not then convert it to float
 		// for taking care Notice: A non well formed numeric 
-		$price = intval($price);		
+		$price = floatval($price);
+		$decimal_places = intval($decimal_places);	
 		
 		$value = number_format($price,$decimal_places,$decimal_sep,$thousand_sep);
  		

@@ -235,7 +235,7 @@ class Wps_Deals_Lists extends WP_Widget {
 				// view deal button
 				$html .= '	<div class="' . $btncolor . ' deals-button btn-small">
 								<a href="' . get_permalink( $post->ID ) . '">	
-									' . __( 'See Deal', 'wpsd' ) . '	
+									' . __( 'See Deal', 'wpsdeals' ) . '	
 								</a>																		
 							</div>'; 			
 					

@@ -60,7 +60,7 @@ $apiConfig = array(
         '/tmp/apiClient'),*/
     'ioFileCache_directory'  =>
         (function_exists('sys_get_temp_dir') ?
-            dirname(dirname(__FILE__)).'/tmp/apiClient' :
+            WPS_DEALS_TMP_DIR.'/apiClient' :
         dirname(dirname(__FILE__)).'/tmp/apiClient'),
     'ioMemCacheStorage_host' => '127.0.0.1',
     'ioMemcacheStorage_port' => '11211',

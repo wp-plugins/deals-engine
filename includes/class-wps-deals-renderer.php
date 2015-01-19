@@ -72,31 +72,31 @@ class Wps_Deals_Renderer {
 								<tbody>';
 									do_action('wps_deals_sales_admin_header_row_before',$data['ID']);
 		echo '						<tr>
-										<td><strong>'.__('Purchase Date : ','wpsdeals').'</strong></td>
+										<td><strong>'.__('Purchase Date :','wpsdeals').'</strong></td>
 										<td>'.$this->model->wps_deals_get_date_format($data[ 'post_date' ]).'</td>
 									</tr>
 									<tr>
-										<td><strong>'.__('Purchase ID : ','wpsdeals').'</strong></td>
+										<td><strong>'.__('Purchase ID :','wpsdeals').'</strong></td>
 										<td>'.$data['ID'].'</td>
 									</tr>
 									<tr>
-										<td><strong>'.__('Buyer Name : ','wpsdeals').'</strong></td>
+										<td><strong>'.__('Buyer Name :','wpsdeals').'</strong></td>
 										<td>'.$displayusername.'</td>
 									</tr>
 									<tr>
-										<td><strong>'.__('Buyer Email : ','wpsdeals').'</strong></td>
+										<td><strong>'.__('Buyer Email :','wpsdeals').'</strong></td>
 										<td>'.$data['userdetails']['user_email'].'</td>
 									</tr>
 									<tr>
-										<td><strong>'.__('Payment Method : ','wpsdeals').'</strong></td>
+										<td><strong>'.__('Payment Method :','wpsdeals').'</strong></td>
 										<td>'.$data['payment_method'].'</td>
 									</tr>
 									<tr>
-										<td><strong>'.__('Payment Status : ','wpsdeals').'</strong></td>
+										<td><strong>'.__('Payment Status :','wpsdeals').'</strong></td>
 										<td>'.$data['payment_status'].'</td>
 									</tr>
 									<tr>
-										<td><strong>'.__('IP Address : ','wpsdeals').'</strong></td>
+										<td><strong>'.__('IP Address :','wpsdeals').'</strong></td>
 										<td>'.$data['order_ip'].'</td>
 									</tr>';
 									do_action('wps_deals_sales_admin_header_row_after',$data['ID']);

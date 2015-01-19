@@ -378,7 +378,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		$options = wps_deals_get_settings();
 		
-		$sendeditaddress = get_permalink($options['edit_adderess']);
+		// Get edit address page url
+		$sendeditaddress = wps_deals_edit_address_url();
 	
 		$sendeditaddressurl = add_query_arg( $queryarg, $sendeditaddress );
 		
@@ -960,7 +961,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 * @since 2.0.7
 	 * @return string
 	 */
-	function wps_deals_get_endpoint_url( $endpoint, $permalink = '' ) {
+	function wps_deals_get_endpoint_url( $endpoint, $permalink = '', $value = '') {
 		if ( ! $permalink )
 			$permalink = get_permalink();
 			
@@ -971,9 +972,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			} else {
 				$query_string = '';
 			}
-			$url = trailingslashit( $permalink ) . $endpoint . '/' . $query_string;
+			$url = trailingslashit( $permalink ) . $endpoint . '/' . $value . $query_string;
 		} else {
-			$url = add_query_arg( $endpoint, $permalink );
+			$url = add_query_arg( $endpoint, $value, $permalink );
 		}
 			
 		return apply_filters( 'wps_deals_get_endpoint_url', $url);

@@ -891,7 +891,7 @@ class Wps_Deals_AdminPages {
 		$orderamount = $this->currency->wps_deals_formatted_value('10');
 		$ordersubttotal = $this->currency->wps_deals_formatted_value('10');
 		$product_details = "\n\n".'1'.') '.$sampletitle.' - '.$orderamount.' x '.$quantity.' - '.$orderamount;
-		$product_details .= "\n".sprintf( __( 'Download File %d : ','wpsdeals' ), 1 ).'<a href="#">'. __( 'Sample File', 'wpsdeals') .'</a>';
+		$product_details .= "\n".sprintf( __( 'Download File %d :','wpsdeals' ), 1 ).'<a href="#">'. __( 'Sample File', 'wpsdeals') .'</a>';
 		$product_details .= "\n\n". __('Notes : Purchase Notes','wpsdeals');
 
 		$message = str_replace('{first_name}',$first_name,$message);

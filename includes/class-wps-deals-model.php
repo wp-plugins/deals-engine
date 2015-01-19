@@ -592,7 +592,7 @@ class Wps_Deals_Model {
 			$email_template_option = $data['email_template'];
 			$checkout_label = __( 'Sample Method', 'wpsdeals' );
 			$product_details .= "\n\n".'1'.') '.__( 'Sample Deal Title', 'wpsdeals' ).' - '.html_entity_decode($ordersubttotal).' x '.'1'.' - '.html_entity_decode($ordersubttotal);
-			$product_details .= "\n".sprintf( __( 'Download File %d : ','wpsdeals' ), 1 ).'<a href="#">'. __( 'Sample File', 'wpsdeals') .'</a>';
+			$product_details .= "\n".sprintf( __( 'Download File %d :','wpsdeals' ), 1 ).'<a href="#">'. __( 'Sample File', 'wpsdeals') .'</a>';
 			$product_details .= "\n\n". __('Notes : Purchase Notes','wpsdeals');
 			
 		} else if( isset( $wps_deals_options['email_template'] ) && !empty( $wps_deals_options['email_template'] ) ) {
@@ -1047,7 +1047,7 @@ class Wps_Deals_Model {
 						//get the file name from its deal id and file key which will send to user
 						$fname = $this->wps_deals_get_download_file_name( $purchasedata['deal_id'], $filekey );
 						
-						$links .= "\n".sprintf( __( 'Download File %d : ','wpsdeals' ), ( $filekey + 1 ) ).'<a href="'.$file.'">';
+						$links .= "\n".sprintf( __( 'Download File %d :','wpsdeals' ), ( $filekey + 1 ) ).'<a href="'.$file.'">';
 							$links .= $fname;
 						$links .= '</a>';
 					}

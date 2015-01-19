@@ -191,7 +191,7 @@
 	
 	        // Set chart options
 	        var deals_social_chart_options = {
-	        				'title':'<?php _e('Social Networks Register Percentage ', 'wpsdeals'); ?>',
+	        				'title':'<?php _e('Social Networks Register Percentage', 'wpsdeals'); ?>',
 	                       	'width':650,
 	                       	'height':450
 	        			};

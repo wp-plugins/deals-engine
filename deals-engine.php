@@ -3,7 +3,7 @@
  * Plugin Name: Social Deals Engine
  * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
  * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
- * Version: 2.1.1
+ * Version: 2.1.2
  * Author: WPSocial.com
  * Author URI: http://wpsocial.com
  * 
@@ -33,7 +33,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '2.1.1' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.1.2' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -113,6 +113,15 @@ if( !defined( 'WPS_DEALS_SOCIAL_LIB_URL' ) ) { //social liberary dir
 
 if ( ! defined( 'WPS_DEALS_LOG_DIR' ) ) {
 	define( 'WPS_DEALS_LOG_DIR', ABSPATH . 'sde-logs/' );
+}
+
+$upload_dir		= wp_upload_dir();
+$upload_path	= isset( $upload_dir['basedir'] ) ? $upload_dir['basedir'].'/' : ABSPATH;
+$upload_url		= isset( $upload_dir['baseurl'] ) ? $upload_dir['baseurl'] : site_url();
+
+// edd social login upload folder path
+if( !defined( 'WPS_DEALS_TMP_DIR' ) ) {
+	define( 'WPS_DEALS_TMP_DIR' , $upload_path . 'sde-tmp' );
 }
 
 /**

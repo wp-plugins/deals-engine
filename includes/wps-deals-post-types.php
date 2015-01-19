@@ -137,7 +137,7 @@ function wps_deals_updated_messages( $messages ) {
 		8 => sprintf( __( 'Deal submitted. <a target="_blank" href="%s">Preview Deal</a>', 'wpsdeals' ), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
 		9 => sprintf( __( 'Deal scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview Review</a>', 'wpsdeals'),
 			// translators: Publish box date format, see http://php.net/date
-			date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
+			date_i18n( __( 'M j, Y @ G:i' , 'wpsdeals' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
 		10 => sprintf( __( 'Deal draft updated. <a target="_blank" href="%s">Preview Deal</a>', 'wpsdeals' ), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
 	);
 
@@ -175,8 +175,8 @@ add_action( 'admin_head', 'wps_deals_icon' );
  */
 function wps_get_default_labels() {
 	$defaults = array(
-	   'singular' => __( 'Deal', 'edd' ),
-	   'plural' => __( 'Deals', 'edd')
+	   'singular' => __( 'Deal', 'wpsdeals' ),
+	   'plural' => __( 'Deals', 'wpsdeals')
 	);
 	return apply_filters( 'wps_default_deals_name', $defaults );
 }
