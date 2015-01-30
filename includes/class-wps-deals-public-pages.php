@@ -407,13 +407,18 @@ class Wps_Deals_Public_Pages	{
 		$find = array( 'deals-engine.php' );
 		$file = '';
 		
+		$is_archive_page = is_post_type_archive( WPS_DEALS_POST_TYPE ) || is_tax( WPS_DEALS_POST_TAXONOMY ) || is_tax( WPS_DEALS_POST_TAGS );
+		
+		//apply filter to check archive page
+		$is_archive_page = apply_filters( 'wps_deals_is_archive_page', $is_archive_page );
+		
 		if ( is_single() && get_post_type() == WPS_DEALS_POST_TYPE ) {
 
 			$file 	= 'deals-single.php';
 			$find[] = $file;
 			$find[] = 'deals-engine/' . $file;
 
-		} elseif ( is_post_type_archive( WPS_DEALS_POST_TYPE ) || is_tax( WPS_DEALS_POST_TAXONOMY ) || is_tax( WPS_DEALS_POST_TAGS ) ) {
+		} elseif ( $is_archive_page ) {
 			
 			$file 	= 'deals-archive.php';
 			$find[] = $file;
@@ -1061,7 +1066,7 @@ class Wps_Deals_Public_Pages	{
 		add_action( 'init', array( $this, 'wps_deals_login' ) );
 		
 		//add action to register from create an account page
-		add_action( 'init', array( $this, 'wps_deals_register' ) );
+		add_action( 'init', array( $this, 'wps_deals_register' ), 100 );
 		
 		// add action to set price depentds on sale_price or normal_price
 		add_action( 'wps_deals_scheduled_set_price_meta', array( $this, 'wps_deals_scheduled_set_price_meta' ) );

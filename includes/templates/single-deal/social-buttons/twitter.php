@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	
 ?>
 
-<div class="deals-twitter deals-col-4">
+<div class="deals-twitter deals-col-4" style="width:auto;">
 
 	<div data-id="wpsdealstwbutton_<?php echo $dealid;?>">
 	

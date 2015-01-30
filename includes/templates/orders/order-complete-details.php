@@ -223,85 +223,49 @@ if( !empty( $salesdata ) && !empty( $order_id ) ) {
 							
 							if( $dealtype == 'simple' ) { //check deal type is simple
 								
-								$downloadfiles = '';
+								$downloadfiles	= '';
 								
-								$downloadfiles .= '<ul class="deals-purchase-receipt-files">';
-								
-								//check payment status is completed and order download files should not empty
-								if( $payment_status_val == '1' 
-									&& !empty( $orderedfiles[$product['deal_id']] ) && is_array( $orderedfiles[$product['deal_id']] ) ) {
+								if( $payment_status_val == '1' ) {
 									
-									foreach ( $orderedfiles[$product['deal_id']] as $key => $file ) {
-										
-										//get file name from deal id and file key
-										$filename = $model->wps_deals_get_download_file_name( $product['deal_id'], $key );
-										
-										if( !empty( $filename ) ) { // check file name is exist or not
-											
-											//make file display to user
-											$filedisplay = sprintf( __( 'Download File %d :','wpsdeals' ), ( $key + 1 ) ) . '<a href="'.$file.'" target="_blank">'.$filename.'</a>';
-											
-											$downloadfiles .= '<li>'.$filedisplay.'</li>';
-										}
-										
-									} //end for loop
-									
-								} else {
-									$downloadfiles .= '<li>' . __( 'No downloadable files found.', 'wpsdeals' ) . '</li>';
+									//get files with href to send to mail in 
+									$downloadfiles = nl2br( $model->wps_deals_purchase_download_links( $product, $userdetails, $order_id ) );
 								}
-								
-								$downloadfiles .= '</ul>';
 								
 								echo apply_filters( 'wps_deals_order_download_files', $downloadfiles, $product['deal_id'], $order_id );
 								
 							} else if( $dealtype == 'bundle' ) { //check deal type is bundle
 								
-								$dealsbundle = '';
+								//Initilize download files
+								$downloadfiles	= '';
 								
-								$dealsbundle .= '<ul class="wps-deals-purchase-receipt-files">';
+								$bundled_deals = $model->wps_deals_get_bundled_deals_list( $product['deal_id'] );
 								
-								//get ordered deal bundle
-								$orderedbundledeals = $model->wps_deals_get_bundled_deals_list( $product['deal_id'] );
-								
-								if( !empty($orderedbundledeals) ) {
+								if( !empty( $bundled_deals ) ) {
 									
-									foreach ( $orderedbundledeals as $orderedbundledeal ) {
+									$downloadfiles .= '<ul>';
+									
+									foreach ( $bundled_deals as $bundled_deal ) {
 										
-										if( !empty( $orderedbundledeal ) ) {
+										$downloadfiles .= "<li>".get_the_title( $bundled_deal );
+										
+										if( !empty( $bundled_deal ) ) {
 											
-											$dealsbundle .= '<li><strong><a href="'.get_permalink($orderedbundledeal).'" title="">' . get_the_title( $orderedbundledeal ) . '</a></strong>';
-											$dealsbundle .= '<ul>';
+											//get files with href to send to mail in 
+											$bundlefiles = $model->wps_deals_purchase_download_links( array('deal_id' => $bundled_deal), $userdetails, $order_id );
 											
-											//check payment status is completed and order download files should not empty
-											if( $payment_status_val == '1' 
-												&& !empty( $orderedfiles[$orderedbundledeal] ) && is_array( $orderedfiles[$orderedbundledeal] ) ) {
-												
-												foreach ( $orderedfiles[$orderedbundledeal] as $key => $file ) {
-													
-													//get file name from deal id and file key
-													$filename = $model->wps_deals_get_download_file_name( $orderedbundledeal, $key );
-													
-													if( !empty( $filename ) ) { // check file name is exist or not
-														
-														//make file display to user
-														$filedisplay = sprintf( __( 'Download File %d :','wpsdeals' ), ( $key + 1 ) ) . '<a href="'.$file.'" target="_blank">'.$filename.'</a>';
-														
-														$dealsbundle .= '<li>'.$filedisplay.'</li>';
-													}
-													
-												} //end for loop
-												
-											} else {
-												$dealsbundle .= '<li>' . __( 'No downloadable files found.', 'wpsdeals' ) . '</li>';
-											}
+											$bundlefiles = apply_filters( 'wps_deals_order_download_files', $bundlefiles, $bundled_deal, $order_id );
 											
-											$dealsbundle .= '</li></ul>';
+											$downloadfiles .= $bundlefiles;
 										}
+										
+										$downloadfiles .= "</li>";
 									}
+									
+									$downloadfiles .= "</ul>";
 								}
-								$dealsbundle .= '</ul>';
 								
-								echo apply_filters( 'wps_deals_order_bundles', $dealsbundle, $product['deal_id'], $order_id );
+								echo apply_filters( 'wps_deals_order_bundles', nl2br( $downloadfiles ), $product['deal_id'], $orderid );
+								
 							} //end if deal type
 						?>
 					</td>

@@ -269,6 +269,9 @@ if ( ! function_exists( 'wps_deals_result_count' ) ) {
 		// merge and set the args
 		$activeargs = array_merge( $homeargs, array( 'meta_query' => $activemetaquery ) );
 		
+		// apply filter for add archive page argument if any
+		$activeargs	= apply_filters( 'wps_deals_add_archive_page_args', $activeargs );
+		
 		// set the args, which we will pass to the template
 		$args = array( 
 						'args' => $activeargs,
@@ -1550,6 +1553,9 @@ if( !function_exists( 'wps_deals_archive_deals_content' ) ) {
 		
 		// merge and set the args
 		$activeargs = array_merge( $homeargs, array( 'meta_query' => $activemetaquery ) );
+		
+		// apply filter for add archive page argument if any
+		$activeargs	= apply_filters( 'wps_deals_add_archive_page_args', $activeargs );
 		
 		// counter timer script
 		wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );

@@ -1781,3 +1781,9 @@ color: #ff0000;
 	padding: 6px 10px 6px 0;
 }
 /* CSS for recent order, view all order, deals checkout, purchased deals, billing address, view billing address End */
+
+/* CSS for archive page description */
+.deals-archive .page-description {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}

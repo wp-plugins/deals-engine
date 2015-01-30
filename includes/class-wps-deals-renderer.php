@@ -345,9 +345,12 @@ class Wps_Deals_Renderer {
 		echo '		</tbody>
 				</table>';
 					
-		echo '	</div><!--wps-deals-view-product-details-->
+		echo '	</div><!--wps-deals-view-product-details-->';
+		
+				//add some content after payment details
+				do_action('wps_deals_sales_paymentdetails_after_items',$data['ID']);
 						
-					</div><!--.wps-deals-view-details-wrap-->';
+		echo '		</div><!--.wps-deals-view-details-wrap-->';
 		return ob_get_clean();
 	}
 	

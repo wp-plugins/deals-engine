@@ -519,64 +519,67 @@ class Wps_Deals_Model {
 			
 			$product_details .= "\n\n".$i.') '.get_the_title($product['deal_id']).' - '.$product['display_sale_price'].' x '.$product['deal_quantity'].' - '.$product['display_total'];
 					
-					//get files without href
-					$filesmeta[$product['deal_id']] =  $this->wps_deals_purchase_download_links( $product, $userdata, $orderid, false );
+			//get files without href
+			$filesmeta[$product['deal_id']] =  $this->wps_deals_purchase_download_links( $product, $userdata, $orderid, false );
+			
+			//get files with href to send to mail in 
+			$files = $this->wps_deals_purchase_download_links( $product, $userdata, $orderid );
+			
+			//get deal type
+			$dealtype = $this->wps_deals_get_deal_type( $product['deal_id'] );
+			
+			if( $dealtype == 'simple' ) { //check deal type is simple
+				
+				//get files list with specific deal id and order id
+				$files = apply_filters( 'wps_deals_order_download_files', $files, $product['deal_id'], $orderid );
+				
+			} else if( $dealtype == 'bundle' ) { //check deal type is bundle
+				
+				$bundled_deals = $this->wps_deals_get_bundled_deals_list( $product['deal_id'] );
+				if( !empty( $bundled_deals ) ) {
 					
-					//get files with href to send to mail in 
-					$files = $this->wps_deals_purchase_download_links( $product, $userdata, $orderid );
+					$files .= '<ul>';
 					
-					//get deal type
-					$dealtype = $this->wps_deals_get_deal_type( $product['deal_id'] );
-					
-					if( $dealtype == 'simple' ) { //check deal type is simple
+					foreach ( $bundled_deals as $bundled_deal ) {
 						
-						//get files list with specific deal id and order id
-						$files = apply_filters( 'wps_deals_email_download_links', $files, $product['deal_id'], $orderid );
+						$files .= "<li>".get_the_title( $bundled_deal );
 						
-					} else if( $dealtype == 'bundle' ) { //check deal type is bundle
-						
-						$bundled_deals = $this->wps_deals_get_bundled_deals_list( $product['deal_id'] );
-						if( !empty( $bundled_deals ) ) {
+						if( !empty( $bundled_deal ) ) {
 							
-							$files .= '<ul>';
+							//get files without href
+							$bundle_product['deal_id'] = $bundled_deal;
+							$filesmeta[$bundle_product['deal_id']] =  $this->wps_deals_purchase_download_links( $bundle_product, $userdata, $orderid, false );
 							
-							foreach ( $bundled_deals as $bundled_deal ) {
-								
-								$files .= "<li>".get_the_title( $bundled_deal );
-								
-								if( !empty( $bundled_deal ) ) {
-									
-									//get files without href
-									$bundle_product['deal_id'] = $bundled_deal;
-									$filesmeta[$bundle_product['deal_id']] =  $this->wps_deals_purchase_download_links( $bundle_product, $userdata, $orderid, false );
-									
-									//get files with href to send to mail in 
-									$bundlefiles = $this->wps_deals_purchase_download_links( array('deal_id' => $bundled_deal), $userdata, $orderid );
-									
-									$bundlefiles = apply_filters( 'wps_deals_email_download_links', $bundlefiles, $bundled_deal, $orderid );
-									
-									$files .= $bundlefiles;
-								}
-								
-								$files .= "</li>";
-							}
+							//get files with href to send to mail in 
+							$bundlefiles = $this->wps_deals_purchase_download_links( array('deal_id' => $bundled_deal), $userdata, $orderid );
 							
-							$files .= "</ul>";
+							$bundlefiles = apply_filters( 'wps_deals_order_download_files', $bundlefiles, $bundled_deal, $orderid );
+							
+							$files .= $bundlefiles;
 						}
-						$files = apply_filters( 'wps_deals_email_bundle_download_links', $files, $product['deal_id'], $orderid );
 						
-						//update ordered bundle deals to metabox
-						update_post_meta( $orderid, $prefix.'ordered_bundle_deals', $bundled_deals );
-						
-					} else {
-						$files = false;
+						$files .= "</li>";
 					}
 					
-					if( $files != false ) {
-						$product_details .= $files;
-					}
+					$files .= "</ul>";
+				}
+				
+				$files = apply_filters( 'wps_deals_order_bundles', $files, $product['deal_id'], $orderid );
+				
+				//update ordered bundle deals to metabox
+				update_post_meta( $orderid, $prefix.'ordered_bundle_deals', $bundled_deals );
+				
+			} else {
+				$files = false;
+			}
+			
+			if( $files != false ) {
+				$product_details .= $files;
+			}
+			
 			//get purchase note value from post metabox	
 			$purchasenote = get_post_meta($product['deal_id'], $prefix.'purchase_notes',true);
+			$purchasenote = do_shortcode( apply_filters( 'wps_deals_purchase_note', $purchasenote, $product['deal_id'], $orderid ) );
 			if(!empty($purchasenote)) { //check there is not empty purchase note then send it with mail to user
 				$product_details .= "\n\n". __('Notes :','wpsdeals').' '.$purchasenote;
 			}	
@@ -1042,12 +1045,14 @@ class Wps_Deals_Model {
 				
 				if( is_array( $files ) && $withlink == true ) { //check files are array and require with link then
 					
+					$download_file_cnt = 1; // counter used to display no of files
+					
 					foreach ( $files as $filekey => $file ) {
 						
 						//get the file name from its deal id and file key which will send to user
 						$fname = $this->wps_deals_get_download_file_name( $purchasedata['deal_id'], $filekey );
 						
-						$links .= "\n".sprintf( __( 'Download File %d :','wpsdeals' ), ( $filekey + 1 ) ).'<a href="'.$file.'">';
+						$links .= "\n".sprintf( __( 'Download File %d: ','wpsdeals' ), ( $download_file_cnt++ ) ).'<a href="'.$file.'">';
 							$links .= $fname;
 						$links .= '</a>';
 					}
@@ -1114,7 +1119,7 @@ class Wps_Deals_Model {
 		} else {
 			$files = false;
 		}
-		return $files;
+		return apply_filters( 'wps_deals_get_download_links', $files, $purchasedata['deal_id'], $orderid );
 	}
 	
 	/**
@@ -1381,7 +1386,7 @@ class Wps_Deals_Model {
 			}
 			
 		}
-		return apply_filters( 'wps_deals_file_name', $filename );
+		return apply_filters( 'wps_deals_file_name', $filename, $dealid, $filekey );
 		
 	}
 	/**
