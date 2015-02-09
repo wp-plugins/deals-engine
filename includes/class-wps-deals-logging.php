@@ -206,7 +206,7 @@ class Wps_Deals_Logging {
 			'post_type'      => WPS_DEALS_LOGS_POST_TYPE,
 			'posts_per_page' => 20,
 			'post_status'    => 'publish',
-			'paged'          => get_query_var( 'paged' ),
+			//'paged'          => get_query_var( 'paged' ),
 			'log_type'       => false
 		);
 

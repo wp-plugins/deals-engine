@@ -1883,20 +1883,22 @@ if( !function_exists( 'wps_deals_single_add_to_cart' ) ) {
 		
 		//when deal expired
 		$dealexpired = false;
-	
-		if ( $available == '' ) {
-			//$availdeals =  __('Unlimited','wpsdeals');
-		} else if ( intval( $available ) == 0 ) {
+		
+		if ( ( !empty( $enddate ) && $enddate <= $today )  || $available == '0' ) {
 			//$availdeals =  __('Out of Stock','wpsdeals');
 			$dealexpired = true;
-		} else {}
-		 
+		}
+		
 		// check if the deals is still active
 		if( $enddate >= $today && $startdate <= $today && $dealexpired != true ) {
 			
 			// get the template
 			wps_deals_get_template( 'single-deal/add-to-cart.php' );
-		}		
+			
+		} else if ( $dealexpired == true ) {  // if deal is expired or sold out			
+			
+			wps_deals_single_deal_expired();			
+		} 		
 	}
 }
 
@@ -1917,7 +1919,7 @@ if( !function_exists( 'wps_deals_single_value' ) ) {
 		// get the normal price
 		$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
 		
-		if( $normalprice !== '' ) {		
+		if( $normalprice !== '' && !empty( $normalprice ) ) {
 		
 			// get the displaying price
 			$displayprice = $wps_deals_price->get_display_price( $normalprice, $post->ID );
@@ -1949,10 +1951,15 @@ if( !function_exists( 'wps_deals_single_discount' ) ) {
 		
 		global $post,$wps_deals_price;
 		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
 		// get the discount 
 		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
 		
-		if(!empty($discount) && $discount != '0%') {
+		//get the normal price
+		$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
+		
+		if( $normalprice !== '' && !empty( $normalprice ) ) {
 		
 			// set the args, which we will pass to the template
 			$args = array( 
@@ -1977,12 +1984,15 @@ if( !function_exists( 'wps_deals_single_save' ) ) {
 		
 		global $post,$wps_deals_price;
 		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
 		// get the saving value
 		$yousave = $wps_deals_price->wps_deals_get_savingprice( $post->ID );	
 		
-		$discount = $wps_deals_price->wps_deals_get_discount( $post->ID );
+		//get the normal price
+		$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );
 		
-		if(!empty($discount) && $discount != '0%') {
+		if( $normalprice !== '' && !empty( $normalprice ) ) {
 		
 			// set the args, which we will pass to the template
 			$args = array( 
@@ -2267,7 +2277,7 @@ if( !function_exists( 'wps_deals_single_deal_expired' ) ) {
 		if ( $available == '' ) {
 			//$availdeals =  __('Unlimited','wpsdeals');
 		} elseif ( intval( $available ) == 0  && $enddate >= $today) { // deal out of stock
-			$expiredtext = __( 'Sold Out', 'wpsdeals' );
+			$expiredtext = __( 'Deal Sold Out', 'wpsdeals' );
 			$dealexpired = true;
 		} else {
 			//nothing to do

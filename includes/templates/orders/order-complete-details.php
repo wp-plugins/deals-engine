@@ -18,6 +18,8 @@ $model = $wps_deals_model;
 //session class
 $session = $wps_deals_session;
 
+$prefix = WPS_DEALS_META_PREFIX;
+
 $orderargs = array();
 
 //check user is logged in or not if user is logged in then use url's order id
@@ -215,7 +217,20 @@ if( !empty( $salesdata ) && !empty( $order_id ) ) {
 									echo $product['deal_title']; 
 								} 
 						?>
-						</div>
+						</div>						
+						<?php
+							if( $payment_status_val == "1" ) {
+								
+								//get purchase note value from post metabox	
+								$purchasenote = get_post_meta( $product['deal_id'], $prefix.'purchase_notes',true ); 								
+								if( !empty( $purchasenote ) ) {  // if payment status is completed and not empty purchase note	
+																		
+									// get purchase note after applying shortcode and filter
+									$purchasenote = $model->wps_deals_get_purchase_notes( $purchasenote, $product['deal_id'], $order_id );									
+									echo "<div class='deals-purchase-receipt-product-notes'>" . $purchasenote . "</div>";
+								}
+							}
+						?>																																			
 						<?php
 						
 							//get deal type

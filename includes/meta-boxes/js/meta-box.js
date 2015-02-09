@@ -800,6 +800,9 @@ function wpsDealsShowAndHide() {
 		jQuery('.wps-deals-metabox-tabs-div .upload').hide(); // Hide Upload Tab
 		jQuery('.wps-deals-metabox-tabs-div .bundle').show(); // Hide Bundle Tab
 		
+		jQuery('.wps-deals-metabox-tabs-div .purchase.tab-content').hide(); // Hide Purchase Tab Content
+		jQuery('.wps-deals-metabox-tabs-div .bundle.tab-content').hide(); // Hide Bundle Tab Content
+		
 	} else if( deal_type == 'affiliate' ) { // check deal type is affiliate
 		
 		jQuery('.wps-deals-metabox-tabs-div .upload').hide(); // Hide Upload Tab

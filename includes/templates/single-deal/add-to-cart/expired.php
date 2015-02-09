@@ -14,10 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 ?>
 	
-<div class="deals-product-btn deals-row">
-
-	<div class="deals-button btn-big deals-end">
-		<?php echo apply_filters( 'wps_deals_expired_text', $expiredtext );?>
+<div class="deals-product-btn deal-expired deals-row">
+	<div class="deals-expired-single">
+		<p class="deals-expired-text">		
+			<?php echo apply_filters( 'wps_deals_expired_text', $expiredtext );?>
+		</p>
 	</div>
-
 </div>

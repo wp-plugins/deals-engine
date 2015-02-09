@@ -54,7 +54,7 @@ class Wps_Deals_Downloads_Logs_List extends WP_List_Table {
 		$log_query = array(
 			'post_parent' => $download,
 			'log_type'    => 'downloads',
-			'paged'       => $paged,
+			//'paged'       => $paged,
 			'meta_query'  => $this->get_meta_query()
 		);
 		
@@ -195,7 +195,7 @@ class Wps_Deals_Downloads_Logs_List extends WP_List_Table {
 									);
 		
 		if ( $dealsdownload ) {
-			echo '<select name="deals" id="wps-deals-downloads-filter">';
+			echo '<select name="deals" class="wps-deals-downloads-filter">';
 				echo '<option value="0">' . __( 'All', 'wpsdeals'  ) . '</option>';
 				foreach ( $dealsdownload as $deal ) {
 					echo '<option value="' . $deal . '"' . selected( $deal, $this->get_sorted_deals() ) . '>' . esc_html( get_the_title( $deal ) ) . '</option>';
@@ -424,7 +424,7 @@ $logs_table = new Wps_Deals_Downloads_Logs_List();
 $logs_table->prepare_items();
 
 ?>
-<div class="wrap">
+<div class="wrap wps-deals-form">
 	<?php 
 			//add something befoer downloads logs
 			do_action( 'wps_deals_logs_downloads_before' ); 

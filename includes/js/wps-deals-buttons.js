@@ -170,7 +170,8 @@ jQuery(document).ready(function($) {
 				dealsshortcodestr	= jQuery( '#wps_deals_shortcodes_hidden' ).val();
 				
 			 	 //send_to_editor(str);
-		        tinymce.get('content').execCommand('mceInsertContent',false, dealsshortcodestr);
+		        //tinymce.get('content').execCommand('mceInsertContent',false, dealsshortcodestr);
+		        window.send_to_editor( dealsshortcodestr );
 		  		jQuery('.wps-deals-popup-overlay').fadeOut();
 				jQuery('.wps-deals-popup-content').fadeOut();
 			}

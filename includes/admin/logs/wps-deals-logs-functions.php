@@ -40,7 +40,7 @@ function wps_deals_log_views() {
 		<input type="hidden" name="post_type" value="<?php echo WPS_DEALS_POST_TYPE;?>"/>
 		<input type="hidden" name="page" value="wps-deals-reports"/>
 		<input type="hidden" name="tab" value="logs"/>
-		<select id="wps-deals-logs-view" name="view">
+		<select class="wps-deals-logs-view" name="view">
 			<!--<option value="-1"><?php _e( 'Log Type', 'wpsdeals' ); ?></option>-->
 			<?php foreach ( $views as $view_id => $label ): ?>
 				<option value="<?php echo $model->wps_deals_escape_attr( $view_id ); ?>" <?php selected( $view_id, $current_view ); ?>><?php echo $label; ?></option>

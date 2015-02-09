@@ -579,7 +579,8 @@ class Wps_Deals_Model {
 			
 			//get purchase note value from post metabox	
 			$purchasenote = get_post_meta($product['deal_id'], $prefix.'purchase_notes',true);
-			$purchasenote = do_shortcode( apply_filters( 'wps_deals_purchase_note', $purchasenote, $product['deal_id'], $orderid ) );
+			// get purchase note after applying shortcode and filter
+			$purchasenote = $this->wps_deals_get_purchase_notes( $purchasenote, $product['deal_id'], $orderid );			
 			if(!empty($purchasenote)) { //check there is not empty purchase note then send it with mail to user
 				$product_details .= "\n\n". __('Notes :','wpsdeals').' '.$purchasenote;
 			}	
@@ -2526,6 +2527,21 @@ class Wps_Deals_Model {
 		}
 		
 		return apply_filters( 'wps_deals_get_deals_ordering_args_data', $args );
+	}
+	
+	/**
+	 * Returns Purchase notes of deal
+	 * 
+	 * Handle shortcode if any in purchase notes and 
+	 * also use filter to modify purchase note
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.1.3
+	 */
+	public function wps_deals_get_purchase_notes( $purchasenote, $deal_id, $order_id ) {
+		
+		return do_shortcode( apply_filters( 'wps_deals_purchase_note', $purchasenote, $deal_id, $order_id ) );
+		
 	}
 	
 }

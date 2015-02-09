@@ -56,7 +56,7 @@ class Wps_Deals_Sales_Logs_List extends WP_List_Table {
 									);
 		
 		if ( $dealsdownload ) {
-			echo '<select name="deals" id="wps-deals-sales-filter">';
+			echo '<select name="deals" class="wps-deals-sales-filter">';
 				echo '<option value="0">' . __( 'All', 'wpsdeals'  ) . '</option>';
 				foreach ( $dealsdownload as $deal ) {
 					echo '<option value="' . $deal . '"' . selected( $deal, $this->get_sorted_sales_log() ) . '>' . esc_html( get_the_title( $deal ) ) . '</option>';
@@ -86,7 +86,7 @@ class Wps_Deals_Sales_Logs_List extends WP_List_Table {
 		$log_query = array(
 							'post_parent' => $sale,
 							'log_type'    => 'sales',
-							'paged'       => $paged,
+							//'paged'       => $paged,
 							'meta_query'  => $this->get_meta_query()
 						  );
 		
@@ -422,14 +422,17 @@ class Wps_Deals_Sales_Logs_List extends WP_List_Table {
     }
 }
 
-	$logs_table = new Wps_Deals_Sales_Logs_List();
+$logs_table = new Wps_Deals_Sales_Logs_List();
+$logs_table->prepare_items();
 
+?><div class="wrap wps-deals-form">
+	<?php
 	//add something before sales log before
 	do_action( 'wps_deals_sales_log_before' );
 	
-	$logs_table->prepare_items();
 	$logs_table->display();
 	
 	//add something after sales log before
 	do_action( 'wps_deals_sales_log_after' );
-?>
+	?>
+</div>

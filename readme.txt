@@ -5,7 +5,7 @@ Contributors: wpsocial, dwaser71
 Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial, widget
 Requires at least: 3.5.0
 Tested up to: 4.1
-Stable tag: 2.1.3
+Stable tag: 2.1.4
 License: GNU Version 2 or Any Later Version
 
 Turn your WordPress blog in to a Social Deals site and sell any kind of Deals with this complete Deals management plugin.
@@ -24,7 +24,7 @@ We have a special offer for you. Now you can save 25% on any Extension for the S
 
 **Features of this plugin include:**
 
-* Fully integrated shopping cart to let customers purchase more than one Deal ot once
+* Fully integrated shopping cart to let customers purchase more than one Deal at once
 * Integrated PayPal Standard payment gateway
 * Other payment gateways as [extension](http://wpsocial.com/product-category/sde/sde-extensions/payment-gateways/) available
 * Social Checkout (Facebook, Twitter, Google, LinkedIn, Yahoo, Foursquare, Windows Live) are already integrated
@@ -96,6 +96,10 @@ Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com
 6. Single Deal Page
 
 == Changelog ==
+= Version 2.1.4 (2015-02-07) =
+* Added purchase note on view order page.
+* Resolved paging and filter issue on Logs Report pages.
+* Added Message on Deal page for "Deal Sold Out" and "Deal Expired".
 = Version 2.1.3 (2015-01-30) =
 * Added few new currencies.
 * Added more actions and filters.

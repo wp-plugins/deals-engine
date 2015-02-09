@@ -12,9 +12,24 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-global $wps_deals_options;
+global $wps_deals_options, $post;
+
+$prefix = WPS_DEALS_META_PREFIX;
+
+//today's date time
+$today	= wps_deals_current_date();
+		
+// get the end date & time
+$enddate = get_post_meta( $post->ID, $prefix . 'end_date', true );
+
+// get the value for the amount of available deals
+$available = get_post_meta( $post->ID, $prefix . 'avail_total', true );
 
 $expired = '';
+
+if( ( !empty( $enddate ) && $enddate <= $today ) || $available == '0' ) {
+	$expired = ' deal-expired';
+}
 
 // get the size
 $deal_size = isset( $wps_deals_options['deals_size_single'] ) ? $wps_deals_options['deals_size_single'] : '';
