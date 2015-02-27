@@ -5,7 +5,7 @@
  *
  * This displays all the content for the deals home page.
  * 
- * Override this template by copying it to yourtheme/deals-engine/home.php
+ * Override this template by copying it to yourtheme/deals-engine/deals-home.php
  *
  * @author 		Social Deals Engine
  * @package 	Deals-Engine/Includes/Templates

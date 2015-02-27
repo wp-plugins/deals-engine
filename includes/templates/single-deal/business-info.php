@@ -21,31 +21,37 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		<p class="deals-business-title">
 			<?php echo $businesstitle; ?>
 		</p>
-
-		<div class="deals-google-map-single">
+		
+		<?php if( !empty( $mapaddpress ) ) : ?>
+		<div class="deals-google-map-single">		
 		
 			<div class="deals-map" id="map"></div>
-			
+						
 		</div>
-
+		<?php endif; ?>
+		
+		<?php if( !empty( $imgurl ) ) : ?>
 		<div class="deals-business-logo-single deals-col-6">
 
 			<img src="<?php echo $imgurl; ?>" alt="<?php _e( 'Logo', 'wpsdeals' ); ?>" />
 			
 		</div>
-
+		<?php endif; ?>
+		
 		<div class="business-address-single deals-col-6">
 
 			<?php if( !empty( $address ) ) : ?>
 			<p class="business-address">
-				<?php echo nl2br( $address );?>
-				
-				<?php if( !empty( $businesslink ) ) : ?>
+				<?php echo nl2br( $address );?>								
+			</p>
+			<?php endif; ?>
+			
+			<?php if( !empty( $businesslink ) ) : ?>
+			<p>
 				<a class="business-link" href="<?php echo $businesslink; ?>" target="_blank">
 					<?php echo $businesslink; ?>
 				</a>
-				<?php endif; ?>
-			</p>
+			</p>							
 			<?php endif; ?>			
 			
 		</div>

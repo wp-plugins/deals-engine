@@ -98,8 +98,9 @@ function wps_deals_report_to_csv() {
 		
 		foreach ($data as $key => $value){
 			
+			$value_id = isset( $value['ID'] ) ? $value['ID'] : '';
 			//this line should be on start of loop
-			$data[$key]	= apply_filters('wps_deals_exports_customers_report_column_data',$value,$value['ID']);
+			$data[$key]	= apply_filters('wps_deals_exports_customers_report_column_data',$value, $value_id );
 			
 			$wp_user = get_user_by( 'email', $value );
 			

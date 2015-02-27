@@ -2532,18 +2532,19 @@ if( !function_exists( 'wps_deals_single_business_info' ) ) {
 		$business_url = get_post_meta( $post->ID, $prefix . 'bus_web_url', true );
 	
 		// check if the business title is set
-		if( !empty( $businesstitle ) ) { 
+		//if( !empty( $businesstitle ) ) { 
 		
 			// set the args, which we will pass to the template
 			$args = array( 
 							'businesstitle' => $businesstitle,
 							'imgurl' => $business_logo['src'],
 							'address' => $business_address,
-							'businesslink' => $business_url
+							'businesslink' => $business_url,
+							'mapaddpress' => $address
 						);
 						
 			wps_deals_get_template( 'single-deal/business-info.php', $args );
-		}
+		//}
 	}
 }
 

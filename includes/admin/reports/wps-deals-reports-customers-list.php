@@ -55,8 +55,9 @@ class Wps_Deals_Customer_List extends WP_List_Table {
 		
 		foreach ($data as $key => $value){
 			
+			$value_id = isset( $value['ID'] ) ? $value['ID'] : '';
 			//this line should be on start of loop
-			$data[$key]	= apply_filters('wps_deals_reports_customers_column_data',$value,$value['ID']);
+			$data[$key]	= apply_filters('wps_deals_reports_customers_column_data',$value,$value_id );
 			
 			$wp_user = get_user_by( 'email', $value );
 			

@@ -96,6 +96,8 @@ Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com
 6. Single Deal Page
 
 == Changelog ==
+= Version 2.1.5 (2015-02-27) =
+* Fixed design issues.
 = Version 2.1.4 (2015-02-07) =
 * Added purchase note on view order page.
 * Resolved paging and filter issue on Logs Report pages.
