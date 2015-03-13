@@ -35,6 +35,8 @@ class Wps_Deals_Model {
 		
 		$dealsargs = array('post_type' => WPS_DEALS_POST_TYPE, 'post_status' => 'publish');
 		
+		$dealsargs = wp_parse_args( $args, $dealsargs );
+		
 		//return only id
 		if(isset($args['fields']) && !empty($args['fields'])) {
 			$dealsargs['fields'] = $args['fields'];
@@ -98,6 +100,19 @@ class Wps_Deals_Model {
 		}  else {
 			//retrived data is in object format so assign that data to array for listing
 			$postslist = $this->wps_deals_object_to_array($result->posts);
+			
+			// if get list for deal sales list then return data with data and total array
+		   if( isset($args['deals_reports_list_data']) && !empty($args['deals_reports_list_data']) ) {
+		    
+	    		$data_res = array();
+		           
+		    	$data_res['data']  = $postslist;
+		    
+		    	//To get total count of post using "found_posts" and for users "total_users" parameter
+		    	$data_res['total'] = isset($result->found_posts) ? $result->found_posts : '';
+		    
+		    	return $data_res;
+		   }
 		}
 		
 		return $postslist;
@@ -139,10 +154,9 @@ class Wps_Deals_Model {
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
-		$metasale1 = array();
-		$metasale2 = array();
-		
 		$salesargs = array('post_type' => WPS_DEALS_SALES_POST_TYPE, 'post_status' => 'publish');
+		
+		$salesargs = wp_parse_args( $args, $salesargs );
 		
 		//return only id
 		if(isset($args['fields']) && !empty($args['fields'])) {
@@ -170,12 +184,6 @@ class Wps_Deals_Model {
 			$salesargs['author'] = "'".$args['author']."'"; //when userid is zero need to add quot
 		}
 		
-		//get payment status wise records
-		/*if(isset($args['payment_status'])) {
-			$metasale1['key'] = $prefix . 'payment_status';
-			$metasale1['value'] = $args['payment_status'];
-		}*/
-		
 		//show how many per page records
 		if(isset($args['posts_per_page']) && !empty($args['posts_per_page'])) {
 			$salesargs['posts_per_page'] = $args['posts_per_page'];
@@ -192,12 +200,6 @@ class Wps_Deals_Model {
 		if(isset($args['p']) && !empty($args['p'])) {
 			$salesargs['p']	= $args['p'];
 		}
-		
-		//show per page records
-		/*if(isset($args['useremail']) && !empty($args['useremail'])) {
-			$metasale2['key']	=	$prefix.'payment_user_email';
-			$metasale2['value']	=	$args['useremail'];
-		}*/
 		
 		//get the data by year
 		if(isset($args['year']) && !empty($args['year'])) {
@@ -218,23 +220,133 @@ class Wps_Deals_Model {
 			$salesargs['hour']	= $args['year'];	
 		}
 		
-		//get order by records
-		$salesargs['order'] = 'DESC';
-		$salesargs['orderby'] = 'date';
+		// get start date and end date
+	  	$salesargs['start_date'] = isset( $args['start_date'] ) ? $args['start_date'] : null;
+	  	$salesargs['end_date']   = isset( $args['end_date'] )   ? $args['end_date']   : $salesargs['start_date'];
+	  	
+	  	if( !empty( $salesargs['start_date'] ) || !empty( $salesargs['end_date'] ) ) {
+	  		
+	  		// add date query filter to get sales by start date and end date
+	  		$salesargs['date_query'] = array( 
+    									'after' => $salesargs['start_date'],
+	         							'before' => $salesargs['end_date'],
+         								'inclusive'=> true	// start date inclusive, end date exclusive
+           							);
+  		}		  	
 		
-		//set meta query parameters
-		/*if(!empty($metasale1) || !empty($metasale2)) {
-			$salesargs['meta_query'] = array( $metasale1, $metasale2 );
-		}*/
+		//get order by records
+		$salesargs['order']		= 'DESC';
+		$salesargs['orderby']	= 'date';
+		
+		//return order
+		if(isset($args['order']) && !empty($args['order'])) {
+			$salesargs['order'] = $args['order'];
+		}
+		//return orderby
+		if( isset( $args['orderby'] ) && !empty( $args['orderby'] ) ) {
+			$salesargs['orderby'] = $args['orderby'];
+		}
+				
+		// If seach is set
+		if( isset( $args['s']) ) { 
+			
+			$search = trim( $args['s'] );
+		
+		  	$is_email = is_email( $search ) || strpos( $search, '@' ) !== false;			
+			
+			if ( $is_email ) { // if search by email
+				
+				// add meta query for email search
+				$key = $prefix.'payment_user_email';
+				$search_meta = array(
+					'key'     => $key,
+					'value'   => $search,
+					'compare' => 'LIKE'
+				);
+								
+				$salesargs['meta_query'][] = $search_meta;
+				unset( $salesargs['s'] );
+								
+			} elseif ( is_numeric( $search ) ) { // if search by numeric value
+
+				$post = get_post( $search );
+				
+				// if post type is wpsdealssales
+				if( is_object( $post ) && $post->post_type == WPS_DEALS_SALES_POST_TYPE ) {
+	
+					$arr   = array();
+					$arr[] = $search;
+					$salesargs['post__in'] = $arr;
+					unset( $salesargs['s'] );
+				}
+									
+			} elseif ( '#' == substr( $search, 0, 1 ) ) { // if search by Deal id
+
+				$salesargs['wpsdeals'] = str_replace( '#', '', $search );
+				
+				if( !empty( $salesargs['wpsdeals'] ) ) {
+					
+					$download_args = array(
+						'post_parent'            => $salesargs['wpsdeals'],
+						'log_type'               => 'sale',
+						'post_status'            => array( 'publish' ),
+						'nopaging'               => true,
+						'no_found_rows'          => true,
+						'update_post_term_cache' => false,
+						'update_post_meta_cache' => false,
+						'cache_results'          => false,
+						'fields'                 => 'ids'
+					);
+
+					if ( is_array( $salesargs['wpsdeals'] ) ) {
+						unset( $salesargs[ 'post_parent' ] );
+						$salesargs[ 'post_parent__in' ] = $salesargs['wpsdeals'];
+					}
+								
+					$sales = $this->logs->get_connected_logs( $download_args );
+					
+					if ( ! empty( $sales ) ) {
+			
+						$payments = array();
+			
+						foreach ( $sales as $sale ) {
+							$payments[] = get_post_meta( $sale, $prefix.'log_payment_id', true );
+						}
+			
+						$salesargs['post__in'] = $payments;
+			
+					} else {
+			
+						// Set post_parent to something crazy so it doesn't find anything
+						$salesargs['post_parent'] = 999999999999999;			
+					}
+				
+					unset( $salesargs['s'] );
+				}	
+			}
+		} // end of search						
 		
 		//fire query in to table for retriving data
-		$result = new WP_Query( $salesargs );
+		$result = new WP_Query( $salesargs );				
 		
-		if(isset($args['getcount']) && $args['getcount'] == '1') {
-			$postslist = $result->post_count;	
+		if( isset( $args['getcount'] ) && $args['getcount'] == '1' ) {
+			$postslist = $result->post_count;
 		}  else {
+			
 			//retrived data is in object format so assign that data to array for listing
 			$postslist = $this->wps_deals_object_to_array($result->posts);
+			
+			// if get list for deal sales list then return data with data and total array
+			if( isset($args['deals_list_data']) && !empty($args['deals_list_data']) ) {
+				
+				$data_res			= array();
+				$data_res['data']	= $postslist;
+				
+				//To get total count of post using "found_posts" and for users "total_users" parameter
+				$data_res['total']	= isset($result->found_posts) ? $result->found_posts : '';
+				
+				return $data_res;
+			}
 		}
 		
 		return $postslist;
@@ -242,14 +354,12 @@ class Wps_Deals_Model {
 	
 	/**
 	 * Convert Object To Array
-	 *
+	 * 
 	 * Converting Object Type Data To Array Type
 	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
-	 * 
 	 */
-	
 	public function wps_deals_object_to_array($result)
 	{
 	    $array = array();

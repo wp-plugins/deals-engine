@@ -98,6 +98,12 @@ class Wps_Deals_Scripts {
 				wp_enqueue_script( 'wp-lists' );
 				wp_enqueue_script( 'postbox' );
 		}
+		
+		// include css for deals sales start date and end date filter
+		if( $hook_suffix == 'wpsdeals_page_wps-deals-sales' ) {
+	   		// enqueue date-time-picker css
+	   		wp_enqueue_style( 'wps-deals-sales-date-css', WPS_DEALS_META_URL.'/css/datetimepicker/date-time-picker.css' );
+	  	}
 	}
 	
 	/**

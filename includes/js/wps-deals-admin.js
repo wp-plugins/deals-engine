@@ -407,4 +407,13 @@ jQuery(document).ready(function($) {
 			$('.wps-error-tip').fadeOut('100', function(){ $(this).remove(); } );
 		}	
 	});
+	
+	// Date picker for start date and end date on deals sales page
+	if ( $( '.wps_deals_datepicker' ).length > 0 ) {
+		
+		var dateFormat = 'mm/dd/yy'; // date format
+  		$( '.wps_deals_datepicker' ).datepicker( {
+	   		dateFormat: dateFormat
+  		} );
+	}
 });

@@ -501,5 +501,64 @@ class Wps_Deals_Renderer {
 		}
 		echo $html;
 	}
+	
+	/**
+	 * Deals Sales Contextual help
+	 * 
+	 * Add contextual help on deals sales page
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.1.6
+	 */
+	function wps_deals_sales_contextual_help() {
+	
+		$screen = get_current_screen();
+		
+		if ( $screen->id != 'wpsdeals_page_wps-deals-sales' )
+			return;
+	
+		$screen->set_help_sidebar(
+			'<p><strong>' . sprintf( __( 'For more information:', 'wpsdeals' ) . '</strong></p>' .
+			'<p>' . sprintf( __( 'Visit the <a href="%s" target="_blank">documentation</a> on the WPSocial Support website.', 'wpsdeals' ), esc_url( 'http://support.wpsocial.com/support/solutions/folders/231217' ) ) ) . '</p>'			
+		);
+	
+		$screen->add_help_tab( array(
+			'id'	    => 'wps-deals-sales-overview',
+			'title'	    => __( 'Overview', 'wpsdeals' ),
+			'content'	=>
+				'<p>' . __( "This screen provides access to all of your store's transactions.", 'wpsdeals' ) . '</p>' . 
+				'<p>' . __( 'Sales can be searched by email address, user name, or filtered by status (completed, pending, etc.)', 'wpsdeals' ) . '</p>' .
+				'<p>' . __( 'You also have the option to bulk delete sales should you wish.', 'wpsdeals' ) . '</p>'
+		) );
+	
+		$screen->add_help_tab( array(
+			'id'	    => 'wps-deals-sales-search',
+			'title'	    => __( 'Search Sales', 'wpsdeals' ),
+			'content'	=>
+				'<p>' . __( 'The deals sales can be searched in several different ways:', 'wpsdeals' ) . '</p>' .
+				'<ul>
+					<li>' . __( 'You can enter the customer\'s email address', 'wpsdeals' ) . '</li>
+					<li>' . __( 'You can enter the customer\'s name', 'wpsdeals' ) . '</li>					
+					<li>' . __( 'You can enter the Order ID', 'wpsdeals' ) . '</li>			
+					<li>' . __( 'You can enter the Deal ID prefixed by \'#\'', 'wpsdeals' ) . '</li>
+				</ul>'
+		) );
+	
+		$screen->add_help_tab( array(
+			'id'	    => 'wps-deals-sales-details',
+			'title'	    => __( 'Sales Details', 'wpsdeals' ),
+			'content'	=>
+				'<p>' . __( 'Each sales can be further inspected by clicking the corresponding <em>View Details</em> link. This will provide more information including:', 'wpsdeals' ) . '</p>' . 
+	
+				'<ul>					
+					<li><strong>Purchase Date</strong> - ' . __( 'The exact date and time the payment was completed.', 'wpsdeals' ) . '</li>					
+					<li><strong>Name</strong> - ' . __( "The buyer's name.", 'wpsdeals' ) . '</li>
+					<li><strong>Email</strong> - ' . __( "The buyer's email address.", 'wpsdeals' ) . '</li>					
+					<li><strong>Payment Method</strong> - ' . __( 'The name of the payment gateway used to complete the payment.', 'wpsdeals' ) . '</li>
+				</ul>'
+		) );
+	
+		do_action( 'wps_deals_sales_contextual_help', $screen );
+	}
 }
 ?>

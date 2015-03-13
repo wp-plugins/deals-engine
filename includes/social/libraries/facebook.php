@@ -128,13 +128,42 @@ if( !class_exists( 'Wps_Deals_Social_Facebook' ) ) {
 		 */
 		public function wps_deals_check_fb_app_permission( $perm="" ) {
 			
-			$data = '1';
+			/*$data = '1';
 			if( !empty( $perm ) ) {
 				$userID = $this->wps_deals_social_get_fb_user();
 				$accToken = $this->wps_deals_social_fb_getaccesstoken();
 				$url = "https://api.facebook.com/method/users.hasAppPermission?ext_perm=$perm&uid=$userID&access_token=$accToken&format=json";
 				$data = json_decode( $this->wps_deals_social_get_data_from_url( $url ) );			
 			}
+			return $data;*/
+			
+			
+			$data = '1';
+			
+			if( !empty( $perm ) ) {
+				
+				$facebook 	= $this->wps_deals_social_load_facebook();
+				$userID 	= $this->wps_deals_social_get_fb_user();
+				
+				$permissions = $this->facebook->api("/$userID/permissions");
+				
+				$permission_data	= isset( $permissions['data'] ) ? $permissions['data'] : array();
+				
+				if( !empty( $permission_data ) ) {
+					
+					foreach ( $permission_data as $permission_field ) {
+						
+						$field_name		= isset( $permission_field['permission'] ) ? $permission_field['permission'] : '';
+						$field_status	= isset( $permission_field['status'] ) ? $permission_field['status'] : '';
+						
+						if( $field_name == 'email' && $field_status == 'granted' ) {
+							$data = 1;
+							break;
+						}
+					}
+				}
+			}
+			
 			return $data;
 		}
 		

@@ -132,14 +132,14 @@ class Wps_Deals_Social_Public {
 			//check user data is set and user id of linkedin is set and not empty
 			if( !empty( $li_userdata ) && isset( $li_userdata['id'] ) && !empty( $li_userdata['id'] ) ) {
 				
-				$data['first_name'] = $li_userdata['first-name'];
-				$data['last_name'] = $li_userdata['last-name'];
-				$data['name'] = $li_userdata['first-name'].' '.$li_userdata['last-name'];
-				$data['email'] = $li_userdata['email-address'];
-				$data['type'] = $type;
-				$data['all'] = $li_userdata;
-				$data['link'] = $li_userdata['public-profile-url'];
-				$data['id']	= $li_userdata['id'];
+				$data['first_name']	= $li_userdata['firstName'];
+				$data['last_name']	= $li_userdata['lastName'];
+				$data['name']		= $li_userdata['firstName'].' '.$li_userdata['lastName'];
+				$data['email']		= $li_userdata['emailAddress'];
+				$data['type']		= $type;
+				$data['all']		= $li_userdata;
+				$data['link']		= $li_userdata['publicProfileUrl'];
+				$data['id']			= $li_userdata['id'];
 				
 				//create user
 				$usercreated = $this->wps_deals_social_create_user( $data );

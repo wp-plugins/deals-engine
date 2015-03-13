@@ -1790,3 +1790,12 @@ color: #ff0000;
 .deals-container .deals-terms  {
 	padding-top: 10px;
 }
+/* CSS for table header left alignment */
+.deals-container table th {
+	text-align: left;
+}
+/* CSS for table td proper alignment */
+.deals-billing-address table tr td,
+.deals-view-billing-details table tr td {
+    width: 50%;
+}

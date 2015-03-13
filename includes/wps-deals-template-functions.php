@@ -3658,8 +3658,11 @@ if( !function_exists( 'wps_deals_my_account_recent_orders' ) ) {
 		//model class
 		$model = $wps_deals_model;
 		
-		///get recent 5 orders
-		$orders = $model->wps_deals_get_sales( array( 'author' => $current_user->ID, 'posts_per_page' => '5' ) );
+		//filter for meta_query
+		$meta_query = apply_filters( 'wps_deals_get_sales_meta_query', '' );
+		
+		//get recent 5 orders
+		$orders = $model->wps_deals_get_sales( array( 'author' => $current_user->ID, 'posts_per_page' => '5', 'meta_query' => $meta_query ) );
 		
 		//if orders are not empty then show recent orders
 		if( !empty( $orders ) ) {

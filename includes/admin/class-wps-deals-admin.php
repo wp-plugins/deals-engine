@@ -96,7 +96,7 @@ class Wps_Deals_AdminPages {
 			
 		} else {
 			//deals sales page
-			include_once( WPS_DEALS_ADMIN . '/forms/wps-deals-sales.php');
+			include_once( WPS_DEALS_ADMIN . '/forms/wps-deals-sales.php');			
 		}
 		
 	}
@@ -1066,6 +1066,9 @@ class Wps_Deals_AdminPages {
 		//Reset admin notices for theme support
 		add_action( 'wpsdeals_updated', array( $this, 'wps_deals_reset_admin_notices' ) );
 		add_action( 'switch_theme', array( $this, 'wps_deals_reset_admin_notices' ) );
+		
+		// Add contextual help on deals sales page
+		add_action( 'load-wpsdeals_page_wps-deals-sales', array( $this->render, 'wps_deals_sales_contextual_help') );
 	}
 }
 ?>

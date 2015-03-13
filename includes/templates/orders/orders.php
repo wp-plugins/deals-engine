@@ -75,6 +75,10 @@ global $current_user,$wps_deals_model,$wps_deals_currency,$wps_deals_options,$wp
 							);
 		}
 	
+		//filter for meta_query
+		$meta_query = apply_filters( 'wps_deals_get_sales_meta_query', '' );
+		$argsdata['meta_query'] = $meta_query;
+		
 		$ordereddeals = $model->wps_deals_get_sales($argsdata);
 			
 		if( !empty( $ordereddeals ) ) { //check orderdetails are not empty

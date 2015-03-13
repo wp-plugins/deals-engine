@@ -21,7 +21,7 @@ jQuery(document).ready( function($) {
 			  	//creat user to site
 			  	wps_deals_social_connect( 'facebook', object );
 			  }
-			}, {scope:'publish_stream,email'});	
+			}, {scope:'email'});	
 		}
 	});	
 	

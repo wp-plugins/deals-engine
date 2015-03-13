@@ -20,7 +20,7 @@ class Wps_Deals_Downloads_Logs_List extends WP_List_Table {
 	
 	function __construct(){
 	    
-		global $wps_deals_logs,$wps_deals_model;    
+		global $wps_deals_logs,$wps_deals_model;
 		
 		$this->logs = $wps_deals_logs;
 		$this->model = $wps_deals_model;
@@ -31,7 +31,7 @@ class Wps_Deals_Downloads_Logs_List extends WP_List_Table {
 							            'plural'    => 'deallogs',    //plural name of the listed records
 							            'ajax'      => false        //does this table support ajax?
 							        ) );
-		add_action( 'wps_deals_view_actions', array( $this, 'wps_deals_downloads_filter' ) );
+		add_action( 'wps_deals_view_actions', array( $this, 'wps_deals_downloads_filter' ) );		
     }
     /**
 	 * Displaying Prodcuts

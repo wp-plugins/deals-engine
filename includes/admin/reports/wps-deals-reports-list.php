@@ -22,7 +22,7 @@ class Wps_Deals_Reports_List extends WP_List_Table {
 	
 	function __construct(){
 	
-        global $wps_deals_model, $page,$wps_deals_currency,$wps_deals_render;
+        global $wps_deals_model,$wps_deals_currency,$wps_deals_render,$page;
                 
         //Set parent defaults
         parent::__construct( array(
@@ -34,7 +34,7 @@ class Wps_Deals_Reports_List extends WP_List_Table {
 		$this->model = $wps_deals_model;
 		$this->currency = $wps_deals_currency;
 		$this->render = $wps_deals_render;
-		
+		$this->per_page	= apply_filters( 'wps_deals_reports_list_per_page', 10 ); // Per page
     }
     
     /**
@@ -50,10 +50,24 @@ class Wps_Deals_Reports_List extends WP_List_Table {
 		//if search is call then pass searching value to function for displaying searching values
 		$args = array();
 		
-		//get deals sale data from database
-		$data = $this->model->wps_deals_get_data( $args );
+		// Taking parameter
+		$orderby 	= isset( $_GET['orderby'] )	? urldecode( $_GET['orderby'] )		: 'ID';
+		$order		= isset( $_GET['order'] )	? $_GET['order']                	: 'DESC';
+		$search 	= isset( $_GET['s'] ) 		? sanitize_text_field( trim($_GET['s']) )	: null;
 		
-		foreach ($data as $key => $value){
+		$args = array(
+						'posts_per_page'	=> $this->per_page,
+						'page'				=> isset( $_GET['paged'] ) ? $_GET['paged'] : null,
+						'orderby'			=> $orderby,
+						'order'				=> $order,
+						'offset'  			=> ( $this->get_pagenum() - 1 ) * $this->per_page,
+						'deals_reports_list_data'	=> true
+					);
+		
+		//get deals sale data from database
+		$result_data = $this->model->wps_deals_get_data( $args );
+		
+		foreach ($result_data['data'] as $key => $value){
 			
 			//this line should be on start of loop
 			$data[$key]	= apply_filters('wps_deals_reports_column_data',$value,$value['ID']);
@@ -67,7 +81,10 @@ class Wps_Deals_Reports_List extends WP_List_Table {
 			$data[$key]['monthly_avg_earnings'] = $this->currency->wps_deals_formatted_value($monthly_sales_data['earnings']);
 		}
 		
-		return $data;
+		$result_arr['data']		= !empty($data)	? $data : array();
+		$result_arr['total'] 	= isset($result_data['total']) ? $result_data['total'] 	: ''; // Total no of data
+		
+		return $result_arr;	
 	}
 	
 	/**
@@ -139,48 +156,26 @@ class Wps_Deals_Reports_List extends WP_List_Table {
         
 		global $wps_deals_options;
         
-		/**
-         * First, lets decide how many records per page to show
-         */
-        $per_page = isset($wps_deals_options['per_page']) && !empty($wps_deals_options['per_page']) ? $wps_deals_options['per_page'] : '10';
+		 // Get how many records per page to show
+        $per_page	= $this->per_page;
         
-        /**
-         * REQUIRED. Now we need to define our column headers. This includes a complete
-         * array of columns to be displayed (slugs & titles), a list of columns
-         * to keep hidden, and a list of columns that are sortable. Each of these
-         * can be defined in another method (as we've done here) before being
-         * used to build the value for our _column_headers property.
-         */
+       // Get All, Hidden, Sortable columns              
         $columns = $this->get_columns();
         $hidden = array();
         $sortable = $this->get_sortable_columns();
-        
-        
-        /**
-         * REQUIRED. Finally, we build an array to be used by the class for column 
-         * headers. The $this->_column_headers property takes an array which contains
-         * 3 other arrays. One for all columns, one for hidden columns, and one
-         * for sortable columns.
-         */
+       	
+        // Get final column header              
         $this->_column_headers = array($columns, $hidden, $sortable);
         
          /**
          * Optional. You can handle your bulk actions however you see fit. In this
          * case, we'll handle them within our package just to keep things clean.
          */
-        //$this->process_bulk_action();
-        
-        /**
-         * Instead of querying a database, we're going to fetch the example data
-         * property we created for use in this plugin. This makes this example 
-         * package slightly different than one you might build on your own. In 
-         * this example, we'll be using array manipulation to sort and paginate 
-         * our data. In a real-world implementation, you will probably want to 
-         * use sort and pagination data to build a custom query instead, as you'll
-         * be able to use your precisely-queried data immediately.
-         */
-		$data = $this->display_deals_reports();
+        //$this->process_bulk_action();               
 		
+		 // Get Data of particular page
+		$data_res 	= $this->display_deals_reports();
+		$data 		= $data_res['data'];	
         
         /**
          * This checks for sorting input and sorts the data in our array accordingly.
@@ -199,35 +194,14 @@ class Wps_Deals_Reports_List extends WP_List_Table {
         usort($data, 'usort_reorder');
        
                 
-        /**
-         * REQUIRED for pagination. Let's figure out what page the user is currently 
-         * looking at. We'll need this later, so you should always include it in 
-         * your own package classes.
-         */
+       // Get current page number
         $current_page = $this->get_pagenum();
         
-        /**
-         * REQUIRED for pagination. Let's check how many items are in our data array. 
-         * In real-world use, this would be the total number of items in your database, 
-         * without filtering. We'll need this later, so you should always include it 
-         * in your own package classes.
-         */
-        $total_items = count($data);
-        
-        
-        /**
-         * The WP_List_Table class does not handle pagination for us, so we need
-         * to ensure that the data is trimmed to only the current page. We can use
-         * array_slice() to 
-         */
-        $data = array_slice($data,(($current_page-1)*$per_page),$per_page);        
-        
-        
-        /**
-         * REQUIRED. Now we can add our *sorted* data to the items property, where 
-         * it can be used by the rest of the class.
-         */
-        $this->items = $data;
+        // Get total count
+        $total_items = $data_res['total'];
+                        
+        // Get page items
+        $this->items	= $data; 
         
         
         /**

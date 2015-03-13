@@ -5,7 +5,7 @@ Contributors: wpsocial, dwaser71
 Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial, widget
 Requires at least: 3.5.0
 Tested up to: 4.1
-Stable tag: 2.1.5
+Stable tag: 2.1.6
 License: GNU Version 2 or Any Later Version
 
 Turn your WordPress blog in to a Social Deals site and sell any kind of Deals with this complete Deals management plugin.
@@ -96,6 +96,12 @@ Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com
 6. Single Deal Page
 
 == Changelog ==
+= Version 2.1.6 (2015-03-13) =
+* Improved WP List Table logic.
+* Added search by date range, email address, username and deal Id for deal sales page.
+* Removed publish_stream permission from Facebook login.
+* Resolved issue with multi site for Windows Live login.
+* Updated Linkedin library. Please read updated doc for LinkedIn app creation: http://support.wpsocial.com/support/solutions/articles/144224-creating-a-linkedin-app.
 = Version 2.1.5 (2015-02-27) =
 * Fixed design issues.
 = Version 2.1.4 (2015-02-07) =
