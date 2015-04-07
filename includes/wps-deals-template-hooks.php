@@ -52,6 +52,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	add_action( 'wps_deals_home_content', 'wps_deals_home_header', 5 );
 	add_action( 'wps_deals_home_content', 'wps_deals_ordering', 10);
 	add_action( 'wps_deals_home_content', 'wps_deals_home_content', 15 );
+	add_action( 'wps_deals_home_header_shortcode', 'wps_deals_home_header', 5 );
 	add_action( 'wps_deals_home_content_shortcode', 'wps_deals_ordering', 15);
 	add_action( 'wps_deals_home_content_shortcode', 'wps_deals_home_content', 20 );
 	

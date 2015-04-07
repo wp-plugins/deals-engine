@@ -1,33 +1,43 @@
 jQuery(document).ready(function($){	
-			
-	/*jQuery('.deals-navdeal').removeClass('deals-nav1').removeClass('deals-nav2');	
-	jQuery('div.deals-ending-soon').hide();
-	jQuery('div.deals-upcoming-soon').hide();
-	jQuery('div.deals-list:first').show();
+
+	// Home deals tab settings
+	jQuery('.deals-more').find('.deals-navdeal').each( function() {		
+		jQuery( this ).removeClass('deals-nav1').removeClass('deals-nav2');	
+	});
+	jQuery('.deals-more').find('div.deals-ending-soon').each( function() {		
+		jQuery( this ).hide();
+	});
+	jQuery('.deals-more').find('div.deals-upcoming-soon').each( function() {		
+		jQuery( this ).hide();
+	});
+	jQuery('.deals-more').find('div.deals-list:first').each( function() {		
+		jQuery( this).show();
+	});
 	
+	// home deals Active/Ending Soon/Upcoming tab Hide and show
 	jQuery( '.deals-navdeal' ).on('click','.deals-active',function(){
-		jQuery('.deals-navdeal span').removeClass('active');
+		jQuery(this).parents('.deals-more').find('.deals-navdeal span').removeClass('active');	
 		jQuery(this).addClass('active');
-		jQuery('.deals-navdeal').removeClass('deals-nav1').removeClass('deals-nav2');
+		jQuery(this).parents('.deals-more').find('.deals-navdeal').removeClass('deals-nav1').removeClass('deals-nav2');
 		jQuery(this).parent().parent().children('div.deals-list').hide();
-		jQuery('.deals-active').show();
+		jQuery(this).parents('.deals-more').find('.deals-active').show();
 	});
 	jQuery( '.deals-navdeal' ).on('click','.deals-ending-soon',function(){
-		jQuery('.deals-navdeal span').removeClass('active');
+		jQuery(this).parents('.deals-more').find('.deals-navdeal span').removeClass('active');;
 		jQuery(this).addClass('active');
-		jQuery('.deals-navdeal').addClass('deals-nav1');
-		jQuery('.deals-navdeal').removeClass('deals-nav2');
+		jQuery(this).parents('.deals-more').find('.deals-navdeal').addClass('deals-nav1');
+		jQuery(this).parents('.deals-more').find('.deals-navdeal').removeClass('deals-nav2');
 		jQuery(this).parent().parent().children('div.deals-list').hide();
-		jQuery('.deals-ending-soon').show();
+		jQuery(this).parents('.deals-more').find('.deals-ending-soon').show();
 	});
 	jQuery( '.deals-navdeal' ).on('click','.deals-upcoming-soon',function(){
-		jQuery('.deals-navdeal span').removeClass('active');
+		jQuery(this).parents('.deals-more').find('.deals-navdeal span').removeClass('active');
 		jQuery(this).addClass('active');
-		jQuery('.deals-navdeal').addClass('deals-nav2');
-		jQuery('.deals-navdeal').removeClass('deals-nav1');
+		jQuery(this).parents('.deals-more').find('.deals-navdeal').addClass('deals-nav2');
+		jQuery(this).parents('.deals-more').find('.deals-navdeal').removeClass('deals-nav1');
 		jQuery(this).parent().parent().children('div.deals-list').hide();
-		jQuery('.deals-upcoming-soon').show();
-	});*/
+		jQuery(this).parents('.deals-more').find('.deals-upcoming-soon').show();
+	});
 	
 	//add to cart button click
 	$( document ).on( 'click', '.deals-add-to-cart-button', function() {
@@ -1034,13 +1044,42 @@ function wps_deals_ajax_pagination(pid){
 				};
 		
 			jQuery('.deals-sales-loader').show();
-			jQuery('.deals-paging').hide();
+			jQuery('.deals-pagination ul').hide();
 			
 			jQuery.post(Wps_Deals.ajaxurl, data, function(response) {
 				var newresponse = jQuery(response).filter('.deals-sales').html();
+				//alert(newresponse);
 				jQuery('.deals-sales-loader').hide();
 				jQuery('.deals-sales').html(newresponse);
 			});	
+	return false;
+}
+
+//function for home deals ajax pagination
+function wps_home_deals_ajax_pagination( pid, thisvar ) {
+	
+	var data = {
+			action : 'wps_home_deals_next_page',
+			paging : pid
+		};
+		
+	// get current tab id
+	var currentTabId = jQuery( thisvar ).parent().parent().parent().parent().attr('id');
+	
+	jQuery(thisvar).parents('.deals-more').find('.deals-pagination-loader').show(); // hide loader while response is generated
+	jQuery(thisvar).parents('.deals-more').find('#'+currentTabId+' ul.page-numbers').hide(); // hide pagiation while response is generated
+	
+	jQuery.post(Wps_Deals.ajaxurl, data, function(response) {
+		var newresponse = jQuery(response).filter("#"+currentTabId).html();
+		
+		jQuery(thisvar).parents('.deals-more').find('.deals-pagination-loader').hide();
+		jQuery(thisvar).parents('.deals-more').find("#"+currentTabId).html(newresponse);
+		
+		// need to call for timer to be runnig
+		jQuery( '.deals-end-timer' ).each( function() {	
+			wpsdealsruntimer( this );					
+		});
+	});	
 	return false;
 }
 

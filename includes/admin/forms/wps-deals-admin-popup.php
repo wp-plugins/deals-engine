@@ -35,7 +35,9 @@ global $wps_deals_model;
 					<td>
 						<select data-placeholder="<?php _e( '--Select A Shortcode--', 'wpsdeals' ); ?>" id="wps_deals_shortcodes" class="chzn-select">
 		      				<option value=""></option>
-							<option value="wps_deals"><?php _e( 'Home Deals', 'wpsdeals' );?></option>
+							<!--<option value="wps_deals"><?php _e( 'Home Deals', 'wpsdeals' );?></option>-->
+							<option value="wps_home_deals"><?php _e( 'Home Page Deals', 'wpsdeals' );?></option>
+							<option value="wps_deals_by_status"><?php _e( 'Deals By Status', 'wpsdeals' );?></option>
 							<option value="wps_deals_by_category"><?php _e( 'Deals By Category', 'wpsdeals' );?></option>
 							<option value="wps_deals_checkout"><?php _e( 'Checkout', 'wpsdeals' );?></option>
 							<option value="wps_deals_order_complete"><?php _e( 'Order Complete', 'wpsdeals' );?></option>
@@ -57,6 +59,30 @@ global $wps_deals_model;
 				</tr>
 			</tbody>
 		</table>
+		
+		<div id="wps_deals_status_options" class="wps-deals-shortcodes-options">
+		
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<label><?php _e( 'Choose Deals Status:', 'wpsdeals' );?></label>		
+						</th>
+						<td>
+							<input type="checkbox" id="wps_deals_enable_active" class="wps_delas_status" value="active" name="wps_deals_enable_active" checked/>Active<br />
+							<span class="description"><?php _e( 'Check this box if you want to display Active deals.', 'wpsdeals' );?></span>
+							<br /><br />
+							<input type="checkbox" id="wps_deals_enable_ending_soon" class="wps_delas_status" value="ending-soon" name="wps_deals_enable_ending_soon" checked/>Ending Soon<br />
+							<span class="description"><?php _e( 'Check this box if you want to display Ending Soon deals.', 'wpsdeals' );?></span>
+							<br /><br />
+							<input type="checkbox" id="wps_deals_enable_upcoming" class="wps_delas_status" value="upcoming" name="wps_deals_enable_upcoming" checked/>Upcoming<br />
+							<span class="description"><?php _e( 'Check this box if you want to display Upcoming deals.', 'wpsdeals' );?></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+		</div><!--wps_deals_tab_options-->
 		
 		<div id="wps_deals_by_category_options" class="wps-deals-shortcodes-options">
 		

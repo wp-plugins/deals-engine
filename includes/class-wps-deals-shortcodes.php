@@ -38,14 +38,93 @@ class Wps_Deals_Shortcodes {
 	 * @package Social Deals Engine
 	 * @since 1.0.0 
 	 */
-	
-	public function wps_deals_all($content) {
-						
+	public function wps_deals_all( $content ) {
+				
 		ob_start();
 		
-		wps_deals_get_template( 'deals-home.php' );
+		echo do_shortcode('[wps_home_deals]');
+		echo do_shortcode('[wps_deals_by_status active="true" ending_sooon="true" upcoming="true"]');
 		
 		$content .= ob_get_clean();
+		
+		return $content;
+	}
+	
+	/**
+	 * Get Home Page Deals Data
+	 * 
+	 * Handles to getting all deals data on the viewing page
+	 * whereever user put shortcode
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0 
+	 */
+	public function wps_home_deals($content) {
+						
+		global $wps_deals_options;
+	
+		// get deal size
+		$deal_size = $wps_deals_options['deals_size'];
+		
+		ob_start();
+		?>
+		<div class="deals-container deals-clearfix">
+			<div class="deals-home <?php echo $deal_size; ?>">
+				<?php do_action( 'wps_deals_home_header_shortcode' ); ?>
+			</div>
+		</div>
+		<?php $content .= ob_get_clean();
+		
+		return $content;
+	}
+	
+	/**
+	 * Get Deals Data by Status
+	 * 
+	 * Handles Deals Data by Status Like
+	 * Active, Ending Soon and Upcoming
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.1.6
+	 */
+	public function wps_deals_by_status( $atts, $content ) {
+		
+		global $wps_deals_options;
+	
+		// get deal size
+		$deal_size = $wps_deals_options['deals_size'];
+		
+		// shortcode attributes
+		extract( shortcode_atts( array(	
+	    	'active'		=> false,
+	    	'ending_sooon'	=> false,
+	    	'upcoming'		=> false
+		), $atts ) );
+		
+		$deals_status_data = '';
+		if ( $active == 'true' ) {
+			
+			$deals_status_data[] = 'active';
+		} 
+		if ( $ending_sooon  == 'true' ) {
+			
+			$deals_status_data[] = 'ending-soon';
+		}
+		if ( $upcoming  == 'true' ) {
+			
+			$deals_status_data[] = 'upcoming';
+		}
+		
+		$deals_status = !empty( $deals_status_data ) ? implode( ',',$deals_status_data ) : ' ';
+		
+		ob_start();
+		?>
+		<div class="deals-container deals-clearfix">
+			<div class="deals-home <?php echo $deal_size; ?>">
+				<?php do_action( 'wps_deals_home_content_shortcode', $deals_status ); ?>
+			</div>
+		</div>
+		<?php $content .= ob_get_clean();
 		
 		return $content;
 	}
@@ -69,7 +148,6 @@ class Wps_Deals_Shortcodes {
 			
 			//load thank you page
 			wps_deals_get_template( 'order-complete.php' );
-			
 		} 
 		
 		//if query vars is social deals cancel page
@@ -77,7 +155,6 @@ class Wps_Deals_Shortcodes {
 			
 			//load cancel page
 			wps_deals_get_template( 'order-cancel.php' );
-			
 		}
 		
 		else { // social deals checkout page
@@ -147,8 +224,8 @@ class Wps_Deals_Shortcodes {
 		$content .= ob_get_clean();
 
 		return $content;
-		
 	}
+	
 	
 	/**
 	 * Deals By Category
@@ -241,6 +318,9 @@ class Wps_Deals_Shortcodes {
 			
 			ob_start();
 			
+			// get the size
+			$deal_size = isset( $wps_deals_options['deals_size_single'] ) ? $wps_deals_options['deals_size_single'] : '';
+
 			// Add query for display single deal wherever user put single deal id in shortcode
 			$args = array( 'post_type' => WPS_DEALS_POST_TYPE, 'post__in' => array( $id ), 'posts_per_page' => '1' );
 			
@@ -254,26 +334,86 @@ class Wps_Deals_Shortcodes {
 					
 					$the_query->the_post();
 					
-						//do action to add localize script for individual post data
-						do_action( 'wps_deals_localize_map_script' );
-					
-						//do action to add in top of single page
-						do_action( 'wps_deals_single_top' );
-					?>
+					$prefix = WPS_DEALS_META_PREFIX;
+
+					//today's date time
+					$today	= wps_deals_current_date();
 							
-						<div class="row-fluid <?php echo $size;?>">
+					// get the end date & time
+					$enddate = get_post_meta( $post->ID, $prefix . 'end_date', true );
+					
+					// get the value for the amount of available deals
+					$available = get_post_meta( $post->ID, $prefix . 'avail_total', true );
+					
+					$expired = '';
+					
+					if( ( !empty( $enddate ) && $enddate <= $today ) || $available == '0' ) {
+						$expired = ' deal-expired';
+					}
 						
-							<?php
-								//do action to add deal single content
-								do_action( 'wps_deals_single_content' );
-							?>
-							
-						</div><!--.row-fluid-->
+					//do action to add localize script for individual post data
+					do_action( 'wps_deals_localize_map_script' );
 					
-						<?php 
-							//do action to add in top of single
-							do_action( 'wps_deals_single_bottom' );
+					//do action to add in top of single page
+					do_action( 'wps_deals_single_top' );
+						
+					/**
+					 * wps_deals_before_single_deal_content hook
+					 */
+					do_action( 'wps_deals_before_single_deal_content' );
+						
+					?>
+					<div class=" <?php echo $deal_size; ?>">
+						
+						<div class="deals-container deals-clearfix">
+					
+							<div id="sde" class="deals-single deals-row<?php echo $expired; ?>">
+											
+								<?php 
+									/**
+									 * wps_deals_single_header_content hook
+									 *
+									 * @hooked wps_deals_breadcrumbs - 5
+									 * @hooked wps_deals_single_header_message - 10
+									 * @hooked wps_deals_single_header_title - 20
+									 * @hooked wps_deals_single_header_left - 30
+									 * @hooked wps_deals_single_header_right - 35
+									 */
+									do_action( 'wps_deals_single_header_content' );
+								?>
+																
+							</div>
+							
+							<?php
+								/**
+								 * wps_deals_single_content hook
+								 *
+								 * @hooked wps_deals_single_description - 10
+								 * @hooked wps_deals_single_business_info - 20
+								 * @hooked wps_deals_single_terms_conditions - 30
+								 */
+								do_action( 'wps_deals_single_content' );
+								
+								/**
+								 * wps_deals_single_content hook
+								 *
+								 * @hooked wps_deals_single_description - 10
+								 * @hooked wps_deals_single_business_info - 20
+								 * @hooked wps_deals_single_terms_conditions - 30
+								 */
+								do_action( 'wps_deals_single_footer_content' );
+							?>
+						</div>
+
+					</div><!-- .deal size -->											
+						<?php
+							/**
+							 * wps_deals_after_single_deal_content hook
+							 */
+							do_action( 'wps_deals_after_single_deal_content' );
 						?>
+
+						<meta itemprop="url" content="<?php the_permalink(); ?>" />								
 						
 					<?php
 				}
@@ -472,6 +612,12 @@ class Wps_Deals_Shortcodes {
 		
 		//add shortcode to show list of deals on the page
 		add_shortcode( 'wps_deals', array( $this, 'wps_deals_all' ) );
+		
+		//add shortcode to show list of home deals on the page
+		add_shortcode( 'wps_home_deals', array( $this, 'wps_home_deals' ) );
+		
+		//add shortcode to show list of deals by status on the page
+		add_shortcode( 'wps_deals_by_status', array( $this, 'wps_deals_by_status' ) );
 		
 		//add shortcode for showing shopping cart details
 		add_shortcode( 'wps_deals_checkout', array( $this, 'wps_deals_checkout' ) );

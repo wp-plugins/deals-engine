@@ -335,6 +335,25 @@ class Wps_Deals_Public_Pages	{
 			return __('You have not ordered any deals yet.','wpsdeals');
 		}
 	}
+	
+	/**
+	 * AJAX call 
+	 * 
+	 * Handles to show details of with ajax
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_ajax_home_deals() {
+			
+		ob_start();
+
+		do_action( 'wps_deals_home_more_deals' );
+			
+		echo ob_get_clean();
+		exit;
+	}
+	
 	/**
 	 * AJAX Call
 	 * 
@@ -1027,6 +1046,10 @@ class Wps_Deals_Public_Pages	{
 		//ajax pagination
 		add_action( 'wp_ajax_wps_deals_next_page', array( $this, 'wps_deals_orders' ) );
 		add_action( 'wp_ajax_nopriv_wps_deals_next_page', array( $this, 'wps_deals_orders' ) );
+		
+		// home deals ajax pagination
+		add_action( 'wp_ajax_wps_home_deals_next_page', array( $this, 'wps_ajax_home_deals' ) );
+		add_action( 'wp_ajax_nopriv_wps_home_deals_next_page', array( $this, 'wps_ajax_home_deals' ) );
 		
 		//ajax call to update data to database this action will be using in add on also
 		add_action( 'wp_ajax_deals_update_social_media_values', array( $this, 'wps_deals_update_social_count' ) );

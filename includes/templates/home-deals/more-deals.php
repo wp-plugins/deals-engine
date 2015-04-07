@@ -13,8 +13,16 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+if( isset( $category ) ) {
 	
-$category = isset( $category ) && !empty( $category ) ? $category : '';
+	$deals_data = array (
+					'category' =>	$category
+					);
+} else {
+	
+	$deals_data = isset( $deals_status ) && !empty( $deals_status ) ?  array ( 'deals_status' =>	$deals_status ) : '';
+}
 	
 ?>
 
@@ -31,7 +39,7 @@ $category = isset( $category ) && !empty( $category ) ? $category : '';
 			 * @hooked wps_deals_home_more_deal_ending - 20
 			 * @hooked wps_deals_home_more_deal_upcoming - 20
 			 */
-			do_action( 'wps_deals_home_more_deals', $category );			
+			do_action( 'wps_deals_home_more_deals', $deals_data );			
 		?>	
 			
 	</div>

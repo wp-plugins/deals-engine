@@ -912,13 +912,25 @@ if( !function_exists( 'wps_deals_home_content' ) ) {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
-	function wps_deals_home_content( $category = '' ) {
-						
-		// set the args for the home deal, which we will pass to the template
-		$args = array( 
-						'category'	=> $category
-					);
+	function wps_deals_home_content( $deals_data = '' ) {
 	
+		$deals_status = isset( $deals_data ) ? explode( ',',$deals_data ) : '';
+		
+		if( array_intersect($deals_status, array('active', 'upcoming', 'ending-soon') ) ) {
+			
+			// set the args for the home deal, which we will pass to the template
+			$args = array(
+							'deals_status'	=> $deals_data
+			);
+			
+		} else {
+			
+			// set the args for the home deal, which we will pass to the template
+			$args = array( 
+							'category'	=> $deals_data
+						);
+		}
+
 		// get the template
 		wps_deals_get_template( 'home-deals/more-deals.php', $args );			
 	}
@@ -932,32 +944,15 @@ if( !function_exists( 'wps_deals_home_navigations' ) ) {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */	
-	function wps_deals_home_navigations() {
+	function wps_deals_home_navigations( $deals_data ) {
 	
 		global $wps_deals_options;
 		
 		//check disable more deals is set or not
-		if( empty( $wps_deals_options['disable_more_deals'] ) ) {
-				
-			// get tab parameter and asign class according
-			$get_tab_param = isset($_GET['tab']) ? $_GET['tab'] : '';	
-			if($get_tab_param == "active" || $get_tab_param == '') {
-				$activetab = "active";
-			} else if($get_tab_param == "ending-soon") {
-				$activetab = "ending-soon";
-			}  else if($get_tab_param == "upcoming-soon") {
-				$activetab = "upcoming-soon";
-			} else {
-				$activetab = 'not-active';
-			}
-			
-			// set the args, which we will pass to the template
-			$args = array( 						
-							'activetab' => $activetab
-						);				
+		if( empty( $wps_deals_options['disable_more_deals'] ) ) {			
 					
 			// get the template
-			wps_deals_get_template( 'home-deals/more-deals/navigation.php' , $args);
+			wps_deals_get_template( 'home-deals/more-deals/navigation.php', $deals_data );
 		}
 	}
 }   
@@ -970,7 +965,19 @@ if( !function_exists( 'wps_deals_home_more_deal_active' ) ) {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */	
-	function wps_deals_home_more_deal_active( $category ) {
+	function wps_deals_home_more_deal_active( $deals_data ) {
+		
+		if( isset( $deals_data['deals_status'] ) ) {
+			
+			$deals_status = explode( ',', $deals_data['deals_status'] );
+			
+			if( !in_array('active', $deals_status, true) ) {
+				
+				return;
+			}
+		}
+		
+		$category = isset($deals_data['category']) ? $deals_data['category'] : '';
 		
 		global $wps_deals_options, $wps_deals_model;
 		
@@ -986,14 +993,13 @@ if( !function_exists( 'wps_deals_home_more_deal_active' ) ) {
 		
 		// get the color scheme from the settings
 		$button_color = $wps_deals_options['deals_btn_color'];
-		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';			
 		
-		if( get_query_var( 'paged' ) ) {
-			$paged = get_query_var( 'paged' );
-		} elseif( get_query_var( 'page' ) ) {
-			$paged = get_query_var( 'page' );
-		} else{
-			$paged = 1;
+		// get current page value
+		if( isset( $_POST['paging'] ) ) {
+			$paged = $_POST['paging'];
+		} else {
+			$paged = '1';			
 		}
 		
 		// set the deal home page args
@@ -1034,20 +1040,11 @@ if( !function_exists( 'wps_deals_home_more_deal_active' ) ) {
 		// counter timer script
 		wp_enqueue_script( 'wps-deals-countdown-timer-scripts' );
 		
-		// get tab parameter and asign class according		
-		$get_tab_param = isset($_GET['tab']) ? $_GET['tab'] : '';			
-		if($get_tab_param == "active" || $get_tab_param == '') {
-			$activetab = "active";
-		} else{
-			$activetab = 'not-active';
-		}
-		
 		// set the args, which we will pass to the template
 		$args = array( 
 						'args' => $activeargs,
 						'tab' => 'active',
-						'btncolor' => $btncolor,
-						'activetab' => $activetab
+						'btncolor' => $btncolor
 					);
 		
 		//active deals template
@@ -1063,7 +1060,19 @@ if( !function_exists( 'wps_deals_home_more_deal_ending' ) ) {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */	
-	function wps_deals_home_more_deal_ending( $category ) {
+	function wps_deals_home_more_deal_ending( $deals_data ) {
+		
+		if( isset( $deals_data['deals_status'] ) ) {
+			
+			$deals_status = explode( ',', $deals_data['deals_status'] );
+			
+			if( !in_array('ending-soon', $deals_status, true) ) {
+				
+				return;
+			}
+		}
+		
+		$category = isset($deals_data['category']) ? $deals_data['category'] : '';
 		
 		global $wps_deals_options, $wps_deals_model;
 		
@@ -1079,14 +1088,13 @@ if( !function_exists( 'wps_deals_home_more_deal_ending' ) ) {
 		
 		// get the color scheme from the settings
 		$button_color = $wps_deals_options['deals_btn_color'];
-		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';		
 		
-		if( get_query_var( 'paged' ) ) {
-			$paged = get_query_var( 'paged' );
-		} elseif( get_query_var( 'page' ) ) {
-			$paged = get_query_var( 'page' );
-		} else{
-			$paged = 1;
+		// get current page value
+		if( isset( $_POST['paging'] ) ) {
+			$paged = $_POST['paging'];
+		} else {
+			$paged = '1';			
 		}
 		
 		// set the home page args
@@ -1134,20 +1142,11 @@ if( !function_exists( 'wps_deals_home_more_deal_ending' ) ) {
 			$args_end[WPS_DEALS_POST_TAXONOMY] = $category;
 		}
 		
-		// get tab parameter and asign class according	
-		$get_tab_param = isset($_GET['tab']) ? $_GET['tab'] : '';		
-		if( $get_tab_param == "ending-soon") {
-			$activetab = "ending-soon";
-		} else{
-			$activetab = 'not-active';
-		}
-		
 		// set the args, which we will pass to the template
 		$args = array( 
 						'args' => $argsend,
 						'tab' => 'ending-soon',
-						'btncolor' => $btncolor,
-						'activetab' => $activetab
+						'btncolor' => $btncolor
 					);
 					
 		// get the template
@@ -1163,7 +1162,19 @@ if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */	
-	function wps_deals_home_more_deal_upcoming( $category ) {
+	function wps_deals_home_more_deal_upcoming( $deals_data ) {
+		
+		if( isset( $deals_data['deals_status'] ) ) {
+			
+			$deals_status = explode( ',', $deals_data['deals_status'] );
+			
+			if( !in_array('upcoming', $deals_status, true) ) {
+				
+				return;
+			}
+		}
+		
+		$category = isset($deals_data['category']) ? $deals_data['category'] : '';
 		
 		global $wps_deals_options, $wps_deals_model;
 		
@@ -1179,14 +1190,13 @@ if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
 		
 		// get the color scheme from the settings
 		$button_color = $wps_deals_options['deals_btn_color'];
-		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';
+		$btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_color : 'blue';				
 		
-		if( get_query_var( 'paged' ) ) {
-			$paged = get_query_var( 'paged' );
-		} elseif( get_query_var( 'page' ) ) {
-			$paged = get_query_var( 'page' );
-		} else{
-			$paged = 1;
+		// get current page value
+		if( isset( $_POST['paging'] ) ) {
+			$paged = $_POST['paging'];
+		} else {
+			$paged = '1';			
 		}
 		
 		// set the home page args
@@ -1227,21 +1237,12 @@ if( !function_exists( 'wps_deals_home_more_deal_upcoming' ) ) {
 		if( isset( $category ) && !empty( $category ) ) { 
 			$argsupcoming[WPS_DEALS_POST_TAXONOMY] = $category;
 		}
-		
-		// get tab parameter and asign class according		
-		$get_tab_param = isset($_GET['tab']) ? $_GET['tab'] : '';	
-		if( $get_tab_param == "upcoming-soon") {
-			$activetab = "upcoming-soon";
-		} else{
-			$activetab = 'not-active';
-		}
-		
+			
 		// set the args, which we will pass to the template
 		$args = array( 
 						'args' => $argsupcoming,
 						'tab' => 'upcoming-soon',
-						'btncolor' => $btncolor,
-						'activetab' => $activetab
+						'btncolor' => $btncolor
 					);
 		
 		// get the template

@@ -108,15 +108,11 @@ $model = $wps_deals_model;
 		</tr>
 	</tfoot>
 </table>
-
-<div class="deals-paging">
-
-	<div id="deals-tablenav-pages" class="deals-tablenav-pages">
-		<?php echo $paging->getOutput(); ?>
-	</div>
-	
-</div>
-
-<div class="deals-sales-loader">
-	<img src="<?php echo WPS_DEALS_URL;?>includes/images/cart-loader.gif">
-</div>
+<div class="deals-clearfix">&nbsp;</div>
+<nav class="deals-pagination pagination-centered deals-col-12" role="navigation">
+	<?php echo $paging->getOutput(); ?>
+		
+	<span class="deals-sales-loader">
+		<img src="<?php echo WPS_DEALS_URL;?>includes/images/cart-loader.gif">
+	</span>	
+</nav>

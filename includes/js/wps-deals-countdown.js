@@ -810,18 +810,26 @@ var plugin = $.wpsdealscountdown = new Countdown(); // Singleton instance
 /********** Deals Timer Start *************/
 	
 $( '.deals-end-timer' ).each( function() {
-	
-	var endyear		=	$( this ).attr( 'timer-year' );
-	var endmonth	=	$( this ).attr( 'timer-month' );
-	var endday		=	$( this ).attr( 'timer-day' );
-	var endhour		=	$( this ).attr( 'timer-hours' );
-	var endminute	=	$( this ).attr( 'timer-minute' );
-	var endsecond	=	$( this ).attr( 'timer-second' );
+	wpsdealsruntimer( this );
+		
+});
+/********** Deals Timer End *************/
+
+})(jQuery);
+
+// declare it outside ready function because it's global function and can be access from another js
+function wpsdealsruntimer ( dealsEndTimerClass ) {
+	var endyear		=	jQuery( dealsEndTimerClass ).attr( 'timer-year' );
+	var endmonth	=	jQuery( dealsEndTimerClass ).attr( 'timer-month' );
+	var endday		=	jQuery( dealsEndTimerClass ).attr( 'timer-day' );
+	var endhour		=	jQuery( dealsEndTimerClass ).attr( 'timer-hours' );
+	var endminute	=	jQuery( dealsEndTimerClass ).attr( 'timer-minute' );
+	var endsecond	=	jQuery( dealsEndTimerClass ).attr( 'timer-second' );
 	var montharray 	= new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
 	var futurestring1	=	( montharray[endmonth-1]+" "+endday+", "+endyear+" "+endhour+":"+endminute );
 	var futurestring	=	new Date( Date.parse( futurestring1 ) );
 	
-	var timerlayout = $( this ).html() + '<span class="deals-days">{dnn} {dl}</span> \
+	var timerlayout = jQuery( dealsEndTimerClass ).html() + '<span class="deals-days">{dnn} {dl}</span> \
 											<span>'+Wps_Deals_Timer.days+'</span> \
 											<span class="deals-hrs">{hnn} {hl}</span> \
 											<span>'+Wps_Deals_Timer.hours+'</span> \
@@ -830,19 +838,17 @@ $( '.deals-end-timer' ).each( function() {
 											<span class="deals-secs">{snn} {sl}</span>\
 											<span>'+Wps_Deals_Timer.seconds+'</span>';
 	
-	$( this ).wpsdealscountdown( {	until		:	futurestring,
+	jQuery( dealsEndTimerClass ).wpsdealscountdown( {	until		:	futurestring,
 									format		:	'DHMS',
 									labels		:	['','','','','','','',''], 
 									labels1		:	['','','','','','','',''],
 									layout		:	timerlayout,
 									significant	:	0,
 									serverSync	:	wpsdealstodaytime 
-								} );	
-});
+								} );
+}
+
 //return today time
 function wpsdealstodaytime() {
 	return new Date( Wps_Deals_Timer.today ); //this is set on every page load via PHP script
 }
-/********** Deals Timer End *************/
-
-})(jQuery);

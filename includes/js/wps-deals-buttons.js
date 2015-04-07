@@ -16,6 +16,7 @@ jQuery(document).ready(function($) {
                     //$( '#wps_deals_shortcodes' ).val('');
                     $( '#wps_deals_insert_container' ).hide();
                     
+                    $( '#wps_deals_by_status_options' ).hide();
                     $( '#wps_deals_by_category_options' ).hide(); 
                     $( '#wps_deals_social_login_options' ).hide();
                     $( '#wps_deals_single_deal_options' ).hide();
@@ -29,6 +30,10 @@ jQuery(document).ready(function($) {
 						
 						switch ( select_shortcode ) {
 							
+							case 'wps_deals_by_status' :
+							
+									$( '#wps_deals_status_options' ).show();
+									break;
 							case 'wps_deals_by_category'	:
 									
 									$( '#wps_deals_by_category_options' ).show();
@@ -82,6 +87,10 @@ jQuery(document).ready(function($) {
 			
 			switch ( select_shortcode ) {
 				
+				case 'wps_deals_by_status' :
+							
+						$( '#wps_deals_status_options' ).show();
+						break;
 				case 'wps_deals_by_category'	:
 						
 						$( '#wps_deals_by_category_options' ).show();
@@ -122,6 +131,20 @@ jQuery(document).ready(function($) {
 				
 				switch(dealsshortcode) {
 					
+					case 'wps_deals_by_status'	:
+								var options = '';
+								if( $( '#wps_deals_enable_active' ).is(":checked") ) {
+									options += 'active="true"';
+								}
+								if( $( '#wps_deals_enable_ending_soon' ).is(":checked") ) {
+									options += ' ending_sooon="true"';
+								}
+								if( $( '#wps_deals_enable_upcoming' ).is(":checked") ) {
+									options += ' upcoming="true"';
+								}
+								
+								dealsshortcodestr += '['+dealsshortcode+' '+options+'][/'+dealsshortcode+']';
+								break;
 					case 'wps_deals_by_category'	:
 								var catid = $( '#wps_deals_category_id' ).val();
 								dealsshortcodestr	+= '['+dealsshortcode+' category="'+catid+'"][/'+dealsshortcode+']';
@@ -150,6 +173,7 @@ jQuery(document).ready(function($) {
 								dealsshortcodestr	+= '['+dealsshortcode+' ids="'+deal_ids+'"'+options+'][/'+dealsshortcode+']';
 								break;
 					case 'wps_deals' 				:
+					case 'wps_home_deals'			:
 					case 'wps_deals_checkout' 		:
 					case 'wps_deals_order_complete' :
 					case 'wps_deals_order_cancel' 	:

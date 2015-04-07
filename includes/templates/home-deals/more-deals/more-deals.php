@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	
 ?>	
 
-<div class="deals-list deals-<?php echo $tab;?> deals-row <?php echo $activetab; ?>">	
+<div id="deals-<?php echo $tab;?>" class="deals-list deals-<?php echo $tab;?> deals-row">	
 
 <?php	
 	$i = 0;
@@ -49,8 +49,31 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
 
 	<div class="deals-home-list">
+	
+	<?php /** Start of paging **/
+		
+		// create pagination object
+		$paging = new Wps_Deals_Pagination_Public('wps_home_deals_ajax_pagination');
+		
+		// Get per page from settings
+		$deals_per_page = $wps_deals_options['deals_per_page'];
+		$perpage = isset( $deals_per_page ) ? $deals_per_page : -1;
+				
+		$paging->items( $loop->found_posts ); // set total founded deals
+		$paging->limit( $perpage ); // limit entries per page
+			
+		// check paging is passed into post. if yes then set it to current page
+		if( isset( $_POST['paging'] ) ) {
+			$paging->currentPage( $_POST['paging'] ); // gets and validates the current page
+		}
+			
+		$paging->calculate(); // calculates what to show
+		$paging->parameterName( 'paging' );		
+		$paging->className = "page-numbers"; // define main class
+		
+		/** End of paging **/ 
 
-		<?php while( $loop->have_posts() ) : $loop->the_post(); $i++; ?>
+		while( $loop->have_posts() ) : $loop->the_post(); $i++; ?>
 					
 			<div class="<?php echo $columns; ?>">
 					
@@ -99,28 +122,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		<div class="deals-clearfix">&nbsp;</div>
 		
 		<nav class="deals-pagination pagination-centered pagination-<?php echo $btncolor; ?> deals-col-12" role="navigation">
-		
-			<?php global $paged; 
-					if( get_query_var( 'paged' ) ) {
-						$paged = get_query_var( 'paged' );
-					} elseif( get_query_var( 'page' ) ) {
-						$paged = get_query_var( 'page' );
-					} else{
-						$paged = 1;
-					}
 			
-			$curpage = $paged ? $paged : 1; ?>
-		
-			<ul class="page-numbers">
-				
-			<?php 
-				for( $p=1; $p<=$loop->max_num_pages; $p++ )
-					
-					echo '<li>' . ( $p == $curpage ? '<span ' : '<a ' ) . ' class="' . ( $p == $curpage ? 'current ' : '' ) . 'page-numbers" href="' . get_pagenum_link( $p ) . '">' . $p . '</' . ( $p == $curpage ? 'span ' : 'a ' ) . '></li>';
-			?>
-				
-			</ul>
-
+			<?php echo $paging->getOutput(); ?>
+			
+			<span class="deals-pagination-loader">
+				<img src="<?php echo WPS_DEALS_URL;?>includes/images/cart-loader.gif">
+			</span>
 		</nav>
 		
 	<?php

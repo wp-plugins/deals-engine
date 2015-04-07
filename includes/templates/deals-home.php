@@ -15,10 +15,11 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 global $wps_deals_options;
-	
+
+$deals_status = isset( $deals_status ) && !empty( $deals_status ) ? $deals_status : '';
+
 // get deal size
 $deal_size = $wps_deals_options['deals_size'];
-	
 ?>
 
 <div class="deals-container deals-clearfix">

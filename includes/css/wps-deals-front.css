@@ -471,30 +471,36 @@ a.deals-button:visited {
 
 /* Nav */
 .deals-navdeal {
-	background: url("../images/arrow1.png");
-	background-repeat: no-repeat;
-	background-size: 100% 100%; 
-	background-position: center center;
 	line-height: 45px;
 	color: #90867d;
 	height: 48px;
 	margin: 0 0px 20px 0px;
 	border-radius: 5px;
 }
-.deals-nav1 {
-	background: url("../images/arrow2.png");
-	background-repeat: no-repeat;
-	background-size: 100% 100%; 
-	background-position: center center;
-}
-.deals-nav2 {
-	background: url("../images/arrow3.png");
-	background-repeat: no-repeat;
-	background-size: 100% 100%; 
-	background-position: center center;
-}
+
 .deals-navdeal span {
-	width: 32.5%;
+	background: url("../images/deals_tab.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin-left:-10px;
+	background-size: 100% 100% !important;
+}
+
+.deals-navdeal span:first-child {
+	background: url("../images/first_deals_tab.png");
+	margin:0;
+}
+
+.deals-navdeal span.active {
+	background: url("../images/deals_active.png");
+}
+
+.deals-navdeal span.active:first-child {
+	background: url("../images/first_deals_active.png");
+}
+
+.deals-navdeal span {
+	width: 33.5%;
 	font-size: 22px;
 	display: inline-block;
 	text-align: center;
@@ -792,8 +798,7 @@ a.deals-button:visited {
 	font-size: 15px;
 }
 .deals-home.medium .timer-icon-big {
-	background: none;
-	padding: 0;
+	background: url("../images/deal-timer-small.png") no-repeat 0 5px;	
 }
 .deals-home.medium .deals-header p.deals-discount-title {
 	font-size: 20px;
@@ -870,8 +875,7 @@ a.deals-button:visited {
 	font-size: 13px;
 }
 .deals-home.small .timer-icon-big {
-	background: none;
-	padding: 0;
+ 	background: url("../images/deal-timer-small.png") no-repeat 0 4px;
 }
 .deals-home.small .deals-header p.deals-discount-title {
 	font-size: 16px;
@@ -1504,6 +1508,16 @@ p.business-address {
 	display: inline-block;
 	border-radius: 6px;
 }
+.deals-pagination ul.pagination li {
+	min-height: 41px;
+	min-width: 41px;
+}
+.deals-pagination ul.pagination li a,
+.deals-pagination ul.pagination li span {
+	display: block;
+	min-width: 10px;
+	min-height: 10px;
+}
 @media (max-width: 480px) {
 	.deals-pagination ul {
 		min-height: 41px;
@@ -1798,4 +1812,9 @@ color: #ff0000;
 .deals-billing-address table tr td,
 .deals-view-billing-details table tr td {
     width: 50%;
+}
+
+/* css for hide paging loader */
+.deals-pagination-loader {
+	display:none;
 }

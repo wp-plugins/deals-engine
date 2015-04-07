@@ -21,6 +21,8 @@ class Wps_Deals_Pagination_Public{
 		public $nextI = "&#187;"; //&#9658;
 		public $prevT = "";
 		public $prevI = "&#171;"; //&#9668;
+		public $showPrevious = true;
+		public $showNext = true;
 	
 		function __construct( $ajaxpagination = 'wps_deals_ajax_pagination' ) {
 			$this->nextT = __("Next",'wpsdeals');
@@ -75,13 +77,13 @@ class Wps_Deals_Pagination_Public{
 		function show(){
 				if(!$this->calculate)
 					if($this->calculate())
-						echo "<div class=\"$this->className\">$this->pagination</div>\n";
+						echo "<ul class=\"$this->className\">$this->pagination</ul>\n";
 			}
 
 		function getOutput(){
 				if(!$this->calculate)
 					if($this->calculate())
-						return "<div class=\"$this->className\">$this->pagination</div>\n";
+						return "<ul class=\"$this->className\">$this->pagination</ul>\n";
 			}
 
 		function get_pagenum_link($id){
@@ -159,18 +161,18 @@ class Wps_Deals_Pagination_Public{
 
 								//anterior button
 								if($this->page > 1)
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($prev)."\"  onclick = \"return $this->ajaxpagination('".$prev."')\" class=\"prev\">$p</a>";
+										$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link($prev)."\"  onclick = \"return $this->ajaxpagination('".$prev."', this)\" class=\"prev\">$p</a></li>";
 									else
-										$this->pagination .= "<span class=\"page-numbers1 disabled\">$p</span>";
+										$this->pagination .= "<li><span class=\"page-numbers1 disabled\">$p</span></li>";
 							}
 
 						//pages	
 						if ($lastpage < 7 + ($this->adjacents * 2)){//not enough pages to bother breaking it up
 								for ($counter = 1; $counter <= $lastpage; $counter++){
 										if ($counter == $this->page)
-												$this->pagination .= "<span class=\"page-numbers1 current\">$counter</span>";
+												$this->pagination .= "<li><span class=\"page-numbers1 current\">$counter</span></li>";
 											else
-												$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."')\" >$counter</a>";
+												$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."', this)\" >$counter</a></li>";
 									}
 							}
 
@@ -179,57 +181,57 @@ class Wps_Deals_Pagination_Public{
 								if($this->page < 1 + ($this->adjacents * 2)){
 										for ($counter = 1; $counter < 4 + ($this->adjacents * 2); $counter++){
 												if ($counter == $this->page)
-														$this->pagination .= "<span class=\"page-numbers1 current\">$counter</span>";
+														$this->pagination .= "<li><span class=\"page-numbers1 current\">$counter</span></li>";
 													else
-														$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."')\" >$counter</a>";
+														$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."', this)\" >$counter</a></li>";
 											}
 										//$this->pagination .= "...";
-										$this->pagination .= "<span class='dots'>...</span>";
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lpm1)."\" onclick = \"return $this->ajaxpagination('".$lpm1."')\" >$lpm1</a>";
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lastpage)."\" onclick = \"return $this->ajaxpagination('".$lastpage."')\">$lastpage</a>";
+										$this->pagination .= "<li><span class='dots'>...</span></li>";
+										$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link($lpm1)."\" onclick = \"return $this->ajaxpagination('".$lpm1."', this)\" >$lpm1</a></li>";
+										$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link($lastpage)."\" onclick = \"return $this->ajaxpagination('".$lastpage."', this)\">$lastpage</a></li>";
 									}
 
 								//in middle; hide some front and some back
 								elseif($lastpage - ($this->adjacents * 2) > $this->page && $this->page > ($this->adjacents * 2)){
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(1)."\" onclick = \"return $this->ajaxpagination('1')\" >1</a>";
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(2)."\" onclick = \"return $this->ajaxpagination('2')\" >2</a>";
+										$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link(1)."\" onclick = \"return $this->ajaxpagination('1', this)\" >1</a></li>";
+										$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link(2)."\" onclick = \"return $this->ajaxpagination('2', this)\" >2</a></li>";
 										//$this->pagination .= "...";
-										$this->pagination .= "<span class='dots'>...</span>";
+										$this->pagination .= "<li><span class='dots'>...</span></li>";
 										for ($counter = $this->page - $this->adjacents; $counter <= $this->page + $this->adjacents; $counter++)
 											if ($counter == $this->page)
-													$this->pagination .= "<span class=\"page-numbers1 current\">$counter</span>";
+													$this->pagination .= "<li><span class=\"page-numbers1 current\">$counter</span></li>";
 												else
-													$this->pagination .= "<a href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."')\" >$counter</a>";
+													$this->pagination .= "<li><a href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."', this)\" >$counter</a></li>";
 
 										//$this->pagination .= "...";
-										$this->pagination .= "<span class='dots'>...</span>";
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lpm1)."\" onclick = \"return $this->ajaxpagination('".$lpm1."')\" >$lpm1</a>";
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($lastpage)."\" onclick = \"return $this->ajaxpagination('".$lastpage."')\"  >$lastpage</a>";
+										$this->pagination .= "<li><span class='dots'>...</span></li>";
+										$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link($lpm1)."\" onclick = \"return $this->ajaxpagination('".$lpm1."', this)\" >$lpm1</a></li>";
+										$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link($lastpage)."\" onclick = \"return $this->ajaxpagination('".$lastpage."', this)\"  >$lastpage</a></li>";
 									}
 
 								//close to end; only hide early pages
 								else{
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(1)."\" onclick = \"return $this->ajaxpagination('1')\"   >1</a>";
+										$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link(1)."\" onclick = \"return $this->ajaxpagination('1', this)\"   >1</a></li>";
 
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link(2)."\" onclick = \"return $this->ajaxpagination('2')\"  >2</a>";
+										$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link(2)."\" onclick = \"return $this->ajaxpagination('2', this)\"  >2</a></li>";
 
 										//$this->pagination .= "...";
-										$this->pagination .= "<span class='dots'>...</span>";
+										$this->pagination .= "<li><span class='dots'>...</span></li>";
 
 										for ($counter = $lastpage - (2 + ($this->adjacents * 2)); $counter <= $lastpage; $counter++)
 											if ($counter == $this->page)
-													$this->pagination .= "<span class=\"page-numbers1 current\">$counter</span>";
+													$this->pagination .= "<li><span class=\"page-numbers1 current\">$counter</span></li>";
 												else
-													$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."')\" >$counter</a>";
+													$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link($counter)."\" onclick = \"return $this->ajaxpagination('".$counter."', this)\" >$counter</a></li>";
 									}
 							}
 
 						if($this->page){
 								//siguiente button
 								if ($this->page < $counter - 1)
-										$this->pagination .= "<a class='page-numbers1' href=\"".$this->get_pagenum_link($next)."\" onclick = \"return $this->ajaxpagination('".$next."')\" class=\"next\">$n</a>";
+										$this->pagination .= "<li><a class='page-numbers1' href=\"".$this->get_pagenum_link($next)."\" onclick = \"return $this->ajaxpagination('".$next."', this)\" class=\"next\">$n</a>";
 									else
-										$this->pagination .= "<span class=\"page-numbers1 disabled\">$n</span>";
+										$this->pagination .= "<li><span class=\"page-numbers1 disabled\">$n</span></li>";
 									if($this->showCounter)$this->pagination .= "<div class=\"pagination_data\">($this->total_pages Pages)</div>";
 							}
 					}
