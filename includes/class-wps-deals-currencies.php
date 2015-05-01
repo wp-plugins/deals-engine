@@ -53,9 +53,9 @@ class Wps_Deals_Currencies{
 	 * @since 1.0.0
  	 */
  	
- 	public function wps_deals_currency_symbol($val) {
+ 	public function wps_deals_currency_symbol( $currency = '' ) {
  		
- 		switch ($val) {
+ 		switch( $currency ) {
  			
  			case 'USD' :
  			case 'AUD' :
@@ -63,34 +63,35 @@ class Wps_Deals_Currencies{
 			case 'HKD' :
 			case 'MXN' :
 			case 'SGD' :
-						return '&#36;';
+						$currency_symbol = '&#36;';
  						break;
  			case "BRL" : 
- 						return 'R&#36;'; 
+ 						$currency_symbol = 'R&#36;'; 
  						break;
  			case 'GBP' :
-						return '&pound;';
+						$currency_symbol = '&pound;';
 						break;
  			case 'EUR' :
-						return '&euro;';
+						$currency_symbol = '&euro;';
 						break;
 			case 'JPY' : 
-						return '&yen;'; 
+						$currency_symbol = '&yen;'; 
 						break;
 			case 'ZAR' : 
-						return 'R'; 
+						$currency_symbol = 'R'; 
 						break;
 			case 'IDR' : 
-						return 'Rp'; 
+						$currency_symbol = 'Rp'; 
 						break;
 			case 'HUF' :
-						return 'Ft';
+						$currency_symbol = 'Ft';
 						break;			
 			default:
-						return $val;
+						$currency_symbol = $currency;
  						break;
  		}
  		
+ 		return apply_filters( 'wps_deals_currency_symbol', $currency_symbol, $currency );
  	}
 	
 	/**

@@ -19,60 +19,61 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 */
 	function wps_deals_currency_data() {
 		 
-		$currency_data = array(	
-									'USD'	=> __( 'US Dollars (&#36;)', 'wpsdeals' ),
-									'GBP'	=> __( 'Pounds Sterling (&pound;)', 'wpsdeals' ),
-									'EUR'	=> __( 'Euros (&euro;)', 'wpsdeals' ),
-									'AUD' 	=> __( 'Australian Dollars (&#36;)', 'wpsdeals' ),
-									'BRL' 	=> __( 'Brazilian Real (R&#36;)', 'wpsdeals' ),
-									'BGN'	=> __( 'Bulgarian Lev', 'wpsdeals' ),
-									'CAD' 	=> __( 'Canadian Dollars (&#36;)', 'wpsdeals' ),
-									'CZK' 	=> __( 'Czech Koruna', 'wpsdeals' ),
-									'DKK'	=> __( 'Danish Krone', 'wpsdeals' ),
-									'HKD' 	=> __( 'Hong Kong Dollar (&#36;)', 'wpsdeals' ),
-									'HUF' 	=> __( 'Hungarian Forint (Ft)', 'wpsdeals' ),
-									'RIAL' 	=> __( 'Iranian Rial', 'wpsdeals' ),
-									'ILS' 	=> __( 'Israeli Shekel', 'wpsdeals' ),
-									'JPY' 	=> __( 'Japanese Yen (&yen;)', 'wpsdeals' ),
-									'MYR' 	=> __( 'Malaysian Ringgits', 'wpsdeals' ),
-									'MXN' 	=> __( 'Mexican Peso (&#36;)', 'wpsdeals' ),
-									'NZD' 	=> __( 'New Zealand Dollar (&#36;)', 'wpsdeals' ),
-									'NOK' 	=> __( 'Norwegian Krone', 'wpsdeals' ),
-									'PHP' 	=> __( 'Philippine Pesos', 'wpsdeals' ),
-									'PLN' 	=> __( 'Polish Zloty', 'wpsdeals' ),
-									'SGD' 	=> __( 'Singapore Dollar (&#36;)', 'wpsdeals' ),
-									'ZAR'	=> __( 'South African Rand (R)', 'wpsdeals' ),
-									'SEK' 	=> __( 'Swedish Krona', 'wpsdeals' ),
-									'CHF' 	=> __( 'Swiss Franc', 'wpsdeals' ),
-									'TWD' 	=> __( 'Taiwan New Dollars', 'wpsdeals' ),
-									'THB' 	=> __( 'Thai Baht', 'wpsdeals' ),
-									'INR' 	=> __( 'Indian Rupee', 'wpsdeals' ),
-									'TRY' 	=> __( 'Turkish Lira', 'wpsdeals' ),
-									'IDR' 	=> __( 'Indonesia Rupiah (Rp)', 'wpsdeals' ),
-									'AED'	=> __( 'Dirham - United Arab Emirates', 'wpsdeals' ),
-									'LKR'	=> __( 'Sri Lankan rupee', 'wpsdeals' ),
-									'BDT'	=> __( 'Bangladeshi Taka', 'wpsdeals' ),
-									'CLP'	=> __( 'Chilean Peso', 'wpsdeals' ),
-									'CNY'	=> __( 'Chinese Yuan', 'wpsdeals' ),
-									'COP'	=> __( 'Colombian Peso', 'wpsdeals' ),
-									'DOP'	=> __( 'Dominican Peso', 'wpsdeals' ),
-									'HRK'	=> __( 'Croatia kuna', 'wpsdeals' ),
-									'ISK'	=> __( 'Icelandic krona', 'wpsdeals' ),
-									'NPR'	=> __( 'Nepali Rupee', 'wpsdeals' ),
-									'KIP'	=> __( 'Lao Kip', 'wpsdeals' ),
-						  		 );
-		return $currency_data;
+		return array_unique( 
+				apply_filters( 'wps_deals_currency_data',
+					array(	
+						'USD'	=> __( 'US Dollars (&#36;)', 'wpsdeals' ),
+						'GBP'	=> __( 'Pounds Sterling (&pound;)', 'wpsdeals' ),
+						'EUR'	=> __( 'Euros (&euro;)', 'wpsdeals' ),
+						'AUD' 	=> __( 'Australian Dollars (&#36;)', 'wpsdeals' ),
+						'BRL' 	=> __( 'Brazilian Real (R&#36;)', 'wpsdeals' ),
+						'BGN'	=> __( 'Bulgarian Lev', 'wpsdeals' ),
+						'CAD' 	=> __( 'Canadian Dollars (&#36;)', 'wpsdeals' ),
+						'CZK' 	=> __( 'Czech Koruna', 'wpsdeals' ),
+						'DKK'	=> __( 'Danish Krone', 'wpsdeals' ),
+						'HKD' 	=> __( 'Hong Kong Dollar (&#36;)', 'wpsdeals' ),
+						'HUF' 	=> __( 'Hungarian Forint (Ft)', 'wpsdeals' ),
+						'RIAL' 	=> __( 'Iranian Rial', 'wpsdeals' ),
+						'ILS' 	=> __( 'Israeli Shekel', 'wpsdeals' ),
+						'JPY' 	=> __( 'Japanese Yen (&yen;)', 'wpsdeals' ),
+						'MYR' 	=> __( 'Malaysian Ringgits', 'wpsdeals' ),
+						'MXN' 	=> __( 'Mexican Peso (&#36;)', 'wpsdeals' ),
+						'NZD' 	=> __( 'New Zealand Dollar (&#36;)', 'wpsdeals' ),
+						'NOK' 	=> __( 'Norwegian Krone', 'wpsdeals' ),
+						'PHP' 	=> __( 'Philippine Pesos', 'wpsdeals' ),
+						'PLN' 	=> __( 'Polish Zloty', 'wpsdeals' ),
+						'SGD' 	=> __( 'Singapore Dollar (&#36;)', 'wpsdeals' ),
+						'ZAR'	=> __( 'South African Rand (R)', 'wpsdeals' ),
+						'SEK' 	=> __( 'Swedish Krona', 'wpsdeals' ),
+						'CHF' 	=> __( 'Swiss Franc', 'wpsdeals' ),
+						'TWD' 	=> __( 'Taiwan New Dollars', 'wpsdeals' ),
+						'THB' 	=> __( 'Thai Baht', 'wpsdeals' ),
+						'INR' 	=> __( 'Indian Rupee', 'wpsdeals' ),
+						'TRY' 	=> __( 'Turkish Lira', 'wpsdeals' ),
+						'IDR' 	=> __( 'Indonesia Rupiah (Rp)', 'wpsdeals' ),
+						'AED'	=> __( 'Dirham - United Arab Emirates', 'wpsdeals' ),
+						'LKR'	=> __( 'Sri Lankan rupee', 'wpsdeals' ),
+						'BDT'	=> __( 'Bangladeshi Taka', 'wpsdeals' ),
+						'CLP'	=> __( 'Chilean Peso', 'wpsdeals' ),
+						'CNY'	=> __( 'Chinese Yuan', 'wpsdeals' ),
+						'COP'	=> __( 'Colombian Peso', 'wpsdeals' ),
+						'DOP'	=> __( 'Dominican Peso', 'wpsdeals' ),
+						'HRK'	=> __( 'Croatia kuna', 'wpsdeals' ),
+						'ISK'	=> __( 'Icelandic krona', 'wpsdeals' ),
+						'NPR'	=> __( 'Nepali Rupee', 'wpsdeals' ),
+						'KIP'	=> __( 'Lao Kip', 'wpsdeals' ),
+			  		 )));
 	}
-
+	
 	/**
 	 * Get Currencies
-	 *
+	 * 
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
 	function wps_deals_update_countries() {
-	
-		$countries = get_option('wps_deals_countries');
+		
+		$countries	= get_option( 'wps_deals_countries' );
 		
 		if( empty( $countries ) ) {
 			
