@@ -19,7 +19,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 	
 class Wps_Deals_Sales_List extends WP_List_Table {
 
-	public $model,$currency,$render,$scripts,$page;
+	public $model,$currency,$render,$scripts,$per_page;
 	
 	function __construct(){
 	

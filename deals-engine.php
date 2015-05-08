@@ -3,7 +3,7 @@
  * Plugin Name: Social Deals Engine
  * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
  * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
- * Version: 2.1.8
+ * Version: 2.1.9
  * Author: WPSocial.com
  * Author URI: http://wpsocial.com
  * 
@@ -33,13 +33,13 @@ if ( !defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '2.1.8' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.1.9' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
 }
 if( !defined( 'WPS_DEALS_BASENAME') ) {
-	define( 'WPS_DEALS_BASENAME', 'deals-engine' );
+	define( 'WPS_DEALS_BASENAME', basename( WPS_DEALS_DIR ) ); // plugin base name
 }
 if( !defined( 'WPS_DEALS_TEMPLATES_PATH' ) ) {
 	define( 'WPS_DEALS_TEMPLATES_PATH', WPS_DEALS_DIR . '/includes/templates/' ); // plugin dir
@@ -130,9 +130,31 @@ if( !defined( 'WPS_DEALS_TMP_DIR' ) ) {
  * This gets the plugin ready for translation.
  * 
  * @package Social Deals Engine
- * @since 1.0.0
+ * @since 2.1.9
  */
-load_plugin_textdomain( 'wpsdeals', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+function wps_deals_plugins_loaded() {
+	
+	// Set filter for plugin's languages directory
+	$wps_deals_lang_dir	= dirname( plugin_basename( __FILE__ ) ) . '/languages/';
+	$wps_deals_lang_dir	= apply_filters( 'wps_deals_languages_directory', $wps_deals_lang_dir );
+	
+	// Traditional WordPress plugin locale filter
+	$locale	= apply_filters( 'plugin_locale',  get_locale(), 'wpsdeals' );
+	$mofile	= sprintf( '%1$s-%2$s.mo', 'wpsdeals', $locale );
+	
+	// Setup paths to current locale file
+	$mofile_local	= $wps_deals_lang_dir . $mofile;
+	$mofile_global	= WP_LANG_DIR . '/' . WPS_DEALS_BASENAME . '/' . $mofile;
+	
+	if ( file_exists( $mofile_global ) ) { // Look in global /wp-content/languages/deals-engine folder
+		load_textdomain( 'wpsdeals', $mofile_global );
+	} elseif ( file_exists( $mofile_local ) ) { // Look in local /wp-content/plugins/deals-engine/languages/ folder
+		load_textdomain( 'wpsdeals', $mofile_local );
+	} else { // Load the default language files
+		load_plugin_textdomain( 'wpsdeals', false, $wps_deals_lang_dir );
+	}
+}
+add_action( 'plugins_loaded', 'wps_deals_plugins_loaded' );
 
 /**
  * Admin Warning

@@ -18,7 +18,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 	
 class Wps_Deals_Reports_List extends WP_List_Table {
 
-	public $model,$currency,$render;
+	public $model,$currency,$render,$per_page;
 	
 	function __construct(){
 	

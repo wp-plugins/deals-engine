@@ -32,10 +32,10 @@ class Wps_Deals_Scripts {
 	 */
 	public function wps_deals_admin_styles() {
 		
-		wp_register_style( 'wps-deals-chosen-styles', WPS_DEALS_URL . 'includes/css/chosen/chosen.css' );
+		wp_register_style( 'wps-deals-chosen-styles', WPS_DEALS_URL . 'includes/css/chosen/chosen.css', array(), WPS_DEALS_VERSION );
 		wp_enqueue_style( 'wps-deals-chosen-styles' );
 		
-		wp_register_style( 'wps-deals-admin-styles', WPS_DEALS_URL . 'includes/css/wps-deals-admin.css', array(), null);
+		wp_register_style( 'wps-deals-admin-styles', WPS_DEALS_URL . 'includes/css/wps-deals-admin.css', array(), WPS_DEALS_VERSION );
 		wp_enqueue_style( 'wps-deals-admin-styles' );
 		
 	}
@@ -50,10 +50,10 @@ class Wps_Deals_Scripts {
 		
 		global $wp_version, $wps_deals_options;
 		
-		wp_register_script( 'wps-deals-chosen-scripts', WPS_DEALS_URL . 'includes/js/chosen/chosen.jquery.js', array( 'jquery' ), null, true );
+		wp_register_script( 'wps-deals-chosen-scripts', WPS_DEALS_URL . 'includes/js/chosen/chosen.jquery.js', array( 'jquery' ), WPS_DEALS_VERSION, true );
 		wp_enqueue_script( 'wps-deals-chosen-scripts' );
 		
-		wp_register_script( 'wps-deals-admin-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-admin.js', array( 'jquery','jquery-ui-datepicker', 'jquery-ui-sortable' ) , null, true );
+		wp_register_script( 'wps-deals-admin-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-admin.js', array( 'jquery','jquery-ui-datepicker', 'jquery-ui-sortable' ) , WPS_DEALS_VERSION, true );
 		wp_enqueue_script( 'wps-deals-admin-scripts' );
 		
 		//when user will not insert paypal api user name / password / signature
@@ -77,7 +77,7 @@ class Wps_Deals_Scripts {
 																				));
 		wp_enqueue_media();
 		
-		wp_register_script('wps-deals-admin-livequery-script', WPS_DEALS_URL.'includes/js/wps-deals-livequery.js',array('jquery') , null, true );
+		wp_register_script('wps-deals-admin-livequery-script', WPS_DEALS_URL.'includes/js/wps-deals-livequery.js',array('jquery'), WPS_DEALS_VERSION, true );
 		wp_enqueue_script('wps-deals-admin-livequery-script');
 	}
 	
@@ -102,7 +102,7 @@ class Wps_Deals_Scripts {
 		// include css for deals sales start date and end date filter
 		if( $hook_suffix == 'wpsdeals_page_wps-deals-sales' ) {
 	   		// enqueue date-time-picker css
-	   		wp_enqueue_style( 'wps-deals-sales-date-css', WPS_DEALS_META_URL.'/css/datetimepicker/date-time-picker.css' );
+	   		wp_enqueue_style( 'wps-deals-sales-date-css', WPS_DEALS_META_URL.'/css/datetimepicker/date-time-picker.css', array(), WPS_DEALS_VERSION );
 	  	}
 	}
 	
@@ -205,7 +205,7 @@ class Wps_Deals_Scripts {
 	
 	public function wps_deal_popup_scritps() {
 		
-		wp_register_script( 'wps-deals-popup-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-prettyphoto.js', array('jquery'), null );
+		wp_register_script( 'wps-deals-popup-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-prettyphoto.js', array('jquery'), WPS_DEALS_VERSION, true );
 	}
 	
 	/**
@@ -218,7 +218,7 @@ class Wps_Deals_Scripts {
 	 */	
 	public function wps_deals_sales_styles() {
 
-		wp_register_style( 'wps-deals-sales-styles', WPS_DEALS_URL . 'includes/css/wps-deals-prettyphoto.css', array(), null );
+		wp_register_style( 'wps-deals-sales-styles', WPS_DEALS_URL . 'includes/css/wps-deals-prettyphoto.css', array(), WPS_DEALS_VERSION );
 		wp_enqueue_style( 'wps-deals-sales-styles' );
 	}
 	
@@ -241,10 +241,10 @@ class Wps_Deals_Scripts {
 		$enableterms = !empty( $wps_deals_options['enable_terms'] ) ? '1' : '0';
 		
 		//register credit card validator script
-		wp_register_script( 'wps-deals-credit-card-validator-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-credit-card-validator.js', array( 'jquery' ), null );
+		wp_register_script( 'wps-deals-credit-card-validator-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-credit-card-validator.js', array( 'jquery' ), WPS_DEALS_VERSION, true );
 		
 		//countdown timer script
-		wp_register_script( 'wps-deals-countdown-timer-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-countdown.js', array( 'jquery' ), null );
+		wp_register_script( 'wps-deals-countdown-timer-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-countdown.js', array( 'jquery' ), WPS_DEALS_VERSION, true );
 		//timer localization variables for timer labels
 		wp_localize_script( 'wps-deals-countdown-timer-scripts', 'Wps_Deals_Timer', array(
 																					'days'		=>	__( 'days', 'wpsdeals' ),
@@ -254,7 +254,7 @@ class Wps_Deals_Scripts {
 																					'today'		=>	wps_deals_current_date( 'F d, Y H:i:s' ) //date('F d, Y H:i:s', time())
 																				));
 		//do not include this script in footer otherwise timer countdown will disabled
-		wp_register_script( 'wps-deals-front-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-front.js', array( 'jquery' ), null );
+		wp_register_script( 'wps-deals-front-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-front.js', array( 'jquery' ), WPS_DEALS_VERSION, true );
 		wp_enqueue_script( 'wps-deals-front-scripts' );
 		
 		wp_register_script( 'twitter-bootstrap', WPS_DEALS_URL . 'includes/js/bootstrap.js', array( 'jquery' ), '2.3.1', true );
@@ -316,8 +316,8 @@ class Wps_Deals_Scripts {
 		if( is_singular() ) { //check current page is not home page
 			
 			// register google Map Js files 
-			wp_register_script( 'wps-deals-google-map', $urlsuffix.'maps.google.com/maps/api/js?sensor=false', array(), null, true );
-			wp_register_script( 'wps-deals-map-script', WPS_DEALS_URL . 'includes/js/wps-deals-map.js', array(), null, true );	
+			wp_register_script( 'wps-deals-google-map', $urlsuffix.'maps.google.com/maps/api/js?sensor=false', array(), WPS_DEALS_VERSION, true );
+			wp_register_script( 'wps-deals-map-script', WPS_DEALS_URL . 'includes/js/wps-deals-map.js', array(), WPS_DEALS_VERSION, true );	
 			
 			//do action to add localize script for individual post data
 			do_action( 'wps_deals_localize_map_script' );
@@ -333,14 +333,14 @@ class Wps_Deals_Scripts {
 				|| ( !empty( $wps_deals_options['enable_facebook'] ) && WPS_DEALS_FB_APP_ID != '' && WPS_DEALS_FB_APP_SECRET != '' ) ) )  {
 				
 				wp_deregister_script( 'facebook' );
-				wp_register_script( 'facebook', $urlsuffix.'connect.facebook.net/'.$wps_deals_options['fb_language'].'/all.js#xfbml=1&appId='.WPS_DEALS_FB_APP_ID, false, null, true );
+				wp_register_script( 'facebook', $urlsuffix.'connect.facebook.net/'.$wps_deals_options['fb_language'].'/all.js#xfbml=1&appId='.WPS_DEALS_FB_APP_ID, false, WPS_DEALS_VERSION, true );
 								
 			}
 			//twitter button
 			if(in_array('twitter',$wps_deals_options['social_buttons'])) {
 				
 				wp_deregister_script( 'twitter' );
-				wp_register_script( 'twitter', $urlsuffix.'platform.twitter.com/widgets.js',array( 'jquery' ), null, true );
+				wp_register_script( 'twitter', $urlsuffix.'platform.twitter.com/widgets.js',array( 'jquery' ), WPS_DEALS_VERSION, true );
 				
 			}
 			
@@ -348,7 +348,7 @@ class Wps_Deals_Scripts {
 			if(in_array('google',$wps_deals_options['social_buttons'])) {
 				
 				wp_deregister_script('google');
-				wp_register_script( 'google', $urlsuffix.'apis.google.com/js/plusone.js',array( 'jquery' ), null, true );
+				wp_register_script( 'google', $urlsuffix.'apis.google.com/js/plusone.js',array( 'jquery' ), WPS_DEALS_VERSION, true );
 				
 			}
 		}
@@ -371,7 +371,7 @@ class Wps_Deals_Scripts {
 												 'dealsnetwork'				=> 'twitter' )
 										, $twitterloginurl );
 		
-		wp_register_script( 'wps-deals-social-front-scripts', WPS_DEALS_SOCIAL_URL . '/js/wps-deals-social-front.js', array( 'jquery' ), null, true );
+		wp_register_script( 'wps-deals-social-front-scripts', WPS_DEALS_SOCIAL_URL . '/js/wps-deals-social-front.js', array( 'jquery' ), WPS_DEALS_VERSION, true );
 		wp_localize_script( 'wps-deals-social-front-scripts', 'WpsDealsSocial', array( 
 																						'ajaxurl'					=>	admin_url( 'admin-ajax.php', ( is_ssl() ? 'https' : 'http' ) ),
 																						'fberror'					=>	$fberror,
@@ -392,7 +392,7 @@ class Wps_Deals_Scripts {
 		//if facebook application id & application secret are not empty
 		if( !empty( $wps_deals_options['enable_facebook'] ) && WPS_DEALS_FB_APP_ID != '' && WPS_DEALS_FB_APP_SECRET != '' ) {
 			
-			wp_register_script( 'wps-deals-social-fbinit', WPS_DEALS_SOCIAL_URL . '/js/wps-deals-social-fbinit.js', array( 'jquery' ), null, true );
+			wp_register_script( 'wps-deals-social-fbinit', WPS_DEALS_SOCIAL_URL . '/js/wps-deals-social-fbinit.js', array( 'jquery' ), WPS_DEALS_VERSION, true );
 			wp_localize_script( 'wps-deals-social-fbinit', 'WpsDealsFbInit', array( 'app_id' => WPS_DEALS_FB_APP_ID ) );
 		}
 		
@@ -410,15 +410,15 @@ class Wps_Deals_Scripts {
 	
 		global $wps_deals_options;
 
-		wp_register_style( 'twitter-bootstrap', WPS_DEALS_URL . 'includes/css/bootstrap.css', array(), null );
+		wp_register_style( 'twitter-bootstrap', WPS_DEALS_URL . 'includes/css/bootstrap.css', array(), WPS_DEALS_VERSION );
 		if( empty( $wps_deals_options['disable_twitter_bootstrap'] ) ) {
 			wp_enqueue_style( 'twitter-bootstrap' );
 		}
 		
-		wp_register_style( 'wps-deals-front-styles', WPS_DEALS_URL . 'includes/css/wps-deals-front.css', array(), null );
+		wp_register_style( 'wps-deals-front-styles', WPS_DEALS_URL . 'includes/css/wps-deals-front.css', array(), WPS_DEALS_VERSION );
 		wp_enqueue_style( 'wps-deals-front-styles' );
 		
-		wp_register_style( 'wps-deals-custom', WPS_DEALS_URL . 'includes/css/wps-deals-custom.css', array(), null );
+		wp_register_style( 'wps-deals-custom', WPS_DEALS_URL . 'includes/css/wps-deals-custom.css', array(), WPS_DEALS_VERSION );
 		
 		// only register the custom css if the admin has added some entries to it
 		if( !empty( $wps_deals_options['custom_css'] ) ) {
@@ -440,7 +440,7 @@ class Wps_Deals_Scripts {
 		
 		global $post,$wps_deals_options;
 		
-		wp_register_script( 'wps-deals-graph-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-graph.js' );
+		wp_register_script( 'wps-deals-graph-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-graph.js', array(), WPS_DEALS_VERSION, true );
 		wp_enqueue_script( 'wps-deals-graph-scripts' );
 		wp_localize_script( 'wps-deals-graph-scripts', 'wps_deals_vars', array(
 	        'post_id' 			=> isset( $post->ID ) ? $post->ID : null,
@@ -461,13 +461,13 @@ class Wps_Deals_Scripts {
 	public function wps_deals_metabox_styles() {
 		
 		// Enqueue Meta Box Style
-		wp_enqueue_style( 'wps-deals-meta-box', WPS_DEALS_META_URL . '/css/meta-box.css' );
+		wp_enqueue_style( 'wps-deals-meta-box', WPS_DEALS_META_URL . '/css/meta-box.css', array(), WPS_DEALS_VERSION );
   
 		// Enqueue select2 library, use proper version.
 		//wp_enqueue_style( 'wps-multiselect-select2-css', WPS_DEALS_META_URL . '/js/select2/select2.css', array(), null );
 		
 		// Enqueue for datepicker
-		wp_enqueue_style( 'wps-deals-meta-jquery-ui-css', WPS_DEALS_META_URL.'/css/datetimepicker/date-time-picker.css' );
+		wp_enqueue_style( 'wps-deals-meta-jquery-ui-css', WPS_DEALS_META_URL.'/css/datetimepicker/date-time-picker.css', array(), WPS_DEALS_VERSION );
 		
 		// Enqueu built-in style for color picker.
 		if( wp_style_is( 'wp-color-picker', 'registered' ) ) { //since WordPress 3.5
@@ -492,7 +492,7 @@ class Wps_Deals_Scripts {
 		global $wp_version;
 		
 		// Enqueue Meta Box Scripts
-		wp_enqueue_script( 'wps-deals-meta-box', WPS_DEALS_META_URL . '/js/meta-box.js', array( 'jquery' ), null, true );
+		wp_enqueue_script( 'wps-deals-meta-box', WPS_DEALS_META_URL . '/js/meta-box.js', array( 'jquery' ), WPS_DEALS_VERSION, true );
 		
 		//localize script
 		$newui = $wp_version >= '3.5' ? '1' : '0'; //check wp version for showing media uploader
@@ -512,11 +512,11 @@ class Wps_Deals_Scripts {
 		wp_enqueue_script( array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'jquery-ui-slider' ) );
 		
 		wp_deregister_script( 'datepicker-slider' );
-		wp_register_script('datepicker-slider', WPS_DEALS_META_URL.'/js/datetimepicker/jquery-ui-slider-Access.js');
+		wp_register_script('datepicker-slider', WPS_DEALS_META_URL.'/js/datetimepicker/jquery-ui-slider-Access.js', array(), WPS_DEALS_VERSION, true );
 		wp_enqueue_script( 'datepicker-slider' );
 		
 		wp_deregister_script( 'timepicker-addon' );
-		wp_register_script('timepicker-addon',WPS_DEALS_META_URL.'/js/datetimepicker/jquery-date-timepicker-addon.js',array('datepicker-slider'),false,true);
+		wp_register_script('timepicker-addon',WPS_DEALS_META_URL.'/js/datetimepicker/jquery-date-timepicker-addon.js',array('datepicker-slider'), WPS_DEALS_VERSION, true);
 		wp_enqueue_script('timepicker-addon');
 							
 		// Enqueu built-in script for color picker.
@@ -541,7 +541,7 @@ class Wps_Deals_Scripts {
 		//check site is running on SSL or not
 		$urlsuffix = is_ssl() ? 'https://' : 'http://'; 
 		
-		wp_register_script( 'google-jsapi', $urlsuffix.'www.google.com/jsapi', array('jquery'), false, false); // in header
+		wp_register_script( 'google-jsapi', $urlsuffix.'www.google.com/jsapi', array('jquery'), WPS_DEALS_VERSION, false); // in header
 		wp_enqueue_script( 'google-jsapi' );
 	}
 	/**
@@ -555,7 +555,7 @@ class Wps_Deals_Scripts {
 	 */
 	public function wps_deals_sortable() {
 		
-		wp_register_script( 'wps-deals-sortable', WPS_DEALS_URL . 'includes/js/wps-deals-sortable.js', array( 'jquery', 'jquery-ui-sortable' ) , null, true );
+		wp_register_script( 'wps-deals-sortable', WPS_DEALS_URL . 'includes/js/wps-deals-sortable.js', array( 'jquery', 'jquery-ui-sortable' ) , WPS_DEALS_VERSION, true );
 		wp_enqueue_script( 'wps-deals-sortable' );
 	}
 	
@@ -599,7 +599,7 @@ class Wps_Deals_Scripts {
 			$template = get_option( 'template' );
 			
 			if ( ! in_array( $template, wps_deals_get_core_supported_themes() ) ) {
-				wp_enqueue_style( 'wps-deals-activation', WPS_DEALS_URL . 'includes/css/wps-deals-activation.css' );
+				wp_enqueue_style( 'wps-deals-activation', WPS_DEALS_URL . 'includes/css/wps-deals-activation.css', array(), WPS_DEALS_VERSION );
 				add_action( 'admin_notices', array( $this, 'wps_deals_theme_check_notice' ) );
 			}
 		}
