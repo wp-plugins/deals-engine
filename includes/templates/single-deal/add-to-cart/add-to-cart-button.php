@@ -15,10 +15,16 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 if ( ! $addcartbtntext ) return;
 
 global $wps_deals_options;
+
 ?>
 
+<?php
+if( $soldout === true ) { ?>
+	<a class="deals-sold-out-button <?php echo $btncolor; ?> deals-button btn-big">
+		<?php echo apply_filters( 'wps_deals_sold_out_text', $soldout_btn_label ) ;?>
+	</a>
 <?php 
-if( isset($wps_deals_options['item_quantities']) && !empty($wps_deals_options['item_quantities']) && $wps_deals_options['item_quantities'] == '1') {
+} else if( isset($wps_deals_options['item_quantities']) && !empty($wps_deals_options['item_quantities']) && $wps_deals_options['item_quantities'] == '1') {
 	if($incart) { ?>
 		<input type="hidden" id="deals_id" name="wps_deals_id" class="deals-id" value="<?php echo $dealid;?>" />
 		

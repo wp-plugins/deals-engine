@@ -3,7 +3,7 @@
  * Plugin Name: Social Deals Engine
  * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
  * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
- * Version: 2.1.9
+ * Version: 2.2.0
  * Author: WPSocial.com
  * Author URI: http://wpsocial.com
  * 
@@ -33,7 +33,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '2.1.9' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.2.0' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -657,11 +657,32 @@ function wps_deals_install() {
 	  
 	} //check plugin set option value is 1.2.2
 	 
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+	
 	if( $wps_deals_set_option == '1.2.3' ) {
+	  	
+		$udpopt = false;
+		
+		if( !isset( $wps_deals_options['purchase_limit_label'] ) ) {
+			
+			$wps_deals_options['purchase_limit_label'] = __( 'Sold Out', 'wpsdeals' );
+			$udpopt = true;			
+		}
+		
+		if( $udpopt == true ) { // if any of the settings need to be updated
+			update_option( 'wps_deals_options', $wps_deals_options );
+		}
+		
+		// update plugin version to option
+		update_option( 'wps_deals_set_option', '1.2.4' ); 
+	  
+	} //check plugin set option value is 1.2.3
+	
+	if( $wps_deals_set_option == '1.2.4' ) {
 	  
 		// future code here
 	  
-	} //check plugin set option value is 1.2.3
+	} //check plugin set option value is 1.2.4
 	
 	//Action for theme supports
 	do_action( 'wpsdeals_updated' );

@@ -137,8 +137,8 @@ function wps_deals_insert_payment_data($data=array()) {
 										'payment_method'	=>	$paymentmethod, //WPS_DEALS_PAYPAL_GATEWAY
 										'admin_label'		=>	$admin_label,
 										'checkout_label'	=>	$checkout_label
-    								);		
-	
+    								);
+    								    	
 		foreach ($cartproducts as $dealid => $dealdata) {
 
 			//get the data by deal id
@@ -175,8 +175,10 @@ function wps_deals_insert_payment_data($data=array()) {
 			$deal_image = get_the_post_thumbnail( $dealid, 'wpsdeals-single', array( 'alt' => __('Deal Image','wpsdeals'), 
 																				 	 'title'	=> trim( strip_tags( get_the_title( $dealid ) ) ) 
 																					) );
+			// add filter to change feature image of deal by third party plugin
+			$deal_image = apply_filters( 'wps_deals_feature_image_src', $deal_image, $dealid );
 		
-			$dealimg = !empty( $deal_image ) ? $deal_image : '<img src="'.WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg'.'" alt="'.__('Deal Image','wpsdeals').'" />';
+			$dealimg = !empty( $deal_image ) ? $deal_image : apply_filters( 'wps_deals_single_deal_default_img_src', '<img src="' . WPS_DEALS_URL . 'includes/images/deals-no-image-big.jpg' . '" alt="' . __( 'Deal Image', 'wpsdeals' ) . '" />' );
 			
 			
 			//get the value for deal image from post meta
@@ -229,7 +231,33 @@ function wps_deals_insert_payment_data($data=array()) {
 					    										//'product_link'			=> $product_link,
 					    										'deal_details'			=> serialize($dealalldata)
 	    												 );
-	    		
+	    	
+	    	// To Update purchase details of user
+			if( is_user_logged_in() ) {	// check if user is logged in
+				
+				// Get User already purchase deal detail
+				$user_purchased_detail = get_user_meta( $userid, $prefix.'purchase_detail', true );
+	
+				// get purchase limit
+				$purchase_limit = get_post_meta( $dealid, $prefix.'purchase_limit', true );
+		    	
+				if( isset( $purchase_limit ) && !empty( $purchase_limit ) ) {
+				 	
+					if( !empty( $user_purchased_detail[$dealid] ) ) { // if user have already buy this deal then update purchase count
+				 		$purchased_items = isset( $user_purchased_detail[$dealid]['total_purchase'] ) ? $user_purchased_detail[$dealid]['total_purchase'] : 0;
+				 		$user_purchased_detail[$dealid] = array(			    		
+				    		'total_purchase' => intval( $purchased_items ) + intval( $quantity )
+				    	);
+				 	} else { // update user purchase detail
+				 		$user_purchased_detail[$dealid] = array(			    		
+				    		'total_purchase' => $quantity
+				    	);
+				 	}
+				 	
+				 	// finally update user purchase detail into database
+				 	update_user_meta( $userid, $prefix.'purchase_detail', $user_purchased_detail );
+		    	}
+			}
 		}
 		
 		//store user IP address to database

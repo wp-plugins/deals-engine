@@ -53,13 +53,18 @@ jQuery(document).ready(function($){
 					
 		$('.deals-cart-process-show').show();
 		$('.deals-cart-loader').show();
-		$.post(Wps_Deals.ajaxurl,data,function(response) {
-			//alert(response);
+		$.post(Wps_Deals.ajaxurl,data,function(response) {			
+			
 			$('.deals-cart-loader').hide();
 			
-			result = $.parseJSON(response);
+			result = $.parseJSON(response);	
 			
-			if(result.success == '1') {
+			if(result.error == '2') { // display error message if any			
+				$('.deals-checkout:first').html(result.error_message);
+				$('.deal-purchase-limit-error').parent().show();
+				$('.deals-add-to-cart-button').show();
+			}
+			else if(result.success == '1') {			
 				$('.deals-cart-msg').show().css( "display", "block");
 				$('.deals-checkout').show().css( "display", "block");
 				if(result.widgetcontent != undefined && $('.deals-cart-widget').length > 0) { //check widget is activated
@@ -159,15 +164,28 @@ jQuery(document).ready(function($){
 		loader.show();
 		$.post(Wps_Deals.ajaxurl,data,function(response) {
 			
-			//alert(response);
-			var result = $.parseJSON(response);
 			
+			var result = $.parseJSON(response);			
 			loader.hide();
 			
+		//	alert(response);
 			//var cartdetails = $( result.detail ).filter( '.deals-cart-details' ).html();
 			var cartdetails		= result.detail;
 			
-			if( result.success == '1' ) {
+			
+			if( result.failed == '1' ) {			
+				$('.wps-deals-cart-wrap').find('.deals-error:first').fadeIn()
+				$('.wps-deals-cart-wrap').find('.deals-error:first').html( result.error );
+				
+				details.html( cartdetails );
+				$('.deals_cart_total').html(result.total);
+				
+			//	alert(cartdetails);
+				//call trigger when cart update
+				$( 'body' ).trigger( 'wps_deals_cart_update', [ result, cartdetails ] );
+			}
+			
+			else if( result.success == '1' ) {
 				
 				details.html( cartdetails );
 				message.fadeIn();
@@ -962,6 +980,42 @@ jQuery(document).ready(function($){
 		$(this).closest('form').submit();
 	});
 	
+	// restore product into cart
+	$( document ).on( 'click', '.wps_deals_restore_removed_deals', function() {
+		var loader = $('.deals-cart-process-show');
+		var data = {
+						action	:	'deals_restore_to_cart',
+					}
+			loader.show();
+			$('.wps_deals_restore').hide();				
+		$.post(Wps_Deals.ajaxurl,data,function(response)
+		{	
+			loader.hide();		
+			wps_deals_reload();			
+		});	
+	});		
+	
+	// remove product from cart widget
+	$( document ).on( 'click', '.deals-cart-item-remove-widget', function() {
+		
+		var details = $('#deals-cart-widget');
+		var itemid = $(this).attr('item-id');
+		
+		var data = {
+						action	:	'deals_remove_from_cart_widget',
+						dealid	:	itemid
+					}
+		
+		$.post(Wps_Deals.ajaxurl,data,function(response){			
+			
+			var result = $.parseJSON( response );					
+			var cartdetails		= result.detail;			
+			if( result.success == '1' ) {
+				details.html(cartdetails);	
+			}			
+		});
+	});
+	
 });
 // validation of email
 function wps_deals_valid_email(emailStr) {
@@ -1039,28 +1093,32 @@ function wps_deals_valid_email(emailStr) {
 function wps_deals_ajax_pagination(pid){
 	
 	var data = {
-					action: 'wps_deals_next_page',
-					paging: pid
-				};
+			action: 'wps_deals_next_page',
+			paging: pid
+		};
 		
-			jQuery('.deals-sales-loader').show();
-			jQuery('.deals-pagination ul').hide();
-			
-			jQuery.post(Wps_Deals.ajaxurl, data, function(response) {
-				var newresponse = jQuery(response).filter('.deals-sales').html();
-				//alert(newresponse);
-				jQuery('.deals-sales-loader').hide();
-				jQuery('.deals-sales').html(newresponse);
-			});	
+	jQuery('.deals-sales-loader').show();
+	jQuery('.deals-pagination ul').hide();
+	
+	jQuery.post(Wps_Deals.ajaxurl, data, function(response) {
+		var newresponse = jQuery(response).filter('.deals-sales').html();
+		//alert(newresponse);
+		jQuery('.deals-sales-loader').hide();
+		jQuery('.deals-sales').html(newresponse);
+	});	
+	
 	return false;
 }
 
 //function for home deals ajax pagination
 function wps_home_deals_ajax_pagination( pid, thisvar ) {
 	
+	var wps_deals_by_category_shortcode_atts = jQuery( '#wps_deals_by_category_shortcode_atts' ).data( 'shortcode-atts' );
+	
 	var data = {
 			action : 'wps_home_deals_next_page',
-			paging : pid
+			paging : pid,
+			wps_deals_by_category_shortcode_atts: wps_deals_by_category_shortcode_atts
 		};
 		
 	// get current tab id

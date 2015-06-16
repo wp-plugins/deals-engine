@@ -274,7 +274,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		$settings = is_array(get_option('wps_deals_options')) 	? get_option('wps_deals_options') 	: array();
 		
-		return $settings;
+		return apply_filters( 'wps_deals_get_settings', $settings );
 	}
 
 	/**
@@ -463,7 +463,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	              $realip = getenv( 'REMOTE_ADDR' );
 	          }
 	     }
-	    return $realip;
+	    return apply_filters( 'wps_deals_getip', $realip );
 	 }
 	 /**
 	  * Get payment Gateways
@@ -610,7 +610,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			$enablesocial = true;	
 		}
 		
-		return $enablesocial;
+		return apply_filters( 'wps_deals_enable_social_login', $enablesocial );
 	}
 	
 	/**
@@ -668,7 +668,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 				"assign_{$capability_type}_terms"
 			);
 		}
-		return $capabilities;
+		return apply_filters( 'wps_deals_get_capabilities', $capabilities );
 	}
 	/**
 	 * Assign Capabilities To Roles
@@ -751,7 +751,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		$pageid = !empty( $page ) && isset( $wps_deals_options[$page] ) && !empty( $wps_deals_options[$page] ) ? $wps_deals_options[$page] : '-1';
 		
-		return $pageid;
+		return apply_filters ( 'wps_deals_get_page_id', $pageid );
 	}
 		
 	/**
@@ -775,7 +775,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		$curent_page_url = remove_query_arg( array( 'oauth_token', 'oauth_verifier' ), $curent_page_url );
 		
-		return $curent_page_url;
+		return apply_filters( 'wps_deals_get_current_page_url', $curent_page_url );
 	}
 	
 	/**
@@ -837,7 +837,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			$date_time = date( 'Y-m-d H:i:s', current_time('timestamp') );
 		}
 		
-		return $date_time;
+		return apply_filters( 'wps_deals_current_date', $date_time );
 	}
 	
 	/**
@@ -852,7 +852,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	function wps_deals_current_time() {
 		
 		$current_time	= current_time('timestamp');
-		return $current_time;
+		return apply_filters( 'wps_deals_current_time', $current_time );
 	}
 	/**
 	 * Check if cart has fees applied
@@ -866,7 +866,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		global $wps_deals_fees;
 		
-		return $wps_deals_fees->has_fees();
+		return apply_filters( 'wps_deals_cart_has_fees', $wps_deals_fees->has_fees() );
 	}
 	/**
 	 * Get Fees From Cart
@@ -880,7 +880,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		global $wps_deals_fees;
 		
-		return $wps_deals_fees->get_fees();
+		return apply_filters( 'wps_deals_get_cart_fees', $wps_deals_fees->get_fees() );
 	}
 	/**
 	 * Get Fee From Particular ID From Cart
@@ -895,7 +895,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		global $wps_deals_fees;
 		
-		return $wps_deals_fees->get_fee( $id );
+		return apply_filters( 'wps_deals_get_cart_fee', $wps_deals_fees->get_fee( $id ) );
 	}
 	/**
 	 * Get Total Fees From Cart
@@ -910,7 +910,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		global $wps_deals_fees;
 		
-		return $wps_deals_fees->total();
+		return apply_filters( 'wps_deals_get_cart_fee_total', $wps_deals_fees->total() );
 	}
 	/**
 	 * Return the fees for the purchase
@@ -1088,6 +1088,27 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		$checkout_cancel_url = wps_deals_get_endpoint_url( 'social-deals-cancel-page', get_permalink( wps_deals_get_page_id( 'payment_checkout_page' ) ) );
 				
 		return apply_filters( 'wps_deals_checkout_cancel_url', $checkout_cancel_url);
+	}
+	
+	/**
+	 * Get the undo url
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.1.9
+	 * @return string
+	 */
+	function wps_deals_get_undo_url( $dealid ) {
+		
+		$query_arg = array(
+			'undo_item' => $dealid
+		);
+		
+		// get checkout page url
+		$chekout_page_url = get_permalink( wps_deals_get_page_id( 'payment_checkout_page' ) );
+		// make undo url
+		$undo_url = add_query_arg( $query_arg, $chekout_page_url );
+		
+		return apply_filters( 'wps_deals_undo_url', wp_nonce_url( $undo_url, 'social-deals-cart' ) );
 	}
 
 	/**

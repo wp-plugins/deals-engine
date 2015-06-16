@@ -237,11 +237,17 @@ class Wps_Deals_Shortcodes {
 	 */
 	public function wps_deals_by_category( $atts, $content ) {
 		
+		global $wps_deals_by_category_shortcode_atts;
+		
 		extract( shortcode_atts( array(	
 	    	'category'	=>	''
 		), $atts ) );
 		
 		ob_start();
+		
+		// assign shortcode attributes to global variable so we can access shortcode attributes when
+		// ajax pagination is called
+		$wps_deals_by_category_shortcode_atts['category'] = $category;
 		
 		//do action to load home content by category
 		do_action( 'wps_deals_home_content_shortcode', $category );

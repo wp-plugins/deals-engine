@@ -77,6 +77,15 @@ class Wps_Deals_Meta_Box {
 		
 		$get_bundle_deals = $this->model->wps_deals_get_deal_bundles();
 		
+		// Purchase Button Behaviour Options
+		$purchase_button_behaviour_options = array();		
+		$purchase_button_behaviour_options['add_to_cart'] = __('Add To Cart','wpsdeals');				
+		
+		// check paypal is enabled, if yes then add buy now option
+		if( isset( $wps_deals_options['payment_gateways']['paypal'] ) && !empty( $wps_deals_options['payment_gateways']['paypal'] ) )
+			$purchase_button_behaviour_options['direct'] =  __('Buy Now','wpsdeals');
+
+		
 	?>
 		<div class="wps-deals-metabox-tabs-div">
 			
@@ -202,7 +211,7 @@ class Wps_Deals_Meta_Box {
 							<tbody id="wps_deals_behavior_wrapper">';
 							
 							// select purchase behaviour buttton
-							wps_deals_add_select( array( 'id' => $prefix . 'behavior', 'class' => 'wps-deals-behavior', 'options' => array('add_to_cart' => __('Add To Cart','wpsdeals'), 'direct' => __('Buy Now','wpsdeals')), 'name'=> __( 'Purchase Button Behavior:', 'wpsdeals' ), 'std'=> array( '' ), 'desc' => __( 'Select the purchase button behavior.', 'wpsdeals' ) ) );
+							wps_deals_add_select( array( 'id' => $prefix . 'behavior', 'class' => 'wps-deals-behavior', 'options' => $purchase_button_behaviour_options, 'name'=> __( 'Purchase Button Behavior:', 'wpsdeals' ), 'std'=> array( '' ), 'desc' => __( 'Select the purchase button behavior.', 'wpsdeals' ) ) );
 						
 						echo '</tbody>
 							<tbody>';
@@ -244,6 +253,13 @@ class Wps_Deals_Meta_Box {
 							
 						echo '</tbody>
 							<tbody>';
+						
+							// display limit purchase per user
+							wps_deals_add_text( array( 'id' => $prefix . 'purchase_limit', 'name'=> __( 'Purchase Limit:', 'wpsdeals' ), 'desc' => __( 'Leave blank or set to 0 for unlimited, set to -1 to mark a product as sold out. Purchase limit will be applied per user.', 'wpsdeals' ) ) );
+														
+						echo '</tbody>
+							<tbody>';
+						
 								
 						do_action('wps_deals_available_bought_after');
 						
@@ -460,6 +476,9 @@ class Wps_Deals_Meta_Box {
 		$availble_bought = isset( $_POST[ $prefix.'available_bought' ] ) ? 'on' : '';
 		update_post_meta( $post_id, $prefix.'available_bought', $this->model->wps_deals_escape_slashes_deep( $availble_bought ) );
 		
+		// Purchase Limit		
+		update_post_meta( $post_id, $prefix.'purchase_limit', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'purchase_limit'] ) );
+				
 		// Business Title
 		update_post_meta( $post_id, $prefix.'business_title', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'business_title'] ) );
 		

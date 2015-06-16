@@ -171,8 +171,7 @@ class Wps_Deals_Shopping_Cart {
 		
 		$this->modifysession($cartdata); 
 		
-		return true;
-		
+		return true;						
 	}
 	
 	/**
@@ -186,10 +185,18 @@ class Wps_Deals_Shopping_Cart {
 	
 	public function remove($id) {
 		
+		global $user_ID;
+		
 		//get cart data
 		$getcart = $this->get();
 		
-		if(!empty($id)) {
+		if(!empty($id)) {						
+				
+			//$_SESSION['deals-cart']['products'] = $getcart['products'];
+			
+			// set removed cart contents
+			$this->session->set( 'wps_deals_removed_cart_contents', $getcart['products'][$id] );
+									
 			//unset($_SESSION['deals-cart']['products'][$id]);
 			//get cart data
 			unset($getcart['products'][$id]);
@@ -209,6 +216,31 @@ class Wps_Deals_Shopping_Cart {
 		return true;
 		
 	}
+	
+	public function restore_cart_item( $id ) {
+		
+		if( !empty( $id ) ) {
+			
+			//get cart data
+			$getcart = $this->get();
+			
+			// get removed cart contents
+			$removed_item = $this->session->get( 'wps_deals_removed_cart_contents' );
+			
+			if( !empty( $removed_item) ) {
+			
+				// update item in cart
+				$getcart['products'][$removed_item['dealid']] = $removed_item;
+			
+				// update cart
+				$this->session->set( 'deals-cart', $getcart );
+				
+				// remove removed cart contents from session
+				$this->session->remove( 'wps_deals_removed_cart_contents' );
+			}			
+		}
+	}
+	
 	/**
 	 * Empty Cart
 	 * 

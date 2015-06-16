@@ -129,8 +129,11 @@ class Wps_Deals_Lists extends WP_Widget {
 				// get the deal main image
 				$imgurl = get_post_meta( $post->ID, $prefix . 'main_image', true );
 				
+				// add filter to change deal main image of deal by third party plugin
+				$imgurl['src'] = apply_filters( 'wps_deals_main_image_src', $imgurl['src'], $post->ID );
+		
 				// no image
-				$imgsrc = isset( $imgurl['src'] ) && !empty( $imgurl['src'] ) ? $imgurl['src'] : WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg';
+				$imgsrc = isset( $imgurl['src'] ) && !empty( $imgurl['src'] ) ? $imgurl['src'] : apply_filters( 'wps_deals_default_img_src', WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg' );
 				
 				// get the normal price
 				$normalprice = get_post_meta( $post->ID, $prefix . 'normal_price', true );

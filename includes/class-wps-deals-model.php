@@ -545,9 +545,31 @@ class Wps_Deals_Model {
  		
  		global $wpdb;
 		
-		if(isset($args['id']) && !empty($args['id'])) { // check coupon sale id
-		
-			wp_delete_post( $args['id']);
+		if(isset($args['id']) && !empty($args['id'])) { // check coupon sale id	
+			
+			
+			$userdata = $this->wps_deals_get_ordered_user_details($args['id']);			
+			
+			if(isset($userdata['user_id']) ) {
+				
+					// Get Order Details
+					$orderdata = $this->wps_deals_get_post_meta_ordered($args['id']);			
+					
+					// Get purchase details of user
+					$previous_list = get_user_meta( $userdata['user_id'], 'wps_deal_purchase_detail', true );
+					
+					foreach ( $orderdata['deals_details'] as $key => $deal ) {						
+							if(($key = array_search($deal['deal_id'], $previous_list)) !== false) {
+								//Remove from purchase list
+		 						 unset($previous_list[$key]);
+							}
+					}				
+										
+					// Update purchase list
+					update_user_meta( $userdata['user_id'], 'wps_deal_purchase_detail', $previous_list );
+					
+					wp_delete_post( $args['id'] );
+			}
 			
 		}
  	}
@@ -1566,9 +1588,7 @@ class Wps_Deals_Model {
 			
 			$bundle_html .= '</ul>';
 		}
-		
-		return $bundle_html;
-		
+		return apply_filters( 'wps_deals_get_bundled_deals_cart', $bundle_html );
 	}
 	
 	/**
@@ -2538,7 +2558,7 @@ class Wps_Deals_Model {
 			//$billingdetailsstr .= "\n" . __( 'N / A','wpsdeals');
 		}
 		
-		return $billingdetailsstr;
+		return apply_filters( 'wps_deals_email_billing_details', $billingdetailsstr );
 	}
 	
 	/**
@@ -2654,5 +2674,37 @@ class Wps_Deals_Model {
 		
 	}
 	
+	public function wps_deals_check_item_is_sold_out( $post_id, $userid="" ) {
+	
+		global $user_ID;			
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		$soldout = false;		
+		if( !is_user_logged_in() ) // if guest user then return
+			return $soldout;
+		
+		if( empty( $userid ) ) {
+			$userid = $user_ID;
+		}				
+		
+		// get purchase limit
+		$purchase_limit = get_post_meta( $post_id, $prefix.'purchase_limit', true );
+		
+		if( $purchase_limit == "-1" ) { //if its set as -1 then its sold out
+			$soldout = true;
+		} elseif ( empty( $purchase_limit ) || $purchase_limit == '0' ) { // if its empty then unlimited purchases(not sold out)
+			$soldout = false;
+		} else { // have other value
+			// Get User already purchase deal detail
+			$user_purchased_detail = get_user_meta( $userid, $prefix.'purchase_detail', true );
+			// check user purchased detail with purchase limit
+			if( isset( $user_purchased_detail[$post_id] ) && $user_purchased_detail[$post_id]['total_purchase'] >= $purchase_limit )
+				$soldout = true;
+			else
+				$soldout = false;
+		}
+		
+		return $soldout;
+	}
 }
 ?>

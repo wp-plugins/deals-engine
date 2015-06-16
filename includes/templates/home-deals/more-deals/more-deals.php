@@ -12,7 +12,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-	global $wps_deals_options;
+	global $wps_deals_options, $wps_deals_by_category_shortcode_atts;
 	
 	// get the columns value
 	$columns = $wps_deals_options['deals_columns'];
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>	
 
 <div id="deals-<?php echo $tab;?>" class="deals-list deals-<?php echo $tab;?> deals-row">	
-
+<input type="hidden" id="wps_deals_by_category_shortcode_atts" data-shortcode-atts='<?php echo json_encode( $wps_deals_by_category_shortcode_atts ); ?>' />
 <?php	
 	$i = 0;
 	if( $loop->have_posts() ) {

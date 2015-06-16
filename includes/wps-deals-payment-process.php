@@ -54,6 +54,9 @@ function wps_deals_payment_process() {
 		//valid billing details
 		$userbilling	= wps_deals_valid_billing_data();
 		
+		//check user can purchase deal
+		$user_can_purchase = wps_deals_valid_purchase_limit();
+		
 		$agreeterms = true;
 		 
 		 //terms and conditions
@@ -63,7 +66,7 @@ function wps_deals_payment_process() {
 		}		 
 		
 		// !$noncevalidate ||
-		if( empty( $cartdata['products'] ) || !$validatedata || !$uservalid || !$validgateway || !$agreeterms || !$userbilling ) { //check some data valid or not
+		if( empty( $cartdata['products'] ) || !$validatedata || !$uservalid || !$validgateway || !$agreeterms || !$userbilling || !$user_can_purchase ) { //check some data valid or not
 			//redirect to checkout page
 			wps_deals_send_on_checkout_page();
 		} 
@@ -340,5 +343,54 @@ function wps_deals_valid_billing_data() {
 	//check error is occured or not
 	if( $error == true ) { return  false; } else { return true; }
 
+}
+
+function wps_deals_valid_purchase_limit() {
+	
+	global $wps_deals_model, $wps_deals_message, $wps_deals_cart, $user_ID;
+	$prefix = WPS_DEALS_META_PREFIX;
+	
+	$error = false;	
+	if( !is_user_logged_in() )
+		return $error;
+		
+	//message class object
+	$message = $wps_deals_message;	
+		
+	//Get cart
+	$cart = $wps_deals_cart;
+	
+	//get cart data
+	$cartdata = $cart->get();		
+	
+	// Get User already purchase deal detail
+	$user_purchased_detail = get_user_meta( $user_ID, $prefix.'purchase_detail', true );
+	
+	if( !empty( $cartdata['products'] ) ) {
+
+		foreach ( $cartdata['products'] as $deal_id => $deal_data ) {
+			
+			// get purchase limit
+			$purchase_limit = get_post_meta( $deal_id, $prefix.'purchase_limit', true );
+			
+			if( $purchase_limit == "-1" ) {
+				$message->add_session( 'cartuser', __( '<span><strong>ERROR : </strong>One or more of the products in your cart is sold out!.</span>','wpsdeals' ),'multierror');
+				$error = true;
+			} else if( isset( $purchase_limit ) && !empty( $purchase_limit ) ) {
+				
+				$user_total_purchase = isset( $user_purchased_detail[$deal_id]['total_purchase'] ) ? $user_purchased_detail[$deal_id]['total_purchase'] : 0;
+				$quantity = isset( $deal_data['quantity'] ) ? $deal_data['quantity'] : 1;
+				$total_quantity = $user_total_purchase + $quantity;
+				
+				if( $total_quantity > $purchase_limit ) {
+					$message->add_session( 'cartuser', __( '<span><strong>ERROR : </strong>One or more of the products in your cart is sold out!.</span>','wpsdeals' ),'multierror');
+					$error = true;
+				}
+			}		
+		}
+	}
+	
+	//check error is occured or not
+	if( $error == true ) { return  false; } else { return true; }		
 }
 ?>

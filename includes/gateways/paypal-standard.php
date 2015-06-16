@@ -327,7 +327,7 @@ add_action( 'init', 'wps_deals_paypal_verfication', 100 );
  
 function wps_deals_paypal_buy_now() {
 	
-	global $wps_deals_price,$current_user;
+	global $wps_deals_price,$current_user,$wps_deals_options;
 	
 	// Check payment mode directly Buy Now
 	if( /*is_user_logged_in() 
@@ -356,8 +356,13 @@ function wps_deals_paypal_buy_now() {
 							'wps_deals_cart_user_email' 	=> $current_user->user_email,
 							'user_name' 					=> $current_user->display_name
 						);
-									
-		wps_deals_process_payment_paypal( $cartdetails, $postdata );
+		// Test mode enable & buy now selected
+		if($wps_deals_options['default_payment_gateway']=='testmode') {
+			wps_deals_process_testmode( $cartdetails, $postdata );
+		}
+		else {				
+			wps_deals_process_payment_paypal( $cartdetails, $postdata );
+		}
 			
 	}
 	

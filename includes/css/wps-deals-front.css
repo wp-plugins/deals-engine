@@ -1374,6 +1374,9 @@ p.business-address {
 .deals-widget-shopping-cart .wps-deals-widget-shopping-link a.deals-widget-view-cart {
 	margin: 0;
 }
+.deals-widget-shopping-cart ul.wps-deals-latest-widget-cart-items li a.deals-cart-item-remove-widget img {
+  width: auto;
+}
    
 /* **************************************************************************
 	Modal

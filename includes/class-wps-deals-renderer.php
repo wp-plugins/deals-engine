@@ -385,10 +385,13 @@ class Wps_Deals_Renderer {
 					$dealprice = $this->price->wps_deals_get_price( $deal['dealid'] );
 					$dealimage = get_the_post_thumbnail( $deal['dealid'], array( 100,100 ) );
 					
-					$html .= '<li>';
-					$html = 	apply_filters('wps_deals_latest_widget_data_before',$html);	
-					$html .= '	<a href="' . get_permalink( $deal['dealid'] ) . '">' . $dealimage . get_the_title( $deal['dealid'] ) . '</a>';
-					$html .= '	<span class="quantity">' . $deal['quantity'] . ' x <span class="amount">' . $this->price->get_display_price( $dealprice, $deal['dealid'] ) . '</span></span>';
+					$html .= '<li>';					
+					
+					$html = 	apply_filters('wps_deals_latest_widget_data_before',$html);						
+					$html .= '<a href="javascript:void(0);" class="deals-cart-item-remove-widget" title="'.__( 'Remove Item', 'wpsdeals' ).'" item-id="'.$deal['dealid'].'">' ;
+					$html .= '<img src="' . WPS_DEALS_URL . 'includes/images/cross.gif" alt="'.__( 'Remove', 'wpsdeals' ).'"/></a>';
+					$html .= '<a href="' . get_permalink( $deal['dealid'] ) . '">' . $dealimage . get_the_title( $deal['dealid'] ) . '</a>';
+					$html .= '<span class="quantity">' . $deal['quantity'] . ' x <span class="amount">' . $this->price->get_display_price( $dealprice, $deal['dealid'] ) . '</span></span>';
 					$html = 	apply_filters('wps_deals_latest_widget_data_before',$html);	
 					$html .= '</li>';
 				}
@@ -405,7 +408,8 @@ class Wps_Deals_Renderer {
 			} else {
 				
 				ob_start();
-				do_action( 'wps_deals_cart_empty' );
+				$html .='<div class="deals-empty-cart"><div class="deals-message deals-error empty-cart-msg">';
+				$html .= '<span>Your cart is empty.</span></div></div>';				
 				$html .= ob_get_clean();							
 			}
 			

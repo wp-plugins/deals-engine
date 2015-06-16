@@ -19,7 +19,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 			<div id="general" class="postbox">	
 				<div class="handlediv" title="<?php _e( 'Click to toggle', 'wpsdeals' ); ?>"><br /></div>
 
-					<!-- general settings box title -->
+					<!-- misc settings box title -->
 					<h3 class="hndle">
 						<span style='vertical-align: top;'><?php _e( 'Misc Settings', 'wpsdeals' ); ?></span>
 					</h3>
@@ -152,6 +152,16 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								<td>
 									<input type="checkbox" id="wps_deals_options[item_quantities]" name="wps_deals_options[item_quantities]" value="1" <?php if(isset($wps_deals_options['item_quantities'])) { checked('1',$wps_deals_options['item_quantities']); }?>/><br />
 									<span class="description"><?php _e(' Disable item quantities to be changed at checkout.','wpsdeals');?></span>
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[purchase_limit_label]"><?php _e( 'Purchase Limit Button Label:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="text" id="wps_deals_options[purchase_limit_label]" name="wps_deals_options[purchase_limit_label]" value="<?php echo $model->wps_deals_escape_attr($wps_deals_options['purchase_limit_label']);?>" class="regular-text" /><br />
+									<span class="description"><?php _e('Enter the text you want to use for the button on sold out items','wpsdeals');?></span>
 								</td>
 							</tr>
 							

@@ -504,8 +504,28 @@ if( !function_exists( 'wps_deals_empty_cart_message' ) ) {
 	 */
 	function wps_deals_empty_cart_message() {
 		
+		global $wps_deals_message, $wps_deals_session;
+				
+		$undo = false;		
+		$undo_url = '';
+		$dealid = '';
+		
+		// check if undo is set in messages
+		if ( $wps_deals_message->size( 'undo' ) > 0 ) {			
+			$undo = true;
+			$removed_cart_item = $wps_deals_session->get('wps_deals_removed_cart_contents');
+			$dealid = $removed_cart_item['dealid'];
+			$undo_url = wps_deals_get_undo_url( $dealid );
+		}				
+		
+		$args = array(
+			'undo' => $undo,
+			'dealid' => $dealid,
+			'undo_url' => $undo_url
+		);
+		
 		// get the template
-		wps_deals_get_template( 'notices/empty-cart.php' );		
+		wps_deals_get_template( 'notices/empty-cart.php', $args );		
 	}
 }
 
@@ -657,8 +677,11 @@ if( !function_exists( 'wps_deals_home_header_image' ) ) {
 		// get the image
 		$deal_main_image = get_post_meta( $post->ID, $prefix . 'main_image', true );
 		
+		// add filter to change deal main image of deal by third party plugin
+		$deal_main_image['src'] = apply_filters( 'wps_deals_main_image_src', $deal_main_image['src'], $post->ID );
+				
 		// image url
-		$image_url = isset( $deal_main_image['src'] ) && !empty( $deal_main_image['src'] ) ? $deal_main_image['src'] : WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg';
+		$image_url = isset( $deal_main_image['src'] ) && !empty( $deal_main_image['src'] ) ? $deal_main_image['src'] : apply_filters( 'wps_deals_default_img_src', WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg' );
 		
 		// set the args for the home deal, which we will pass to the template
 		$args = array( 
@@ -1293,10 +1316,13 @@ if( !function_exists( 'wps_deals_home_more_deals_image' ) ) {
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		// get main deal image
-		$deal_image = $deal_main_image = get_post_meta( $post->ID, $prefix . 'main_image', true );
+		$deal_main_image = get_post_meta( $post->ID, $prefix . 'main_image', true );
+		
+		// add filter to change deal main image of deal by third party plugin
+		$deal_main_image['src'] = apply_filters( 'wps_deals_main_image_src', $deal_main_image['src'], $post->ID );
 		
 		// check if an image has been uploaded
-		$dealimg = !empty( $deal_image['src'] ) ? $deal_image['src'] : WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg';
+		$dealimg = !empty( $deal_main_image['src'] ) ? $deal_main_image['src'] : apply_filters( 'wps_deals_default_img_src', WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg' );
 		
 		// set the args, which we will pass to the template
 		$args = array( 
@@ -2207,7 +2233,10 @@ if( !function_exists( 'wps_deals_single_deal_img' ) ) {
 																					'title'	=> trim( strip_tags( $post->post_title ) ) 
 																				) );
 		
-		$imgurl = !empty( $dealimage ) ? $dealimage : '<img src="' . WPS_DEALS_URL . 'includes/images/deals-no-image-big.jpg' . '" alt="' . __( 'Deal Image', 'wpsdeals' ) . '" />';
+		// add filter to change feature image of deal by third party plugin
+		$dealimage = apply_filters( 'wps_deals_feature_image_src', $dealimage, $post->ID );
+				
+		$imgurl = !empty( $dealimage ) ? $dealimage : apply_filters( 'wps_deals_single_deal_default_img_src', '<img src="' . WPS_DEALS_URL . 'includes/images/deals-no-image-big.jpg' . '" alt="' . __( 'Deal Image', 'wpsdeals' ) . '" />' );
 		
 		// set the args, which we will pass to the template
 		$args = array( 
@@ -2385,7 +2414,7 @@ if( !function_exists( 'wps_deals_add_to_cart_button' ) ) {
 	 */
 	function wps_deals_add_to_cart_button() {
 		
-		global $post,$wps_deals_options,$wps_deals_price,$wps_deals_model,$wps_deals_cart;
+		global $post,$wps_deals_options,$wps_deals_price,$wps_deals_model,$wps_deals_cart,$user_ID;
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
@@ -2419,15 +2448,20 @@ if( !function_exists( 'wps_deals_add_to_cart_button' ) ) {
 		}
 		
 		//get the current product is in cart or not
-		$incart = $wps_deals_cart->item_in_cart($post->ID);				
-			
+		$incart = $wps_deals_cart->item_in_cart($post->ID);
+				
+		$soldout = $wps_deals_model->wps_deals_check_item_is_sold_out( $post->ID, $user_ID );
+		$soldout_btn_label = isset( $wps_deals_options['purchase_limit_label'] ) ? $wps_deals_options['purchase_limit_label'] : __( 'Sold Out', 'wpsdeals' );
+					
 		$args = array( 
 						'addcartbtntext' =>	$addcartbtntext, 
 						'displayprice' => $displayprice, 
 						'dealid' => $post->ID, 
 						'checkouturl' => $checkouturl ,
 						'btncolor' => $btncolor,						
-						'incart' => $incart
+						'incart' => $incart,
+						'soldout' => $soldout,
+						'soldout_btn_label' => $soldout_btn_label
 					);
 			
 		// get the template
@@ -2475,6 +2509,11 @@ if( !function_exists( 'wps_deals_buy_now_button' ) ) {
 		} else {
 			$payurl = add_query_arg( array( 'dealsaction' => 'buynow', 'dealid' => $post->ID ), $dealurl );	
 		}
+		
+		
+		
+	
+		
 		
 		$args = array( 
 						'payurl' => $payurl, 

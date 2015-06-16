@@ -14,13 +14,14 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 class Wps_Deals_Public_Pages	{
 	
-	public $model,$scripts,$render,$cart,$currency,$price,$message;
+	public $model,$scripts,$render,$cart,$currency,$price,$message,$session;
+	
 	
 	public function __construct() {
 		
 		global $wps_deals_model,$wps_deals_scripts,$wps_deals_render,
 				$wps_deals_cart,$wps_deals_currency,$wps_deals_price,
-				$wps_deals_message;
+				$wps_deals_message,$wps_deals_session;
 		
 		$this->model 	= $wps_deals_model;
 		$this->scripts	= $wps_deals_scripts;
@@ -29,6 +30,7 @@ class Wps_Deals_Public_Pages	{
 		$this->currency	= $wps_deals_currency;
 		$this->price	= $wps_deals_price;
 		$this->message	= $wps_deals_message;
+		$this->session	= $wps_deals_session;
 		
 	}
 	
@@ -48,12 +50,14 @@ class Wps_Deals_Public_Pages	{
 		
 		$dealid = $_POST['dealid'];
 		
+		
+		
 		$quntity = '1';
 		$resultdata = array();
 		
 		if(get_post_type($dealid) != WPS_DEALS_POST_TYPE) { //check post type is deal type
 			return;
-		}
+		}					
 		
 		//get the current product is in cart or not
 		$incart = $this->cart->item_in_cart($dealid);
@@ -80,6 +84,7 @@ class Wps_Deals_Public_Pages	{
 		}					
 			
 		//product added
+		
 		if($result == true) {
 			$resultdata['success'] = '1';
 			$resultdata['redirectstat'] = '0';
@@ -87,12 +92,16 @@ class Wps_Deals_Public_Pages	{
 			if(!empty($wps_deals_options['redirect_to_checkout'])) {
 				$resultdata['redirectstat'] = '1';
 				$resultdata['redirect'] = get_permalink($wps_deals_options['payment_checkout_page']);
+			
+			
+				
 			}
 		} else {
 			$resultdata['error'] = __('Error in add to cart in product','wpsdeals'); 
 		}
 		
 		echo json_encode($resultdata);
+		
 		exit;
 	}
 	
@@ -136,12 +145,8 @@ class Wps_Deals_Public_Pages	{
 		do_action( 'wps_deals_checkout_header_content_ajax' );
 		$resultdata['detail'] = ob_get_clean();//;
 		
-		//} else {
-			//$resultdata['message'] = __('Error while updated cart','wpsdeals');
-		//}
 		echo json_encode( $resultdata );
-		exit;
-		
+		exit;		
 	}
 	
 	/**
@@ -163,8 +168,11 @@ class Wps_Deals_Public_Pages	{
 			
 			//do action for change cart via ajax
 			do_action( 'wps_deals_cart_ajax' );
-		   
-			$resultdata['message'] = '<span> ' . __( 'Item removed from cart successfully.', 'wpsdeals' ) . '</span>';
+		   		
+			$undo_url = wps_deals_get_undo_url( $dealid );
+			
+			$resultdata['message'] = '<span> ' . sprintf( __( '%s removed. %sUndo?%s', 'wpsdeals' ), get_the_title( $dealid ), '<a href="' . esc_url( $undo_url ) . '">', '</a>') . '</span>';
+			$this->message->add( 'undo', 'true' );
 			
 			//get cart details
 			ob_start();
@@ -346,9 +354,13 @@ class Wps_Deals_Public_Pages	{
 	 */
 	public function wps_ajax_home_deals() {
 			
+		global $wps_deals_by_category_shortcode_atts;
+		
 		ob_start();
 
-		do_action( 'wps_deals_home_more_deals' );
+		$wps_deals_by_category_shortcode_atts = isset( $_POST['wps_deals_by_category_shortcode_atts'] ) && !empty( $_POST['wps_deals_by_category_shortcode_atts'] ) ? $_POST['wps_deals_by_category_shortcode_atts'] : '';
+		
+		do_action( 'wps_deals_home_more_deals', $wps_deals_by_category_shortcode_atts );
 			
 		echo ob_get_clean();
 		exit;
@@ -1010,6 +1022,190 @@ class Wps_Deals_Public_Pages	{
 	}
 	
 	/**
+	 * Check User purchase limit
+	 * 
+	 * Handles to check whether user is able to buy product?
+	 * If purchase limit is defined
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.1.9
+	 */
+	public function wps_deals_check_user_can_purchase( $dealid ) {
+		
+		global  $wps_deals_options, $user_ID;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+				
+		$result = array();		
+		$error = false;
+		
+		if ( is_user_logged_in() ) { //if user is logged in
+			
+			/*$this->model->wps_deals_check_item_is_sold_out( $dealid );
+			
+			//get the current product is in cart or not
+			$incart = $this->cart->item_in_cart($dealid);
+			
+			if($incart) {
+				
+			}*/
+			
+			// get purchase limit
+			$purchase_limit = get_post_meta( $dealid, $prefix.'purchase_limit', true );
+									
+			if( !empty($purchase_limit ) ) {
+				
+				// if item is added to cart then its should in session
+				if( isset( $_SESSION['deals-cart']['products'] ) ) {  //Check first in seesion
+					if( array_key_exists( $dealid, $_SESSION['deals-cart']['products']) ){
+						$error = true;
+					}
+				}
+				else { //check in database
+					$previous_list = get_user_meta( $user_ID, 'wps_deal_purchase_detail', true);
+					if( !empty( $previous_list ) ) {
+						if( in_array( $dealid, $previous_list ) ) {
+							$error = true;
+						}
+					}
+				}
+			}
+			if( $error === true ) {
+				$result['error_message'] =  '<div class="deal-purchase-limit-error deals-message deals-error">';
+				$result['error_message'] .= __('You have already purchase this product previously','wpsdeals');
+				$result['error_message'] .=  '</div>';
+				$result['error'] = '2';
+			}						
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Storing product purchase items
+	 * 
+	 * Handle To Store Purchased Product while place order	 
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.1.9
+	 */
+	public function wps_deals_check_purchase_limit() {
+		
+		global $user_ID;
+		
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		$msg = false;		
+		$previous_list = array('0');
+		$purchase_list = array();
+		$list = array_keys( $_SESSION['deals-cart']['products'] );
+		$name = '';
+		if ( is_user_logged_in() ) {
+			// Get User Previous purchase list
+			$previous_list = get_user_meta( $user_ID, 'wps_deal_purchase_detail', true );
+			
+			if( !empty($previous_list) ) {
+			
+				// Check for each products	
+				foreach( $list as $key => $value ){
+					
+					//get purchase limit
+					$purchase_limit = get_post_meta( $value, $prefix.'purchase_limit',true);				
+					
+					if( !empty($purchase_limit) ){
+						// If already found then in database display message
+						if( in_array($value, $previous_list) ){
+								$msg = '<span>' . __( 'You have already purchased following products previously', 'wpsdeals' ) . '</span>';
+								$name .= get_the_title( $value );  
+							}
+							else{
+								// Insert into existing purchase list
+								array_push( $previous_list, $value ); 								
+							}						
+					}
+				}
+				
+				if( empty( $name ) ){ // Insert new product purchase list into database
+					update_user_meta( $user_ID, 'wps_deal_purchase_detail', $previous_list );
+					
+				}				
+				else{ // if product name list found then display message
+					$msg .= $name; 
+				}
+			}
+			else {				
+				foreach( $list as $key => $value ){
+					//Check for product Limit
+					$purchase_limit = get_post_meta( $value, $prefix.'purchase_limit',true);					
+					
+					//Limit found then add into details
+					if( !empty($purchase_limit) ){
+						$previous_list[$key] = $value;						
+					}						
+				}
+				
+				if( count($previous_list)>0 ) { // Update Post Meta First Time										
+					update_user_meta( $user_ID, 'wps_deal_purchase_detail', $previous_list );
+				}
+			}
+		}
+		
+		echo $msg;
+		exit;
+	}
+	
+	/**
+	 * AJAX Call for Remove Deals from Cart widget
+	 * 
+	 * Handles to removing Deals from cart widget
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.1.9
+	 */
+	public function wps_deals_remove_from_cart_widget() {
+		
+		global $wps_deals_render;
+				
+		$resultdata = array();
+		if( isset( $_POST['dealid'] ) && !empty( $_POST['dealid'] ) ) {	
+			
+			$dealid = $_POST['dealid'];
+			
+			//remove item from cart
+			$result = $this->cart->remove( $dealid );
+			
+			// Get Updated Content from cart
+			$resultdata['detail'] = $wps_deals_render->wps_deals_cart_widget_content();
+								    
+			if( !empty($resultdata['detail']) ) {
+				
+				$resultdata['success'] = '1';				
+			}			
+		} else {
+			$resultdata['message'] = '<span>' . __( 'Error while removing item from cart.', 'wpsdeals' ) . '</span>';
+			$resultdata['error'] = '1';
+ 		}
+ 		$this->message->add( 'undo', 'true' );
+		echo json_encode( $resultdata );
+		exit();
+	}
+	
+	/**
+	 * Restore item removed from cart	 
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.1.9
+	 */
+	public function wps_deals_undo_item() {
+		
+		if( ! empty( $_GET['undo_item'] )  && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'social-deals-cart' ) ) {
+			
+			// restore item
+			$this->cart->restore_cart_item( $_GET['undo_item'] );			
+		}
+	}
+	
+	/**
 	 * Adding Hooks
 	 *
 	 * Adding proper hoocks for the public pages.
@@ -1092,7 +1288,17 @@ class Wps_Deals_Public_Pages	{
 		add_action( 'init', array( $this, 'wps_deals_register' ), 100 );
 		
 		// add action to set price depentds on sale_price or normal_price
-		add_action( 'wps_deals_scheduled_set_price_meta', array( $this, 'wps_deals_scheduled_set_price_meta' ) );
+		add_action( 'wps_deals_scheduled_set_price_meta', array( $this, 'wps_deals_scheduled_set_price_meta' ) );				
+		
+		//ajax call to click on remove from cart 
+		add_action( 'wp_ajax_deals_remove_from_cart_widget', array( $this, 'wps_deals_remove_from_cart_widget'));
+		add_action( 'wp_ajax_nopriv_deals_remove_from_cart_widget',array( $this, 'wps_deals_remove_from_cart_widget'));
+		
+		// add action to restore item
+		add_action( 'wp_loaded', array( $this, 'wps_deals_undo_item' ), 10 );						
 	}
-}
+}	
+	
+	
+	
 ?>

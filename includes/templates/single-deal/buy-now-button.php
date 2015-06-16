@@ -11,6 +11,8 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+global $wps_deals_options;
+
 
 ?>
 
