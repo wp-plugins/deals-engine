@@ -55,10 +55,13 @@ class Wps_Deals_AdminPages {
 		$reports_page = add_submenu_page( $dealspageslug , __( 'Reports', 'wpsdeals'), __( 'Reports', 'wpsdeals' ), 'manage_options', 'wps-deals-reports', array( $this,'wps_deals_reports_page' ) );
 		
 		//social login page
-		$social_login = add_submenu_page( $dealspageslug , __( 'Social Login', 'wpsdeals'), __( 'Social Login', 'wpsdeals' ), 'manage_options', 'wps-deals-social', array( $this,'wps_deals_social_login_page' ) );
+		$social_login = add_submenu_page( $dealspageslug , __( 'Social Login', 'wpsdeals'), __( 'Social Login', 'wpsdeals' ), 'manage_options', 'wps-deals-social', array( $this,'wps_deals_social_login_page' ) );				
 		
 		//do action to adding submenu page to plugin via other plugin
 		do_action('wps_deals_add_submenu_page_after',$dealspageslug);
+		
+		//extension page
+		$social_addon = add_submenu_page( $dealspageslug , __( 'Extensions', 'wpsdeals'), __( 'Extensions', 'wpsdeals' ), 'manage_options', 'wps-deals-extensions', array( $this,'wps_deals_extensions_page' ) );
 		
 		//setting page metaboxes toggling script
 		add_action( "admin_head-$settings_page", array( $this->scripts, 'wps_deals_settings_page_load_scripts' ) );
@@ -126,6 +129,19 @@ class Wps_Deals_AdminPages {
 	public function wps_deals_settings_page() {
 		
 		include_once( WPS_DEALS_ADMIN . '/forms/wps-deals-plugin-settings.php' );
+	}
+	
+	/**
+	 * Add extension page
+	 * 
+	 * Display list of all extension of social deals engine
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_extensions_page() {
+		
+		include_once( WPS_DEALS_ADMIN . '/forms/wps-deals-extensions.php');
 	}
 	
 	/**

@@ -3,7 +3,7 @@
  * Plugin Name: Social Deals Engine
  * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
  * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
- * Version: 2.2.0
+ * Version: 2.2.1
  * Author: WPSocial.com
  * Author URI: http://wpsocial.com
  * 
@@ -33,7 +33,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '2.2.0' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.2.1' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -166,17 +166,38 @@ add_action( 'plugins_loaded', 'wps_deals_plugins_loaded' );
  */
 function wps_deals_admin_notice() {
 	
-	//check Woocommerce is activated
+	//check Woocommerce is activated				
 	if( class_exists( 'Woocommerce' ) ) {
-		
-		$woo_link = '<a target="_BLANK" href="http://wpsocial.com/product/woocommerce-deals-extension/">WPSocial.com</a>';
-		
-		echo '<div class="error">';
-		echo "<p><strong>" . sprintf( __( 'We noticed, that you have WooCommerce installed. For that we recommend, that you\'re using the Deals Extension for WooCommerce available here: %s .', 'wpsdeals' ), $woo_link ) . "</strong></p>";
-		echo '</div>';
+		if( !get_option( 'wps_deals_woocoomer_install_dismiss') )
+		{
+			$woo_link = '<a target="_BLANK" href="http://wpsocial.com/product/woocommerce-deals-extension/">WPSocial.com</a>';
+			$dismiss_url	= add_query_arg( 'action', 'wps_deals_woocoomer_install_dismiss', add_query_arg( 'woodeals_nonce', wp_create_nonce( 'wps_deals_woocoomer_install_dismiss' ) ) );
+			echo '<div class="error">';
+			echo "<p><strong>" . sprintf( __( 'We noticed, that you have WooCommerce installed. For that we recommend, that you\'re using the Deals Extension for WooCommerce available here : %s .', 'wpsdeals' ), $woo_link ) . "</strong><a class='deals_dismiss' href='" . esc_url( $dismiss_url ) . "'>" . __( 'Dismiss', 'wpsdeals' ) . "</a></p>";
+			echo '</div>';
+		}
 	}
 }
 add_action( 'admin_notices', 'wps_deals_admin_notice' );
+
+add_action( 'admin_init', 'wps_deals_woocoomer_install_dismiss' );
+/**
+ * Admin Warning store
+ * 
+ * This will Save a warning message, if the main plugin dismiss is clicked
+ * 
+ * @package Social Deals Engine
+ * @since 2.0.0
+ */
+function wps_deals_woocoomer_install_dismiss(){
+	
+	if ( isset( $_GET['action'] ) && ( 'wps_deals_woocoomer_install_dismiss' == $_GET['action'] ) && isset( $_GET['woodeals_nonce'] ) && check_admin_referer( 'wps_deals_woocoomer_install_dismiss', 'woodeals_nonce' ) ) {
+			update_option( 'wps_deals_woocoomer_install_dismiss', true );
+			$redirect_url = remove_query_arg( 'action', remove_query_arg( 'woodeals_nonce', $_SERVER['REQUEST_URI'] ) );
+			wp_safe_redirect( $redirect_url );
+			exit;			
+	}
+}
 
 /**
  * Activation Hook

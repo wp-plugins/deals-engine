@@ -261,7 +261,8 @@ class Wps_Deals_Sales_Logs_List extends WP_List_Table {
 			case 'amount' :
 				return $item['amount'];
  			default:
-				return $item[ $column_name ];
+				$default_value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : '';
+    			return apply_filters( 'wps_deals_sales_logs_column_value', $default_value, $item, $column_name ); 				
 		}
     }
     

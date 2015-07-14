@@ -210,7 +210,8 @@ class Wps_Deals_Sales_List extends WP_List_Table {
             	$datetime = $this->model->wps_deals_get_date_format($item[ $column_name ],true);
             	return $datetime;
             default:
-				return $item[ $column_name ];
+        	  	$default_value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : '';
+    			return apply_filters( 'wps_deals_sales_column_value', $default_value, $item, $column_name );				
         }
     }
 	

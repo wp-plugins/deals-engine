@@ -5,7 +5,7 @@ Contributors: wpsocial, dwaser71
 Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial, widget
 Requires at least: 3.5.0
 Tested up to: 4.2.2
-Stable tag: 2.2.0
+Stable tag: 2.1.1
 License: GNU Version 2 or Any Later Version
 
 Turn your WordPress blog in to a Social Deals site and sell any kind of Deals with this complete Deals management plugin.
@@ -96,6 +96,8 @@ Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com
 6. Single Deal Page
 
 == Changelog ==
+= Version 2.2.1 (2015-07-14) =
+* Updated PrettyPhoto to 3.1.6 to resolve XSS security issue.
 = Version 2.2.0 (2015-06-15) =
 * Added Undo option when removing deals from the cart.
 * Added option to specify purchase limits on a per-deal basis.

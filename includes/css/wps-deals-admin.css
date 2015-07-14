@@ -469,3 +469,38 @@ select.chzn-select {
     margin-bottom: 8px;
 }
 /********** CSS for Start date and end date filter on deals sales page Ends ********/
+
+.deals_dismiss{
+	float:right;
+}
+
+/*** media added for extension page ***/
+.wps_addons_wrap .products {
+	overflow: hidden;
+}
+.wps_addons_wrap .products li {
+	float: left;
+	margin: 0 15px 15px 0;
+	background: #fff;
+	border: 1px solid #ccc;
+	width: 300px;
+	padding: 14px;
+	position: relative;
+}
+.wps_addons_wrap .products li a.wps_ext_img_link {
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.wps_addons_wrap .products li a {
+	text-decoration: none;
+}
+.wps_addons_wrap .products li h3 {
+	margin: 0 0 10px !important;
+	background: #fff;
+	font-size: 1.1em;
+}
+.wps_addons_wrap .products li img {
+	max-width: 100%;
+}

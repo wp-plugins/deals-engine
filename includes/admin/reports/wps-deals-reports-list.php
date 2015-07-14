@@ -105,7 +105,8 @@ class Wps_Deals_Reports_List extends WP_List_Table {
             case 'monthly_avg_earnings' :
             	return $item[ $column_name ];
             default:
-				return $item[ $column_name ];
+				$default_value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : '';
+    			return apply_filters( 'wps_deals_reports_column_value', $default_value, $item, $column_name );            	
         }
     }
 	
@@ -126,7 +127,7 @@ class Wps_Deals_Reports_List extends WP_List_Table {
 					            'monthly_avg_sales'		=>	__(	'Monthly Average Sales', 'wpsdeals' ),
 					            'monthly_avg_earnings'	=>	__(	'Monthly Average Earnings', 'wpsdeals' ),
 					        );
-        return apply_filters('wps_deals_reports_column',$columns);
+        return apply_filters( 'wps_deals_reports_column', $columns );
     }
 	
     /**
@@ -144,7 +145,7 @@ class Wps_Deals_Reports_List extends WP_List_Table {
         								'salescount'	=>	array( 'salescount', true ),
         								'earnings'		=>	array( 'earnings', true ),
 							        );
-        return apply_filters('wps_deals_reports_sortable_column',$sortable_columns);
+        return apply_filters( 'wps_deals_reports_sortable_column', $sortable_columns );
     }
 	
 	function no_items() {

@@ -558,15 +558,18 @@ class Wps_Deals_Model {
 					// Get purchase details of user
 					$previous_list = get_user_meta( $userdata['user_id'], 'wps_deal_purchase_detail', true );
 					
-					foreach ( $orderdata['deals_details'] as $key => $deal ) {						
-							if(($key = array_search($deal['deal_id'], $previous_list)) !== false) {
-								//Remove from purchase list
-		 						 unset($previous_list[$key]);
-							}
-					}				
+					if(!empty($previous_list)) { // Check previously item is purchased
+					
+						foreach ( $orderdata['deals_details'] as $key => $deal ) {						
+								if(($key = array_search($deal['deal_id'], $previous_list)) !== false) {
+									//Remove from purchase list
+			 						 unset($previous_list[$key]);
+								}
+						}				
 										
 					// Update purchase list
-					update_user_meta( $userdata['user_id'], 'wps_deal_purchase_detail', $previous_list );
+						update_user_meta( $userdata['user_id'], 'wps_deal_purchase_detail', $previous_list );
+					}
 					
 					wp_delete_post( $args['id'] );
 			}

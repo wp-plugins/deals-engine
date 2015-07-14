@@ -259,7 +259,8 @@ class Wps_Deals_Downloads_Logs_List extends WP_List_Table {
 			case 'user_id' :
 				return '<a href="' . add_query_arg( 'user_id', $item[ $column_name ] ) . '">' . $item[ 'user_name' ] . '</a>';
 			default:
-				return $item[ $column_name ];
+				$default_value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : '';
+    			return apply_filters( 'wps_deals_download_logs_column_value', $default_value, $item, $column_name );				
 		} 
     }
     
@@ -282,7 +283,7 @@ class Wps_Deals_Downloads_Logs_List extends WP_List_Table {
         						'ipaddress'		=>	__( 'IP Address', 'wpsdeals' ),
         						'date'			=>	__(	'Date', 'wpsdeals' )
 					     );
-        return apply_filters('wps_deals_downloads_logs_column',$columns);
+        return apply_filters( 'wps_deals_downloads_logs_column', $columns );
     }
     /**
 	 * Outputs the log filters filter

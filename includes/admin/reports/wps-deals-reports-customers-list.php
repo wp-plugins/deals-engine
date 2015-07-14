@@ -130,7 +130,8 @@ class Wps_Deals_Customer_List extends WP_List_Table {
             case 'amount_spent' :
             	return $item[ $column_name ];
             default:
-				return $item[ $column_name ];
+				$default_value = isset( $item[ $column_name ] ) ? $item[ $column_name ] : '';
+    			return apply_filters( 'wps_deals_reports_customers_column_value', $default_value, $item, $column_name );            	
         }
     }
 	
@@ -150,7 +151,7 @@ class Wps_Deals_Customer_List extends WP_List_Table {
 					            'num_purchases'			=>	__(	'Purchases', 'wpsdeals' ),
 					            'amount_spent'			=>	__(	'Total Spent', 'wpsdeals' ),
 					        );
-        return apply_filters('wps_deals_reports_customers_column',$columns);
+        return apply_filters( 'wps_deals_reports_customers_column', $columns );
     }
 	
     /**
@@ -168,7 +169,7 @@ class Wps_Deals_Customer_List extends WP_List_Table {
         								'email'	=>	array( 'email', true ),
         								//'earnings'		=>	array( 'earnings', true ),
 							        );
-        return apply_filters('wps_deals_reports_customers_sortable_column',$sortable_columns);
+        return apply_filters( 'wps_deals_reports_customers_sortable_column', $sortable_columns );
     }
 	
 	function no_items() {
