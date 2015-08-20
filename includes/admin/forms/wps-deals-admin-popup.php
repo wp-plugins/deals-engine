@@ -34,21 +34,15 @@ global $wps_deals_model;
 					</th>
 					<td>
 						<select data-placeholder="<?php _e( '--Select A Shortcode--', 'wpsdeals' ); ?>" id="wps_deals_shortcodes" class="chzn-select">
-		      				<option value=""></option>
-							<!--<option value="wps_deals"><?php _e( 'Home Deals', 'wpsdeals' );?></option>-->
+		      				<option value=""></option>							
 							<option value="wps_home_deals"><?php _e( 'Home Page Deals', 'wpsdeals' );?></option>
 							<option value="wps_deals_by_status"><?php _e( 'Deals By Status', 'wpsdeals' );?></option>
 							<option value="wps_deals_by_category"><?php _e( 'Deals By Category', 'wpsdeals' );?></option>
 							<option value="wps_deals_checkout"><?php _e( 'Checkout', 'wpsdeals' );?></option>
-							<option value="wps_deals_order_complete"><?php _e( 'Order Complete', 'wpsdeals' );?></option>
-							<option value="wps_deals_order_cancel"><?php _e( 'Order Cancel', 'wpsdeals' );?></option>
-							<option value="wps_deals_orders"><?php _e( 'Deals Orders', 'wpsdeals' );?></option>
 							<option value="wps_deals_social_login"><?php _e( 'Social Login', 'wpsdeals' );?></option>
 							<option value="wps_deals_by_id"><?php _e( 'Deal By Id', 'wpsdeals' );?></option>
 							<option value="wps_deals_by_ids"><?php _e( 'Deals List By Id', 'wpsdeals' );?></option>
-							<option value="wps_deals_my_account"><?php _e( 'My Account', 'wpsdeals' );?></option>
-							<option value="wps_deals_edit_address"><?php _e( 'Edit Address', 'wpsdeals' );?></option>
-							<option value="wps_deals_change_password"><?php _e( 'Change Password', 'wpsdeals' );?></option>
+							<option value="wps_deals_my_account"><?php _e( 'My Account', 'wpsdeals' );?></option>							
 							<?php
 									//do action for adding shortcode option for backend popup
 									do_action( 'wps_deals_admin_shortcodes_option_after' );

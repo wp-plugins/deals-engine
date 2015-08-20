@@ -2673,10 +2673,22 @@ class Wps_Deals_Model {
 	 */
 	public function wps_deals_get_purchase_notes( $purchasenote, $deal_id, $order_id ) {
 		
-		return do_shortcode( apply_filters( 'wps_deals_purchase_note', $purchasenote, $deal_id, $order_id ) );
+		global $wps_deals_order_id, $wps_deals_deal_id;
 		
+		$wps_deals_order_id = $order_id;
+		$wps_deals_deal_id = $deal_id;
+		
+		return do_shortcode( nl2br( apply_filters( 'wps_deals_purchase_note', $purchasenote, $deal_id, $order_id ) ) );		
 	}
 	
+	/**
+	 * Check item is sold out
+	 * 
+	 * Handle to check deal is soldout or not based on purchase limit
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.2.1
+	 */
 	public function wps_deals_check_item_is_sold_out( $post_id, $userid="" ) {
 	
 		global $user_ID;			

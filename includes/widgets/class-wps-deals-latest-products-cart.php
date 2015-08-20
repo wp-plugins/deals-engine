@@ -43,7 +43,8 @@ class SDE_Deals_Widget_Cart extends WP_Widget {
 		$widget_ops = array( 'classname' => 'deals-widget-shopping-cart', 'description' => __( 'Display the user\'s Cart in the sidebar.', 'wpsdeals' ) );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'wps-deals-latest-products-cart', __( 'Deals Engine - Cart', 'wpsdeals' ), $widget_ops );
+		//$this->WP_Widget( 'wps-deals-latest-products-cart', __( 'Deals Engine - Cart', 'wpsdeals' ), $widget_ops );
+		WP_Widget::__construct( 'wps-deals-latest-products-cart', __( 'Deals Engine - Cart', 'wpsdeals' ), $widget_ops );
 	
 	}
 	

@@ -174,10 +174,7 @@ jQuery(document).ready(function($) {
 								break;
 					case 'wps_deals' 				:
 					case 'wps_home_deals'			:
-					case 'wps_deals_checkout' 		:
-					case 'wps_deals_order_complete' :
-					case 'wps_deals_order_cancel' 	:
-					case 'wps_deals_orders'			:
+					case 'wps_deals_checkout' 		:					
 					
 								dealsshortcodestr	+= '['+dealsshortcode+'][/'+dealsshortcode+']';
 								break;

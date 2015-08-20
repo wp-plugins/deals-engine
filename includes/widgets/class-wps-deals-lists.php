@@ -44,8 +44,8 @@ class Wps_Deals_Lists extends WP_Widget {
 		$widget_ops = array( 'classname' => 'wps-deals-lists', 'description' => __( 'A Social Deals widget, which lets you display a list of active Deals.', 'wpsdeals' ) );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'wps-deals-lists', __( 'Deals Engine - Active Deals', 'wpsdeals' ), $widget_ops );
-	
+		//$this->WP_Widget( 'wps-deals-lists', __( 'Deals Engine - Active Deals', 'wpsdeals' ), $widget_ops );
+		WP_Widget::__construct( 'wps-deals-lists', __( 'Deals Engine - Active Deals', 'wpsdeals' ), $widget_ops );	
 	}
 	
 	/**
