@@ -1,0 +1,28 @@
+<wpml-config>   
+	 <custom-types>
+        <custom-type translate="1">wpsdeals</custom-type>
+        <custom-type translate="0">wpsdealssales</custom-type>
+    </custom-types>
+  	<taxonomies>
+        <taxonomy translate="1">wpsdealcategories</taxonomy>
+        <taxonomy translate="1">wpsdealtags</taxonomy>
+    </taxonomies>
+    <admin-texts>
+        <key name="wps_deals_options">            
+            <key name="buyer_email_subject" />
+         	<key name="buyer_email_body" />
+			<key name="seller_email_subject" />
+         	<key name="seller_email_body" />
+         	<key name="reset_password_email_subject" />
+         	<key name="reset_password_email" />
+         	<key name="add_to_cart_text" />
+         	<key name="update_order_email_subject" />
+         	<key name="update_order_email" />
+         	<key name="cheque_title" />
+         	<key name="cheque_customer_msg" />
+         	<key name="login_heading" />         	
+        </key>
+    </admin-texts>
+</wpml-config>
+
+
