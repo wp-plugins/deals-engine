@@ -1,7 +1,7 @@
 === Social Deals Engine ===
 Author URI: http://wpsocial.com
 Plugin URI: http://wpsocial.com/deals-engine/
-Contributors: wpsocial, dwaser71
+Contributors: wpsocial, dwaser71, worldweb
 Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial, widget
 Requires at least: 3.5.0
 Tested up to: 4.3
