@@ -640,7 +640,8 @@ class Wps_Deals_Model {
 		$from_name = get_bloginfo('name');
 		$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
 		
-		$subject = WPS_DEALS_BUYER_EMAIL_SUBJECT;
+		//$subject = WPS_DEALS_BUYER_EMAIL_SUBJECT;
+		$subject = $wps_deals_options['buyer_email_subject'];
 		$headers = "From: $fromemail\r\n";
 		$headers .= "Reply-To: ". $fromemail . "\r\n";
 		$headers .= "MIME-Version: 1.0\r\n";
@@ -789,8 +790,7 @@ class Wps_Deals_Model {
  	 * @package Social Deals Engine
  	 * @since 1.0.0
  	 */
-	
-	public function wps_deals_seller_mail($data = array()) {
+	public function wps_deals_seller_mail( $data = array() ) {
 		
 		//get the all options values from settings page
 		global $wps_deals_options;
@@ -830,7 +830,8 @@ class Wps_Deals_Model {
 			$user_name = $first_name.' '.$last_name;
 			$user_email = $userdata['user_email'];
 			
-			$subject = WPS_DEALS_SELLER_EMAIL_SUBJECT;
+			//$subject = WPS_DEALS_SELLER_EMAIL_SUBJECT;
+			$subject = $wps_deals_options['seller_email_subject'];
 			
 			$fromemail = !empty( $wps_deals_options['from_email'] ) ? $wps_deals_options['from_email'] : get_option('admin_email');
 			
@@ -1517,8 +1518,10 @@ class Wps_Deals_Model {
 			if( isset( $getnames[$filekey] ) && !empty( $getnames[$filekey] ) ) {
 				$filename = $getnames[$filekey];
 			} else {
-				$splitname = pathinfo( $getfiles[$filekey] );
-				$filename = $splitname['filename'];		
+				if( isset( $getfiles[$filekey] ) ) {
+					$splitname = pathinfo( $getfiles[$filekey] );
+					$filename = $splitname['filename'];
+				}				
 			}
 			
 		}

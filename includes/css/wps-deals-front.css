@@ -302,6 +302,20 @@ a.deals-button:visited {
 	background-color: #cacfd2;
 	border-color: #cacfd2;
 }
+
+.red.deals-button,
+.deals-pagination.pagination-red ul li > a.current, 
+.deals-pagination.pagination-red ul li > span.current,
+.deals-pagination.pagination-red ul li > a:hover, 
+.deals-pagination.pagination-red ul li > span:hover {
+	background-color: #e74c3c;
+}
+.red.deals-button:hover,
+.red.deals-button:focus,
+.red.deals-button:active {
+	background-color: #e74c3c;
+	border-color: #e74c3c;
+}
    
 /* **************************************************************************
 	Deals Home Page

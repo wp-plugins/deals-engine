@@ -16,7 +16,7 @@ class Wps_Deals_Message_Stack {
     public $messageToStack, $messages;
 
 	// class constructor
-    function Wps_Deals_Message_Stack() {
+    function __construct() {
     	
 		if( !session_id() ) { 
 			session_start();

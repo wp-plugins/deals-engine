@@ -32,7 +32,7 @@ class SDE_Deals_Widget_Cart extends WP_Widget {
 	/**
 	 * Widget setup.
 	 */
-	function SDE_Deals_Widget_Cart() {
+	function __construct() {
 	
 		global $wps_deals_render, $wps_deals_cart;
 		

@@ -96,6 +96,8 @@ Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com
 6. Single Deal Page
 
 == Changelog ==
+= Version 2.2.4 (2015-09-16) =
+* Added support to work with WPML plugin via Social deals engine Multilingual extension.
 = Version 2.2.3 (2015-08-18) =
 * Resolved constructors errors with WordPress version 4.3.
 = Version 2.2.2 (2015-07-30) =

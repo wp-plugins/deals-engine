@@ -31,7 +31,7 @@ class Wps_Deals_Lists extends WP_Widget {
 	/**
 	 * Widget setup.
 	 */
-	function Wps_Deals_Lists() {
+	function __construct() {
 	
 		global $wps_deals_model,$wps_deals_render,$wps_deals_currency,$wps_deals_price;
 		

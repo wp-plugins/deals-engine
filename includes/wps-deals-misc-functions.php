@@ -62,6 +62,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 						'ISK'	=> __( 'Icelandic krona', 'wpsdeals' ),
 						'NPR'	=> __( 'Nepali Rupee', 'wpsdeals' ),
 						'KIP'	=> __( 'Lao Kip', 'wpsdeals' ),
+						'JOD'	=> __( 'Jordanian Dinar (JOD)', 'wpsdeals' ),
+						'DT'	=> __( 'Dinars Tunisien (DT)', 'wpsdeals' ),
 			  		 )));
 	}
 	
