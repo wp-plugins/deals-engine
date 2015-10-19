@@ -131,7 +131,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	add_action( 'wps_deals_home_more_deals_content', 'wps_deals_home_more_deals_title', 20 );
 	add_action( 'wps_deals_home_more_deals_content', 'wps_deals_home_more_deals_see_deal', 25 );
 	add_action( 'wps_deals_home_more_deals_content', 'wps_deals_home_more_deals_price', 30 );	
-	
+
 	
 	/* **************************************************************************
 	   Deals Archive Page Hooks
@@ -221,6 +221,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	 */
 	add_action( 'wps_deals_single_header_right', 'wps_deals_single_deal_img', 10 );
 	add_action( 'wps_deals_single_header_right', 'wps_deals_social_buttons', 20 );
+	add_action( 'wps_deals_single_header_right', 'wps_deals_gallery_image', 10 );
 	
 	/**
 	 * Social Sharing Buttons

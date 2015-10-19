@@ -12,7 +12,8 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-	$changepasswordlinkhtml = '<a href="' . $changepasswordlink . '">' . __( 'change your password', 'wpsdeals' ) . '</a>';
+	//$changepasswordlinkhtml = '<a href="' . $changepasswordlink . '">' . __( 'change your password', 'wpsdeals' ) . '</a>';
+	$changepasswordlinkhtml = '<a href="' . $changepasswordlink . '">' . __( 'edit your password and account details', 'wpsdeals' ) . '</a>';
 ?>	
 
 <p class="deals-account-top deals-clearfix">

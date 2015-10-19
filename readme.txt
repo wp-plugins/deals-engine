@@ -5,7 +5,7 @@ Contributors: wpsocial, worldweb
 Tags: plugin, social, deals, social deals, wp deals, affiliate, groupon, ecommerce, e-commerce, facebook, twitter, google, digital, download, vouchers, yahoo, paypal, checkout, store, shop, e-store, eshop, wpsocial, widget
 Requires at least: 3.5.0
 Tested up to: 4.3
-Stable tag: 2.2.4
+Stable tag: 2.2.5
 License: GNU Version 2 or Any Later Version
 
 Turn your WordPress blog in to a Social Deals site and sell any kind of Deals with this complete Deals management plugin.
@@ -41,6 +41,10 @@ We have a special offer for you. Now you can save 25% on any Extension for the S
 * Mobile ready - Twitter Bootstrap is integrated to make the Deals mobile friendly, if your theme is mobile freindly too
 * Easily extensible with many [extensions](http://wpsocial.com/product-category/sde/sde-extensions/)
 * Deals widget
+
+**Get Support**
+
+[Contact support/Open Support Ticket](http://support.wpsocial.com/support/home)
 
 [youtube https://www.youtube.com/watch?v=8qkOaO8BCcA]
 
@@ -96,6 +100,10 @@ Yes we have the [Social Deals Engine Knowledge Base](http://support.wpsocial.com
 6. Single Deal Page
 
 == Changelog ==
+= Version 2.2.5 (2015-10-17) =
+* Added Endpoints settings.
+* Added Deals images gallery functionality.
+* Added support to add multiple address in google map.
 = Version 2.2.4 (2015-09-16) =
 * Added support to work with WPML plugin via Social deals engine Multilingual extension.
 = Version 2.2.3 (2015-08-18) =

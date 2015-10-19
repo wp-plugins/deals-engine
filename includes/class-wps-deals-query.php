@@ -43,18 +43,28 @@ if ( ! class_exists( 'Wps_Deals_Query' ) ) {
 		 */
 		public function init_query_vars() {
 			
+			global $wps_deals_options;
+			
+			$deals_thank_you_page	= !empty($wps_deals_options['deals_thank_you_page_endpoint']) ? $wps_deals_options['deals_thank_you_page_endpoint'] : 'social-deals-thank-you-page';
+			$deals_cancel_page		= !empty($wps_deals_options['deals_cancel_page_endpoint']) ? $wps_deals_options['deals_cancel_page_endpoint'] : 'social-deals-cancel-page';
+			$edit_account			= !empty($wps_deals_options['edit_account_endpoint']) ? $wps_deals_options['edit_account_endpoint'] : 'edit-account';
+			$edit_address			= !empty($wps_deals_options['edit_address_endpoint']) ? $wps_deals_options['edit_address_endpoint'] : 'edit-address';
+			$lost_password			= !empty($wps_deals_options['lost_password_endpoint']) ? $wps_deals_options['lost_password_endpoint'] : 'lost-password';
+			$view_orders			= !empty($wps_deals_options['view_orders_endpoint']) ? $wps_deals_options['view_orders_endpoint'] : 'view-orders';
+			$create_an_account		= !empty($wps_deals_options['create_an_account_endpoint']) ? $wps_deals_options['create_an_account_endpoint'] : 'create-an-account';
+			
 			// Query vars to add to WP
 			$this->query_vars = apply_filters( 'wps_deals_query_args', array(
 															// Checkout actions
-															'social-deals-thank-you-page' 	=> 'social-deals-thank-you-page',
-															'social-deals-cancel-page'		=> 'social-deals-cancel-page',	
+															'social-deals-thank-you-page' 	=> $deals_thank_you_page,
+															'social-deals-cancel-page'		=> $deals_cancel_page,	
 															
 															// My account actions	
-															'change-password'    => 'change-password',			
-															'edit-address'       => 'edit-address',
-															'lost-password'      => 'lost-password',
-															'view-orders'    	 => 'view-orders',
-															'create-an-account'  => 'create-an-account'
+															'edit-account'    				=> $edit_account,			
+															'edit-address'      			=> $edit_address,
+															'lost-password'     			=> $lost_password,
+															'view-orders'   				=> $view_orders,
+															'create-an-account' 			=> $create_an_account
 														)
 											);
 		}
@@ -67,7 +77,7 @@ if ( ! class_exists( 'Wps_Deals_Query' ) ) {
 		 */
 		public function add_endpoints() {
 			foreach ( $this->query_vars as $key => $var )
-				add_rewrite_endpoint( $var, EP_ROOT | EP_PAGES );			
+				add_rewrite_endpoint( $var, EP_ROOT | EP_PAGES );
 		}
 	
 		/**

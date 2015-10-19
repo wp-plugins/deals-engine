@@ -30,10 +30,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
 						<tbody>
 						
 							<tr>
-								<td colspan="2" valign="top" scope="row">
+								<th colspan="2" valign="top" scope="row">
 									<span class="wps-deals-settings-sep-first"><?php _e( 'Misc Settings', 'wpsdeals' ); ?></span>
 									<input type="submit" id="wps-deals-settings-submit" name="wps-deals-settings-submit" class="button-primary" value="<?php _e('Save Changes','wpsdeals');?>" />
-								</td>
+								</th>
 							</tr>
 							
 							<?php do_action('wps_deals_add_misc_settings_before');?>
@@ -171,9 +171,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							?>
 							
 							<tr>
-								<td colspan="2" valign="top" scope="row">
+								<th colspan="2" valign="top" scope="row">
 									<span class="wps-deals-settings-sep-first"><?php _e( 'Terms of Agreement Settings', 'wpsdeals' ); ?></span>
-								</td>
+								</th>
 							</tr>
 							
 							<tr>
@@ -208,7 +208,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									<span class="description"><?php _e( 'If Agree to Terms is checked, enter the agreement terms here.', 'wpsdeals' ); ?></span>  
 								</td>
 							</tr>
-							
+													
 							<?php do_action('wps_deals_add_misc_settings_after');?>
 							
 							<tr>
@@ -218,7 +218,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							</tr>
 						</tbody>
 					 </table>
-					</div><!-- .inside -->
+				</div><!-- .inside -->
 			</div><!-- #general -->
 		</div><!-- .meta-box-sortables ui-sortable -->
 	</div><!-- .metabox-holder -->

@@ -504,7 +504,7 @@ if( !function_exists( 'wps_deals_empty_cart_message' ) ) {
 	 */
 	function wps_deals_empty_cart_message() {
 		
-		global $wps_deals_message, $wps_deals_session;
+		global $wps_deals_message, $wps_deals_session, $wps_deals_options;
 				
 		$undo = false;		
 		$undo_url = '';
@@ -518,10 +518,15 @@ if( !function_exists( 'wps_deals_empty_cart_message' ) ) {
 			$undo_url = wps_deals_get_undo_url( $dealid );
 		}				
 		
+		$deals_shop_page = isset($wps_deals_options['shop_page'] ) ? $wps_deals_options['shop_page'] : '' ;
+		
+		$deals_shop_url = get_permalink($deals_shop_page);
+		
 		$args = array(
 			'undo' => $undo,
 			'dealid' => $dealid,
-			'undo_url' => $undo_url
+			'undo_url' => $undo_url,
+			'deals_shop_url'=>$deals_shop_url
 		);
 		
 		// get the template
@@ -546,7 +551,7 @@ if( !function_exists( 'wps_deals_home_header' ) ) {
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */	
-	function wps_deals_home_header() {
+	function wps_deals_home_header( $args = array() ) {
 	
 		global $wps_deals_options;
 		
@@ -554,6 +559,9 @@ if( !function_exists( 'wps_deals_home_header' ) ) {
 		$today	= wps_deals_current_date();
 		
 		$prefix = WPS_DEALS_META_PREFIX;
+		
+		// Get argument
+		$num_deals = isset($args['num_deals']) ? $args['num_deals'] : -1;
 		
 		// set the meta_query args
 		$home_meta_args = array( 
@@ -584,22 +592,23 @@ if( !function_exists( 'wps_deals_home_header' ) ) {
 		$home_deal = array( 
 							'post_type' => WPS_DEALS_POST_TYPE, 
 							'post_status' => 'publish' , 
-							'posts_per_page' => 1, 
+							'posts_per_page' => $num_deals, 
 							'meta_query' => $home_meta_args,
 							'order' => 'DESC',
 							'orderby' => $orderby
 							);
-				
+		 
 		// create the loop	
 		$loop_home = null;
 		$loop_home = new WP_Query();
 		$loop_home->query( $home_deal );
-		
+		 
 		// set the args, which we will pass to the template
 		$args = array( 
 						'loop' => $loop_home
 					);
 		
+					
 		// get the template
 		wps_deals_get_template( 'home-deals/header.php', $args );	
 	}	
@@ -668,7 +677,7 @@ if( !function_exists( 'wps_deals_home_header_image' ) ) {
 	function wps_deals_home_header_image() {
 	
 		global $post,$wps_deals_price;
-
+		$dealimg = $image_url = '';
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		// get the product price
@@ -679,14 +688,30 @@ if( !function_exists( 'wps_deals_home_header_image' ) ) {
 		
 		// add filter to change deal main image of deal by third party plugin
 		$deal_main_image['src'] = apply_filters( 'wps_deals_main_image_src', $deal_main_image['src'], $post->ID );
+
+		// get main deal image
+		$dealimage = get_the_post_thumbnail( $post->ID, 'wpsdeals-single', array( 	
+																					'alt' => trim( strip_tags( $post->post_title ) ), 
+																					'title'	=> trim( strip_tags( $post->post_title ) ) 
+																					) );
+		
+		// add filter to change feature image of deal by third party plugin
+		$dealimage = apply_filters( 'wps_deals_feature_image_src', $dealimage, $post->ID );
 				
-		// image url
-		$image_url = isset( $deal_main_image['src'] ) && !empty( $deal_main_image['src'] ) ? $deal_main_image['src'] : apply_filters( 'wps_deals_default_img_src', WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg' );
+		if( !empty( $deal_main_image['src'])){
+			$image_url=$deal_main_image['src'];
+		} elseif ( !empty( $dealimage ) ) {
+			$dealimg= $dealimage;
+		} else {
+			//no image
+			$image_url=apply_filters( 'wps_deals_default_img_src', WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg' );
+		}
 		
 		// set the args for the home deal, which we will pass to the template
 		$args = array( 
 						'dealtitle' => get_the_title( $post->ID ),
 						'dealimgurl' => $image_url,
+						'dealimg'	=>	$dealimg,
 						'price' => $wps_deals_price->get_display_price( $productprice, $post->ID ),
 						'dealurl' => get_permalink( $post->ID )
 					);
@@ -1312,20 +1337,36 @@ if( !function_exists( 'wps_deals_home_more_deals_image' ) ) {
 	function wps_deals_home_more_deals_image() {
 		
 		global $post;
-
-		$prefix = WPS_DEALS_META_PREFIX;
+		$prefix = WPS_DEALS_META_PREFIX; 
+		$dealmainimg = $dealimg = '';
+		
+		// get main deal image
+		$dealimage = get_the_post_thumbnail( $post->ID, 'wpsdeals-single', array( 	
+																					'alt' => trim( strip_tags( $post->post_title ) ), 
+																					'title'	=> trim( strip_tags( $post->post_title ) ) 
+																					) );
+																					
+		// add filter to change feature image of deal by third party plugin
+		$dealimage = apply_filters( 'wps_deals_feature_image_src', $dealimage, $post->ID );
 		
 		// get main deal image
 		$deal_main_image = get_post_meta( $post->ID, $prefix . 'main_image', true );
-		
+		 
 		// add filter to change deal main image of deal by third party plugin
 		$deal_main_image['src'] = apply_filters( 'wps_deals_main_image_src', $deal_main_image['src'], $post->ID );
-		
-		// check if an image has been uploaded
-		$dealimg = !empty( $deal_main_image['src'] ) ? $deal_main_image['src'] : apply_filters( 'wps_deals_default_img_src', WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg' );
+				
+		if( !empty( $deal_main_image['src'])){
+			$dealmainimg=$deal_main_image['src'];
+		} elseif ( !empty( $dealimage ) ) {
+			$dealimg= $dealimage;
+		} else {
+			//no images
+			$dealmainimg=apply_filters( 'wps_deals_default_img_src', WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg' );
+		}
 		
 		// set the args, which we will pass to the template
 		$args = array( 
+						'dealmainimg'=>$dealmainimg,
 						'dealimg' => $dealimg,
 						'dealurl' => get_permalink( $post->ID ),
 						'dealtitle' => get_the_title( $post->ID )
@@ -1577,7 +1618,7 @@ if( !function_exists( 'wps_deals_archive_deals_content' ) ) {
 											'type' => 'STRING'
 											)
 									);
-		
+									
 		// merge and set the args
 		$activeargs = array_merge( $homeargs, array( 'meta_query' => $activemetaquery ) );
 		
@@ -2188,10 +2229,13 @@ if( !function_exists( 'wps_deals_single_bought' ) ) {
 		// get the value for bought deals
 		$boughts = get_post_meta( $post->ID, $prefix . 'boughts', true );
 		
+		$boughts = apply_filters( 'wps_deals_bought_value', $boughts, $post->ID );
+		
 		$bought = isset( $boughts ) && !empty( $boughts ) ? $boughts : '0';
 		
 		// set the args, which we will pass to the template
 		$args = array( 
+						'post_id' => $post->ID,
 						'bought' => $bought
 					);
 		
@@ -2226,25 +2270,76 @@ if( !function_exists( 'wps_deals_single_deal_img' ) ) {
 	function wps_deals_single_deal_img() {
 		
 		global $post;
+		$prefix = WPS_DEALS_META_PREFIX; 
+		$deals_single_img = $deals_no_img_src = '';
+		$deals_main_img_src = array();
 		
-		// get the image		
-		$dealimage = get_the_post_thumbnail( $post->ID, 'wpsdeals-single', array( 	
+		// get main deal image
+		$deal_main_image = get_post_meta( $post->ID, $prefix . 'main_image', true );
+		
+		// add filter to change deal main image of deal by third party plugin
+		$deal_main_image['src'] = apply_filters( 'wps_deals_main_image_src', $deal_main_image['src'], $post->ID );
+		
+		//get single deal image
+		$deal_single_image = get_the_post_thumbnail( $post->ID, 'wpsdeals-single', array( 	
 																					'alt' => trim( strip_tags( $post->post_title ) ), 
 																					'title'	=> trim( strip_tags( $post->post_title ) ) 
-																				) );
-		
+																					) );
+		 
 		// add filter to change feature image of deal by third party plugin
-		$dealimage = apply_filters( 'wps_deals_feature_image_src', $dealimage, $post->ID );
-				
-		$imgurl = !empty( $dealimage ) ? $dealimage : apply_filters( 'wps_deals_single_deal_default_img_src', '<img src="' . WPS_DEALS_URL . 'includes/images/deals-no-image-big.jpg' . '" alt="' . __( 'Deal Image', 'wpsdeals' ) . '" />' );
+		$deal_single_image = apply_filters( 'wps_deals_feature_image_src', $deal_single_image, $post->ID );
+		
+		if ( !empty($deal_main_image['src'] ) ) {
+			$deals_main_img_src=$deal_main_image['src'];
+		}
+		elseif( !empty( $deal_single_image ) ){
+			$deals_single_img=$deal_single_image;
+		} else {
+			$deals_no_img_src=apply_filters( 'wps_deals_default_img_src', WPS_DEALS_URL.'includes/images/deals-no-image-big.jpg' );
+		}
 		
 		// set the args, which we will pass to the template
 		$args = array( 
-						'dealimg' => $imgurl
+						'dealimg' 	=> $deals_single_img,
+						'dealimgsrc'=> $deals_main_img_src,
+						'dealnoimgsrc'=> $deals_no_img_src,
+						'dealurl'	=> get_post_thumbnail_id( $post->ID,'wpsdeals-single' )
 					);
 					
 		// get the template
-		wps_deals_get_template( 'single-deal/image.php', $args );
+		wps_deals_get_template( 'single-deal/image.php', $args ); 
+	}
+}
+
+if( !function_exists( 'wps_deals_gallery_image' ) ) { 
+	
+	/**
+	 * Loads the image template.
+	 * 
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	function wps_deals_gallery_image() {
+		
+		global $post;
+
+		$prefix = WPS_DEALS_META_PREFIX;
+		
+		// get main deal image
+		$deal_gallery_ids = get_post_meta( $post->ID, $prefix . 'image_gallery', true );
+		$deal_gallery_ids = trim($deal_gallery_ids);
+		$deal_gallery_ids = !empty($deal_gallery_ids) ? explode(',', $deal_gallery_ids) : array();
+		
+		// add filter to change deal main image of deal by third party plugin
+		$deal_gallery_ids = apply_filters( 'wps_deals_gallery_images', $deal_gallery_ids, $post->ID );
+		
+		// set the args, which we will pass to the template
+		$args = array( 
+						'deal_gallery_ids' => $deal_gallery_ids,
+					);
+		
+		// get the template
+		wps_deals_get_template( 'single-deal/gallery.php', $args );
 	}
 }
 
@@ -2543,7 +2638,7 @@ if( !function_exists( 'wps_deals_single_business_info' ) ) {
 	 */
 	function wps_deals_single_business_info() {
 		
-		global $post;
+		global $post, $address;
 		
 		$prefix = WPS_DEALS_META_PREFIX;
 		
@@ -2551,8 +2646,19 @@ if( !function_exists( 'wps_deals_single_business_info' ) ) {
 		$businesstitle = get_post_meta( $post->ID, $prefix . 'business_title', true );
 		
 		// get the google map values
-		$gmapaddress = get_post_meta( $post->ID, $prefix.'address', true );
-		$address = str_replace( "'", "&prime;", $gmapaddress );
+		
+		$google_map = get_post_meta( $post->ID, $prefix.'google_map', true );
+		
+	
+ 		if( !empty($google_map) ) {
+			foreach ( $google_map as $key => $value ) {
+				$gmap_address 	= $value[$prefix.'gmap_address'];
+				$address 		= str_replace("'", "&prime;",$gmap_address);
+			}
+ 		}
+		
+		/*$gmapaddress = get_post_meta( $post->ID, $prefix.'address', true );
+		$address = str_replace( "'", "&prime;", $gmapaddress );*/
 		
 		// check if address is set
 		if( !empty( $address ) ) {
@@ -3434,32 +3540,38 @@ if( !function_exists( 'wps_deals_localize_map_script' ) ) {
 		$prefix = WPS_DEALS_META_PREFIX;
 		
 		// get the value for the google map address from the post meta box
-		$gmapaddress = get_post_meta( $post->ID, $prefix.'address', true );
-		$gmapaddress = isset($gmapaddress) && !empty($gmapaddress) ? $gmapaddress : '';
+		$google_map = get_post_meta( $post->ID, $prefix.'google_map', true );
+ 		
+		$googlemaps = array();
 		
-		// get the value for the google map popup content from the post meta box
-		$gmappopupcontent = get_post_meta( $post->ID, $prefix.'gmaps_popup_content', true );
-		$gmappopupcontent = isset($gmappopupcontent) && !empty($gmappopupcontent) ? $gmappopupcontent : '';
-		
-		// get the value for the google map popup max width from the post meta box
-		$gmapwidth = get_post_meta( $post->ID, $prefix.'gmap_popup_width', true );
-		
-		$popupmaxwidth = isset($gmapwidth) && !empty($gmapwidth) ? $gmapwidth : '220';
-		
-		$address = str_replace("'", "&prime;", $gmapaddress);
-		
-		if (!empty($gmappopupcontent)) {
-			$popupcontent =  '<div class="wps-deals-gmap-popup-content">'.$gmappopupcontent.'</div>';
-		} else {
-			$popupcontent = $address;
+		for ( $i = 0; $i < count( $google_map ); $i++ ){
+				
+			if(!empty( $google_map[$i][$prefix.'gmap_address'] )){	
+						
+				$gmap_address = !empty( $google_map[$i][$prefix.'gmap_address'] ) ? $google_map[$i][$prefix.'gmap_address'] : '';	
+				
+				$googlemap=array();
+				
+				$googlemap['gmap_address'] = str_replace("'", "&prime;", $gmap_address );
+
+				$googlemap['gmap_popup_width'] = !empty( $google_map[$i][$prefix.'gmap_popup_width'] ) ? $google_map[$i][$prefix.'gmap_popup_width'] : '220';
+	
+				if (!empty($google_map[$i][$prefix.'gmap_popup_content'])) {
+					$googlemap['gmap_popup_content'] =  '<div class="wps-deals-gmap-popup-content">'.$google_map[$i][$prefix.'gmap_popup_content'].'</div>';
+				} else {
+					$googlemap['gmap_popup_content'] = $googlemap['gmap_address'];
+				}
+				
+				$googlemaps[] = $googlemap;
+			}
 		}
-		
-		wp_localize_script( 'wps-deals-map-script', 'Wps_Deals_Map', array( 
-																				'URL' 			=>	WPS_DEALS_URL,
-																			   	'address'		=>	$address,
-																			   	'popupcontent' 	=> 	$popupcontent,
-																			  	'popupmaxwidth'	=>	$popupmaxwidth
-																		  	) );
+		 
+		$map_settings=array( 
+						'URL'		=> WPS_DEALS_URL,
+						'locations'	=> $googlemaps
+						);
+			
+		wp_localize_script( 'wps-deals-map-script', 'Wps_Deals_Map', $map_settings );
 	}
 }
 

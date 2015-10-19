@@ -138,7 +138,7 @@ function wps_deals_insert_payment_data($data=array()) {
 										'admin_label'		=>	$admin_label,
 										'checkout_label'	=>	$checkout_label
     								);
-    								    	
+    					    	
 		foreach ($cartproducts as $dealid => $dealdata) {
 
 			//get the data by deal id
@@ -179,8 +179,7 @@ function wps_deals_insert_payment_data($data=array()) {
 			$deal_image = apply_filters( 'wps_deals_feature_image_src', $deal_image, $dealid );
 		
 			$dealimg = !empty( $deal_image ) ? $deal_image : apply_filters( 'wps_deals_single_deal_default_img_src', '<img src="' . WPS_DEALS_URL . 'includes/images/deals-no-image-big.jpg' . '" alt="' . __( 'Deal Image', 'wpsdeals' ) . '" />' );
-			
-			
+			 
 			//get the value for deal image from post meta
 			$address = get_post_meta($dealid,$prefix.'address',true);
 			

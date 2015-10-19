@@ -24,6 +24,9 @@ switch( $template ) {
 	case 'twentyfourteen' :
 		echo '<div id="primary" class="content-area"><div id="content" role="main" class="site-content twentyfourteen"><div class="tfwc">';
 		break;
+	case 'twentyfifteen' :
+		echo '<div id="primary" class="content-area"><main id="main" class="site-main" role="main"><article class="wpsdeals type-wpsdeals status-publish hentry"><div class="entry-content">';
+		break;
 	case 'superstore' :
 		echo '<div id="content" class="col-full"><div id="main" class="col-left"><div class="post"><div class="entry fix">';
 		break;

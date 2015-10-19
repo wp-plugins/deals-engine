@@ -24,5 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	<div class="deals-message deals-error empty-cart-msg">
 		<span><?php echo apply_filters( 'wps_deals_empty_cart_message', __( 'Your cart is empty.', 'wpsdeals' ) ); ?></span>
 	</div>
-	
+	<?php if( $deals_shop_url ) { ?>
+		<a href="<?php echo esc_url($deals_shop_url); ?>" class="deals-shop deals-button btn-deals-shop">
+			&larr;  <?php echo apply_filters( 'wps_deals_shop_text', __( 'Deals Shop', 'wpsdeals' ) ); ?> 
+		</a> <?php
+	} ?>
 </div>

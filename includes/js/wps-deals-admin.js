@@ -60,12 +60,20 @@ jQuery(document).ready(function($) {
 			var avail = jQuery('#inline_' + id + '_avail_total').text(),
 				normal_price = jQuery('#inline_' + id + '_normal_price').text(),
 				sale_price = jQuery('#inline_' + id + '_deal_price').text(),
+				start_date = jQuery('#inline_' + id + '_start_date').text(),
+				end_date = jQuery('#inline_' + id + '_end_date').text(),
 				digital = jQuery('#inline_' + id + '_digital').text();
 				featured_deal = jQuery('#inline_' + id + '_featured_deal').text();
 				
 			jQuery(this).find('.wps_deals_quick_avail_total').val(avail);
 			jQuery(this).find('.wps_deals_quick_normal_price').val(normal_price);
 			jQuery(this).find('.wps_deals_quick_sale_price').val(sale_price);
+			jQuery(this).find('.wps_deals_quick_start_date').val(start_date);
+			jQuery(this).find('.wps_deals_quick_end_date').val(end_date);
+			
+			jQuery(this).find('.wps_deals_quick_start_date').attr('id','wps_deals_quick_start_date-'+id);
+			jQuery(this).find('.wps_deals_quick_end_date').attr('id','wps_deals_quick_end_date-'+id);
+			
 			
 			if(featured_deal != '') {
 				jQuery(this).find('.wps_deals_quick_featured_deal').attr('checked',true);
@@ -371,7 +379,7 @@ jQuery(document).ready(function($) {
 	});
 	
 	// Show Error if Deal price is greater then Normal price
-	$( document ).on( 'blur', '#_wps_deals_sale_price[type=text]', function() {				
+	$( document ).on( 'blur', '#_wps_deals_sale_price[type=text] , .wps_deals_quick_sale_price[type=text] ', function() {				
 		$('.wps-error-tip').fadeOut('100', function(){ $(this).remove(); } );		
 	});	
 	
@@ -394,8 +402,24 @@ jQuery(document).ready(function($) {
 		}			
 	});
 	
+	// Quick box in Show Error if Deal price is greater then Normal price 
+	$( document ).on( 'keyup focus change', '.wps_deals_quick_sale_price[type=text]', function(){		
+		var deal_price_field = $(this);
+		var normal_price_field = $('.wps_deals_quick_normal_price');
+		
+		var normal_price = parseFloat(normal_price_field.val());
+		var deal_price = parseFloat(deal_price_field.val());
+		
+		if(deal_price >= normal_price) {
+			deal_price_field.val( normal_price_field.val() );						
+			$(this).after( '<div class="wps-error-tip">' + WpsDealsSettings.deal_price_less_than_normal_price_error + '</div>' );								
+		} else {
+			$('.wps-error-tip').fadeOut('100', function(){ $(this).remove(); } );
+		}			
+	});
+	
 	// numeric validation
-	$( document ).on( 'keyup change', '#_wps_deals_sale_price[type=text], #_wps_deals_normal_price[type=text]', function(){		
+	$( document ).on( 'keyup change', '#_wps_deals_sale_price[type=text], #_wps_deals_normal_price[type=text], .wps_deals_quick_normal_price[type=text], .wps_deals_quick_sale_price[type=text] ', function(){		
 		var value    = $(this).val();
 		var regex    = new RegExp( "[^\-0-9\%.\\" + WpsDealsSettings.decimal_seperator + "]+", "gi" );
 		var newvalue = value.replace( regex, '' );
@@ -416,4 +440,69 @@ jQuery(document).ready(function($) {
 	   		dateFormat: dateFormat
   		} );
 	}
+	// Date picker for start date and end date validation on deals sales page
+	jQuery('.wps-deals-meta-datetime').each( function() {
+		 
+      var jQuerythis  = jQuery(this),
+        //  format = jQuerythis.attr('rel'),
+          id = jQuerythis.attr('id');
+
+      //	if( format == "" || format == undefined )
+       		format = "dd-mm-yy";
+        		 
+		if( id == "_wps_deals_start_date" ) { // for start date    					
+        	  	
+	      	jQuerythis.datetimepicker({
+	      		ampm: true,
+	      		dateFormat : format,
+	      		onSelect: function (selectedDateTime){
+					jQuery("#_wps_deals_end_date").datetimepicker('option', 'minDate', jQuerythis.datetimepicker('getDate') );
+				}
+			});
+	      		
+      	} else if( id == "_wps_deals_end_date" ) { // for end date
+	      	      		
+	    	jQuerythis.datetimepicker({
+	      		ampm: true,
+	      		dateFormat : format,
+	      		onSelect: function (selectedDateTime){
+					jQuery("#_wps_deals_start_date").datetimepicker('option', 'maxDate', jQuerythis.datetimepicker('getDate') );
+				}
+			});
+	      	
+      	} else {
+			jQuerythis.datetimepicker({ampm: true,dateFormat : format});//,timeFormat:'hh:mm:ss',showSecond:true
+		}
+	});
+	
+	// Datetime picker for start date and end date on deals list page
+	/*jQuery( document ).on( 'focus click', '.wps_deals_quick_edit_datetime', function() {
+		
+		var jQuerythis  = jQuery(this),
+		format = jQuerythis.attr('rel');
+		
+		var deals_id = jQuerythis.attr('id');
+		start_id = deals_id.replace(/^wps_deals_quick_start_date-/, '');
+		end_id = deals_id.replace(/^wps_deals_quick_end_date-/, '');
+        
+		if( deals_id == 'wps_deals_quick_start_date-'+start_id ) { // for start date
+	      	jQuerythis.datetimepicker({
+	      		ampm: true,
+	      		dateFormat : format,
+	      		onSelect: function (selectedDateTime){
+					jQuery('#wps_deals_quick_end_date-'+start_id).datetimepicker('option', 'minDate', jQuerythis.datetimepicker('getDate') );
+				}
+			});
+      	} else if( deals_id == 'wps_deals_quick_end_date-'+end_id ) { // for end date
+	    	jQuerythis.datetimepicker({
+	      		ampm: true,
+	      		dateFormat : format,
+	      		onSelect: function (selectedDateTime){
+					jQuery('#wps_deals_quick_start_date-'+end_id).datetimepicker('option', 'maxDate', jQuerythis.datetimepicker('getDate') );
+				}
+			});
+      	} else {
+			jQuerythis.datetimepicker({ampm: true,dateFormat : format});//,timeFormat:'hh:mm:ss',showSecond:true
+		}
+	});*/
 });

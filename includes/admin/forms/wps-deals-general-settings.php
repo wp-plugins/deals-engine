@@ -32,10 +32,10 @@ if ( !defined( 'ABSPATH' ) ) exit;
 						<tbody>
 							<!-- General Settings Start -->
 							<tr>
-								<td colspan="2" valign="top" scope="row">
+								<th colspan="2" valign="top" scope="row">
 									<span class="wps-deals-settings-sep-first"><?php _e( 'General Settings', 'wpsdeals' ); ?></span>
 									<input type="submit" id="wps-deals-settings-submit" name="wps-deals-settings-submit" class="button-primary" value="<?php _e('Save Changes','wpsdeals');?>" />
-								</td>
+								</th>
 							</tr>
 							<?php 
 									//adding something before general settings	
@@ -309,13 +309,22 @@ if ( !defined( 'ABSPATH' ) ) exit;
 								</td>
 							</tr>
 							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[enable_lightbox]"><?php _e( 'Enable Lightbox Image Gallary:', 'wpsdeals' ); ?></label>
+								</th>
+								<td><input type="checkbox" id="wps_deals_options[enable_lightbox]" name="wps_deals_options[enable_lightbox]" value="1" <?php if(isset($wps_deals_options['enable_lightbox'])) { checked('1',$wps_deals_options['enable_lightbox']); }?>/><br />
+									<span class="description"><?php _e( 'Include Social Deals Engine lightbox. Deals gallery images will open in a lightbox.', 'wpsdeals' );?></span>
+								</td>
+							</tr>
+							
 							<?php do_action('wps_deals_add_general_settings_after_socialbuttons');?>
 							
 							<!-- Page Settings Start -->
 							<tr>
-								<td colspan="2" valign="top" scope="row">
+								<th colspan="2" valign="top" scope="row">
 									<span class="wps-deals-settings-sep-first"><?php _e( 'Pages Settings', 'wpsdeals' ); ?></span>
-								</td>
+								</th>
 							</tr>
 							<tr>
 								<th scope="row">
@@ -384,9 +393,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							<!-- Page Settings End-->
 							<!-- Currency Settings Start -->
 							<tr>
-								<td colspan="2" valign="top" scope="row">
+								<th colspan="2" valign="top" scope="row">
 									<span class="wps-deals-settings-sep-first"><?php _e( 'Currency Settings', 'wpsdeals' ); ?></span>
-								</td>
+								</th>
 							</tr>
 							
 							<tr>
@@ -442,8 +451,85 @@ if ( !defined( 'ABSPATH' ) ) exit;
 									<span class="description"><?php _e('Number of decimal places.','wpsdeals');?></span>
 								</td>
 							</tr>
-							
 							<!-- Currency Settings End -->
+							
+							<!-- Endpoints Settings Start -->
+							<tr>
+								<th colspan="2" valign="top" scope="row">
+									<span class="wps-deals-settings-sep-first"><?php _e( 'Deals Endpoints', 'wpsdeals' ); ?></span>
+								</th>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[deals_thank_you_page_endpoint]"><?php _e( 'Deals Thank You Page:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="text" name="wps_deals_options[deals_thank_you_page_endpoint]" id="wps_deals_options[deals_thank_you_page_endpoint]" value="<?php echo $model->wps_deals_escape_attr( $wps_deals_options['deals_thank_you_page_endpoint']);?>" class="regular-text" /><br />
+									<span class="description"><?php _e( 'Endpoint for the Deals Thank you page', 'wpsdeals' ); ?></span>  
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[deals_cancel_page_endpoint]"><?php _e( 'Deals Cancel Page:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="text" name="wps_deals_options[deals_cancel_page_endpoint]" id="wps_deals_options[deals_cancel_page_endpoint]" value="<?php echo $model->wps_deals_escape_attr( $wps_deals_options['deals_cancel_page_endpoint']);?>" class="regular-text" /><br />
+									<span class="description"><?php _e( 'Endpoint for the Deals Cancel Page.', 'wpsdeals' ); ?></span>  
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[edit_account_endpoint]"><?php _e( 'Edit Account:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="text" name="wps_deals_options[edit_account_endpoint]" id="wps_deals_options[edit_account_endpoint]" value="<?php echo $model->wps_deals_escape_attr( $wps_deals_options['edit_account_endpoint']);?>" class="regular-text" /><br />
+									<span class="description"><?php _e( 'Endpoint for the Edit Account page.', 'wpsdeals' ); ?></span>  
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[edit_address_endpoint]"><?php _e( 'Edit Address:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="text" name="wps_deals_options[edit_address_endpoint]" id="wps_deals_options[edit_address_endpoint]" value="<?php echo $model->wps_deals_escape_attr( $wps_deals_options['edit_address_endpoint']);?>" class="regular-text" /><br />
+									<span class="description"><?php _e( 'Endpoint for the Edit Address page.', 'wpsdeals' ); ?></span>  
+								</td>
+							</tr>							
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[lost_password_endpoint]"><?php _e( 'Lost Password:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="text" name="wps_deals_options[lost_password_endpoint]" id="wps_deals_options[lost_password_endpoint]" value="<?php echo $model->wps_deals_escape_attr( $wps_deals_options['lost_password_endpoint']);?>" class="regular-text" /><br />
+									<span class="description"><?php _e( 'Endpoint for the Lost Password page.', 'wpsdeals' ); ?></span>  
+								</td>
+							</tr>
+							
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[view_orders_endpoint]"><?php _e( 'View Orders:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="text" name="wps_deals_options[view_orders_endpoint]" id="wps_deals_options[view_orders_endpoint]" value="<?php echo $model->wps_deals_escape_attr( $wps_deals_options['view_orders_endpoint']);?>" class="regular-text" /><br />
+									<span class="description"><?php _e( 'Endpoint for the View Orders page.', 'wpsdeals' ); ?></span>  
+								</td>
+							</tr>
+
+							<tr>
+								<th scope="row">
+									<label for="wps_deals_options[create_an_account_endpoint]"><?php _e( 'Create an Account:', 'wpsdeals' ); ?></label>
+								</th>
+								<td>
+									<input type="text" name="wps_deals_options[create_an_account_endpoint]" id="wps_deals_options[create_an_account_endpoint]" value="<?php echo $model->wps_deals_escape_attr( $wps_deals_options['create_an_account_endpoint']);?>" class="regular-text" /><br />
+									<span class="description"><?php _e( 'Endpoint for the Create an Account page.', 'wpsdeals' ); ?></span>  
+								</td>
+							</tr>
+							<!-- Endpoints Settings End-->
 							<?php do_action('wps_deals_add_general_settings_after');?>
 							<tr>
 								<td colspan="2" valign="top" scope="row">

@@ -24,13 +24,12 @@ function wps_deals_payment_process() {
 	
 	//get cart data
 	$cartdata = $cart->get();
-	
+		
 	if(isset($_POST['wps_deals_submit_payment']) && !empty($_POST['wps_deals_submit_payment'])
 		 && $_POST['wps_deals_submit_payment'] == __('Deals Purchase','wpsdeals')) { //check payment button click for checkout button
 		
 		 //validate nonce for security purpose
-		// $noncevalidate = wps_deals_payment_nonce_valid($_POST['wps_deals_payment_nonce']);
-		
+		// $noncevalidate = wps_deals_payment_nonce_valid($_POST['wps_deals_payment_nonce']);		
 		 if( is_user_logged_in() 
 		 	&& isset($_POST['wps_deals_cart_login_user_name']) && !empty($_POST['wps_deals_cart_login_user_name'])
 		 	&& isset($_POST['wps_deals_cart_login_user_pass']) && !empty($_POST['wps_deals_cart_login_user_pass'])) { 
@@ -40,10 +39,12 @@ function wps_deals_payment_process() {
 		 	$_POST['wps_deals_cart_user_last_name']	= $current_user->last_name;
 		 } else {
 		 	$_POST['wps_deals_cart_user_email']	 = $_POST['wps_deals_cart_user_email'];
+		 	
 		 }
-
+		
 		//payment gateway
 		$validgateway = wps_deals_valid_gateway();
+		
 		
 		//valid order data
 		$validatedata = wps_deals_order_data_validate();
@@ -58,19 +59,22 @@ function wps_deals_payment_process() {
 		$user_can_purchase = wps_deals_valid_purchase_limit();
 		
 		$agreeterms = true;
-		 
+		
 		 //terms and conditions
 		if( !empty($wps_deals_options['enable_terms'])) {
 			$terms = isset( $_POST['wps_deals_checkout_agree_terms'] ) ? $_POST['wps_deals_checkout_agree_terms'] : '';
 			$agreeterms = wps_deals_payment_agree_to_terms( $terms );
 		}		 
-		
+	
 		// !$noncevalidate ||
 		if( empty( $cartdata['products'] ) || !$validatedata || !$uservalid || !$validgateway || !$agreeterms || !$userbilling || !$user_can_purchase ) { //check some data valid or not
 			//redirect to checkout page
+			 
 			wps_deals_send_on_checkout_page();
+			 
 		} 
-		//get the value of user login name 
+		 
+		//get the value of user login name 		 
 		if(is_user_logged_in()) { 
 			//if user is logged in then stored display name
 			$_POST['user_name'] = $current_user->display_name;
@@ -78,8 +82,9 @@ function wps_deals_payment_process() {
 		} else {
 			//do concat first name and last name of from posted data
 			$_POST['user_name'] = 'guest';
-		}
-		
+		 
+		} 
+	 
 		$gateway = isset( $_POST['wps_deals_payment_gateways'] ) ? $_POST['wps_deals_payment_gateways'] : '';
 		
 		//Pst data
@@ -99,6 +104,8 @@ function wps_deals_payment_process() {
 		wps_deals_send_to_gateway( $gateway, $cartdata, $post_data );
 		exit;
 	}
+	
+		
 }
 add_action( 'init', 'wps_deals_payment_process');
 
@@ -351,8 +358,8 @@ function wps_deals_valid_purchase_limit() {
 	$prefix = WPS_DEALS_META_PREFIX;
 	
 	$error = false;	
-	if( !is_user_logged_in() )
-		return $error;
+	/*if( !is_user_logged_in() )
+		return $error;*/
 		
 	//message class object
 	$message = $wps_deals_message;	

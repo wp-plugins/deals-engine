@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 							//do action to add in top of home page
 							do_action( 'wps_deals_home_top');
 					?>
-				
+					
 					<div class="wps-deals-front <?php echo $size;?> row-fluid">
 								
 						<?php 	

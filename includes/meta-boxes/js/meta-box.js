@@ -226,6 +226,9 @@ jQuery(document).ready(function(jQuery) {
       jQuerythis.datetimepicker({ampm: true,dateFormat : format});//,timeFormat:'hh:mm:ss',showSecond:true
       
     });
+    
+    
+    
   /**
    *  conditinal fields
    *  @since 2.9.9
@@ -868,3 +871,129 @@ function wpsDealsGetDealType() {
 	
 	return wps_deals_deal_type;
 }
+
+jQuery(document).ready( function($) {
+	
+// deals gallery file uploads
+	var deals_gallery_frame;
+	var $image_gallery_ids = $( '#wps_deals_image_gallery' );
+	var $deals_images    = $( '#wps_deals_images_container ul.wps_deals_images' );
+
+	$( '.add_wps_deals_images' ).on( 'click', 'a', function( event ) {
+		var $el = $( this );
+
+		event.preventDefault();
+
+		// If the media frame already exists, reopen it.
+		if ( deals_gallery_frame ) {
+			deals_gallery_frame.open();
+			return;
+		}
+
+		// Create the media frame.
+		deals_gallery_frame = wp.media.frames.deals_gallery = wp.media({
+			// Set the title of the modal.
+			title: $el.data( 'choose' ),
+			button: {
+				text: $el.data( 'update' )
+			},
+			states: [
+				new wp.media.controller.Library({
+					title: $el.data( 'choose' ),
+					filterable: 'all',
+					multiple: true
+				})
+			]
+		});
+
+		// When an image is selected, run a callback.
+		deals_gallery_frame.on( 'select', function() {
+			var selection = deals_gallery_frame.state().get( 'selection' );
+			var attachment_ids = $image_gallery_ids.val();
+
+			selection.map( function( attachment ) {
+				attachment = attachment.toJSON();
+
+				if ( attachment.id ) {
+					attachment_ids   = attachment_ids ? attachment_ids + ',' + attachment.id : attachment.id;
+					var attachment_image = attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
+
+					$deals_images.append( '<li class="image" data-attachment_id="' + attachment.id + '"><img src="' + attachment_image + '" /><ul class="actions"><li><a href="#" class="delete" title="' + $el.data('delete') + '">' + $el.data('text') + '</a></li></ul></li>' );
+				}
+			});
+
+			$image_gallery_ids.val( attachment_ids );
+		});
+
+		// Finally, open the modal.
+		deals_gallery_frame.open();
+	});
+
+	// Image ordering
+	$deals_images.sortable({
+		items: 'li.image',
+		cursor: 'move',
+		scrollSensitivity: 40,
+		forcePlaceholderSize: true,
+		forceHelperSize: false,
+		helper: 'clone',
+		opacity: 0.65,
+		placeholder: 'wps-metabox-sortable-placeholder',
+		start: function( event, ui ) {
+			ui.item.css( 'background-color', '#f6f6f6' );
+		},
+		stop: function( event, ui ) {
+			ui.item.removeAttr( 'style' );
+		},
+		update: function() {
+			var attachment_ids = '';
+
+			$( '#wps_deals_images_container ul li.image' ).css( 'cursor', 'default' ).each( function() {
+				var attachment_id = $( this ).attr( 'data-attachment_id' );
+				attachment_ids = attachment_ids + attachment_id + ',';
+			});
+
+			$image_gallery_ids.val( attachment_ids );
+		}
+	});
+
+	// Remove images
+	$( '#wps_deals_images_container' ).on( 'click', 'a.delete', function() {
+		$( this ).closest( 'li.image' ).remove();
+
+		var attachment_ids = '';
+
+		$( '#wps_deals_images_container ul li.image' ).css( 'cursor', 'default' ).each( function() {
+			var attachment_id = $( this ).attr( 'data-attachment_id' );
+			attachment_ids = attachment_ids + attachment_id + ',';
+		});
+
+		$image_gallery_ids.val( attachment_ids );
+
+		// remove any lingering tooltips
+		$( '#tiptip_holder' ).removeAttr( 'style' );
+		$( '#tiptip_arrow' ).removeAttr( 'style' );
+
+		return false;
+	});
+	
+		
+	//repeater field add more
+	$( document ).on( "click", ".wps-deals-repeater-add", function() {
+		 
+		$(this).prev('div.wps-deals-meta-repater-block').clone().insertAfter('.wps-deals-meta-repeat div.wps-deals-meta-repater-block:last');
+			
+		$(this).parent().find('div.wps-deals-meta-repater-block:last input').val('');
+		
+		$(this).parent().find('div.wps-deals-meta-repater-block:last textarea').val('');
+		
+		$(this).parent().find('div.wps-deals-meta-repater-block:last .wps-deals-repeater-remove').show();
+		 		
+	});
+	
+	//remove repeater field
+	$( document ).on( "click", ".wps-deals-repeater-remove", function() {
+	   $(this).parent('.wps-deals-meta-repater-block').remove();
+	});
+	
+});

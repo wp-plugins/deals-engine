@@ -1,4 +1,3 @@
-/* ==========================================================================
    Base
    ========================================================================== */
 .deals-clearfix {
@@ -203,6 +202,7 @@ a.deals-button:focus,
 a.deals-button:visited {
 	text-decoration: none;
 	color: #ffffff !important;
+	border:none;
 }
 .deals-button.btn-big {
 	padding: 15px 20px;
@@ -216,6 +216,13 @@ a.deals-button:visited {
 	border-radius: 4px;
 	float: right;
 	margin: 20px 10px 5px 0;
+}
+.deals-button.btn-deals-shop {
+	padding: 10px 15px;
+	font-size: 13px;
+	border-radius: 4px;
+	float: left;
+	margin: 0px 10px 5px 0;
 }
 .deals-single .deals-button-single .deals-claim {
 	margin: 0 0 1em 0 !important;
@@ -337,17 +344,22 @@ a.deals-button:visited {
 	max-height: 
 }
 .deals-img-flag-big {
-	background: url("../images/deal_price_flag.png") no-repeat;
 	color: #fff;
 	font-size: 26px;
 	padding: 0 10px 0 0;
 	height: 40px;
 	line-height: 40px;
 	position: absolute;
-	width: 150px;
+	width: 100%;
 	margin-top: 10px;
 	z-index: 1;
-	text-align: center;
+	text-align: left;
+}
+.deals-img-flag-big > span {
+	background: url(../images/deal_price_flag.png) no-repeat 0 0 / 100% 100%;
+	display:inline-block;
+	padding-right: 40px;
+	padding-left: 10px;
 }
 .deals-home .deals-header p.deals-excerpt {
 	line-height: 1.75 !important;
@@ -471,7 +483,9 @@ a.deals-button:visited {
 .deals-home .deals-details .woocommerce {
 	margin-bottom: 0 !important;
 }
-
+.wps_home_deals{
+	display:table;
+}
 /* **************************************************************************
 	More Deals on Home Page
    ************************************************************************** */
@@ -527,6 +541,7 @@ a.deals-button:visited {
 	color: #90867D;
 	text-decoration: none;
 	outline: 0;
+	border:none;
 }
 @media (max-width: 900px) {
 	.deals-navdeal span {
@@ -610,6 +625,11 @@ a.deals-button:visited {
 .deals-more-content .deals-more-content-img a img.attachment-deals-more {
 	max-height: 260px;
 }
+
+.deals-more-content .deals-more-content-img a img{
+	box-shadow:none;
+}
+
 .deals-timing {
 	text-align: center;
 }
@@ -691,6 +711,7 @@ a.deals-button:visited {
 .deals-more-content h3.deals-more-title a:hover {
 	text-decoration: none;
 	color: #000;
+	border:none;
 }
 .deals-more-content .deals-rating {
 	margin-bottom: 0;
@@ -1082,6 +1103,7 @@ div.product #sde.deals-single .deals-add-to-cart form.cart {
 }
 .deals-single-image {
 	margin-bottom: 15px;
+	text-align:center;
 }
 .deals-single-image img {
 	max-width: 100%;
@@ -1181,8 +1203,19 @@ p.business-address {
 }.deals-user-details label {
 	display: block;
 }
+.deals-firstname{
+	width:48%;
+	float:left;
+}
+.deals-lastname{
+	width:48%;
+	float:right;
+}
 .deals-checkout-button.deals-button {
 	width: auto;
+}
+.deals-cart-item-qty-value{
+	width:55px;
 }
 
 /* ==========================================================================
@@ -1221,8 +1254,14 @@ p.business-address {
 .deals-cart-success,
 .message_stack_success,
 .deals-success {
+	background-color: #f0faf8;	
 	border: 1px solid #2ecc71;
-	background-color: #f0faf8;
+}
+.message_stack_success{
+	margin-bottom: 15px;
+    padding:7px 5px;
+    border: 1px solid #2ecc71;
+    border-radius:4px;
 }
 .deals-success .deals-button.btn-small {
 	margin: 0 10px;
@@ -1625,6 +1664,7 @@ p.business-address {
 
 .deals-product-btn a {
   background-color: #3498db;
+  border:none;
   border-radius: 8px;
   color: #fff !important;
   float: left;
@@ -1637,7 +1677,9 @@ p.business-address {
 .deals-product-btn a:hover {
   background-color: #5dade2;
 }
-
+.deals-cart-loader{
+	max-width: 30px;
+}
 /** CSS for Buy now button for paypal adaptive Extension or Claim Text Extension End **/
 
 /** CSS for cart total for main deals plugin Start **/
@@ -1834,4 +1876,28 @@ color: #ff0000;
 /* css for hide paging loader */
 .deals-pagination-loader {
 	display:none;
+}
+
+/* css for deals gallery images */
+.deals-single-gallery-image ul li.deals-gallery-image{
+	Display: inline-block;
+	width: 25%;
+	max-width: 150px;
+	padding: 5px;
+}
+
+.deals-single-gallery-image ul li.deals-gallery-image a {
+	display: block;
+	border:none;
+}
+
+.deals-single-gallery-image ul li.deals-gallery-image a img{
+	width: 100%
+}
+
+/* ==========================================================================
+   My Account detail 
+   ========================================================================== */
+.deals-user-details input.deals-required-field{
+	width:100%;
 }

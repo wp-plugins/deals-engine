@@ -20,6 +20,7 @@ $btncolor = ( isset( $button_color ) && !empty( $button_color ) ) ? $button_colo
 		
 $regclass = is_user_logged_in() ? '' : ' deals-reg-button-submit';
 
+
 ?>
 
 <input type="hidden" name="wps_deals_submit_payment" value="<?php _e('Deals Purchase','wpsdeals');?>">

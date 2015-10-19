@@ -166,7 +166,7 @@ $cartdetails = $cart->get();
 										<input type="hidden" class="deals-cart-item-qty-value" item-id="<?php echo $item['dealid'];?>" value="<?php echo $quantity;?>" size="1"/>																		
 										<span><?php echo $quantity;?></span>
 								<?php } else { ?>
-										<input type="text" class="deals-cart-item-qty-value" item-id="<?php echo $item['dealid'];?>" value="<?php echo $quantity;?>" size="1"/>										
+										<input type="number" class="deals-cart-item-qty-value" item-id="<?php echo $item['dealid'];?>" value="<?php echo $quantity;?>" size="1"/>										
 								<?php } ?>								
 							</td>
 							<?php 

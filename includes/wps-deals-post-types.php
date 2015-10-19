@@ -21,7 +21,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @since 1.0.0 
  */
 function wps_deals_register_deal_post_type() {
-	
+	 
 	//array for all required labels
 	$deals_labels =  array(
 								'name' 				=> __('Deals','wpsdeals'),
@@ -54,7 +54,7 @@ function wps_deals_register_deal_post_type() {
 							'supports' 			=> apply_filters('wps_deals_post_type_supports', array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments' )),
 							'menu_icon'			=> WPS_DEALS_URL . 'includes/images/wps-icon.png'
 						);
-	
+	 
 	//Add filter to modify deals register post type arguments
 	$deals_args	= apply_filters( 'wps_deals_register_post_type_deals', $deals_args );
 	
@@ -110,6 +110,7 @@ function wps_deals_register_sales_post_types() {
 //register deals sales post type
 // we need to keep priority 100, because we need to execute this init action after all other init action called, only when hidden post type is need to created.
 add_action( 'init','wps_deals_register_sales_post_types', 100 );
+
 
 /**
  * Message Filter
@@ -418,5 +419,4 @@ function wps_deals_type_search( $query ) {
 	}
 }
 // Add action for display deals using deal type
-add_action( 'pre_get_posts', 'wps_deals_type_search' );
-?>
+add_action( 'pre_get_posts', 'wps_deals_type_search' ); ?>

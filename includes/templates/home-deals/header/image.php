@@ -24,7 +24,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	</div>
 
 	<a href="<?php echo $dealurl; ?>" title="<?php echo $dealtitle; ?>">
-		<img src="<?php echo $dealimgurl; ?>" alt="<?php echo $dealtitle; ?>" title="<?php echo $dealtitle; ?>" width="100%">
-	</a>
-		
+		<?php if(!empty($dealimgurl)){ ?>
+			<img src="<?php echo $dealimgurl; ?>" alt="<?php echo $dealtitle; ?>" title="<?php echo $dealtitle; ?>" width="100%">
+		<?php } else {
+			echo $dealimg;
+		}
+		?>
+	</a>	
 </div>

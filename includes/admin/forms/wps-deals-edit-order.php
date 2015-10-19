@@ -8,7 +8,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	$prefix = WPS_DEALS_META_PREFIX;
 	
 ?>
-	<div class="wrap">
+<div class="wrap">
 		
 <?php
 	
@@ -159,124 +159,141 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		} //end if to check update order button is clicked or not
 		
 ?>
-			<form method="POST" action="">
-		
-				<table class="form-table wps-deals-edit-sale">
-					<tbody>
-						<?php 
-								//add something before order edit table
-								do_action('wps_deals_edit_order_before',$orderid); 
-						?>
-						<tr>
-							<th><?php _e( 'Order ID :' ,'wpsdeals');?></th>
-							<td><?php echo $orderid;?>
-								<input type="hidden" name="wps-deals-edit-order-id" id="wps-deals-edit-order-id" value="<?php echo $orderid;?>" /></td>
-						</tr>
-					
-						<tr>
-							<th><?php _e( 'Buyer\'s Email :' ,'wpsdeals');?></th>
-							<td><input type="text" name="wps-deals-edit-order-email" id="wps-deals-edit-order-email" value="<?php echo $useremail;?>" class="large-text" /></td>
-						</tr>
-					
-						<tr>
-							<th><?php _e( 'Buyer\'s User ID :' ,'wpsdeals');?></th>
-							<td><?php echo $userid;?></td>
-						</tr>
-					
-						<tr>
-							<th><?php _e( 'Deals Purchased :' ,'wpsdeals');?></th>
-							<td>
+<div id="wps-deals-sales" class="post-box-container">
+	<div class="metabox-holder">	
+		<div class="meta-box-sortables ui-sortable">
+			<div id="order" class="postbox">	
+				<div class="handlediv" title="<?php _e( 'Click to toggle', 'wpsdeals' ); ?>"><br /></div>
+
+					<!-- general settings box title -->
+					<h3 class="hndle">
+						<span style='vertical-align: top;'><?php _e( 'Order Detail', 'wpsdeals' ); ?></span>
+					</h3>
+
+					<div class="inside">
+					<form method="POST" action="">
+				
+						<table class="form-table wps-deals-edit-sale">
+							<tbody>
+								<?php 
+										//add something before order edit table
+										do_action('wps_deals_edit_order_before',$orderid); 
+								?>
+								<tr>
+									<th><?php _e( 'Order ID :' ,'wpsdeals');?></th>
+									<td><?php echo $orderid;?>
+										<input type="hidden" name="wps-deals-edit-order-id" id="wps-deals-edit-order-id" value="<?php echo $orderid;?>" /></td>
+								</tr>
 							
-						<?php foreach ($orderdata['deals_details'] as $key => $deal) { ?>
-								<strong><?php echo get_the_title($deal['deal_id']);?></strong><br />
-						<?php } ?>
-							</td>
-						</tr>
-						<?php 
-						
-							$tracks = get_post_meta($orderid, $prefix.'order_track',true);
-							if(isset($tracks) && !empty($tracks)) { ?>
-										<tr>
-											<td colspan="2">
-												<table class="status-table" cellspacing="0" cellpadding="5" border="1">
-													<tbody>
-														<tr>
-															<th class="date"><?php _e('Date Added', 'wpsdeals' );?></th>
-															<th class="customer-notify"><?php _e('Customer Notified', 'wpsdeals' );?></th>
-															<th class="status"><?php _e('Status', 'wpsdeals' );?></th>
-															<th class="comments"><?php _e('Comments', 'wpsdeals' );?></th>
-														</tr>
-														<?php 
-														
-														foreach ($tracks as $track) { 
-															
-															$date = $model->wps_deals_get_date_format($track['date'],true);
-															$notified = $track['notify'];
-															$comments = $track['comments'];
-															$editstatus = $track['status'];
-															
-														?>
-														
-																<tr>
-																	<td><?php echo $date;?></td>
-																	<td>
-																		<?php	if($notified == '1') { ?>
-																					<img src="<?php echo WPS_DEALS_URL . 'includes/images/tick.gif';?>"/>		
-																		<?php 	} else{ ?>
-																					<img src="<?php echo WPS_DEALS_URL . 'includes/images/cross.gif';?>"/>
-																		<?php 	} ?>
-																	</td>
-																	<td><?php echo $model->wps_deals_paypal_value_to_status($editstatus);?></td>
-																	<td><?php echo $comments;?></td>
-																</tr>
-														
-														<?php }	?>
-													</tbody>
-												</table>
-											</td>
-										</tr>
-							<?php } ?>
-						<tr>
-							<th><?php _e( 'Payment Note :' ,'wpsdeals');?></th>
-							<td><textarea name="wps-deals-edit-order-payment-note" id="wps-deals-edit-order-payment-note" rows="5" class="large-text"></textarea></td>
-						</tr>
-						<tr>
-							<th><?php _e( 'Payment Status :' ,'wpsdeals');?></th>
-							<td>
-								<select name="wps-deals-edit-order-payment-status" id="wps-deals-edit-order-payment-status">
-							<?php 
-								//get all payment status
-								$statuses = wps_deals_get_payment_statuses();
-								//get payment status
-								$payment_status = $model->wps_deals_get_ordered_payment_status( $orderid , true );
+								<tr>
+									<th><?php _e( 'Buyer\'s Email :' ,'wpsdeals');?></th>
+									<td><input type="text" name="wps-deals-edit-order-email" id="wps-deals-edit-order-email" value="<?php echo $useremail;?>" class="large-text" /></td>
+								</tr>
+							
+								<tr>
+									<th><?php _e( 'Buyer\'s User ID :' ,'wpsdeals');?></th>
+									<td><?php echo $userid;?></td>
+								</tr>
+							
+								<tr>
+									<th><?php _e( 'Deals Purchased :' ,'wpsdeals');?></th>
+									<td>
+									
+								<?php foreach ($orderdata['deals_details'] as $key => $deal) { ?>
+										<strong><?php echo get_the_title($deal['deal_id']);?></strong><br />
+								<?php } ?>
+									</td>
+								</tr>
+								<?php 
 								
-									foreach ($statuses as $val => $status) { ?>
-										<option value="<?php echo $val;?>" <?php selected( $val, $payment_status, true);?>><?php echo $status;?></option>
-							<?php	} ?>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="checkbox" name="wps-deals-order-edit-notify" id="wps-deals-order-edit-notify" class="order-edit-check"/>
-								<label for="wps-deals-order-edit-notify"><strong><?php _e('Notify Customer','wpsdeals');?></strong></label>
-							</td>
-							<td>
-								<input type="checkbox" name="wps-deals-order-edit-append-comment" id="wps-deals-order-edit-append-comment" class="order-edit-check"/>
-								<label for="wps-deals-order-edit-append-comment"><strong><?php _e('Append Comments to status notification email','wpsdeals');?></strong></label>
-							</td>
-						</tr>
-						<?php
-								//add something after order edit table
-								do_action('wps_deals_edit_order_after',$orderid); 
-						?>
-						<tr>
-							<td><input type="submit" class="button-primary" name="wps-deals-order-edit-submit" id="wps-deals-order-edit-submit" value="<?php _e('Update Order','wpsdeals');?>" /></td>
-							<td><?php do_action( 'wps_deals_edit_order_beside_submit', $orderid );?></td>
-						</tr>
-					</tbody>
-				</table>
-			</form>
+									$tracks = get_post_meta($orderid, $prefix.'order_track',true);
+									if(isset($tracks) && !empty($tracks)) { ?>
+												<tr>
+													<td colspan="2">
+														<table class="status-table" cellspacing="0" cellpadding="5" border="1">
+															<tbody>
+																<tr>
+																	<th class="date"><?php _e('Date Added', 'wpsdeals' );?></th>
+																	<th class="customer-notify"><?php _e('Customer Notified', 'wpsdeals' );?></th>
+																	<th class="status"><?php _e('Status', 'wpsdeals' );?></th>
+																	<th class="comments"><?php _e('Comments', 'wpsdeals' );?></th>
+																</tr>
+																<?php 
+																
+																foreach ($tracks as $track) { 
+																	
+																	$date = $model->wps_deals_get_date_format($track['date'],true);
+																	$notified = $track['notify'];
+																	$comments = $track['comments'];
+																	$editstatus = $track['status'];
+																	
+																?>
+																
+																		<tr>
+																			<td><?php echo $date;?></td>
+																			<td>
+																				<?php	if($notified == '1') { ?>
+																							<img src="<?php echo WPS_DEALS_URL . 'includes/images/tick.gif';?>"/>		
+																				<?php 	} else{ ?>
+																							<img src="<?php echo WPS_DEALS_URL . 'includes/images/cross.gif';?>"/>
+																				<?php 	} ?>
+																			</td>
+																			<td><?php echo $model->wps_deals_paypal_value_to_status($editstatus);?></td>
+																			<td><?php echo $comments;?></td>
+																		</tr>
+																
+																<?php }	?>
+															</tbody>
+														</table>
+													</td>
+												</tr>
+									<?php } ?>
+								<tr>
+									<th><?php _e( 'Payment Note :' ,'wpsdeals');?></th>
+									<td><textarea name="wps-deals-edit-order-payment-note" id="wps-deals-edit-order-payment-note" rows="5" class="large-text"></textarea></td>
+								</tr>
+								<tr>
+									<th><?php _e( 'Payment Status :' ,'wpsdeals');?></th>
+									<td>
+										<select name="wps-deals-edit-order-payment-status" id="wps-deals-edit-order-payment-status">
+									<?php 
+										//get all payment status
+										$statuses = wps_deals_get_payment_statuses();
+										//get payment status
+										$payment_status = $model->wps_deals_get_ordered_payment_status( $orderid , true );
+										
+											foreach ($statuses as $val => $status) { ?>
+												<option value="<?php echo $val;?>" <?php selected( $val, $payment_status, true);?>><?php echo $status;?></option>
+									<?php	} ?>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="checkbox" name="wps-deals-order-edit-notify" id="wps-deals-order-edit-notify" class="order-edit-check"/>
+										<label for="wps-deals-order-edit-notify"><strong><?php _e('Notify Customer','wpsdeals');?></strong></label>
+									</td>
+									<td>
+										<input type="checkbox" name="wps-deals-order-edit-append-comment" id="wps-deals-order-edit-append-comment" class="order-edit-check"/>
+										<label for="wps-deals-order-edit-append-comment"><strong><?php _e('Append Comments to status notification email','wpsdeals');?></strong></label>
+									</td>
+								</tr>
+								<?php
+										//add something after order edit table
+										do_action('wps_deals_edit_order_after',$orderid); 
+								?>
+								<tr>
+									<td><input type="submit" class="button-primary" name="wps-deals-order-edit-submit" id="wps-deals-order-edit-submit" value="<?php _e('Update Order','wpsdeals');?>" /></td>
+									<td><?php do_action( 'wps_deals_edit_order_beside_submit', $orderid );?></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div><!-- .inside -->
+			</div><!-- #general -->
+		</div><!-- .meta-box-sortables ui-sortable -->
+	</div><!-- .metabox-holder -->
+</div><!-- #wps-deals-general -->
 		</div><!--wrap-->
 <?php		
 	} //end if to check action is editorder & order_id is set or not

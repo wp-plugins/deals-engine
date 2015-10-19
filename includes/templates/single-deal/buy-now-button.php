@@ -16,10 +16,11 @@ global $wps_deals_options;
 
 ?>
 
-<div class="<?php echo $btncolor; ?> deals-button btn-big deals-col-12">
 
-	<a href="<?php echo $payurl; ?>" class="wps-deals-buy-now">
+<!--<div class="<?php //echo $btncolor; ?> deals-button btn-big deals-col-12">
+-->
+	<a href="<?php echo $payurl; ?>" class="wps-deals-buy-now <?php echo $btncolor; ?> deals-button btn-big deals-col-12 ">
 		<?php echo apply_filters( 'wps_deals_view_cart_text', $buynowtext, $buynowtext, $displayprice ) ;?>
 	</a>
 	
-</div>
+<!--</div>-->

@@ -274,9 +274,30 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 */
 	function wps_deals_get_settings() {
 		
+		
 		$settings = is_array(get_option('wps_deals_options')) 	? get_option('wps_deals_options') 	: array();
 		
 		return apply_filters( 'wps_deals_get_settings', $settings );
+	}
+	
+	/**
+	 * Rewrite End-points
+	 * Need to flush when rewrite end-points
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.2.4
+	 */
+	function wps_deals_rewrite_endpoints() {
+		
+		global $wps_deals_query;
+		
+		// Re-add endpoints and flush rules
+		$wps_deals_query->init_query_vars();
+		$wps_deals_query->add_endpoints();
+		
+		
+		flush_rewrite_rules();
+		
 	}
 
 	/**
@@ -355,9 +376,9 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		$options = wps_deals_get_settings();
 		
 		$sendmyaccount = get_permalink($options['my_account_page']);
-	
-		$sendmyaccounturl = add_query_arg( $queryarg, $sendmyaccount );
 		
+		$sendmyaccounturl = add_query_arg( $queryarg, $sendmyaccount );
+		 
 		wp_redirect( apply_filters( 'wps_deals_my_account_page_redirect', $sendmyaccounturl, $queryarg ) );
 		exit;
 	}
@@ -412,7 +433,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		$options = wps_deals_get_settings();
 		
-		$sendchangepassword = get_permalink($options['change_password']);
+		$sendchangepassword = get_permalink($options['edit_account_endpoint']);
 	
 		$sendchangepasswordurl = add_query_arg( $queryarg, $sendchangepassword );
 		
@@ -431,8 +452,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		
 		$options = wps_deals_get_settings();
 		
-		$sendlostpassword = get_permalink($options['lost_password']);
-	
+		// Take lost password page slug for get link
+		$lost_pass_slug = isset($options['lost_password_endpoint']) ? $options['lost_password_endpoint'] : 'lost-password';
+		
+		$sendlostpassword = get_permalink($lost_pass_slug);
+
 		$sendlostpasswordurl = add_query_arg( $queryarg, $sendlostpassword );
 		
 		wp_redirect( apply_filters( 'wps_deals_lost_password_page_redirect', $sendlostpasswordurl, $queryarg ) );
@@ -808,7 +832,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		if( is_page( wps_deals_get_page_id( 'my_account_page' ) ) 
 			|| is_page( wps_deals_get_page_id( 'edit_adderess' ) ) 
 			|| is_page( wps_deals_get_page_id( 'ordered_page' ) ) 
-			|| is_page( wps_deals_get_page_id( 'change_password' ) )
+			|| is_page( wps_deals_get_page_id( 'edit_account_endpoint' ) )
 			|| is_page( wps_deals_get_page_id( 'lost_password' ) ) 
 			|| apply_filters( 'wps_deals_is_account_page', false ) ) {
 			
@@ -976,6 +1000,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 * @return string
 	 */
 	function wps_deals_get_endpoint_url( $endpoint, $permalink = '', $value = '') {
+		
 		if ( ! $permalink )
 			$permalink = get_permalink();
 			
@@ -990,7 +1015,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		} else {
 			$url = add_query_arg( $endpoint, $value, $permalink );
 		}
-			
+		
 		return apply_filters( 'wps_deals_get_endpoint_url', $url);
 	}
 	
@@ -1001,9 +1026,13 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 * @since 2.0.7
 	 * @return string
 	 */
-	function wps_deals_create_account_url() {				
+	function wps_deals_create_account_url() {	
+
+		global $wps_deals_options;	
 		
-		$create_account_url = wps_deals_get_endpoint_url( 'create-an-account', get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
+		$create_account_endpoint = !empty($wps_deals_options['create_an_account_endpoint']) ? $wps_deals_options['create_an_account_endpoint'] : 'create-an-account';
+		
+		$create_account_url = wps_deals_get_endpoint_url( $create_account_endpoint , get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
 				
 		return apply_filters( 'wps_deals_create_account_url', $create_account_url );
 	}
@@ -1017,7 +1046,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 */
 	function wps_deals_change_password_url() {
 		
-		$change_password_url = wps_deals_get_endpoint_url( 'change-password', get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
+		global $wps_deals_options;
+		
+		$edit_acc_endpoint = !empty($wps_deals_options['edit_account_endpoint']) ? $wps_deals_options['edit_account_endpoint'] : 'edit-account';
+		
+		$change_password_url = wps_deals_get_endpoint_url( $edit_acc_endpoint , get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
 		
 		return apply_filters( 'wps_deals_change_password_url', $change_password_url);
 	}
@@ -1031,7 +1064,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 */
 	function wps_deals_view_orders_url() {
 		
-		$view_orders_url = wps_deals_get_endpoint_url( 'view-orders', get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
+		global $wps_deals_options;
+		
+		$view_orders_endpoint = !empty($wps_deals_options['view_orders_endpoint']) ? $wps_deals_options['view_orders_endpoint'] : 'view-orders';
+		
+		$view_orders_url = wps_deals_get_endpoint_url( $view_orders_endpoint , get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
 		
 		return apply_filters( 'wps_deals_view_orders_url', $view_orders_url);
 	}
@@ -1045,7 +1082,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 */
 	function wps_deals_lost_password_url() {
 		
-		$lost_password_url = wps_deals_get_endpoint_url( 'lost-password', get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
+		global $wps_deals_options;	
+		
+		$lost_password_endpoint = !empty($wps_deals_options['lost_password_endpoint']) ? $wps_deals_options['lost_password_endpoint'] : 'lost-password';
+		
+		$lost_password_url = wps_deals_get_endpoint_url( $lost_password_endpoint , get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
 		
 		return apply_filters( 'wps_deals_lost_password_url', $lost_password_url);
 	}
@@ -1059,7 +1100,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 */
 	function wps_deals_edit_address_url() {
 		
-		$edit_address_url = wps_deals_get_endpoint_url( 'edit-address', get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
+		global $wps_deals_options;	
+		
+		$edit_address_endpoint = !empty($wps_deals_options['edit_address_endpoint']) ? $wps_deals_options['edit_address_endpoint'] : 'edit-address';
+		
+		$edit_address_url = wps_deals_get_endpoint_url( $edit_address_endpoint , get_permalink( wps_deals_get_page_id( 'my_account_page' ) ) );
 		
 		return apply_filters( 'wps_deals_edit_address_url', $edit_address_url);
 	}
@@ -1073,7 +1118,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 */
 	function wps_deals_checkout_thank_you_url() {		
 		
-		$checkout_thank_you_url = wps_deals_get_endpoint_url( 'social-deals-thank-you-page', get_permalink( wps_deals_get_page_id( 'payment_checkout_page' ) ) );
+		global $wps_deals_options;	
+		
+		$deals_thank_you_page_endpoint = !empty($wps_deals_options['deals_thank_you_page_endpoint']) ? $wps_deals_options['deals_thank_you_page_endpoint'] : 'social-deals-thank-you-page';
+		
+		$checkout_thank_you_url = wps_deals_get_endpoint_url( $deals_thank_you_page_endpoint , get_permalink( wps_deals_get_page_id( 'payment_checkout_page' ) ) );
 				
 		return apply_filters( 'wps_deals_checkout_thank_you_url', $checkout_thank_you_url);
 	}
@@ -1087,7 +1136,11 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	 */
 	function wps_deals_checkout_cancel_url() {		
 		
-		$checkout_cancel_url = wps_deals_get_endpoint_url( 'social-deals-cancel-page', get_permalink( wps_deals_get_page_id( 'payment_checkout_page' ) ) );
+		global $wps_deals_options;	
+		
+		$deals_cancel_page_endpoint = !empty($wps_deals_options['deals_cancel_page_endpoint']) ? $wps_deals_options['deals_cancel_page_endpoint'] : 'social-deals-cancel-page';
+		
+		$checkout_cancel_url = wps_deals_get_endpoint_url( $deals_cancel_page_endpoint , get_permalink( wps_deals_get_page_id( 'payment_checkout_page' ) ) );
 				
 		return apply_filters( 'wps_deals_checkout_cancel_url', $checkout_cancel_url);
 	}

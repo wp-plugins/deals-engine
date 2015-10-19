@@ -77,9 +77,9 @@ global $wps_deals_payment_log;
 								<?php do_action('wps_deals_add_payment_gateways_settings_before');?>
 								
 								<tr>
-									<td colspan="2" valign="top" scope="row">
+									<th colspan="2" valign="top" scope="row">
 										<span class="wps-deals-settings-sep-first"><?php _e( 'Paypal Settings', 'wpsdeals' ); ?></span>
-									</td>
+									</th>
 								</tr>						
 								
 								<tr>
@@ -133,9 +133,9 @@ global $wps_deals_payment_log;
 								<?php do_action('wps_deals_add_cheque_payment_gateways_settings_before');?>
 								
 								<tr>
-									<td colspan="2" valign="top" scope="row">
+									<th colspan="2" valign="top" scope="row">
 										<span class="wps-deals-settings-sep-first"><?php _e( 'Cheque Payment Settings', 'wpsdeals' ); ?></span>
-									</td>
+									</th>
 								</tr>						
 								
 								<tr>

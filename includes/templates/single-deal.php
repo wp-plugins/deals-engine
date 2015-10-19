@@ -72,4 +72,4 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	//get footer
 	get_footer( 'deals' ); 
 	
-?>	
+?>

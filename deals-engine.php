@@ -3,7 +3,7 @@
  * Plugin Name: Social Deals Engine
  * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
  * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
- * Version: 2.2.4
+ * Version: 2.2.5
  * Author: WPSocial.com
  * Author URI: http://wpsocial.com
  * 
@@ -33,7 +33,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '2.2.4' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.2.5' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -305,7 +305,7 @@ function wps_deals_install() {
 													));
 									
 		// set default settings
-		wps_deals_default_settings();				
+		wps_deals_default_settings();
 		
 		//update plugin version to option
 		update_option( 'wps_deals_set_option', '1.0' );
@@ -699,11 +699,53 @@ function wps_deals_install() {
 	  
 	} //check plugin set option value is 1.2.3
 	
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+	
 	if( $wps_deals_set_option == '1.2.4' ) {
-	  
-		// future code here
+		
+		// this option contains end-points permalinks options
+		$wps_deals_options['deals_thank_you_page_endpoint']	= 'social-deals-thank-you-page';
+		$wps_deals_options['deals_cancel_page_endpoint']	= 'social-deals-cancel-page';
+		$wps_deals_options['edit_account_endpoint']			= 'edit-account';
+		$wps_deals_options['edit_address_endpoint']			= 'edit-address';
+		$wps_deals_options['lost_password_endpoint']		= 'lost-password';
+		$wps_deals_options['view_orders_endpoint']			= 'view-orders';
+		$wps_deals_options['create_an_account_endpoint']	= 'create-an-account';
+
+		// Update end-points permalinks options
+		update_option( 'wps_deals_options', $wps_deals_options );
+													
+		// update plugin version to option
+		update_option( 'wps_deals_set_option', '1.2.5' );
 	  
 	} //check plugin set option value is 1.2.4
+	
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+	
+	if( $wps_deals_set_option == '1.2.4' ) {
+	  
+		if( !isset( $wps_deals_options['enable_lightbox'] ) ) {
+			$lightbox = array( 'enable_lightbox' => '1' );
+			$wps_deals_options = array_merge( $wps_deals_options, $lightbox );
+			$udpopt = true;
+		}
+		
+		if( $udpopt == true ) { // if any of the settings need to be updated
+			update_option( 'wps_deals_options', $wps_deals_options );
+		}
+		
+		// update plugin version to option
+		update_option( 'wps_deals_set_option', '1.2.5' ); 
+		
+	}
+	
+	$wps_deals_set_option = get_option( 'wps_deals_set_option' );
+	
+	if( $wps_deals_set_option == '1.2.5' ) {
+		
+		// future code here
+	  
+	} //check plugin set option value is 1.2.5
 	
 	//Action for theme supports
 	do_action( 'wpsdeals_updated' );
@@ -1009,7 +1051,16 @@ function wps_deals_default_settings() {
 								'login_heading'					=> __( 'Login with Social Media', 'wpsdeals' ),
 								'login_redirect_url'			=> '',
 								'email_template'				=> '',
-								'enable_billing'				=> ''
+								'enable_billing'				=> '',
+								'purchase_limit_label'			=> __( 'Sold Out', 'wpsdeals' ),
+								'deals_thank_you_page_endpoint'	=> __( 'social-deals-thank-you-page', 'wpsdeals' ),
+								'deals_cancel_page_endpoint'	=> __( 'social-deals-cancel-page', 'wpsdeals' ),
+								'edit_account_endpoint'			=> __( 'edit-account', 'wpsdeals' ),
+								'edit_address_endpoint'			=> __( 'edit-address', 'wpsdeals' ),
+								'lost_password_endpoint'		=> __( 'lost-password', 'wpsdeals' ),
+								'view_orders_endpoint'			=> __( 'view-orders', 'wpsdeals' ),
+								'create_an_account_endpoint'	=> __( 'create-an-account', 'wpsdeals' ),
+								'enable_lightbox'				=> '1'
 							);
 	
 	$default_options = apply_filters('wps_deals_options_values',$wps_deals_options );
@@ -1019,6 +1070,7 @@ function wps_deals_default_settings() {
 	
 	//overwrite global variable when option is update
 	$wps_deals_options = wps_deals_get_settings();
+	
 }
 
 /**
@@ -1104,6 +1156,11 @@ global	$wps_deals_session,$wps_deals_fees,
  * @since 1.0.0
  * 
  **/
+// loads the Misc Functions file
+require_once ( WPS_DEALS_DIR . '/includes/wps-deals-misc-functions.php' );
+$wps_deals_options = wps_deals_get_settings();
+wps_deals_initialize();
+
 // loads Query class
 include( 'includes/class-wps-deals-query.php' );  // The main query class
 $wps_deals_query = new Wps_Deals_Query();
@@ -1115,11 +1172,6 @@ require_once ( WPS_DEALS_DIR . '/includes/wps-deals-countries-states.php' );
 // loads the Misc Functions file
 require_once ( WPS_DEALS_DIR . '/includes/class-wps-deals-session.php' );
 $wps_deals_session = new Wps_Deals_Session();
-
-// loads the Misc Functions file
-require_once ( WPS_DEALS_DIR . '/includes/wps-deals-misc-functions.php' );
-$wps_deals_options = wps_deals_get_settings();
-wps_deals_initialize();
 
 include_once( WPS_DEALS_DIR . '/includes/class-wps-deals-message-stack.php'); // message class, handles the messages after review submission
 $wps_deals_message = new Wps_Deals_Message_Stack();
@@ -1198,6 +1250,9 @@ require_once ( WPS_DEALS_META_DIR . '/wps-deals-meta-box-functions.php' );
 require_once ( WPS_DEALS_META_DIR . '/class-wps-deals-meta-box.php' );
 $wps_deals_metabox = new Wps_Deals_Meta_Box();
 $wps_deals_metabox->add_hooks();
+
+//include the meta deals images file for metabox
+require_once ( WPS_DEALS_META_DIR . '/class-wps-meta-box-deals-images.php' );
 
 //Post type to handle custom post type
 require_once( WPS_DEALS_DIR . '/includes/wps-deals-post-types.php' );

@@ -54,6 +54,22 @@ global $wps_deals_model;
 			</tbody>
 		</table>
 		
+		<div id="wps_deals_home_deals_options" class="wps-deals-shortcodes-options">
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<label><?php _e( 'Number of Deals:', 'wpsdeals' );?></label>		
+						</th>
+						<td>
+							<input type="number" min="1" name="wps_deals_home_deals_options" class="small-text wps_deals_home_deals" id="wps_home_number_of_deals" value="1"><br>
+							<span class="description"><?php _e( 'Enter the number of deals you want to display. Leave it blank if you don\'t want to limit deals listing.', 'wpsdeals' );?></span>
+						</td>				
+					</tr>
+				</tbody>
+			</table>
+		</div><!--wps_home_number_of_deals_options-->
+		
 		<div id="wps_deals_status_options" class="wps-deals-shortcodes-options">
 		
 			<table class="form-table">

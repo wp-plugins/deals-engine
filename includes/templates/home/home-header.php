@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		if( $loop->have_posts() ) {
 			
 			while ( $loop->have_posts() ) : $loop->the_post();
-		
+			 
 				//do action to show home page header deal content
 				do_action( 'wps_deals_home_header_content' );
 		?>			
@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 					?>
 						
 				</div><!--span4-->
-			
+			 
 			<?php 
 					endwhile;
 		}

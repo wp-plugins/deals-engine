@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		if( $loop->have_posts() ) {
 			
 			while( $loop->have_posts() ) : $loop->the_post();
-		
+				echo '<div class="wps_home_deals">';
 				/**
 				 * wps_deals_change_password_top hook
 				 *
@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 				 * @hooked wps_deals_home_header_right - 15
 				 */
 				do_action( 'wps_deals_home_header_data' );
-
+				echo '</div>';
 			endwhile;
 		}
 		

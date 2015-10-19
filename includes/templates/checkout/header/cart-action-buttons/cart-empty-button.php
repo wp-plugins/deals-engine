@@ -12,6 +12,8 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
+global $wps_deals_options;
+
 ?>
 
 <button name="wps_deals_cart_empty" class="deals-button deals-cart-empty">

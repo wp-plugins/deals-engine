@@ -30,6 +30,9 @@ jQuery(document).ready(function($) {
 						
 						switch ( select_shortcode ) {
 							
+							case 'wps_home_deals' :
+									$( '#wps_deals_home_deals_options' ).show();
+									break;
 							case 'wps_deals_by_status' :
 							
 									$( '#wps_deals_status_options' ).show();
@@ -87,6 +90,9 @@ jQuery(document).ready(function($) {
 			
 			switch ( select_shortcode ) {
 				
+				case 'wps_home_deals':
+						$( '#wps_deals_home_deals_options' ).show();
+						break;
 				case 'wps_deals_by_status' :
 							
 						$( '#wps_deals_status_options' ).show();
@@ -131,6 +137,12 @@ jQuery(document).ready(function($) {
 				
 				switch(dealsshortcode) {
 					
+					case 'wps_home_deals':
+								var options='';
+								var no_of_deals = $('#wps_home_number_of_deals').val();
+								options += 'num_deals="'+ no_of_deals +'"'; 
+								dealsshortcodestr += '['+dealsshortcode+' '+options+'][/'+dealsshortcode+']';
+								break;
 					case 'wps_deals_by_status'	:
 								var options = '';
 								if( $( '#wps_deals_enable_active' ).is(":checked") ) {

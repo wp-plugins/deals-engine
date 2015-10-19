@@ -606,6 +606,10 @@ jQuery(document).ready(function($){
 		
 		var error 		= false;
 		var errorstr 	= '';
+		var firstname	= $('#deals_firstname');
+		var lastname	= $('#deals_lastname');
+		var email		= $('#deals_email_address');
+		var curpass		= $('#deals_current_password');
 		var password1	= $('#deals_new_password');
 		var password2	= $('#deals_re_enter_password');
 		var errel		= $('.deals-change-password-error');
@@ -613,8 +617,34 @@ jQuery(document).ready(function($){
 		//hide errors when click on button
 		errel.hide();
 		errel.html('');
-	
-		//check password 1
+		
+		//check first name
+		if( $.trim(firstname.val()) == '' ) {
+			error = true;
+			errorstr += Wps_Deals_Billing.firstname;
+			firstname.addClass('error').removeClass('valid');
+		}
+		//check last name
+		if( $.trim(lastname.val()) == '' ) {
+			error = true;
+			errorstr += Wps_Deals_Billing.lastname;
+			lastname.addClass('error').removeClass('valid');
+		}
+		//check email address
+		if( email.val() == '' ) {
+			error = true;
+			errorstr += Wps_Deals_Billing.email;
+			email.addClass('error').removeClass('valid');
+		}else {
+			emailerror = wps_deals_valid_email(email.val());
+			if(emailerror != true) {
+				error = true;
+				errorstr += Wps_Deals_Billing.email;
+				email.addClass('error').removeClass('valid');
+			}
+		}
+		
+		/*//check password 1
 		if( password1.val() == '' ) {
 			error = true;
 			errorstr += Wps_Deals_Billing.password1;
@@ -626,13 +656,35 @@ jQuery(document).ready(function($){
 			errorstr += Wps_Deals_Billing.password2;
 			password2.addClass('error').removeClass('valid');
 		}
+		*/
 		
-		if( password1.val() != '' && password2.val() != '' && password1.val() != password2.val() ) {
-			error = true;
-			errorstr += Wps_Deals_Billing.comparepassword;
-			password2.addClass('error').removeClass('valid');
+		if( curpass.val() != '' || password1.val() != '' || password2.val() ) {
+			
+			if( curpass.val() == '' ) {
+				error = true;
+				errorstr += Wps_Deals_Billing.currentpassword;
+				curpass.addClass('error').removeClass('valid');
+			}
+			
+			if( password1.val() == '' ) {
+				error = true;
+				errorstr += Wps_Deals_Billing.comparepassword;
+				password1.addClass('error').removeClass('valid');
+			}
+			
+			if( password2.val()== '' ) {
+				error = true;
+				errorstr += Wps_Deals_Billing.password2;
+				password2.addClass('error').removeClass('valid');
+			}
+			
+			if( password1.val() != '' && password2.val() != '' && password1.val() != password2.val() ) {
+				error = true;
+				errorstr += Wps_Deals_Billing.comparepassword;
+				password2.addClass('error').removeClass('valid');
+			}
 		}
-		
+			
 		if( error == true ) {
 			
 			errel.html( errorstr );
@@ -1015,6 +1067,8 @@ jQuery(document).ready(function($){
 			}			
 		});
 	});
+	
+	
 	
 });
 // validation of email

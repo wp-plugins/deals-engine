@@ -59,18 +59,30 @@ class Wps_Deals_Shortcodes {
 	 * @package Social Deals Engine
 	 * @since 1.0.0 
 	 */
-	public function wps_home_deals($content) {
+	public function wps_home_deals( $atts, $content) {
 						
 		global $wps_deals_options;
-	
+
 		// get deal size
 		$deal_size = $wps_deals_options['deals_size'];
+		
+		
+		// Getting attributes of shortcode
+		extract( shortcode_atts( array(	
+	    	'num_deals'		=> 1,
+		), $atts ) );
+		
+		$args = array(
+				'num_deals' => $num_deals,
+			);
+	
+		$args = apply_filters( 'wps_home_deals', $args );
 		
 		ob_start();
 		?>
 		<div class="deals-container deals-clearfix">
 			<div class="deals-home <?php echo $deal_size; ?>">
-				<?php do_action( 'wps_deals_home_header_shortcode' ); ?>
+				<?php do_action( 'wps_deals_home_header_shortcode', $args ); ?>
 			</div>
 		</div>
 		<?php $content .= ob_get_clean();
@@ -142,6 +154,8 @@ class Wps_Deals_Shortcodes {
 		global $wp;
 		
 		ob_start();
+		
+		
 		
 		//if query vars is social deals thankyou page
 		if(isset($wp->query_vars['social-deals-thank-you-page'])) {
@@ -463,7 +477,7 @@ class Wps_Deals_Shortcodes {
 	 **/
 	public function wps_deals_my_account( $atts, $content ) {
 
-		global $wp;				
+		global $wp , $wps_deals_options;				
 		 
 		ob_start();
 		
@@ -492,8 +506,7 @@ class Wps_Deals_Shortcodes {
 			
 		} else { //if user is logged in
 			
-			// if query vars is change password
-			if( isset($wp->query_vars['change-password']) ) {
+			if( isset($wp->query_vars['edit-account'] ) ) {
 				
 				//load change password page
 				wps_deals_get_template( 'change-password.php' );

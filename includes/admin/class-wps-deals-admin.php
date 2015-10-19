@@ -17,7 +17,7 @@ class Wps_Deals_AdminPages {
 	
 	public function __construct() {		
 	
-		global $wps_deals_model,$wps_deals_render,$wps_deals_scripts,
+		global  $wps_deals_model,$wps_deals_render,$wps_deals_scripts,
 				$wps_deals_currency,$wps_deals_price,$wps_deals_logs,
 				$wps_deals_message,$wps_deals_render;
 				
@@ -70,6 +70,7 @@ class Wps_Deals_AdminPages {
 		add_action( "admin_head-$deal_sales_page", array( $this->scripts, 'wps_deals_sales_head_scripts' ) );
 		add_action( "admin_print_scripts-$deal_sales_page", array( $this->scripts, 'wps_deal_popup_scritps' ) );
 		add_action( "admin_print_styles-$deal_sales_page", array( $this->scripts, 'wps_deals_sales_styles' ) );
+		add_action( "admin_head-$deal_sales_page", array( $this->scripts, 'wps_deals_order_detail_scripts' ) );
 		add_action( "admin_print_scripts-$reports_page", array( $this->scripts, 'wps_deal_report_graph_scritps' ) );
 		
 		//script for social login page
@@ -236,6 +237,16 @@ class Wps_Deals_AdminPages {
 		$input['wl_client_secrets']		= $this->model->wps_deals_escape_slashes_deep( $input['wl_client_secrets'] );
 		$input['wl_icon_url']			= $this->model->wps_deals_escape_slashes_deep( $input['wl_icon_url'] );
 		
+		// Endpoints settings
+		$input['deals_thank_you_page_endpoint'] 	= $this->model->wps_deals_escape_slashes_deep( trim( $input['deals_thank_you_page_endpoint'] ) );
+		$input['deals_cancel_page_endpoint'] 		= $this->model->wps_deals_escape_slashes_deep( trim( $input['deals_cancel_page_endpoint'] ) );
+		$input['edit_account_endpoint'] 			= $this->model->wps_deals_escape_slashes_deep( trim( $input['edit_account_endpoint'] ) );
+		$input['edit_address_endpoint'] 			= $this->model->wps_deals_escape_slashes_deep( trim( $input['edit_address_endpoint'] ) );
+		$input['lost_password_endpoint'] 			= $this->model->wps_deals_escape_slashes_deep( trim( $input['lost_password_endpoint'] ) );
+		$input['view_orders_endpoint'] 				= $this->model->wps_deals_escape_slashes_deep( trim( $input['view_orders_endpoint'] ) );
+		$input['create_an_account_endpoint'] 		= $this->model->wps_deals_escape_slashes_deep( trim( $input['create_an_account_endpoint'] ) );
+		
+		
 		// writing the custom css to wps-deals-custom.css
 		if( isset( $_POST['wps-deals-settings-submit'] ) && $_POST['wps-deals-settings-submit'] == __( 'Save Custom CSS', 'wpsdeals' ) ) {
 			$input['custom_css'] = $this->model->wps_deals_escape_slashes_deep( $input['custom_css'] );
@@ -298,39 +309,77 @@ class Wps_Deals_AdminPages {
 	 * @since 1.0.0
 	 * 
 	 */
-	function wps_deals_quick_edit_values($column_name, $post_type) {
+	function wps_deals_quick_edit_values( $column_name, $post_type ) {
 
 		global $wps_deals_options;
 		
-		if($post_type == WPS_DEALS_POST_TYPE) {
+		$html = '';
+		
+		if( $post_type == WPS_DEALS_POST_TYPE ) {
 			
-			$html ='<fieldset class="inline-edit-col-left">
+			
+			
+			$prefix	= WPS_DEALS_META_PREFIX;
+			
+			static $wps_start_end_date = TRUE;
+		    
+			if ( $wps_start_end_date ) {
+		        
+		    	$wps_start_end_date = FALSE; 
+				
+		    	$html .= '<fieldset><div class="inline-edit-col"><h4>'.__('Deals Data', 'wpsdeals' ).'</h4></div></fieldset>';
+		    	
+		    	// deals start date		    	
+		       	/*$html .='<fieldset class="inline-edit-col-left">
+							<div class="inline-edit-col">
+								<label>
+									<span class="title checkbox-title wpsc-quick-edit">'.__('Start Date','wpsdeals').'</span>
+									<span class="input-text-wrap"><input type="text" rel="dd-mm-yy" name="'.$prefix.'start_date" class="span_input wps_deals_quick_start_date wps_deals_quick_edit_datetime"/></span>
+								</label>
+							</div>
+						</fieldset>';
+		       	
+				// deals end date
+		       	$html .='<fieldset class="inline-edit-col-left">	
+							<div class="inline-edit-col">
+								<label>
+									<span class="title checkbox-title wpsc-quick-edit">'.__('End Date','wpsdeals').'</span>
+									<span class="input-text-wrap"><input type="text" rel="dd-mm-yy" name="'.$prefix.'end_date"  class="span_input wps_deals_quick_end_date wps_deals_quick_edit_datetime"/></span>
+								</label>				
+							</div>
+				    	</fieldset>';*/
+		    }
+			
+			$html .='<fieldset class="inline-edit-col-left">
 					<div class="inline-edit-col">';
 				
 					switch($column_name){
 					
 						case "available"	: 
-												$html .='<span class="span_title checkbox-title wpsc-quick-edit">'.__('Total Available Deal:','wpsdeals').'</span>
-														<input type="text" name="wps_deals_avail_total" class="wps_deals_quick_avail_total"/></br>';
+												$html .='<label><span class="title checkbox-title wpsc-quick-edit">'.__('Total Available Deals','wpsdeals').'</span>
+														<span class="input-text-wrap"><input type="text" name="wps_deals_avail_total" class="span_input wps_deals_quick_avail_total"/></span>';
 												break;
 						
 						case "normal_price"	: 
-												$html .='<span class="span_title checkbox-title wpsc-quick-edit">'.__('Deal Normal Price', 'wpsdeals' ) . ' ( '.$this->currency->wps_deals_currency_symbol($wps_deals_options['currency']).' )</span>
-														<input type="text" width="30%" name="wps_deals_normal_price" class="wps_deals_quick_normal_price"/>';
+												$html .='<label><span class="title checkbox-title wpsc-quick-edit">'.__('Normal Price', 'wpsdeals' ) . ' ( '.$this->currency->wps_deals_currency_symbol($wps_deals_options['currency']).' )</span>
+														<span class="input-text-wrap"><input type="text" name="wps_deals_normal_price" class="span_input wps_deals_quick_normal_price"/></span>';
 												break;
 						
 						case "deal_price"	:  
-												$html.='<span class="span_title checkbox-title wpsc-quick-edit">'.__('Deal Sale Price', 'wpsdeals' ) . ' ( '.$this->currency->wps_deals_currency_symbol($wps_deals_options['currency']).' )</span>
-														<input type="text" name="wps_deals_sale_price" class="wps_deals_quick_sale_price"/>';
+												$html.='<label><span class="title checkbox-title wpsc-quick-edit">'.__('Deal Price', 'wpsdeals' ) . ' ( '.$this->currency->wps_deals_currency_symbol($wps_deals_options['currency']).' )</span>
+														<span class="input-text-wrap"><input type="text" name="wps_deals_sale_price" class="span_input wps_deals_quick_sale_price"/></span>';
 												break;
 																
-						case "featured_deal"	: 
-												$html .='<span class="span_title checkbox-title wpsc-quick-edit">'.__('Featured Deal:','wpsdeals').'</span>
-														<input type="checkbox" name="wps_deals_featured_deal" class="wps_deals_quick_featured_deal" /></br>';
+						case "featured_deal": 
+												$html .='<label><span class="title checkbox-title wpsc-quick-edit">'.__('Featured Deal','wpsdeals').'</span>
+															<span class="input-text-wrap"><input type="checkbox" name="wps_deals_featured_deal" class="span_checkbox wps_deals_quick_featured_deal" /></span>';
 												break;
-						
 						default:	
-					}	 
+						
+		 
+							
+					}
+						 
 			$html .= '</div>
 		    </fieldset>';
 			echo $html;
@@ -354,17 +403,33 @@ class Wps_Deals_AdminPages {
 		if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return; //Imp Line When auto save run to prevent the post meta box data
 		
 		if(isset($post_id) && $post1->post_type == WPS_DEALS_POST_TYPE && (isset($_POST['post_ID']) && $_POST['post_ID'] == $post_id)) { //if isset post id is set and post type is deals post type and $_POST['post_ID'] is equal to meta box's post ID then update meta only
-			
+			  
 			$available 		= isset($_POST['wps_deals_avail_total']) 	?	$_POST['wps_deals_avail_total'] 	: '';
 			$normal_price 	= isset($_POST['wps_deals_normal_price']) 	?	$_POST['wps_deals_normal_price'] 	: '';
 			$sale_price 	= isset($_POST['wps_deals_sale_price']) 	?	$_POST['wps_deals_sale_price'] 		: '';
-			$featured_deal 	= isset($_POST['wps_deals_featured_deal']) 	?	'on' : '';
 			
-			update_post_meta($post_id, $prefix.'avail_total', $available);  //
+			$featured_deal 	= isset($_POST['wps_deals_featured_deal']) 	?	'on' : '';
+			 
+			update_post_meta($post_id, $prefix.'avail_total', $available);  
 			update_post_meta($post_id, $prefix.'normal_price', $normal_price);
 			update_post_meta($post_id, $prefix.'sale_price', $sale_price);
 			update_post_meta($post_id, $prefix.'featured_deal', $featured_deal);
+
+			/*// Start Date		
+			$start_date = isset($_POST[$prefix.'start_date']) ? $_POST[$prefix.'start_date'] : '';
+			if(!empty($start_date)) {
+				$start_date = strtotime( $this->model->wps_deals_escape_slashes_deep( $start_date ) );
+				$start_date = date('Y-m-d H:i:s',$start_date);
+			}
+			update_post_meta( $post_id, $prefix.'start_date', $start_date );
 			
+			// End Date
+			$end_date = isset($_POST[$prefix.'end_date'])	? $_POST[$prefix.'end_date'] : '';
+			if(!empty($end_date)) {
+				$end_date = strtotime( $this->model->wps_deals_escape_slashes_deep( $end_date ) );
+				$end_date = date('Y-m-d H:i:s',$end_date);
+			}
+			update_post_meta( $post_id, $prefix.'end_date', $end_date );*/
 		}
 	}
 	
@@ -382,7 +447,7 @@ class Wps_Deals_AdminPages {
 		global $wpdb,$post;
 		
 		$prefix = WPS_DEALS_META_PREFIX;
-		
+		 
 		switch ($column_name) {
 				
 				case 'normal_price' :
@@ -404,12 +469,23 @@ class Wps_Deals_AdminPages {
 									echo '<div id="inline_' . $post->ID . '_featured_deal" class="hidden">' . $featured_deal . '</div>';
 									break;
 						
-				case 'image':
+				case 'image':		
+									$deal_main_image = get_post_meta( $post_id, $prefix . 'main_image', true );
+									$deal_main_image['src'] = apply_filters( 'wps_deals_main_image_src', $deal_main_image['src'], $post_id );
+									
 									$deal_image = get_the_post_thumbnail( $post_id, array(50,50), array( 'alt' => __('Deal Image','wpsdeals'), 
 																											'title'	=> trim( strip_tags( $post->post_title ) ) 
 																										) );
 		
-									$thumb = !empty( $deal_image ) ? $deal_image : '<img src="'.WPS_DEALS_URL.'includes/images/no-image.gif'.'" alt="'.__('Deal Image','wpsdeals').'" />';
+									
+									$thumb='';
+									if(!empty( $deal_image )){
+										$thumb=$deal_image;
+									} elseif(!empty($deal_main_image['src'])){
+										$thumb='<img src="'.$deal_main_image['src'].'" width="50" height="50" alt="'.__('Deal Image','wpsdeals').'" />';						
+									}else {
+										$thumb='<img src="'.WPS_DEALS_URL.'includes/images/no-image.gif'.'" alt="'.__('Deal Image','wpsdeals').'" />';							
+									}
 									echo $thumb;
 									break;
 						
@@ -434,6 +510,16 @@ class Wps_Deals_AdminPages {
 				case 'earnings'	:	
 									$earnings = $this->model->wps_deals_get_post_sale_count_earning($post_id);
 									echo $this->currency->wps_deals_formatted_value($earnings['earnings']);
+									
+									$start_date = get_post_meta( $post_id , $prefix.'start_date' , true );
+									$start_date	= date('d-m-Y h:i a',strtotime($start_date));
+							    	
+									$end_date 	= get_post_meta( $post_id , $prefix.'end_date' , true );
+							    	$end_date	= date('d-m-Y h:i a',strtotime($end_date));
+							    	
+							    	echo '<div id="inline_'.$post->ID.'_start_date" class="hidden">'.$start_date.'</div>';
+							    	echo '<div id="inline_'.$post->ID.'_end_date" class="hidden">'.$end_date.'</div>';
+									
 									break;
 									
 			}
@@ -457,16 +543,33 @@ class Wps_Deals_AdminPages {
  		$new_columns['image'] 								= __('Image','wpsdeals');
  		$new_columns['title'] 								= _x('Title','column name','wpsdeals');
  		$new_columns['taxonomy-'.WPS_DEALS_POST_TAXONOMY] 	= __('Categories','wpsdeals');
- 		$new_columns['available'] 							= __('Stock','wpsdeals');
  		$new_columns['normal_price'] 						= __('Normal Price','wpsdeals');
 		$new_columns['deal_price']							= __('Sale Price','wpsdeals');
+		$new_columns['available'] 							= __('Stock','wpsdeals');
 		$new_columns['featured_deal']						= __('Featured','wpsdeals');
 		$new_columns['sales'] 								= __('Sales','wpsdeals');
 		$new_columns['earnings'] 							= __('Earnings','wpsdeals');
 		$new_columns['date']								= _x('Date','column name','wpsdeals');
- 		
 		return $new_columns;
 	}
+	
+	/**
+	* Display Delas ID
+	* 
+	* Handles to show Deals ID
+	* 
+	* @package Social Deals Engine
+	* @since 1.0.0
+	**/
+	function wps_deals_row_actions($actions, $post ) {
+		
+		if ( $post->post_type == WPS_DEALS_POST_TYPE ) {
+			
+			return array_merge( array( 'id' => 'ID: ' . $post->ID ), $actions );
+		}
+		return $actions;
+	}
+	
 	/**
 	 * Sortable Columns
 	 *
@@ -484,6 +587,7 @@ class Wps_Deals_AdminPages {
 		$newcolumn['deal_price'] 	= 'deal_price';
 		$newcolumn['sales'] 		= 'sales';
 		$newcolumn['earnings'] 		= 'earnings';
+		
 		return $newcolumn;
 	}
 	
@@ -665,6 +769,9 @@ class Wps_Deals_AdminPages {
 			            'side','high'
 			        );
 		
+		//Add meta box deals images
+		add_meta_box( 'wps_deals_images', __( 'Deals Gallery', 'wpsdeals' ), 'Wps_Meta_Box_Deals_Images::output', WPS_DEALS_POST_TYPE, 'side', 'low' );
+		
 	}
 	
 	/**
@@ -676,6 +783,7 @@ class Wps_Deals_AdminPages {
 	public function wps_deals_stats_metabox_details() {
 		
 		include_once( WPS_DEALS_META_DIR .'/wps-deals-stats.php');
+		
 	}
 	
 	/**
@@ -1014,6 +1122,51 @@ class Wps_Deals_AdminPages {
 		update_option( 'wpsdeals_admin_notices', array( 'theme_support' ) );
 	}
 	
+	
+	/**
+	 * Add the "Deals Store" link in admin bar main menu
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.0.6
+	 */
+	public function wps_deals_admin_bar_menus( $wps_admin_bar ) {
+
+		global $wps_deals_public;
+		
+		// Return if filter false
+		if ( !apply_filters( 'wps_show_admin_bar_visit_deals_shop', true ) ) {
+			return;	
+		}
+		
+		// Returen if user is not admin or logged in
+		if ( ! is_admin() || ! is_user_logged_in() ) {
+			return;
+		}
+
+		// Show only when the user is a member of this site, or they're a super admin
+		if ( ! is_user_member_of_blog() && ! is_super_admin() ) {
+			return;
+		}
+
+		// Don't display when shop page is the same of the page on front
+		if ( get_option( 'page_on_front' ) == wps_deals_get_page_id( 'shop_page' ) ) {
+			return;
+		}
+		
+		$page_url = $wps_deals_public->wps_get_page_permalink( 'shop_page' );
+		
+		if( !empty( $page_url ) ) {
+		
+			// Add an option to visit the store
+			$wps_admin_bar->add_node( array(
+				'parent' => 'site-name',
+				'id'     => 'deals-store',
+				'title'  => __( 'Deals Store', 'wpsdeals' ),
+				'href'   => $wps_deals_public->wps_get_page_permalink( 'shop_page' )
+			) );
+		} // End of if condition
+	}
+	
 	/**
 	 * Adding Hooks
 	 *
@@ -1032,8 +1185,12 @@ class Wps_Deals_AdminPages {
 		add_action('manage_'.WPS_DEALS_POST_TYPE.'_posts_custom_column', array($this,'wps_deals_manage_custom_column'), 10, 2);
 		add_filter('manage_edit-'.WPS_DEALS_POST_TYPE.'_columns', array($this,'add_new_deals_columns'));
 		
+		//Add action for display deals id
+		add_action( 'post_row_actions',array( $this, 'wps_deals_row_actions' ), 10 , 2 );
+		
 		// For Quick Edit
 		add_action( 'save_post', array($this,'wps_deals_quick_save_post_data'),10,2);
+		
 		add_action('quick_edit_custom_box',  array($this,'wps_deals_quick_edit_values'), 10, 2);
 		
 		//add sortable column 
@@ -1085,6 +1242,8 @@ class Wps_Deals_AdminPages {
 		
 		// Add contextual help on deals sales page
 		add_action( 'load-wpsdeals_page_wps-deals-sales', array( $this->render, 'wps_deals_sales_contextual_help') );
+		
+		// Display Deals Shop submenu in admin bar menu
+		add_action( 'admin_bar_menu', array( $this, 'wps_deals_admin_bar_menus' ), 31 );
 	}
 }
-?>

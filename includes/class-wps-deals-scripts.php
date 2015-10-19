@@ -38,6 +38,9 @@ class Wps_Deals_Scripts {
 		wp_register_style( 'wps-deals-admin-styles', WPS_DEALS_URL . 'includes/css/wps-deals-admin.css', array(), WPS_DEALS_VERSION );
 		wp_enqueue_style( 'wps-deals-admin-styles' );
 		
+		wp_register_style( 'wps-deals-chosen-custom-styles', WPS_DEALS_URL . 'includes/css/chosen/chosen-custom.css', array(), WPS_DEALS_VERSION );
+		wp_enqueue_style( 'wps-deals-chosen-custom-styles' );
+		
 	}
 	
 	/**
@@ -90,9 +93,11 @@ class Wps_Deals_Scripts {
 	 * @since 1.0.0
 	 */
 	function wps_deals_settings_page_scripts($hook_suffix) {
+
+		$hook_common = array( 'wpsdeals_page_wps-deals-settings', 'wpsdeals_page_wps-deals-sales' );
 		
 		// settings page
-		if ( $hook_suffix == 'wpsdeals_page_wps-deals-settings') {
+		if ( in_array($hook_suffix, $hook_common) ) {
 				// loads the required scripts for the meta boxes
 				wp_enqueue_script( 'common' );
 				wp_enqueue_script( 'wp-lists' );
@@ -159,6 +164,7 @@ class Wps_Deals_Scripts {
 	 	}
 
 	}
+	
 	/**
 	 * Loading Additional Java Script
 	 *
@@ -192,7 +198,26 @@ class Wps_Deals_Scripts {
 	 	}
 
 	}
-	
+	/**
+	 * Loading Additional Java Script
+	 *
+	 * Loads the JavaScript required for toggling the order detail on the edit order page.
+	 *
+	 * @package Social Deals Engine
+	 * @since 1.0.0
+	 */
+	public function wps_deals_order_detail_scripts( $hook_suffix ) { 
+		?>				
+			<script type="text/javascript">
+				//<![CDATA[
+				jQuery(document).ready( function($) {
+					$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
+					postboxes.add_postbox_toggles( 'wpsdeals_page_wps-deals-sales' );
+				});
+				//]]>
+			</script>
+		<?php
+	}
 	/**
 	 * Enqueue Script for admin deal sales page
 	 * 
@@ -262,6 +287,12 @@ class Wps_Deals_Scripts {
 			wp_enqueue_script( 'twitter-bootstrap' );
 		}
 		
+		if(isset($wps_deals_options['enable_lightbox'])) {
+			//deals gallery images js
+			wp_register_script( 'wps-deals-gallery-image-scripts', WPS_DEALS_URL . 'includes/js/wps-deals-gallery-prettyPhoto.js', array('jquery'), WPS_DEALS_VERSION, true );
+			wp_enqueue_script( 'wps-deals-gallery-image-scripts' );
+		}
+		
 		//get caching is on site or not
 		$caching = isset( $wps_deals_options['caching'] ) && !empty( $wps_deals_options['caching'] ) ? '1' : '';
 		
@@ -305,9 +336,13 @@ class Wps_Deals_Scripts {
 																					'state'				=>	__( '<span><strong>ERROR : </strong>Please enter billing state / county.</span>','wpsdeals' ),
 																					'postcode'			=>	__( '<span><strong>ERROR : </strong>Please enter billing postcode.</span>','wpsdeals' ),
 																					//'phone'			=>	__( '<span><strong>ERROR : </strong>Please enter billing phone number.</span>','wpsdeals' ),
+																					'firstname'			=>	__( '<span><strong>ERROR : </strong>Please enter first name.</span>','wpsdeals' ),
+																					'lastname'			=>	__( '<span><strong>ERROR : </strong>Please enter last name.</span>','wpsdeals' ),
+																					'email'				=>	__( '<span><strong>ERROR : </strong>Please enter valid email address.</span>','wpsdeals' ),
+																					'currentpassword'	=>	__( '<span><strong>ERROR : </strong>Please enter current password.</span>','wpsdeals' ),
 																					'password1'			=>	__( '<span><strong>ERROR : </strong>Please enter new password.</span>','wpsdeals' ),
 																					'password2'			=>	__( '<span><strong>ERROR : </strong>Please enter re-enter new password.</span>','wpsdeals' ),
-																					'comparepassword'	=>	__( '<span><strong>ERROR : </strong>Passwords do not match, please enter your password.</span>','wpsdeals' ),
+																					'comparepassword'	=>	__( '<span><strong>ERROR : </strong>Passwords do not match.</span>','wpsdeals' ),
 																					'usernameemail'		=>	__( '<span><strong>ERROR : </strong>Please enter username or e-mail address.</span>','wpsdeals' ),
 																					'loginusername'		=>	__( '<span><strong>ERROR : </strong>Please enter your username.</span>','wpsdeals' ),
 																					'loginpassword'		=>	__( '<span><strong>ERROR : </strong>Please enter your password.</span>','wpsdeals' ),
@@ -424,6 +459,10 @@ class Wps_Deals_Scripts {
 		if( !empty( $wps_deals_options['custom_css'] ) ) {
 			wp_enqueue_style( 'wps-deals-custom' );
 		}
+		
+		//deals gallery image css
+		wp_register_style( 'wps-deals-gallery-image-styles', WPS_DEALS_URL . 'includes/css/wps-deals-gallery-prettyPhoto.css', array(), WPS_DEALS_VERSION );
+		wp_enqueue_style( 'wps-deals-gallery-image-styles' );
 	}
 	
 	/**
@@ -504,7 +543,7 @@ class Wps_Deals_Scripts {
 		wp_enqueue_script( 'media-upload' );
 		add_thickbox();
 		wp_enqueue_script( 'jquery-ui-sortable' );
-						
+		
 		// Enqueue JQuery select2 library, use proper version.
 		//wp_enqueue_script( 'wps-multiselect-select2-js', WPS_DEALS_META_URL . '/js/select2/select2.js', array( 'jquery' ), false, true );
 		
@@ -525,6 +564,7 @@ class Wps_Deals_Scripts {
 		} else {
 			wp_enqueue_script( 'farbtastic' );
 		}
+		
 	}
 	
 	/**
@@ -646,10 +686,12 @@ class Wps_Deals_Scripts {
 	
 		//add styles for metaboxes
 		add_action( 'admin_print_styles-post.php', array($this, 'wps_deals_metabox_styles') );
+		add_action( 'admin_print_styles-edit.php', array($this, 'wps_deals_metabox_styles') );
 		add_action( 'admin_print_styles-post-new.php', array($this, 'wps_deals_metabox_styles') );
 		
 		//add styles for metaboxes
 		add_action( 'admin_print_scripts-post.php', array($this, 'wps_deals_metabox_scripts') );
+		add_action( 'admin_print_scripts-edit.php', array($this, 'wps_deals_metabox_scripts') );
 		add_action( 'admin_print_scripts-post-new.php', array($this, 'wps_deals_metabox_scripts') );
 		
 		 //add facebook root div

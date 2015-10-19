@@ -283,20 +283,17 @@ class Wps_Deals_Meta_Box {
 							
 						do_action('wps_deals_bus_web_url_after');
 						
+							$googlelocations = array( 
+											'0'	=>	array( 'id' => $prefix .'gmap_address', 'type' => 'text', 'name'=> __( 'Address:', 'wpsdeals' ), 'desc' => __( 'Enter the complete address which will be used for the Google Map. Leave it blank if you don\'t want to show a Google Map.', 'wpsdeals' ) ),
+											'1'	=>	array( 'id' => $prefix. 'gmap_popup_width','type' => 'text', 'name'=> __( 'Popup Width:', 'wpsdeals' ), 'desc' => __( 'Enter a max width for the Google Map popup window. Please enter only a numeric value (eg.50).', 'wpsdeals' ) ),
+											'2'	=>	array( 'id' => $prefix. 'gmap_popup_content','type' => 'textarea', 'name'=> __( 'Popup Content:', 'wpsdeals' ), 'desc' => __( 'Here you can enter custom content for the Google Map popup window. If you leave that empty, the address will be displayed.', 'wpsdeals' ) )
+											//'2'	=>	array( 'id' => $prefix. 'gmap_popup_content','type' => 'editor', 'name'=> __( 'Popup Content:', 'wpsdeals' ), 'desc' => __( 'Here you can enter custom content for the Google Map popup window. If you leave that empty, the address will be displayed.', 'wpsdeals' ) )
+										);
+						
 							// deal address
-							wps_deals_add_text( array( 'id' => $prefix . 'address', 'name'=> __( 'Map Address:', 'wpsdeals' ), 'desc' => __( 'Enter the complete address which will be used for the Google Map. Leave it blank if you don\'t want to show a Google Map.', 'wpsdeals' ) ) );
+							wps_deals_add_repeater_block(  array( 'id' => $prefix. 'google_map', 'name' => __( 'Google Map:', 'wpsdeals' ), 'desc' => __( 'If the Deal has more than one location, then you can add all the locations within this option.', 'wpsdeals' ), 'fields' => $googlelocations ) );
 						
-						do_action('wps_deals_address_after');
-						
-							// google map popup width
-							wps_deals_add_text( array( 'id' => $prefix . 'gmap_popup_width', 'name'=> __( 'Map Popup Width:', 'wpsdeals' ), 'desc' => __( 'Enter a max width for the Google Map popup window. Please enter only a numeric value (eg.50).', 'wpsdeals' ) ) );
-							
-						do_action('wps_deals_gmap_popup_width_after');
-						
-							// custom google maps content
-							wps_deals_add_wysiwyg( array( 'id' => $prefix . 'gmaps_popup_content', 'name'=> __( 'Popup Content:', 'wpsdeals' ), 'desc' => __( 'Here you can enter custom content for the Google Map popup window. If you leave that empty, the address will be displayed.', 'wpsdeals' ) ) );
-							
-						do_action('wps_deals_gmaps_popup_content_after');
+						do_action('wps_deals_google_map_after');
 						
 							// terms & conditions
 							wps_deals_add_textarea( array( 'id' => $prefix . 'terms_conditions', 'name'=> __( 'Terms & Conditions:', 'wpsdeals' ), 'desc' => __( 'Enter terms & conditions for this deal here.', 'wpsdeals' ) ) );
@@ -491,15 +488,27 @@ class Wps_Deals_Meta_Box {
 		// Business Website URL
 		update_post_meta( $post_id, $prefix.'bus_web_url', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'bus_web_url'] ) );
 		
-		// Map Address
-		update_post_meta( $post_id, $prefix.'address', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'address'] ) );
+		//google Map 
+		$googlemap = array();
+		if( isset( $_POST[$prefix.'gmap_address'] ) ) {
+			
+			$gmapaddress = $_POST[$prefix.'gmap_address'];
+			$gmappopupwidth = $_POST[$prefix.'gmap_popup_width'];
+			$gmappopupcontent = $_POST[$prefix.'gmap_popup_content'];
+			
+			for ( $i = 0; $i < count( $gmapaddress ); $i++ ){
+				
+				if( !empty( $gmapaddress[$i] ) || !empty( $gmappopupwidth[$i]) || !empty( $gmappopupcontent[$i]) ) { //if location or map link is not empty then
+					$googlemap[$i][$prefix.'gmap_address'] = $this->model->wps_deals_escape_slashes_deep( $gmapaddress[$i] );
+					$googlemap[$i][$prefix.'gmap_popup_width'] = $this->model->wps_deals_escape_slashes_deep( $gmappopupwidth[$i] );
+					$googlemap[$i][$prefix.'gmap_popup_content'] = $this->model->wps_deals_escape_slashes_deep( $gmappopupcontent[$i] );
+				}
+			}
+		}
 		
-		// Map Popup Width
-		update_post_meta( $post_id, $prefix.'gmap_popup_width', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'gmap_popup_width'] ) );
-		
-		// Popup Content
-		update_post_meta( $post_id, $prefix.'gmaps_popup_content', $_POST[$prefix.'gmaps_popup_content'] );
-		
+		//update google map
+		update_post_meta( $post_id, $prefix.'google_map', $googlemap );
+		 
 		// Terms & Conditions
 		update_post_meta( $post_id, $prefix.'terms_conditions', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'terms_conditions'] ) );
 		
@@ -515,6 +524,10 @@ class Wps_Deals_Meta_Box {
 		
 		// Purchase Notes
 		update_post_meta( $post_id, $prefix.'purchase_notes', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'purchase_notes'] ) );
+		
+		//deals meta images 
+		$attachment_ids = isset( $_POST['wps_deals_image_gallery'] ) ? array_filter( explode( ',', sanitize_text_field( $_POST['wps_deals_image_gallery'] ) ) ) : array();
+		update_post_meta( $post_id, $prefix . 'image_gallery', implode( ',', $attachment_ids ) );
 		
 		//do action to save the metabox data
 		do_action( 'wps_deals_save_meta', $post_id );
@@ -570,6 +583,8 @@ class Wps_Deals_Meta_Box {
 			
 		// Delete all attachments when delete custom post type.
 		add_action( 'wp_ajax_atm_delete_file', array( $this, 'wps_deals_delete_file' ) );
+		
 	}
+	 
 }
 ?>

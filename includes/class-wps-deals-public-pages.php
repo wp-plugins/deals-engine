@@ -478,7 +478,7 @@ class Wps_Deals_Public_Pages	{
 		
 		// My account page redirects ( logged out )
 		if ( !is_user_logged_in() && 
-			( is_page( wps_deals_get_page_id( 'change_password' ) ) || is_page( wps_deals_get_page_id( 'edit_adderess' ) ) 
+			( is_page( wps_deals_get_page_id( 'edit_account_endpoint' ) ) || is_page( wps_deals_get_page_id( 'edit_adderess' ) ) 
 				|| is_page( wps_deals_get_page_id( 'ordered_page' ) ) ) ) {
 			
 			//redirect to my account page
@@ -633,12 +633,20 @@ class Wps_Deals_Public_Pages	{
 		global $wpdb, $wps_deals_options, $current_user;
 		
 		$prefix = WPS_DEALS_META_PREFIX;
+		
+		$user->ID     = (int) get_current_user_id();
+		$current_user = get_user_by( 'id', $user->ID );
+		
+		if ( $user->ID <= 0 ) {
+			return;
+		}
 	
 		//Check change password button is click or not
 		if( isset( $_POST['wps_deals_change_password'] ) && !empty( $_POST['wps_deals_change_password'] ) ) {
 			
 			$error = false;
-			$new_password = $re_enter_password = '';
+			$new_password = $re_enter_password = $firstname = $lastname = $email = '';
+			
 			
 			if( isset( $_POST['wps_deals_reset_key'] ) && !empty( $_POST['wps_deals_reset_key'] )
 				&& isset( $_POST['wps_deals_reset_login'] ) && !empty( $_POST['wps_deals_reset_login'] ) ) {
@@ -647,10 +655,10 @@ class Wps_Deals_Public_Pages	{
 				$login 	= $_POST['wps_deals_reset_login'];
 				
 				$user = $wpdb->get_row( "SELECT * FROM $wpdb->users WHERE user_activation_key = '{$key}' AND user_login = '{$login}'" );
-		
+								
 				if ( empty( $user ) ) {
 					
-					$this->message->add( 'changepassword', __( '<span><strong>ERROR : </strong>Invalid key.', 'wpsdeals' ), 'multierror' );
+					$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Invalid key.', 'wpsdeals' ), 'multierror' );
 					$error = true;
 					
 				} else {
@@ -663,35 +671,120 @@ class Wps_Deals_Public_Pages	{
 			}
 			
 			
-			if( isset( $_POST['wps_deals_new_password'] ) && !empty( $_POST['wps_deals_new_password'] ) ) {
+			// check password change functionality
+			$cur_pass = isset($_POST['wps_deals_current_password']) ? $_POST['wps_deals_current_password'] : '';
+			$new_pass = isset($_POST['wps_deals_new_password']) ? $_POST['wps_deals_new_password'] : '';
+			$ree_pass = isset($_POST['wps_deals_re_enter_password']) ? $_POST['wps_deals_re_enter_password'] : '';
+			
+			if( !empty($cur_pass) || !empty($new_pass) || !empty($ree_pass) ) {
+				
+				// Check $cur_pass is not empty
+				if( empty($cur_pass) ) {
+					$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Please enter your current password.</span>','wpsdeals' ),'multierror');
+					$error = true;
+				} else if( ! wp_check_password( $cur_pass, $current_user->user_pass, $current_user->ID ) ) {
+					$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Your current password is incorrect.</span>','wpsdeals' ),'multierror');
+					$error = true;
+				}
+				
+				// Check $new_pass is not empty
+				if( empty($new_pass) ) {
+					$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Please enter your new password.</span>','wpsdeals' ),'multierror');
+					$error = true;
+				}
+					
+				// Check $ree_pass is not empty
+				if( empty($ree_pass) ) {
+					$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Please re-enter your new password.</span>','wpsdeals' ),'multierror');
+					$error = true;
+					
+				} else if( !empty($new_pass) && $new_pass != $ree_pass ) {
+					$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Passwords does not match.</span>','wpsdeals' ),'multierror');
+					$error = true;
+				}
+						
+			}
+			
+			/*if( isset( $_POST['wps_deals_new_password'] ) && !empty( $_POST['wps_deals_new_password'] ) ) {
 				$new_password = $_POST['wps_deals_new_password'];
 			} else {
-				$this->message->add( 'changepassword', __( '<span><strong>ERROR : </strong>Please enter new password.</span>','wpsdeals' ),'multierror');
+				$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Please enter new password.</span>','wpsdeals' ),'multierror');
 				$error = true;
-			}
+			}*/
 			
-			if( isset( $_POST['wps_deals_re_enter_password'] ) && !empty( $_POST['wps_deals_re_enter_password'] ) ) {
+			/*if( isset( $_POST['wps_deals_re_enter_password'] ) && !empty( $_POST['wps_deals_re_enter_password'] ) ) {
 				$re_enter_password = $_POST['wps_deals_re_enter_password'];
 			} else {
-				$this->message->add( 'changepassword', __( '<span><strong>ERROR : </strong>Please enter re-enter new password.</span>','wpsdeals' ),'multierror');
+				$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Please enter re-enter new password.</span>','wpsdeals' ),'multierror');
+				$error = true;
+			}*/
+			
+			/*if( !empty( $new_password ) && !empty( $re_enter_password ) && $new_password != $re_enter_password ) {
+				$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Passwords do not match.</span>','wpsdeals' ),'multierror');
+				$error = true;
+			}*/
+			
+			/*if( !empty( $new_password ) && empty( $re_enter_password ) ) {
+				$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Please enter re-enter new password.</span>','wpsdeals' ),'multierror');
+				$error = true;
+			}*/
+			
+			/*if( empty( $new_password ) && !empty( $re_enter_password ) ) {
+				$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Passwords do not match.</span>','wpsdeals' ),'multierror');
+				$error = true;
+			}*/
+			
+			$firstname = isset($_POST['wps_deals_firstname']) ? $this->model->wps_deals_escape_slashes_deep( trim($_POST['wps_deals_firstname']) ) : '';
+			if( empty($firstname) ) {
+				$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Please enter first name.</span>','wpsdeals' ),'multierror');
 				$error = true;
 			}
 			
-			if( !empty( $new_password ) && !empty( $re_enter_password ) && $new_password != $re_enter_password ) {
-				$this->message->add( 'changepassword', __( '<span><strong>ERROR : </strong>Passwords do not match, please enter your password.</span>','wpsdeals' ),'multierror');
+			$lastname = isset($_POST['wps_deals_lastname']) ? $this->model->wps_deals_escape_slashes_deep( trim( $_POST['wps_deals_lastname'] ) ) : '' ;
+			if( empty($lastname) ){
+				$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Please enter last name.</span>','wpsdeals' ),'multierror');
 				$error = true;
 			}
 			
+			if( isset( $_POST['wps_deals_email_address'] ) && !empty( $_POST['wps_deals_email_address'] ) ) {
+				 
+				global $current_user;
+				$user_email = get_user_by( 'email', $_POST['wps_deals_email_address'] ); 
+				if( $current_user->user_email == $_POST['wps_deals_email_address'] || $user_email === false ){
+					$email = $_POST['wps_deals_email_address'];
+					
+				} else {
+						$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong> Email already registered .</span>','wpsdeals' ),'multierror');
+						$error = true;
+				}
+						
+			} else {
+				$this->message->add( 'changeaccountdetail', __( '<span><strong>ERROR : </strong>Please enter email address.</span>','wpsdeals' ),'multierror');
+				$error = true;
+			}
+						
 			if( !$error ) {
 				
-				wp_update_user( array ( 'ID' => $user_id, 'user_pass' => $new_password ) ) ;
+				if($new_pass == '') {
+					wp_update_user( array ( 'ID' => $user_id,'user_email' => $email ) ) ;
+				} else {
+					wp_update_user( array ( 'ID' => $user_id, 'user_pass' => $new_pass, 'user_email' => $email ) ) ;
+				}
 				
-				$successmsg = __( '<span>Password changed successfully.</span>', 'wpsdeals' );
+				$user_meta= array(
+								'first_name' => $firstname,
+								'last_name'	 => $lastname,
+							);
+				foreach ($user_meta as $key => $value) {
+					update_user_meta($user_id, $key , $value ) ;
+				}
+				
+				//$successmsg = __( '<span>Password changed successfully.</span>', 'wpsdeals' );
+				$successmsg = __( '<span>Account details changed successfully.</span>', 'wpsdeals' );
 				$this->message->add_session( 'my_account_msg', $successmsg, 'success' );
 				
 				//redirect to my account page
 				wps_deals_send_on_my_account_page();
-				
 			}
 		}
 	}
@@ -1203,6 +1296,20 @@ class Wps_Deals_Public_Pages	{
 			// restore item
 			$this->cart->restore_cart_item( $_GET['undo_item'] );			
 		}
+	}
+	
+	/**
+	 * Retrieve page permalink
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.1.9
+	 */
+	function wps_get_page_permalink( $page ) {
+		
+		$page_id   = wps_deals_get_page_id( $page );
+		$permalink = $page_id ? get_permalink( $page_id ) : '';
+		return apply_filters( 'wps_get_' . $page . '_page_permalink', $permalink );
+
 	}
 	
 	/**

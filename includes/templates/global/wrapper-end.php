@@ -23,6 +23,9 @@ switch( $template ) {
 		echo '</div></div></div>';
 		get_sidebar( 'content' );
 		break;
+	case 'twentyfifteen' :
+		echo '</div></article></main></div>';
+		break;
 	case 'superstore' :
 		echo '</div></div></div>';
 		add_action( 'wps_deals_after_sidebar', 'sde_after_sidebar_content', 10 );

@@ -15,7 +15,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 <div class="wrap">
 
 	<?php
-		global $wpdb,$wps_deals_model,$wps_deals_scripts,$wps_deals_message; // call globals to use them in this page
+		global $wpdb, $wps_deals_model, $wps_deals_scripts, $wps_deals_message; // call globals to use them in this page
 		
 		// model class
 		$model = $wps_deals_model; 
@@ -30,24 +30,28 @@ if ( !defined( 'ABSPATH' ) ) exit;
 	<h2 class="wps-deals-settings-title"><?php _e( 'Social Deals Engine - Settings', 'wpsdeals' ); ?></h2><br />
 	<!-- settings reset -->
 	<?php
-		if(isset($_POST['wps_deals_reset_settings']) && $_POST['wps_deals_reset_settings'] == __( 'Reset All Settings', 'wpsdeals' )) {
-			
-			wps_deals_default_settings(); // set default settings
-			
-			//reseting facebook fan page posting setting session
-			echo '<div id="message" class="updated fade"><p><strong>' . __( 'All Settings Reset Successfully.', 'wpsdeals') . '</strong></p></div>'; 
-			
-			//do selected tab for general
-			$message->add_session( 'wps-deals-selected-tab', strtolower( 'General' ) );
-			
-		} else if(isset($_GET['settings-updated']) && !empty($_GET['settings-updated'])) { //check settings updated or not
-			
-			//reseting facebook fan page posting setting session
-			echo '<div id="message" class="updated fade"><p><strong>' . __( 'Changes Saved.', 'wpsdeals') . '</strong></p></div>'; 
-		}
-	?>
-	
+	if(isset($_POST['wps_deals_reset_settings']) && $_POST['wps_deals_reset_settings'] == __( 'Reset All Settings', 'wpsdeals' )) {
 		
+		wps_deals_default_settings(); // set default settings
+		
+		//reseting facebook fan page posting setting session
+		echo '<div id="message" class="updated fade"><p><strong>' . __( 'All Settings Reset Successfully.', 'wpsdeals') . '</strong></p></div>'; 
+		
+		//do selected tab for general
+		$message->add_session( 'wps-deals-selected-tab', strtolower( 'General' ) );
+		
+		// Need to rewrite endpoints when settings changed
+		wps_deals_rewrite_endpoints();
+		
+	} else if(isset($_GET['settings-updated']) && !empty($_GET['settings-updated'])) { //check settings updated or not
+		
+		//reseting facebook fan page posting setting session
+		echo '<div id="message" class="updated fade"><p><strong>' . __( 'Changes Saved.', 'wpsdeals') . '</strong></p></div>'; 
+		
+		// Need to rewrite endpoints when settings changed
+		wps_deals_rewrite_endpoints();
+		
+	} ?>
 	
 	<!--plugin reset settings button-->
 	<form action="" method="POST" id="wps-deals-reset-settings-form">
