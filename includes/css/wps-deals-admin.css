@@ -653,3 +653,22 @@ table.wp-list-table .row-actions
 {
 	color: #999;
 }
+#system-info-textarea {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    display: block;
+    font-family: Menlo,Monaco,monospace;
+    height: 600px;
+    overflow: auto;
+    white-space: pre;
+    width: 800px;
+}
+p.submit {
+    margin-top: 20px;
+    padding-top: 10px;
+    text-align: left;
+    float:left;
+}
+
+.button_tools {
+    padding-bottom: 20px;
+}

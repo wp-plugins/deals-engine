@@ -2696,7 +2696,6 @@ class Wps_Deals_Model {
 	
 		global $user_ID;			
 		$prefix = WPS_DEALS_META_PREFIX;
-		
 		$soldout = false;		
 		if( !is_user_logged_in() ) // if guest user then return
 			return $soldout;
@@ -2723,6 +2722,296 @@ class Wps_Deals_Model {
 		}
 		
 		return $soldout;
+	}
+	
+		
+	 /**
+	 * Display system info
+	 *
+	 * @since       2.2.6
+	 * @access      public
+	 * @return      string $return A string containing the info to output
+	 */
+	
+	public function wps_deals_tools_sysinfo_display() {
+		global $wpdb, $wps_deals_options, $wps_deals_model;
+		
+		if( !class_exists( 'Browser' ) )
+		
+			require_once WPS_DEALS_DIR . '/includes/libraries/browser.php';
+	
+		$browser = new Browser();
+		
+		// Get theme info
+		if( get_bloginfo( 'version' ) < '2.5.4' ) {
+			$theme_data = get_theme_data( get_stylesheet_directory() . '/style.css' );
+			$theme      = $theme_data['Name'] ;
+			$theme_version = $theme_data['Version'];
+			if( is_child_theme() ) :
+				$parent_theme = wp_get_theme( $active_theme->Template );
+			endif;
+		
+		} else {
+			$theme_data = wp_get_theme();
+			$theme      = $theme_data->Name;
+			$theme_version=$theme_data->Version;
+		}
+		
+		// Try to identify the hosting provider
+		$host = $wps_deals_model->wps_deals_get_host();
+	
+		$return  = '### Begin System Info ###' . "\n\n";
+		
+		// Start with the basics...
+		$return .= '-- Site Info' . "\n\n";
+		$return .= 'Site URL:                 ' . site_url() . "\n";
+		$return .= 'Home URL:                 ' . home_url() . "\n";
+		$return .= 'Multisite:                ' . ( is_multisite() ? 'Yes' : 'No' ) . "\n";
+	
+		
+		// Can we determine the site's host?
+		if( $host ) {
+			$return .= "\n" . '-- Hosting Provider' . "\n\n";
+			$return .= 'Host:                     ' . $host . "\n";
+	
+			$return  = apply_filters( 'wps_deals_sysinfo_after_host_info', $return );
+		}
+	
+		// The local users' browser information, handled by the Browser class
+		$return .= "\n" . '-- User Browser' . "\n\n";
+		$return .= $browser;
+	
+		$return  = apply_filters( 'wps_deals_sysinfo_after_user_browser', $return );
+	
+		// WordPress configuration
+		$return .= "\n" . '-- WordPress Configuration' . "\n\n";
+		$return .= 'Version:                  ' . get_bloginfo( 'version' ) . "\n";
+		$return .= 'Language:                 ' . ( defined( 'WPLANG' ) && WPLANG ? WPLANG : 'en_US' ) . "\n";
+		$return .= 'Permalink Structure:      ' . ( get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default' ) . "\n";
+		$return .= 'Show On Front:            ' . get_option( 'show_on_front' ) . "\n";
+	
+		// Only show page specs if frontpage is set to 'page'
+		if( get_option( 'show_on_front' ) == 'page' ) {
+			$front_page_id = get_option( 'page_on_front' );
+			$blog_page_id = get_option( 'page_for_posts' );
+	
+			$return .= 'Page On Front:            ' . ( $front_page_id != 0 ? get_the_title( $front_page_id ) . ' (#' . $front_page_id . ')' : 'Unset' ) . "\n";
+			$return .= 'Page For Posts:           ' . ( $blog_page_id != 0 ? get_the_title( $blog_page_id ) . ' (#' . $blog_page_id . ')' : 'Unset' ) . "\n";
+		}
+	
+		// Make sure wp_remote_post() is working
+		$request['cmd'] = '_notify-validate';
+	
+		$params = array(
+			'sslverify'     => false,
+			'timeout'       => 60,
+			'user-agent'    => 'WPS_DEALS_VERSION',
+			'body'          => $request
+		);
+	
+		$response = wp_remote_post( 'https://www.paypal.com/cgi-bin/webscr', $params );
+	
+		if( !is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 ) {
+			$WP_REMOTE_POST = 'wp_remote_post() works';
+		} else {
+			$WP_REMOTE_POST = 'wp_remote_post() does not work';
+		}
+	
+		
+		$return .= 'Remote Post:              ' . $WP_REMOTE_POST . "\n";
+		$return .= 'Table Prefix:             ' . 'Length: ' . strlen( $wpdb->prefix ) . '   Status: ' . ( strlen( $wpdb->prefix ) > 16 ? 'ERROR: Too long' : 'Acceptable' ) . "\n";
+		// Commented out per https://github.com/easydigitaldownloads/Easy-Digital-Downloads/issues/3475
+		//$return .= 'Admin AJAX:               ' . ( edd_test_ajax_works() ? 'Accessible' : 'Inaccessible' ) . "\n";
+		$return .= 'WP_DEBUG:                 ' . ( defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' : 'Disabled' : 'Not set' ) . "\n";
+		$return .= 'Memory Limit:             ' . WP_MEMORY_LIMIT . "\n";
+		$return .= 'Registered Post Stati:    ' . implode( ', ', get_post_stati() ) . "\n";
+	
+		$return  = apply_filters( 'wps_deals_sysinfo_after_wordpress_config', $return );
+	
+		// Wordpress Theme Config
+		$return .= "\n" . '-- WordPress Theme Config ' . "\n\n";
+		$return .= 'Active Theme:             ' . $theme . "\n";
+		$return .= 'Theme Version:		  ' . $theme_version. "\n";
+		
+		if(is_child_theme()){
+			
+			// Parent theme 
+			$active_theme         = wp_get_theme();
+			$parent_theme = isset($active_theme) ? wp_get_theme( $active_theme->Template ) : '';
+			$return .= 'Child Theme:			' . 'Yes' . "\n"; 
+			$return .= 'Parent Theme Name:		' . $parent_theme->Name . "\n";
+			$return .= 'Parent Theme Version: 	' . $parent_theme->Version . "\n";
+			
+		}
+		else{
+			$return .= 'Child theme:	  	  ' . 'No'. "\n";
+		}
+		
+		
+		// WPS DEALS Confingration
+		$return .= 	"\n". '-- Soical Deals Engine Configuration ' . "\n\n";
+		$return .= 'Version:                  ' . WPS_DEALS_VERSION . "\n";
+		$return .= 'Upgraded From:            ' . get_option( 'wps_deals_version_upgraded_from', 'None' ) . "\n";
+		$return .= 'Test Mode:                ' . ( wps_deals_is_test_mode() ? "Enabled\n" : "Disabled\n" );
+		$return .= 'Guest Checkout:           ' . ( ! wps_deals_is_guest_checkout() ? "Enabled\n" : "Disabled\n" );
+		$return .= 'Currency Code:            ' . wps_deals_currency() . "\n";
+		$return .= 'Currency Position:        ' . ( !empty($wps_deals_options['currency_position']) ? $wps_deals_options['currency_position'] : '') ."\n";
+		$return .= 'Decimal Separator:        ' . $wps_deals_options['decimal_seperator']. "\n";
+		$return .= 'Thousands Separator:      ' . $wps_deals_options['thounsands_seperator'] . "\n";
+		$return .= 'Enabled Billing:          ' . ( wps_deals_is_billing_enabled() ? "Enabled\n" : "Disabled\n" );
+		$return .= 'Chaching:                 ' . ( wps_deals_is_chaching() ? "Enabled\n" : "Disabled\n" );
+		$return .= 'Twitter Bootstrap:        ' . ( wps_deals_is_twitter_bootstrap() ? "Disabled\n" : "Enabled\n" );
+	
+		$return  = apply_filters( 'wps_deals_sysinfo_after_wps_deals_config', $return );
+		
+		// WPS DEALS Page Setting
+		
+		$return .= "\n" . '-- Social Deals Engine Page settings' . "\n\n";
+		$return .= 'Deals Overview:	 	  ' . ( !empty( $wps_deals_options['deals_main_page'] ) ? "Valid\n" : "Invalid\n" );
+		$return .= 'Deals Overview Page:      ' . ( !empty( $wps_deals_options['deals_main_page'] ) ? get_permalink( $wps_deals_options['deals_main_page'] ) . "\n" : "Unset\n" );
+		$return .= 'Checkout:		  ' . ( !empty( $wps_deals_options['payment_checkout_page'] ) ? "Valid\n" : "Invalid\n" );
+		$return .= 'Checkout Page:      	  ' . ( !empty( $wps_deals_options['payment_checkout_page'] ) ? get_permalink( $wps_deals_options['payment_checkout_page'] ) . "\n" : "Unset\n" );
+		$return .= 'My Account:		  ' . ( !empty( $wps_deals_options['my_account_page'] ) ? "Valid\n" : "Invalid\n" );
+		$return .= 'My Account Page:          ' . ( !empty( $wps_deals_options['my_account_page'] ) ? get_permalink( $wps_deals_options['my_account_page'] ) . "\n" : "Unset\n" );
+	
+		$return  = apply_filters( 'wps_deals_sysinfo_after_wps_deals_page_setting', $return );
+		
+		// WPS Deals Gate way Configration
+			
+		$return .= "\n" . '-- Social Deals Engine Gateway Configration' . "\n\n";
+		$return .= 'Enabled Gateway:		'. ( !empty($wps_deals_options['payment_gateways']['paypal'] )? 'Paypal Standards, ' : '').  ( !empty($wps_deals_options['payment_gateways']['cheque'] )? 'Cheque Payment, ' : '') .( !empty($wps_deals_options['payment_gateways']['testmode'] )? 'Test mode': ''). "\n"  ;
+		$return .= 'Default Gateway:		'. ( !empty($wps_deals_options['default_payment_gateway'])? $wps_deals_options['default_payment_gateway'] : '');
+		
+		// WordPress active plugins
+		$return .= "\n\n" . '-- WordPress Active Plugins' . "\n\n";
+	
+		$plugins = get_plugins();
+		$active_plugins = get_option( 'active_plugins', array() );
+	
+		foreach( $plugins as $plugin_path => $plugin ) {
+			if( !in_array( $plugin_path, $active_plugins ) )
+				continue;
+	
+			$return .= $plugin['Name'] . '  :   ' . $plugin['Version'] . "\n";
+		}
+	
+		$return  = apply_filters( 'wps_deals_sysinfo_after_wordpress_plugins', $return );
+	
+		// WordPress inactive plugins
+		$return .= "\n" . '-- WordPress Inactive Plugins' . "\n\n";
+	
+		foreach( $plugins as $plugin_path => $plugin ) {
+			if( in_array( $plugin_path, $active_plugins ) )	
+				continue;
+	
+			$return .= $plugin['Name'] . ': ' . $plugin['Version'] . "\n";
+		}
+	
+		$return  = apply_filters( 'wps_deals_sysinfo_after_wordpress_plugins_inactive', $return );
+	
+		// Server configuration (really just versioning)
+		$return .= "\n" . '-- Webserver Configuration' . "\n\n";
+		$return .= 'PHP Version:              ' . PHP_VERSION . "\n";
+		$return .= 'MySQL Version:            ' . $wpdb->db_version() . "\n";
+		$return .= 'Webserver Info:           ' . $_SERVER['SERVER_SOFTWARE'] . "\n";
+	
+		$return  = apply_filters( 'wps_deals_sysinfo_after_webserver_config', $return );
+	
+		// PHP configs... now we're getting to the important stuff
+		$return .= "\n" . '-- PHP Configuration' . "\n\n";
+		$return .= 'Safe Mode:                ' . ( ini_get( 'safe_mode' ) ? 'Enabled' : 'Disabled' . "\n" );
+		$return .= 'Memory Limit:             ' . ini_get( 'memory_limit' ) . "\n";
+		$return .= 'Upload Max Size:          ' . ini_get( 'upload_max_filesize' ) . "\n";
+		$return .= 'Post Max Size:            ' . ini_get( 'post_max_size' ) . "\n";
+		$return .= 'Upload Max Filesize:      ' . ini_get( 'upload_max_filesize' ) . "\n";
+		$return .= 'Time Limit:               ' . ini_get( 'max_execution_time' ) . "\n";
+		$return .= 'Max Input Vars:           ' . ini_get( 'max_input_vars' ) . "\n";
+		$return .= 'Display Errors:           ' . ( ini_get( 'display_errors' ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A' ) . "\n";
+		$return  = apply_filters( 'wps_deals_sysinfo_after_php_config', $return );
+	
+		// PHP extensions and such
+		$return .= "\n" . '-- PHP Extensions' . "\n\n";
+		$return .= 'cURL:                     ' . ( function_exists( 'curl_init' ) ? 'Supported' : 'Not Supported' ) . "\n";
+		$return .= 'fsockopen:                ' . ( function_exists( 'fsockopen' ) ? 'Supported' : 'Not Supported' ) . "\n";
+		$return .= 'SOAP Client:              ' . ( class_exists( 'SoapClient' ) ? 'Installed' : 'Not Installed' ) . "\n";
+		$return .= 'Suhosin:                  ' . ( extension_loaded( 'suhosin' ) ? 'Installed' : 'Not Installed' ) . "\n";
+	
+		$return  = apply_filters( 'wps_deals_sysinfo_after_php_ext', $return );
+	
+		// Session stuff
+		$return .= "\n" . '-- Session Configuration' . "\n\n";
+		//$return .= 'WPS DEALS Use Sessions:         ' . ( defined( 'WPS_DEALS_USE_PHP_SESSIONS' ) && WPS_DEALS_USE_PHP_SESSIONS ? 'Enforced' : ( WPS_DEAlS()->session->use_php_sessions() ? 'Enabled' : 'Disabled' ) ) . "\n";
+		$return .= 'Session:                  ' . ( isset( $_SESSION ) ? 'Enabled' : 'Disabled' ) . "\n";
+	
+		// The rest of this is only relevant is session is enabled
+		if( isset( $_SESSION ) ) {
+			$return .= 'Session Name:             ' . esc_html( ini_get( 'session.name' ) ) . "\n";
+			$return .= 'Cookie Path:              ' . esc_html( ini_get( 'session.cookie_path' ) ) . "\n";
+			$return .= 'Save Path:                ' . esc_html( ini_get( 'session.save_path' ) ) . "\n";
+			$return .= 'Use Cookies:              ' . ( ini_get( 'session.use_cookies' ) ? 'On' : 'Off' ) . "\n";
+			$return .= 'Use Only Cookies:         ' . ( ini_get( 'session.use_only_cookies' ) ? 'On' : 'Off' ) . "\n";
+		}
+	
+		$return  = apply_filters( 'wps_deals_sysinfo_after_session_configs', $return );
+	
+		
+		// Temaplates Overrides
+			
+		$return .= "\n" . '-- Templates ' . "\n\n";
+		$return .= 'Overrides(Deals Engine):  ';
+		$template_paths     = get_stylesheet_directory(). '/deals-engine/' ;
+		if( file_exists($template_paths)){
+			$return .= 'Yes';
+		}
+		else{
+			$return .= "No";
+		}
+		
+		$return .= "\n\n\n" . '### End System Info ###';
+		
+		return $return;
+	}
+	
+	
+	 /**
+	 * Get host
+	 *
+	 * @since       2.2.6
+	 * @access      public
+	 * @return      string $return A string containing the info to output
+	 */
+	
+	public function wps_deals_get_host() {
+		$host = false;
+	
+		if( defined( 'WPE_APIKEY' ) ) {
+			$host = 'WP Engine';
+		} elseif( defined( 'PAGELYBIN' ) ) {
+			$host = 'Pagely';
+		} elseif( DB_HOST == 'localhost:/tmp/mysql5.sock' ) {
+			$host = 'ICDSoft';
+		} elseif( DB_HOST == 'mysqlv5' ) {
+			$host = 'NetworkSolutions';
+		} elseif( strpos( DB_HOST, 'ipagemysql.com' ) !== false ) {
+			$host = 'iPage';
+		} elseif( strpos( DB_HOST, 'ipowermysql.com' ) !== false ) {
+			$host = 'IPower';
+		} elseif( strpos( DB_HOST, '.gridserver.com' ) !== false ) {
+			$host = 'MediaTemple Grid';
+		} elseif( strpos( DB_HOST, '.pair.com' ) !== false ) {
+			$host = 'pair Networks';
+		} elseif( strpos( DB_HOST, '.stabletransit.com' ) !== false ) {
+			$host = 'Rackspace Cloud';
+		} elseif( strpos( DB_HOST, '.sysfix.eu' ) !== false ) {
+			$host = 'SysFix.eu Power Hosting';
+		} elseif( strpos( $_SERVER['SERVER_NAME'], 'Flywheel' ) !== false ) {
+			$host = 'Flywheel';
+		} else {
+			// Adding a general fallback for data gathering
+			$host = 'DBH: ' . DB_HOST . ', SRV: ' . $_SERVER['SERVER_NAME'];
+		}
+	
+		return $host;
 	}
 }
 ?>

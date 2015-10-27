@@ -60,6 +60,9 @@ class Wps_Deals_AdminPages {
 		//do action to adding submenu page to plugin via other plugin
 		do_action('wps_deals_add_submenu_page_after',$dealspageslug);
 		
+		//Tools page
+		$tools = add_submenu_page( $dealspageslug , __( 'Tools', 'wpsdeals'), __( 'Tools', 'wpsdeals' ), 'manage_options', 'wps-deals-tool', array( $this,'wps_deals_tools_page' ) );				
+		
 		//extension page
 		$social_addon = add_submenu_page( $dealspageslug , __( 'Extensions', 'wpsdeals'), __( 'Extensions', 'wpsdeals' ), 'manage_options', 'wps-deals-extensions', array( $this,'wps_deals_extensions_page' ) );
 		
@@ -79,6 +82,8 @@ class Wps_Deals_AdminPages {
 		
 		// add action to add popup html for email templates of purchase receipt
 		add_action( "admin_footer-$settings_page", array( $this,'wps_deals_preview_purchse_receipt_popup' ) );
+		
+		//add action of system info 
 		
 	}
 	
@@ -131,6 +136,22 @@ class Wps_Deals_AdminPages {
 		
 		include_once( WPS_DEALS_ADMIN . '/forms/wps-deals-plugin-settings.php' );
 	}
+	
+		/**
+	 * Add extension page
+	 * 
+	 * Display 
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.2.6
+	 */
+	public function wps_deals_tools_page() {
+
+			include_once( WPS_DEALS_ADMIN . '/forms/wps-deals-tools.php' );
+	}
+	
+	
+	
 	
 	/**
 	 * Add extension page
@@ -261,7 +282,7 @@ class Wps_Deals_AdminPages {
 		//set session to set tab selected in settings page
 		$selectedtab = isset( $input['selected_tab'] ) ? $input['selected_tab'] : '';
 		$this->message->add_session( 'wps-deals-selected-tab', strtolower( $selectedtab ) );
-		
+	
 		//filter to save all settings to database
 		return apply_filters( 'wps_deals_save_settings', $input );
 	}
@@ -1168,11 +1189,104 @@ class Wps_Deals_AdminPages {
 	}
 	
 	/**
+	 * Systeminfo Download 
+	 * 
+	 * @package Social Deals Engine
+	 * @since 2.2.6
+	 */
+
+	public function wps_deal_tools_sysinfo_download() {
+
+		// Check button of system dowload info
+		if(isset($_POST['wps-deal-download-sysinfo']) && isset($_POST['wps-deal-sysinfo']) && $_POST['wps-deal-sysinfo'] != '') {	
+	
+			// Genrate .txt file
+			$data = $_POST['wps-deal-sysinfo'];
+			$myfile = fopen("systeminfo.txt", "w");
+		 	fwrite($myfile, $data);
+		    fclose($myfile);
+		
+		    // save file
+			header( 'Content-Type: text/plain' );
+			header( 'Content-Disposition: attachment; filename="systeminfo.txt"' );
+			header("Expires: 0");	
+		 	readfile('systeminfo.txt');
+	 		die();
+		}
+	}
+		
+	/**
+	 * Process a settings export that generates a .json file of the shop settings
+	 * @package Social Deals Engine
+	 * @since 2.2.6
+	 */
+	public function wps_deals_process_settings_export() {
+	
+		// check export button is click or not
+		if( empty( $_POST['wps_deals_export'] ) )
+			return;
+	
+		global $wps_deals_options;
+		
+		// Getting value of stting(options)
+		if(isset($wps_deals_options))
+			$settings = $wps_deals_options;
+		else 
+			$setting=get_option('wps_deals_options');
+		
+		ignore_user_abort( true );
+	
+		// Genrate json file
+		header( 'Content-Type: application/json; charset=utf-8' );
+		header( 'Content-Disposition: attachment; filename=wps_deals-settings-export-' . date( 'm-d-Y' ) . '.json' );
+		header( "Expires: 0" );
+	
+		// Json encode 
+		echo json_encode( $settings );
+		exit;
+	}
+	
+	
+	/**
+	 * Process a settings import from a json file
+	 *
+	 * @package Social Deals Engine
+	 * @since 2.2.6
+	 */
+	public function wps_deals_process_settings_import() {
+	
+			global $wps_deals_model;
+		if( empty( $_POST['wps_deals_import'] ) )
+			return;
+	
+		$import_file = $_FILES['import_file']['tmp_name'];
+	
+		if( empty( $import_file ) ) {
+			wp_die( __( 'Please upload a file to import', 'wpsdeals' ) );
+			return false;
+		}
+	
+		// Retrieve the settings from the file and convert the json object to an array
+		$settings = $wps_deals_model->wps_deals_object_to_array( json_decode( file_get_contents( $import_file ) ) );
+	
+		// Update options
+		update_option( 'wps_deals_options', $settings   );
+		 
+		// Redirect
+		
+		//set session to set tab selected in settings page
+		$selectedtab = isset( $_POST['selected_tab'] ) ? $_POST['selected_tab'] : '';
+		$this->message->add_session( 'wps-deals-selected-tab', strtolower( $selectedtab ) );
+		wp_safe_redirect( admin_url( 'edit.php?post_type=wpsdeals&page=wps-deals-tool' ) ); exit;
+	}
+	
+	/**
 	 * Adding Hooks
 	 *
 	 * @package Social Deals Engine
 	 * @since 1.0.0
 	 */
+
 	public function add_hooks() {
 		
 		//add admin menu pages
@@ -1245,5 +1359,14 @@ class Wps_Deals_AdminPages {
 		
 		// Display Deals Shop submenu in admin bar menu
 		add_action( 'admin_bar_menu', array( $this, 'wps_deals_admin_bar_menus' ), 31 );
+		
+		// System info File Download 
+		add_action( 'admin_init', array($this, 'wps_deal_tools_sysinfo_download'));
+		
+		// Export Setting Json file from Import/Export
+		add_action( 'admin_init', array($this, 'wps_deals_process_settings_export' ));
+		
+		// Import setting by Json file from Import/Export
+		add_action( 'admin_init', array($this, 'wps_deals_process_settings_import' ));
 	}
 }

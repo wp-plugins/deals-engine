@@ -1183,4 +1183,91 @@ if ( !defined( 'ABSPATH' ) ) exit;
 		return $pages;
 	}
 	add_filter( 'wp_list_pages', 'wps_deals_list_pages' );
+	
+	
+	
+	/**
+	 * Is Test Mode
+	 *
+	 * @since 2.2.6
+	 * @return bool $ret True if return mode is enabled, false otherwise
+	 */
+	function wps_deals_is_test_mode() {
+		global $wps_deals_options;
+		
+		$ret = !empty($wps_deals_options['enable_testmode']) ? '1' : '0' ;
+		return (bool) apply_filters( 'wps_deals_is_test_mode', $ret );
+	}
+	
+	
+	
+	/**
+	 * Is chaching
+	 *
+	 * @since 2.2.6
+	 * @return bool $ret True if return mode is enabled, false otherwise
+	 */
+	function wps_deals_is_chaching() {
+		global $wps_deals_options;
+		$ret = !empty($wps_deals_options['caching']) ? '1' : '0';
+		return (bool) apply_filters( 'wps_deals_is_chaching', $ret );
+	}
+
+	
+	/**
+	 *Twitter bootstrip
+	 *
+	 * @since 2.2.6
+	 * @return bool $ret True if return mode is enabled, false otherwise
+	 */
+	function wps_deals_is_twitter_bootstrap() {
+		global $wps_deals_options;
+		
+		$ret = !empty($wps_deals_options['disable_twitter_bootstrap']) ? '1' : '0';
+		return (bool) apply_filters( 'wps_deals_is_twitter_bootstrap', $ret );
+	}
+	
+	
+	/**
+	 *Enabled Billing
+	 *
+	 * @since 2.2.6
+	 * @return bool $ret True if billing  is enabled, false otherwise
+	 */
+	function wps_deals_is_billing_enabled() {
+		global $wps_deals_options;
+		
+		$ret = !empty($wps_deals_options['enable_billing']) ? '1' : '0';
+		return (bool) apply_filters( 'wps_deals_is_billing_enabled', $ret );
+	}
+
+	
+	
+
+	/**
+	 * Is Guest Checkout
+	 *
+	 * @since 2.2.6
+	 * @return bool $ret True if guest checkout is enabled, false otherwise
+	 */
+	function wps_deals_is_guest_checkout() {
+		global $wps_deals_options;
+		
+		$ret = !empty($wps_deals_options['disable_guest_checkout']) ? '1' : '0';
+		return (bool) apply_filters( 'wps_deals_is_guest_checkout', $ret );
+	}
+	
+	/**
+	 * Is Guest Checkout
+	 *
+	 * @since 2.5.6
+	 * @return bool $ret True if guest checkout is enabled, false otherwise
+	 */
+	function wps_deals_currency() {
+		global $wps_deals_options;
+		
+		$ret = !empty($wps_deals_options['currency']) ? $wps_deals_options['currency'] : '';
+		return apply_filters( 'wps_deals_currency', $ret );
+	}
+
 ?>

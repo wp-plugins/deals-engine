@@ -630,20 +630,21 @@ class Wps_Deals_Public_Pages	{
 	 */
 	public function wps_deals_change_password() {
 		
-		global $wpdb, $wps_deals_options, $current_user;
-		
-		$prefix = WPS_DEALS_META_PREFIX;
-		
-		$user->ID     = (int) get_current_user_id();
-		$current_user = get_user_by( 'id', $user->ID );
-		
-		if ( $user->ID <= 0 ) {
-			return;
-		}
 	
-		//Check change password button is click or not
-		if( isset( $_POST['wps_deals_change_password'] ) && !empty( $_POST['wps_deals_change_password'] ) ) {
+			//Check change password button is click or not
+			if( isset( $_POST['wps_deals_change_password'] ) && !empty( $_POST['wps_deals_change_password'] ) ) {
+				
+			global $wpdb, $wps_deals_options, $current_user;
 			
+			$user = "";
+			$prefix = WPS_DEALS_META_PREFIX;
+			
+			$user->ID     = (int) get_current_user_id();
+			$current_user = get_user_by( 'id', $user->ID );
+			
+			if ( $user->ID <= 0 ) {
+				return;
+			}
 			$error = false;
 			$new_password = $re_enter_password = $firstname = $lastname = $email = '';
 			

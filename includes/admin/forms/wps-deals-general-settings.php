@@ -156,7 +156,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							
 							<tr>
 								<th scope="row">
-									<label for="wps_deals_options[deals_columns]"><?php _e( 'Colums Deals Home:', 'wpsdeals');?></label>
+									<label for="wps_deals_options[deals_columns]"><?php _e( 'Columns Deals Home:', 'wpsdeals');?></label>
 								</th>
 								<td>
 									<select id="wps_deals_options[deals_columns]" name="wps_deals_options[deals_columns]">
@@ -170,7 +170,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							
 							<tr>
 								<th scope="row">
-									<label for="wps_deals_options[deals_columns_archive]"><?php _e( 'Colums Deals Archive:', 'wpsdeals');?></label>
+									<label for="wps_deals_options[deals_columns_archive]"><?php _e( 'Columns Deals Archive:', 'wpsdeals');?></label>
 								</th>
 								<td>
 									<select id="wps_deals_options[deals_columns_archive]" name="wps_deals_options[deals_columns_archive]">
@@ -311,7 +311,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 							
 							<tr>
 								<th scope="row">
-									<label for="wps_deals_options[enable_lightbox]"><?php _e( 'Enable Lightbox Image Gallary:', 'wpsdeals' ); ?></label>
+									<label for="wps_deals_options[enable_lightbox]"><?php _e( 'Enable Lightbox Image Gallery:', 'wpsdeals' ); ?></label>
 								</th>
 								<td><input type="checkbox" id="wps_deals_options[enable_lightbox]" name="wps_deals_options[enable_lightbox]" value="1" <?php if(isset($wps_deals_options['enable_lightbox'])) { checked('1',$wps_deals_options['enable_lightbox']); }?>/><br />
 									<span class="description"><?php _e( 'Include Social Deals Engine lightbox. Deals gallery images will open in a lightbox.', 'wpsdeals' );?></span>

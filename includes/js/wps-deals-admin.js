@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
 	
 	//  When user clicks on tab, this code will be executed
 	$( document ).on( 'click', '.nav-tab-wrapper a', function() {
-  
+  	
         //  First remove class "active" from currently active tab
         $(".nav-tab-wrapper a").removeClass('nav-tab-active');
  
@@ -505,4 +505,6 @@ jQuery(document).ready(function($) {
 			jQuerythis.datetimepicker({ampm: true,dateFormat : format});//,timeFormat:'hh:mm:ss',showSecond:true
 		}
 	});*/
+	
+	
 });

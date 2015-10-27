@@ -3,7 +3,7 @@
  * Plugin Name: Social Deals Engine
  * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
  * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
- * Version: 2.2.5
+ * Version: 2.2.6
  * Author: WPSocial.com
  * Author URI: http://wpsocial.com
  * 
@@ -33,7 +33,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '2.2.5' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.2.6' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir
@@ -189,13 +189,13 @@ add_action( 'admin_init', 'wps_deals_woocoomer_install_dismiss' );
  * @package Social Deals Engine
  * @since 2.0.0
  */
-function wps_deals_woocoomer_install_dismiss(){
+function wps_deals_woocoomer_install_dismiss() {
 	
 	if ( isset( $_GET['action'] ) && ( 'wps_deals_woocoomer_install_dismiss' == $_GET['action'] ) && isset( $_GET['woodeals_nonce'] ) && check_admin_referer( 'wps_deals_woocoomer_install_dismiss', 'woodeals_nonce' ) ) {
-			update_option( 'wps_deals_woocoomer_install_dismiss', true );
-			$redirect_url = remove_query_arg( 'action', remove_query_arg( 'woodeals_nonce', $_SERVER['REQUEST_URI'] ) );
-			wp_safe_redirect( $redirect_url );
-			exit;			
+		update_option( 'wps_deals_woocoomer_install_dismiss', true );
+		$redirect_url = remove_query_arg( 'action', remove_query_arg( 'woodeals_nonce', $_SERVER['REQUEST_URI'] ) );
+		wp_safe_redirect( $redirect_url );
+		exit;
 	}
 }
 
@@ -295,6 +295,8 @@ function wps_deals_install() {
 											'comment_status' => 'closed'
 										);
 		//create my account page
+		
+		
 		$myaccount_page_id = wp_insert_post( $deals_myaccount_page );				
 		
 		// this option contains all page ID(s) to just pass it to wps_deals_default_settings function
@@ -303,7 +305,7 @@ function wps_deals_install() {
 														'checkout_page'			=>	$checkout_page_id,														
 														'my_account_page'		=>	$myaccount_page_id														
 													));
-									
+		
 		// set default settings
 		wps_deals_default_settings();
 		
@@ -375,38 +377,6 @@ function wps_deals_install() {
 			$wps_deals_options = array_merge( $wps_deals_options, $billing );
 			$udpopt = true;
 		}
-		//create my account page & its child pages and move the order details page
-		if( !isset( $wps_deals_options['my_account_page'] ) ) {
-			
-			$deals_myaccount_page = array(
-											'post_type' 	=> 'page',
-											'post_status' 	=> 'publish',
-											'post_title' 	=> __( 'My Account','wpsdeals' ),
-											'post_content' 	=> '[wps_deals_my_account][/wps_deals_my_account]',
-											'post_author' 	=> $user_ID,
-											'menu_order' 	=> 0,
-											'comment_status' => 'closed'
-										);
-			
-			//create my account page
-			$myaccount_page_id = wp_insert_post( $deals_myaccount_page );
-			
-			//get set pages option data
-			$wps_deals_set_pages = get_option( 'wps_deals_set_pages' );
-			
-			//store my account page to already created page
-			$wps_deals_set_pages['my_account_page'] = $myaccount_page_id;
-			
-			//update new pages data
-			update_option( 'wps_deals_set_pages', $wps_deals_set_pages );
-			
-			$myaccountpage = array( 
-									'my_account_page'	=>	$myaccount_page_id
-								);
-			$wps_deals_options = array_merge( $wps_deals_options, $myaccountpage );
-			$udpopt = true;
-			
-		} //end if to check my account page
 		
 		//check reset password email subject is set in options or not
 		if( !isset( $wps_deals_options['reset_password_email_subject'] ) ) {

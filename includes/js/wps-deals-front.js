@@ -1150,14 +1150,15 @@ function wps_deals_ajax_pagination(pid){
 			action: 'wps_deals_next_page',
 			paging: pid
 		};
-		
 	jQuery('.deals-sales-loader').show();
+	jQuery('#loading').css('display','block');
 	jQuery('.deals-pagination ul').hide();
 	
 	jQuery.post(Wps_Deals.ajaxurl, data, function(response) {
 		var newresponse = jQuery(response).filter('.deals-sales').html();
 		//alert(newresponse);
 		jQuery('.deals-sales-loader').hide();
+		jQuery('#loading').css('display','none');
 		jQuery('.deals-sales').html(newresponse);
 	});	
 	
