@@ -4,7 +4,7 @@ google.maps.event.addDomListener(window, 'load', function() {
     var geocoder = new google.maps.Geocoder();
     
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 10,
+        zoom: 5,
         center: new google.maps.LatLng(0, 0),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
 		mapTypeControl: false,
@@ -62,12 +62,15 @@ google.maps.event.addDomListener(window, 'load', function() {
                     var infowindow = new google.maps.InfoWindow();
                     infowindow.setOptions({
                         content: contentString,
-                        maxWidth: popupmaxwidth
-                        
+                        maxWidth: popupmaxwidth,
                     });
                     
                     bounds.extend(marker.getPosition());
 		       		map.fitBounds(bounds);
+		       		
+					if(map.getZoom()> 14){
+						map.setZoom(14);
+					}
                     
                     google.maps.event.addListener(marker, 'click', function() {
                     	infowindow.open(map,marker);

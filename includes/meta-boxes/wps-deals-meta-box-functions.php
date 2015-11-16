@@ -104,8 +104,9 @@ function wps_deals_tab_content_end( $echo = true ) {
 function wps_deals_show_field_begin( $field ) {
 
 	$field_begin = '';
+	$field_wrap_class = isset( $field['wrap_class'] ) ? $field['wrap_class'] : '';
 	
-	$field_begin .= '<tr valign="top">';
+	$field_begin .= '<tr valign="top" class="' . $field_wrap_class . '">';
 	$field_begin .= "<th>";
 	
 	if ( isset($field['name']) && !empty($field['name']) ) {
@@ -218,11 +219,9 @@ function wps_deals_add_repeater_block( $args, $echo = true ) {
 	$meta = wps_deals_meta_value( $field );
 	
 	$html = '';
-	
 	$html .= wps_deals_show_field_begin( $field );
-	
 	$html .= "<div class='wps-deals-meta-repeat' id='{$field['id']}'>";
-
+	
 	if( !empty( $meta ) && count( $meta ) > 0 ) {
 		
 		$row = '';
@@ -236,28 +235,20 @@ function wps_deals_add_repeater_block( $args, $echo = true ) {
 			for ( $k = 0; $k < count( $field['fields'] ); $k++ ) {
 				
 				$row .= wps_deals_show_field_begin( $field['fields'][$k] );
-				
 				if( $field['fields'][$k]['type'] == 'editor' ) {
 					
 					ob_start();
-					
 					$rows = !empty( $field['fields'][$k]['row'] ) ? $field['fields'][$k]['row'] : '3';
 					
 					wp_editor( html_entity_decode($meta[$i][$field['fields'][$k]['id']]), $field['fields'][$k]['id'].$k, array( 'editor_class' => 'wps-deals-meta-wysiwyg', 'textarea_name'=>$field['fields'][$k]['id'] , 'textarea_rows' => $rows ) );
-					
 					$row .= ob_get_clean();
 					
 				}elseif ( $field['fields'][$k]['type'] == 'textarea' ){
-					
 					$row .= "<textarea class='wps-deals-meta-wysiwyg large-text ' name='{$field['fields'][$k]['id']}[]' cols='60' rows='10'>{$meta[$i][$field['fields'][$k]['id']]}</textarea>";
-					
 				} else {
-				
 					$row .= "<input type='text' name='{$field['fields'][$k]['id']}[]' class='wps-deals-meta-text regular-text' value='{$wps_deals_model->wps_deals_escape_attr( $meta[$i][$field['fields'][$k]['id']] )}'/>";
 				}
-				
 				$row .= wps_deals_show_field_end( $field['fields'][$k] );
-				
 			}
 			
 			$row .= "			</tbody>
@@ -269,7 +260,6 @@ function wps_deals_add_repeater_block( $args, $echo = true ) {
 			}
 			
 			$row .= "<img id='remove-{$args['id']}' class='wps-deals-repeater-remove' {$showremove} title='".__('Remove', 'sdevoucher')."' alt='".__('Remove', 'sdevoucher')."' src='".WPS_DEALS_META_URL."/images/remove.png'>";
-			
 			$row .= "</div><!--.wps-deals-meta-repater-block-->";
 			
 		}

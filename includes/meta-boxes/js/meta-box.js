@@ -976,19 +976,19 @@ jQuery(document).ready( function($) {
 
 		return false;
 	});
-	
 		
 	//repeater field add more
 	$( document ).on( "click", ".wps-deals-repeater-add", function() {
-		 
-		$(this).prev('div.wps-deals-meta-repater-block').clone().insertAfter('.wps-deals-meta-repeat div.wps-deals-meta-repater-block:last');
-			
-		$(this).parent().find('div.wps-deals-meta-repater-block:last input').val('');
 		
-		$(this).parent().find('div.wps-deals-meta-repater-block:last textarea').val('');
+		var mainObj = jQuery(this).parents('div.wps-deals-meta-repeat');
+		var jQueryblog = mainObj.find('div.wps-deals-meta-repater-block:last');
 		
-		$(this).parent().find('div.wps-deals-meta-repater-block:last .wps-deals-repeater-remove').show();
-		 		
+		jQueryblog.clone().insertAfter('div.wps-deals-meta-repater-block:last').show();
+		
+		mainObj.find('div.wps-deals-meta-repater-block:last textarea').val('');
+		mainObj.find('div.wps-deals-meta-repater-block:last input').val('');
+		mainObj.find('div.wps-deals-meta-repater-block:last .wps-deals-repeater-remove').show();
+		
 	});
 	
 	//remove repeater field

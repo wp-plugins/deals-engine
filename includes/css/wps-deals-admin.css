@@ -1,3 +1,16 @@
+/** Deals Listing **/
+table.wp-list-table .column-title {
+    width: 22%;
+}
+table.wp-list-table .column-comments {
+    width: 30px;
+    vertical-align: top !important;
+}
+table.wp-list-table .column-featured_deal {
+	width: 65px;
+}
+
+/** End Deals Listing **/
 /**WPSoical Logo**/
 .wpsocial-logo{
 	height: 40px; 

@@ -3,9 +3,11 @@
  * Plugin Name: Social Deals Engine
  * Plugin URI: http://wpsocial.com/social-deals-engine-plugin-for-wordpress/
  * Description: Social Deals Engine - A powerful plugin to add real deals of any kind of products and services to your website.
- * Version: 2.2.6
+ * Version: 2.2.7
  * Author: WPSocial.com
  * Author URI: http://wpsocial.com
+ * Text Domain: wpsdeals
+ * Domain Path: languages
  * 
  * Social Deals Engine is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +35,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 global $wpdb;
 
 if( !defined( 'WPS_DEALS_VERSION' ) ) {
-	define( 'WPS_DEALS_VERSION', '2.2.6' ); //version of plugin
+	define( 'WPS_DEALS_VERSION', '2.2.7' ); //version of plugin
 }
 if( !defined( 'WPS_DEALS_DIR' ) ) {
 	define( 'WPS_DEALS_DIR', dirname( __FILE__ ) ); // plugin dir

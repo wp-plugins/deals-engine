@@ -507,7 +507,7 @@ class Wps_Deals_Meta_Box {
 		}
 		
 		//update google map
-		update_post_meta( $post_id, $prefix.'google_map', $googlemap );
+		update_post_meta( $post_id, $prefix.'google_map', array_values($googlemap) );
 		 
 		// Terms & Conditions
 		update_post_meta( $post_id, $prefix.'terms_conditions', $this->model->wps_deals_escape_slashes_deep( $_POST[$prefix.'terms_conditions'] ) );
